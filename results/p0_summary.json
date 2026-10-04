@@ -1,0 +1,469 @@
+{
+  "datasets": {
+    "D1": {
+      "audit": {
+        "rows": 20115529,
+        "n_columns": 55,
+        "nan_total": 0,
+        "inf_total": 0
+      },
+      "windows": {
+        "groups": 145,
+        "windows": 1257018,
+        "kept": 1255180,
+        "duplicates_removed": 1838
+      },
+      "schemes": {
+        "temporal_gap": {
+          "split_windows": {
+            "train": 759179,
+            "gap": 604,
+            "val": 246631,
+            "test": 248766
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 545362,
+              "available_attack": 213817,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 212805,
+              "available_attack": 33826,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 141724,
+              "available_attack": 107042,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.43005
+            }
+          },
+          "validators_passed": 84,
+          "validators_total": 84,
+          "loaco_feasible": []
+        },
+        "grouped_random": {
+          "split_windows": {
+            "train": 760401,
+            "gap": 0,
+            "val": 253681,
+            "test": 241098
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 528671,
+              "available_attack": 231730,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 175020,
+              "available_attack": 78661,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 196792,
+              "available_attack": 44306,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.18315
+            }
+          },
+          "validators_passed": 79,
+          "validators_total": 79,
+          "loaco_feasible": [
+            "Bot",
+            "Brute_Force_-Web",
+            "Brute_Force_-XSS",
+            "DDoS_attacks-LOIC-HTTP",
+            "Infilteration",
+            "SSH-Bruteforce"
+          ]
+        }
+      }
+    },
+    "D2": {
+      "audit": {
+        "rows": 2365424,
+        "n_columns": 55,
+        "nan_total": 63425,
+        "inf_total": 181561
+      },
+      "windows": {
+        "groups": 26,
+        "windows": 147801,
+        "kept": 147801,
+        "duplicates_removed": 0
+      },
+      "schemes": {
+        "temporal_gap": {
+          "split_windows": {
+            "train": 91678,
+            "gap": 6433,
+            "val": 25656,
+            "test": 24034
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 61263,
+              "available_attack": 30415,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 1660,
+              "attack": 332,
+              "available_benign": 1661,
+              "available_attack": 23995,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 1760,
+              "attack": 352,
+              "available_benign": 1763,
+              "available_attack": 22271,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.92735
+            }
+          },
+          "validators_passed": 64,
+          "validators_total": 64,
+          "loaco_feasible": [
+            "Analysis",
+            "Backdoor",
+            "DoS",
+            "Exploits",
+            "Fuzzers",
+            "Generic",
+            "Reconnaissance",
+            "Shellcode"
+          ]
+        },
+        "grouped_random": {
+          "split_windows": {
+            "train": 92125,
+            "gap": 0,
+            "val": 30710,
+            "test": 24966
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 46314,
+              "available_attack": 45811,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 11471,
+              "available_attack": 19239,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 7241,
+              "available_attack": 17725,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.708
+            }
+          },
+          "validators_passed": 64,
+          "validators_total": 64,
+          "loaco_feasible": [
+            "Analysis",
+            "Backdoor",
+            "DoS",
+            "Exploits",
+            "Fuzzers",
+            "Generic",
+            "Reconnaissance",
+            "Shellcode"
+          ]
+        }
+      }
+    },
+    "D3": {
+      "audit": {
+        "rows": 27520260,
+        "n_columns": 55,
+        "nan_total": 0,
+        "inf_total": 0
+      },
+      "windows": {
+        "groups": 105,
+        "windows": 1719860,
+        "kept": 1553191,
+        "duplicates_removed": 166669
+      },
+      "schemes": {
+        "temporal_gap": {
+          "split_windows": {
+            "train": 935369,
+            "gap": 47354,
+            "val": 265431,
+            "test": 305037
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 409714,
+              "available_attack": 525655,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 32793,
+              "available_attack": 232638,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 43024,
+              "available_attack": 262013,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.86105
+            }
+          },
+          "validators_passed": 44,
+          "validators_total": 44,
+          "loaco_feasible": []
+        },
+        "grouped_random": {
+          "split_windows": {
+            "train": 1005648,
+            "gap": 0,
+            "val": 261859,
+            "test": 285684
+          },
+          "sets": {
+            "train": {
+              "benign": 7000,
+              "attack": 7000,
+              "available_benign": 397318,
+              "available_attack": 608330,
+              "target_ratio": 1,
+              "cap": 14000
+            },
+            "val": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 29236,
+              "available_attack": 232623,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test": {
+              "benign": 2500,
+              "attack": 500,
+              "available_benign": 67649,
+              "available_attack": 218035,
+              "target_ratio": 5,
+              "cap": 3000
+            },
+            "test_natural": {
+              "n": 20000,
+              "attack_fraction": 0.76615
+            }
+          },
+          "validators_passed": 69,
+          "validators_total": 69,
+          "loaco_feasible": [
+            "Backdoor",
+            "ddos",
+            "injection",
+            "password",
+            "scanning",
+            "xss"
+          ]
+        }
+      }
+    },
+    "D4": {
+      "audit": {
+        "rows": 16933808,
+        "n_columns": 55,
+        "nan_total": 387350,
+        "inf_total": 1716860
+      }
+    }
+  },
+  "validators": {
+    "passed": 440,
+    "total": 440
+  },
+  "discrepancies": [
+    "D1: class 'DDOS_attack-HOIC' file count 1,032,311 vs UQ page absent",
+    "D1: class 'FTP-BruteForce' file count 386,720 vs UQ page absent",
+    "D1: class 'DDoS_attacks-LOIC-HTTP' file count 288,589 vs UQ page absent",
+    "D1: class 'SSH-Bruteforce' file count 188,474 vs UQ page absent",
+    "D1: class 'Infilteration' file count 188,152 vs UQ page absent",
+    "D1: class 'DoS_attacks-SlowHTTPTest' file count 105,550 vs UQ page absent",
+    "D1: class 'DoS_attacks-Hulk' file count 100,076 vs UQ page absent",
+    "D1: class 'DoS_attacks-GoldenEye' file count 61,300 vs UQ page absent",
+    "D1: class 'DoS_attacks-Slowloris' file count 36,040 vs UQ page absent",
+    "D1: class 'DDOS_attack-LOIC-UDP' file count 3,450 vs UQ page absent",
+    "D1: class 'Brute_Force_-Web' file count 1,618 vs UQ page absent",
+    "D1: class 'Brute_Force_-XSS' file count 480 vs UQ page absent",
+    "D1: class 'SQL_Injection' file count 440 vs UQ page absent",
+    "D1: UQ page lists class 'BruteForce' (575,194) not present in file",
+    "D1: UQ page lists class 'DoS' (302,966) not present in file",
+    "D1: UQ page lists class 'DDoS' (1,324,350) not present in file",
+    "D1: UQ page lists class 'Infiltration' (188,152) not present in file",
+    "D1: UQ page lists class 'Web Attacks' (2,538) not present in file",
+    "D2: class 'Backdoor' file count 4,659 vs UQ page 1226",
+    "D2: class 'Shellcode' file count 2,381 vs UQ page 4659",
+    "D2: class 'Analysis' file count 1,226 vs UQ page 2381",
+    "D3: class 'ddos' file count 4,141,256 vs UQ page 4141256 (name case differs from UQ page)",
+    "D3: class 'xss' file count 2,834,435 vs UQ page 2834435 (name case differs from UQ page)",
+    "D3: class 'password' file count 1,594,777 vs UQ page 1594777 (name case differs from UQ page)",
+    "D3: class 'scanning' file count 1,358,977 vs UQ page 1358977 (name case differs from UQ page)",
+    "D3: class 'injection' file count 381,777 vs UQ page 381777 (name case differs from UQ page)",
+    "D3: class 'dos' file count 203,456 vs UQ page 203456 (name case differs from UQ page)",
+    "D3: class 'mitm' file count 6,013 vs UQ page 6013 (name case differs from UQ page)",
+    "D3: class 'ransomware' file count 3,971 vs UQ page 3971 (name case differs from UQ page)",
+    "D4: class 'Theft' file count 1,615 vs UQ page 1651",
+    "D4: UQ page class counts sum to 16,933,844, file has 16,933,808 rows (difference +36)",
+    "D2/temporal_gap: val set below cap (1,992 < 3,000); limited by available benign windows",
+    "D2/temporal_gap: test set below cap (2,112 < 3,000); limited by available benign windows",
+    "D4 / temporal_gap: the pipeline stopped (fail-closed) because the validation split is empty. D4 has 34 one-hour groups that contain windows, but 7 consecutive groups on 2018-06-04 (DoS/DDoS) hold 820,537 of its 890,852 windows (92%). With 60/20/20 measured in windows (an implementation choice, not in the spec), train ends inside that block, the one gap group consumes the next large group, and the cumulative share is already past 80% before val receives anything. No D4 archive, cleaner or LOACO was produced. D4 is therefore excluded from the common feature list for now.",
+    "D4 dedupe statistics are unavailable: the index stage aborted before writing index_meta.json. Windows kept after dedupe: 890,852.",
+    "D4 diagnostic only (not adopted): grouped_random would succeed with windows {'train': 702518, 'gap': 0, 'val': 46370, 'test': 141964}, but val and test would each hold only 36 benign windows, so a 5:1 benign:attack set has at most 7 attack windows.",
+    "D4: 1,315 benign windows after dedupe (< 2,000), so D4 is transfer-target only and gets no LOACO, as the spec anticipated.",
+    "LOACO under the primary split temporal_gap: D1 has 0 feasible folds, D3 has 0 feasible folds, D2 has 8 (Analysis, Backdoor, DoS, Exploits, Fuzzers, Generic, Reconnaissance, Shellcode). In CIC-IDS2018 and ToN-IoT each attack class is recorded on its own day(s), so a time-ordered group split puts a class entirely in train or entirely in test. The P1 pilot (D1 + D2, temporal_gap) would run on D2 classes only.",
+    "LOACO under grouped_random: D1 6 feasible (Bot, Brute_Force_-Web, Brute_Force_-XSS, DDoS_attacks-LOIC-HTTP, Infilteration, SSH-Bruteforce); D2 8; D3 6 (Backdoor, ddos, injection, password, scanning, xss).",
+    "D1 attack labels: the file carries the 14 original CIC-IDS2018 sub-class labels (e.g. DoS_attacks-Hulk, DDOS_attack-HOIC, FTP-BruteForce, 'Infilteration' as spelled in the file). The UQ page tabulates 6 grouped classes (BruteForce, Bot, DoS, DDoS, Infiltration, Web Attacks). The spec does not say which granularity defines a LOACO class. The pipeline uses the labels as they appear in the file.",
+    "D3 attack labels are lower-case in the file (ddos, dos, injection, mitm, password, ransomware, scanning, xss), except Backdoor. The UQ page capitalises them. Counts match.",
+    "D4: the file has 16,933,808 rows; the UQ page's class counts sum to 16,933,844. The difference is entirely Theft (file 1,615 vs page 1,651).",
+    "D1 is named NF-CICIDS2018-v3 on UQ RDM and NF-CSE-CIC-IDS2018-v3 on the UQ web page and in the spec. It is saved under the spec name; manifest.download.uq_rdm_name records the RDM name.",
+    "Common feature list (partial, D1-D3): 41 of the 46 candidate features after the fixed drops. The cleaner's per-dataset drops (zero variance, |corr| >= 0.999999) are listed in section 5. Adding D4 can shrink the list further.",
+    "Numeric features are read as float32. Byte counters above 2^24 (16.7M) lose integer precision. This affects only the extreme tail of log1p-transformed counts, and timestamps are read as float64.",
+    "D2: the file's counts for Backdoor (4,659), Shellcode (2,381) and Analysis (1,226) are a permutation of the UQ page's (Backdoor 1,226, Shellcode 4,659, Analysis 2,381). All other D2 classes match. Either the page table or the file's labels for these three classes are swapped; this cannot be resolved from the data alone. LOACO uses the file labels, so these three folds should be interpreted with care (or confirmed with the dataset authors).",
+    "D1: the file's 14 sub-class counts sum exactly to the UQ page's 6 grouped classes (BruteForce = FTP + SSH; DoS = Hulk + SlowHTTPTest + GoldenEye + Slowloris; DDoS = HOIC + LOIC-HTTP + LOIC-UDP; Web Attacks = Brute_Force_-Web + Brute_Force_-XSS + SQL_Injection; Infilteration = Infiltration). The file and page agree; they differ only in granularity.",
+    "Peak RAM for the finalize stage (8.27 GB for D1/D2, 9.27 GB for D3) is the process-level maximum of one process that finalised D1-D3 in sequence and then built the transfer packages, not a per-dataset figure. The index-stage peaks are per dataset (one process each): D1 6.46 GB, D2 2.09 GB, D3 8.25 GB, D4 ~6.2 GB sampled before it stopped."
+  ],
+  "provenance": {
+    "git_hash": "4925dfac97c7dc9be9139f9812fa226aafa7bf4f",
+    "rq_sha256": "c2c9bd1be22c0bf25f8e4c7ff50c91cd226d2028742b4d8da622c4fe72e6943e",
+    "data_sha256": {
+      "D1": "7399bdef73d29875ab388a53e2ae7e592d1952c4ef07ae6de195ba133823d97f",
+      "D2": "6d51554df43e324ba8d68fc31a02a83d860ba0a3a93d63320a4a6fc314c9cdfd",
+      "D3": "b3b6256e970a8986d87716edea4bfd436d68f04058bf5c26cf67e6d839c83698",
+      "D4": "cd0d3eab5b2da73a377561492aafae078432e69c7932b6302a9fbd7f51429eca"
+    },
+    "config": {
+      "datasets": {
+        "D1": {
+          "name": "NF-CSE-CIC-IDS2018-v3",
+          "raw_glob": "NF-CSE-CIC-IDS2018-v3*",
+          "role": [
+            "in_domain",
+            "loaco",
+            "transfer"
+          ]
+        },
+        "D2": {
+          "name": "NF-UNSW-NB15-v3",
+          "raw_glob": "NF-UNSW-NB15-v3*",
+          "role": [
+            "in_domain",
+            "loaco",
+            "transfer"
+          ]
+        },
+        "D3": {
+          "name": "NF-ToN-IoT-v3",
+          "raw_glob": "NF-ToN-IoT-v3*",
+          "role": [
+            "in_domain",
+            "loaco",
+            "transfer"
+          ]
+        },
+        "D4": {
+          "name": "NF-BoT-IoT-v3",
+          "raw_glob": "NF-BoT-IoT-v3*",
+          "role": [
+            "transfer_target"
+          ],
+          "loaco_min_benign_windows": 2000
+        }
+      },
+      "raw_dir": "data/raw",
+      "interim_dir": "data/interim",
+      "processed_dir": "data/processed",
+      "audit_dir": "audit",
+      "keep_ttl": false,
+      "window": {
+        "T": 32,
+        "stride": 16,
+        "block_ms": 3600000
+      },
+      "splits": [
+        "temporal_gap",
+        "grouped_random"
+      ],
+      "data_seed": 0,
+      "balance": {
+        "train_ratio": 1,
+        "eval_ratio": 5,
+        "train_cap": 14000,
+        "val_cap": 3000,
+        "test_cap": 3000,
+        "natural_cap": 20000,
+        "loaco_min_train": 200
+      },
+      "corr_sample_rows": 1000000
+    },
+    "timestamp_utc": "2026-10-04T18:41:23+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
