@@ -10,9 +10,9 @@ from . import schema
 
 def audit_frame(df: pd.DataFrame, dataset_id: str, source_file: str, source_sha256: str) -> dict:
     num = df.select_dtypes(include=[np.number])
-    arr = num.to_numpy(dtype=np.float64)
-    nan = np.isnan(arr).sum(axis=0)
-    inf = np.isinf(arr).sum(axis=0)
+    # column by column: a float64 copy of the whole frame would not fit in memory for 27M rows
+    nan = np.array([int(np.isnan(num[c].to_numpy()).sum()) if num[c].dtype.kind == "f" else 0 for c in num.columns])
+    inf = np.array([int(np.isinf(num[c].to_numpy()).sum()) if num[c].dtype.kind == "f" else 0 for c in num.columns])
     out = {
         "dataset": dataset_id,
         "source_file": source_file,

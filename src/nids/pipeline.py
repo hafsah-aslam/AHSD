@@ -59,9 +59,49 @@ def load_folds(path: Path) -> dict:
     return out
 
 
+def _write_parquet(df: pd.DataFrame, path: Path, rows_per_group: int = 2_000_000):
+    """Row-group-wise write: Arrow conversion never holds the whole frame twice."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    writer = None
+    try:
+        for a in range(0, max(len(df), 1), rows_per_group):
+            t = pa.Table.from_pandas(df.iloc[a:a + rows_per_group], preserve_index=False)
+            if writer is None:
+                writer = pq.ParquetWriter(path, t.schema)
+            writer.write_table(t)
+    finally:
+        if writer is not None:
+            writer.close()
+
+
+def _read_rows(path: Path, columns: list[str], rows: np.ndarray) -> pd.DataFrame:
+    """Read only `columns` and only `rows` (sorted positions) of the interim parquet."""
+    import pyarrow.parquet as pq
+    t = pq.read_table(path, columns=columns, memory_map=True)
+    return t.take(rows).to_pandas()
+
+
+def rss_gb() -> float:
+    """Current resident set size (Linux /proc)."""
+    try:
+        for ln in open("/proc/self/status"):
+            if ln.startswith("VmRSS:"):
+                return int(ln.split()[1]) / 1e6
+    except OSError:
+        pass
+    return float("nan")
+
+
+def peak_rss_gb() -> float:
+    import resource
+    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1e6  # Linux: KiB -> GB
+
+
 # --------------------------------------------------------------------- index
 def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool = False,
-                raw_sha256: str | None = None, source_file: str | None = None) -> dict:
+                raw_sha256: str | None = None, source_file: str | None = None,
+                n_rows_hint: int | None = None) -> dict:
     h = cfg_hash(cfg)
     out = _p(cfg, "processed_dir") / ds
     meta_path = out / "index_meta.json"
@@ -75,7 +115,8 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
         raw = io.find_raw_file(_p(cfg, "raw_dir"), dcfg["raw_glob"])
         source_file, raw_sha256 = raw.name, raw_sha256 or sha256_file(raw)
         print(f"[{ds}] reading {raw}")
-        df = io.read_raw(raw)
+        df = io.read_raw(raw, n_rows_hint=n_rows_hint)
+    mem = [("loaded", rss_gb())]
     aud = audit_mod.audit_frame(df, ds, source_file or "in-memory", raw_sha256 or "n/a")
     write_json(_p(cfg, "audit_dir") / f"{ds}.json", aud)
     if aud["schema_check"]["missing"]:
@@ -83,15 +124,20 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
     if schema.TIME_START not in df:
         raise RuntimeError(f"{ds}: no {schema.TIME_START}; cannot sort or group")
 
+    mem.append(("audited", rss_gb()))
     df = sort_by_time(df)
+    mem.append(("sorted", rss_gb()))
     group = hour_groups(df[schema.TIME_START].to_numpy(np.float64), cfg["window"]["block_ms"])
     codes, classes = class_codes(df[schema.LABEL_MULTI])
     drops = schema.drop_map(cfg["keep_ttl"])
     hash_cols = [c for c in df.columns if c not in drops and c != "row_id"
                  and pd.api.types.is_numeric_dtype(df[c])]
-    raw_feat = df[hash_cols].to_numpy(np.float32)
-    wi, wstats = make_windows(group, codes, raw_feat, cfg["window"]["T"], cfg["window"]["stride"])
-    del raw_feat
+    hash_arrays = [df[c].to_numpy() for c in hash_cols]  # views, no copy
+    wi, wstats = make_windows(group, codes,
+                              lambda a, b: np.stack([x[a:b] for x in hash_arrays], 1).astype(np.float32),
+                              cfg["window"]["T"], cfg["window"]["stride"])
+    del hash_arrays
+    mem.append(("windowed", rss_gb()))
     wi, dstats = dedupe(wi)
     n_benign_windows = int((wi.y_bin == 0).sum())
 
@@ -101,7 +147,9 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
             inplace=True)
     df["group"] = group
     df["cls"] = codes
-    df.to_parquet(interim / "sorted.parquet", index=False)
+    _write_parquet(df, interim / "sorted.parquet")
+    mem.append(("parquet_written", rss_gb()))
+    print(f"[{ds}] memory (GB): {mem}", flush=True)
 
     info = {"dataset": ds, "name": dcfg["name"], "cfg_hash": h, "classes": classes,
             "flows": int(len(df)), "hash_columns": hash_cols, "windowing": wstats, "dedupe": dstats,
@@ -136,6 +184,9 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
                                    "loaco": finfo, "verification": vlog,
                                    "cleaner_fit_rows": int(train_rows.sum()),
                                    "cleaner_kept": cl.features, "cleaner_dropped": cl.dropped}
+    mem.append(("done", rss_gb()))
+    info["memory_trace_gb"] = mem
+    info["peak_rss_gb_process"] = peak_rss_gb()
     info["provenance"] = provenance(config=cfg, data_sha256={ds: raw_sha256})
     write_json(meta_path, info)
     print(f"[{ds}] index: {wstats['windows']} windows, {dstats['duplicates_removed']} duplicates removed")
@@ -170,15 +221,17 @@ def common_features(cfg: dict, ds_list: list[str]) -> list[str]:
     return common_feature_list(cls)
 
 
-def _write_archive(out: Path, flows_tab: pd.DataFrame, cl: Cleaner, wi: WindowIndex,
+def _write_archive(out: Path, parquet: Path, n_rows: int, cl: Cleaner, wi: WindowIndex,
                    split: np.ndarray, sets: dict, folds: dict, extra: dict) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     ref = _referenced(sets, folds)
-    rows, start_c = _compact(wi, ref, len(flows_tab))
-    flows, tdiag = cl.transform(flows_tab.iloc[rows])
+    rows, start_c = _compact(wi, ref, n_rows)
+    tab = _read_rows(parquet, cl.features + ["row_id"], rows)
+    flows, tdiag = cl.transform(tab)
     vlog = verify.verify_flows(flows)
     np.save(out / "flows.npy", flows)
-    np.save(out / "row_id.npy", flows_tab["row_id"].to_numpy()[rows])
+    np.save(out / "row_id.npy", tab["row_id"].to_numpy())
+    del tab
     np.savez(out / "windows.npz", **wi.to_npz_dict(), start_compact=start_c, split=split)
     np.savez(out / "sets.npz", **sets)
     _save_folds(out / "loaco.npz", folds)
@@ -197,7 +250,8 @@ def stage_finalize(ds: str, cfg: dict, common: list[str], resume: bool = False) 
     if resume and _done(meta_path, h):
         print(f"[{ds}] finalize: up to date, skipped")
         return json.loads(meta_path.read_text())
-    tab = pd.read_parquet(_p(cfg, "interim_dir") / ds / "sorted.parquet")
+    parquet = _p(cfg, "interim_dir") / ds / "sorted.parquet"
+    n_rows = json.loads((base / "index_meta.json").read_text())["flows"]
     wi = WindowIndex.from_npz(np.load(base / "windows.npz"))
     meta = {"dataset": ds, "cfg_hash": h, "common_features": common, "schemes": {}}
     for scheme in cfg["splits"]:
@@ -205,8 +259,9 @@ def stage_finalize(ds: str, cfg: dict, common: list[str], resume: bool = False) 
         cl = Cleaner.from_dict(json.loads((sd / "cleaner_fit.json").read_text())).restrict(common)
         sets = dict(np.load(sd / "sets.npz"))
         folds = load_folds(sd / "loaco.npz")
-        meta["schemes"][scheme] = _write_archive(sd / "archive", tab, cl, wi, np.load(sd / "split.npy"),
+        meta["schemes"][scheme] = _write_archive(sd / "archive", parquet, n_rows, cl, wi, np.load(sd / "split.npy"),
                                                  sets, folds, {})
+    meta["peak_rss_gb_process"] = peak_rss_gb()
     meta["provenance"] = provenance(config=cfg)
     write_json(meta_path, meta)
     print(f"[{ds}] finalize: archives written")
@@ -221,8 +276,9 @@ def stage_transfer(src: str, tgt: str, cfg: dict, resume: bool = False) -> dict:
     if resume and _done(meta_path, h):
         print(f"[{src}->{tgt}] transfer: up to date, skipped")
         return json.loads(meta_path.read_text())
-    tab = pd.read_parquet(_p(cfg, "interim_dir") / tgt / "sorted.parquet")
+    parquet = _p(cfg, "interim_dir") / tgt / "sorted.parquet"
     tbase = _p(cfg, "processed_dir") / tgt
+    n_rows = json.loads((tbase / "index_meta.json").read_text())["flows"]
     wi = WindowIndex.from_npz(np.load(tbase / "windows.npz"))
     meta = {"source": src, "target": tgt, "cfg_hash": h, "schemes": {}}
     for scheme in cfg["splits"]:
@@ -230,9 +286,10 @@ def stage_transfer(src: str, tgt: str, cfg: dict, resume: bool = False) -> dict:
         cl = Cleaner.from_dict(json.loads(src_cleaner_path.read_text()))
         sets = dict(np.load(tbase / scheme / "sets.npz"))
         meta["schemes"][scheme] = _write_archive(
-            out / scheme, tab, cl, wi, np.load(tbase / scheme / "split.npy"), sets, {},
+            out / scheme, parquet, n_rows, cl, wi, np.load(tbase / scheme / "split.npy"), sets, {},
             {"source_cleaner_sha256": sha256_file(src_cleaner_path),
              "note": "target rebuilt with the source cleaner; no statistic fitted on the target"})
+    meta["peak_rss_gb_process"] = peak_rss_gb()
     meta["provenance"] = provenance(config=cfg)
     write_json(meta_path, meta)
     print(f"[{src}->{tgt}] transfer package written")

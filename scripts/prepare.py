@@ -45,6 +45,9 @@ def main():
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--allow-partial-common", action="store_true")
     ap.add_argument("--skip-transfer", action="store_true")
+    ap.add_argument("--stage", choices=["all", "index", "finalize"], default="all",
+                    help="index: per-dataset stage only (run each dataset in its own process to "
+                         "measure its peak RAM); finalize: common list + archives + transfer")
     a = ap.parse_args()
     cfg = yaml.safe_load(open(ROOT / a.config))
 
@@ -63,13 +66,19 @@ def main():
         if missing or not ds_list:
             raise SystemExit(f"raw files missing for {missing or 'all datasets'}; run scripts/download.py "
                              f"or place the files in {cfg['raw_dir']}")
-        if set(ds_list) != set(cfg["datasets"]) and not a.allow_partial_common:
+        if a.stage != "index" and set(ds_list) != set(cfg["datasets"]) and not a.allow_partial_common:
             raise SystemExit(f"only {ds_list} requested; the common feature list must span "
                              f"{list(cfg['datasets'])}. Pass --allow-partial-common to proceed anyway.")
         manifest = ROOT / "data" / "MANIFEST.json"
         shas = json.loads(manifest.read_text())["datasets"] if manifest.exists() else {}
-        for ds in ds_list:
-            pipeline.stage_index(ds, cfg, resume=a.resume, raw_sha256=shas.get(ds, {}).get("sha256"))
+        if a.stage in ("all", "index"):
+            for ds in ds_list:
+                pipeline.stage_index(ds, cfg, resume=a.resume, raw_sha256=shas.get(ds, {}).get("sha256"),
+                                     n_rows_hint=shas.get(ds, {}).get("row_count"))
+        if a.stage == "index":
+            return
+        if a.stage == "finalize":
+            ds_list = present if not a.datasets else ds_list
 
     common = pipeline.common_features(cfg, ds_list)
     write_json(ROOT / cfg["processed_dir"] / "common_features.json",

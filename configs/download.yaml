@@ -1,10 +1,28 @@
-# Direct file URLs for the UQ NetFlow v3 datasets.
-# Fill each one only after checking it against the v3 section of
-# https://staff.itee.uq.edu.au/marius/NIDS_datasets/ (or the UQ Research Data
-# record). Never use a Kaggle mirror without checking its row count and columns
-# against the UQ page. Empty = manual download into data/raw/.
+# Official UQ download locations for the NetFlow v3 datasets.
+#
+# Verified 2026-10-04 against the v3 section of
+# https://staff.itee.uq.edu.au/marius/NIDS_datasets/ : each dataset heading on that
+# page links ("Please click here") to the UQ Research Data Manager (RDM) landing URL
+# below. The RDM API (https://api.rdm.uq.edu.au/datasets/<uuid>/file-details)
+# reports each record as PUBLISHED, accessType OPEN, licence "Permitted Re-Use with
+# Commercial Use Restriction", owner Majed Luay (first author of arXiv:2503.04404).
+# `.../<uuid>/download` returns a one-hour signed S3 URL, so the landing URL is
+# the stable reference. Note: UQ calls D1 "NF-CICIDS2018-v3"; it is saved under
+# the spec name. No mirror is ever used.
 urls:
-  D1: null   # NF-CSE-CIC-IDS2018-v3  (record: https://researchdata.edu.au/nf-cse-cic-ids2018-v3/3485181)
-  D2: null   # NF-UNSW-NB15-v3
-  D3: null   # NF-ToN-IoT-v3
-  D4: null   # NF-BoT-IoT-v3          (record: https://researchdata.edu.au/nf-bot-iot-v3/3485178)
+  D1:
+    landing: https://rdm.uq.edu.au/files/4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22
+    rdm_uuid: 4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22
+    uq_name: NF-CICIDS2018-v3
+  D2:
+    landing: https://rdm.uq.edu.au/files/abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f
+    rdm_uuid: abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f
+    uq_name: NF-UNSW-NB15-v3
+  D3:
+    landing: https://rdm.uq.edu.au/files/343e2e8c-6e6e-4a0c-813d-a46acea1b7f4
+    rdm_uuid: 343e2e8c-6e6e-4a0c-813d-a46acea1b7f4
+    uq_name: NF-ToN-IoT-v3
+  D4:
+    landing: https://rdm.uq.edu.au/files/db0187cc-1f78-4215-8e34-303364498866
+    rdm_uuid: db0187cc-1f78-4215-8e34-303364498866
+    uq_name: NF-BoT-IoT-v3

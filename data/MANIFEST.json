@@ -1,0 +1,497 @@
+{
+  "generated_utc": "2026-10-04T18:04:29+00:00",
+  "datasets": {
+    "D1": {
+      "name": "NF-CSE-CIC-IDS2018-v3",
+      "status": "present",
+      "file": "NF-CSE-CIC-IDS2018-v3.zip",
+      "url": "https://rdm.uq.edu.au/files/4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22",
+      "sha256": "7399bdef73d29875ab388a53e2ae7e592d1952c4ef07ae6de195ba133823d97f",
+      "size_bytes": 780113687,
+      "data_member": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/data/NF-CICIDS2018-v3.csv",
+      "data_sha1": "ddcad6d826b73a128a447a0189137efd6c8f70c9",
+      "row_count": 20115529,
+      "bagit_sha1": "ddcad6d826b73a128a447a0189137efd6c8f70c9",
+      "bagit_sha1_verified": true,
+      "zip_members": [
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/FurtherInformation.txt",
+          "size": 143
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/bag-info.txt",
+          "size": 839
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/bagit.txt",
+          "size": 55
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/manifest-sha1.txt",
+          "size": 137
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/tagmanifest-sha1.txt",
+          "size": 164
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/data/NF-CICIDS2018-v3.csv",
+          "size": 4222783755
+        },
+        {
+          "name": "f78acbaa2afe1595_NFV3DATA-A11964_A11964/data/NetFlow_v3_Features.csv",
+          "size": 2935
+        }
+      ],
+      "columns": [
+        "FLOW_START_MILLISECONDS",
+        "FLOW_END_MILLISECONDS",
+        "IPV4_SRC_ADDR",
+        "L4_SRC_PORT",
+        "IPV4_DST_ADDR",
+        "L4_DST_PORT",
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "Label",
+        "Attack"
+      ],
+      "n_columns": 55,
+      "schema_check": {
+        "missing": [],
+        "unexpected": [],
+        "n_columns": 55
+      },
+      "download_date_utc": "2026-10-04T18:03:12+00:00",
+      "download": {
+        "file": "NF-CSE-CIC-IDS2018-v3.zip",
+        "official_url": "https://rdm.uq.edu.au/files/4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22",
+        "uq_rdm_uuid": "4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22",
+        "uq_rdm_name": "NF-CICIDS2018-v3",
+        "uq_espace_pid": "UQ:ece9b83",
+        "licence": "Permitted Re-Use with Commercial Use Restriction",
+        "licence_terms": "http://guides.library.uq.edu.au/deposit_your_data/terms_and_conditions",
+        "access_type": "OPEN",
+        "s3_object": "A11964_NFV3DATA-A11964/f78acbaa2afe1595_NFV3DATA-A11964_A11964.zip",
+        "s3_etag": "efa3df193f7928b549515650171919ed-149",
+        "s3_etag_verified": true,
+        "s3_last_modified": "Fri, 28 Feb 2025 06:33:06 GMT",
+        "content_length": 780113687,
+        "download_date_utc": "2026-10-04T18:03:12+00:00"
+      }
+    },
+    "D2": {
+      "name": "NF-UNSW-NB15-v3",
+      "status": "present",
+      "file": "NF-UNSW-NB15-v3.zip",
+      "url": "https://rdm.uq.edu.au/files/abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f",
+      "sha256": "6d51554df43e324ba8d68fc31a02a83d860ba0a3a93d63320a4a6fc314c9cdfd",
+      "size_bytes": 110825147,
+      "data_member": "f7546561558c07c5_NFV3DATA-A11964_A11964/data/NF-UNSW-NB15-v3.csv",
+      "data_sha1": "2cba4879ead17c51e3268a01c06af41186cd90e4",
+      "row_count": 2365424,
+      "bagit_sha1": "2cba4879ead17c51e3268a01c06af41186cd90e4",
+      "bagit_sha1_verified": true,
+      "zip_members": [
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/FurtherInformation.txt",
+          "size": 143
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/bag-info.txt",
+          "size": 839
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/bagit.txt",
+          "size": 55
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/manifest-sha1.txt",
+          "size": 136
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/tagmanifest-sha1.txt",
+          "size": 164
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/data/NF-UNSW-NB15-v3.csv",
+          "size": 577360958
+        },
+        {
+          "name": "f7546561558c07c5_NFV3DATA-A11964_A11964/data/NetFlow_v3_Features.csv",
+          "size": 2935
+        }
+      ],
+      "columns": [
+        "FLOW_START_MILLISECONDS",
+        "FLOW_END_MILLISECONDS",
+        "IPV4_SRC_ADDR",
+        "L4_SRC_PORT",
+        "IPV4_DST_ADDR",
+        "L4_DST_PORT",
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "Label",
+        "Attack"
+      ],
+      "n_columns": 55,
+      "schema_check": {
+        "missing": [],
+        "unexpected": [],
+        "n_columns": 55
+      },
+      "download_date_utc": "2026-10-04T18:03:23+00:00",
+      "download": {
+        "file": "NF-UNSW-NB15-v3.zip",
+        "official_url": "https://rdm.uq.edu.au/files/abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f",
+        "uq_rdm_uuid": "abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f",
+        "uq_rdm_name": "NF-UNSW-NB15-v3",
+        "uq_espace_pid": "UQ:6e0eda1",
+        "licence": "Permitted Re-Use with Commercial Use Restriction",
+        "licence_terms": "http://guides.library.uq.edu.au/deposit_your_data/terms_and_conditions",
+        "access_type": "OPEN",
+        "s3_object": "A11964_NFV3DATA-A11964/f7546561558c07c5_NFV3DATA-A11964_A11964.zip",
+        "s3_etag": "a31aba4ac86f9fe4b2a557eaed86090a-22",
+        "s3_etag_verified": true,
+        "s3_last_modified": "Fri, 28 Feb 2025 06:00:56 GMT",
+        "content_length": 110825147,
+        "download_date_utc": "2026-10-04T18:03:23+00:00"
+      }
+    },
+    "D3": {
+      "name": "NF-ToN-IoT-v3",
+      "status": "present",
+      "file": "NF-ToN-IoT-v3.zip",
+      "url": "https://rdm.uq.edu.au/files/343e2e8c-6e6e-4a0c-813d-a46acea1b7f4",
+      "sha256": "b3b6256e970a8986d87716edea4bfd436d68f04058bf5c26cf67e6d839c83698",
+      "size_bytes": 417476635,
+      "data_member": "02934b58528a226b_NFV3DATA-A11964_A11964/data/NF-ToN-IoT-v3.csv",
+      "data_sha1": "24854ca3072ab7c2ade9ebfb202345a666a94cfe",
+      "row_count": 27520260,
+      "bagit_sha1": "24854ca3072ab7c2ade9ebfb202345a666a94cfe",
+      "bagit_sha1_verified": true,
+      "zip_members": [
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/FurtherInformation.txt",
+          "size": 143
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/bag-info.txt",
+          "size": 839
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/bagit.txt",
+          "size": 55
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/manifest-sha1.txt",
+          "size": 134
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/tagmanifest-sha1.txt",
+          "size": 164
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/data/NF-ToN-IoT-v3.csv",
+          "size": 5302886266
+        },
+        {
+          "name": "02934b58528a226b_NFV3DATA-A11964_A11964/data/NetFlow_v3_Features.csv",
+          "size": 2935
+        }
+      ],
+      "columns": [
+        "FLOW_START_MILLISECONDS",
+        "FLOW_END_MILLISECONDS",
+        "IPV4_SRC_ADDR",
+        "L4_SRC_PORT",
+        "IPV4_DST_ADDR",
+        "L4_DST_PORT",
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "Label",
+        "Attack"
+      ],
+      "n_columns": 55,
+      "schema_check": {
+        "missing": [],
+        "unexpected": [],
+        "n_columns": 55
+      },
+      "download_date_utc": "2026-10-04T18:03:54+00:00",
+      "download": {
+        "file": "NF-ToN-IoT-v3.zip",
+        "official_url": "https://rdm.uq.edu.au/files/343e2e8c-6e6e-4a0c-813d-a46acea1b7f4",
+        "uq_rdm_uuid": "343e2e8c-6e6e-4a0c-813d-a46acea1b7f4",
+        "uq_rdm_name": "NF-ToN-IoT-v3",
+        "uq_espace_pid": "UQ:44d7c5e",
+        "licence": "Permitted Re-Use with Commercial Use Restriction",
+        "licence_terms": "http://guides.library.uq.edu.au/deposit_your_data/terms_and_conditions",
+        "access_type": "OPEN",
+        "s3_object": "A11964_NFV3DATA-A11964/02934b58528a226b_NFV3DATA-A11964_A11964.zip",
+        "s3_etag": "9ebf1540bc692856d525521ff0490fd8-80",
+        "s3_etag_verified": true,
+        "s3_last_modified": "Fri, 28 Feb 2025 06:21:06 GMT",
+        "content_length": 417476635,
+        "download_date_utc": "2026-10-04T18:03:54+00:00"
+      }
+    },
+    "D4": {
+      "name": "NF-BoT-IoT-v3",
+      "status": "present",
+      "file": "NF-BoT-IoT-v3.zip",
+      "url": "https://rdm.uq.edu.au/files/db0187cc-1f78-4215-8e34-303364498866",
+      "sha256": "cd0d3eab5b2da73a377561492aafae078432e69c7932b6302a9fbd7f51429eca",
+      "size_bytes": 72956946,
+      "data_member": "d509c9db7490cf92_NFV3DATA-A11964_A11964/data/NF-BoT-IoT-v3.csv",
+      "data_sha1": "357cc7ffe46ef57ba8193a58d7a66eff5cf44db8",
+      "row_count": 16933808,
+      "bagit_sha1": "357cc7ffe46ef57ba8193a58d7a66eff5cf44db8",
+      "bagit_sha1_verified": true,
+      "zip_members": [
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/FurtherInformation.txt",
+          "size": 143
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/bag-info.txt",
+          "size": 839
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/bagit.txt",
+          "size": 55
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/manifest-sha1.txt",
+          "size": 134
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/tagmanifest-sha1.txt",
+          "size": 164
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/data/NF-BoT-IoT-v3.csv",
+          "size": 3817527532
+        },
+        {
+          "name": "d509c9db7490cf92_NFV3DATA-A11964_A11964/data/NetFlow_v3_Features.csv",
+          "size": 2935
+        }
+      ],
+      "columns": [
+        "FLOW_START_MILLISECONDS",
+        "FLOW_END_MILLISECONDS",
+        "IPV4_SRC_ADDR",
+        "L4_SRC_PORT",
+        "IPV4_DST_ADDR",
+        "L4_DST_PORT",
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "Label",
+        "Attack"
+      ],
+      "n_columns": 55,
+      "schema_check": {
+        "missing": [],
+        "unexpected": [],
+        "n_columns": 55
+      },
+      "download_date_utc": "2026-10-04T18:04:04+00:00",
+      "download": {
+        "file": "NF-BoT-IoT-v3.zip",
+        "official_url": "https://rdm.uq.edu.au/files/db0187cc-1f78-4215-8e34-303364498866",
+        "uq_rdm_uuid": "db0187cc-1f78-4215-8e34-303364498866",
+        "uq_rdm_name": "NF-BoT-IoT-v3",
+        "uq_espace_pid": "UQ:73c4ebc",
+        "licence": "Permitted Re-Use with Commercial Use Restriction",
+        "licence_terms": "http://guides.library.uq.edu.au/deposit_your_data/terms_and_conditions",
+        "access_type": "OPEN",
+        "s3_object": "A11964_NFV3DATA-A11964/d509c9db7490cf92_NFV3DATA-A11964_A11964.zip",
+        "s3_etag": "dbd6a0f81355da910d13536a7881c4ae-14",
+        "s3_etag_verified": true,
+        "s3_last_modified": "Fri, 28 Feb 2025 06:22:41 GMT",
+        "content_length": 72956946,
+        "download_date_utc": "2026-10-04T18:04:04+00:00"
+      }
+    }
+  }
+}

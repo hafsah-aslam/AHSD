@@ -171,3 +171,24 @@ def test_end_to_end_pipeline_and_transfer(tmp_path):
     assert np.array_equal(tarc.windows(np.array([j]))["X"][0], cl.transform(t_sorted.iloc[s:s + 32])[0])
     own = json.loads((tmp_path / "proc" / "D2" / "temporal_gap" / "archive" / "cleaner.json").read_text())
     assert own["mean"] != arc.cleaner["mean"]
+
+
+def test_chunked_reader_and_inplace_sort_match_reference(tmp_path):
+    from nids import io
+    df = generate(5_000, hours=3, seed=9)
+    df = df.sample(frac=1.0, random_state=0).reset_index(drop=True)  # unsorted, like UNSW-v3
+    p = tmp_path / "x.csv"
+    df.to_csv(p, index=False)
+    ref = pd.read_csv(p)
+    a = io.read_raw(p, chunksize=700)
+    b = io.read_raw(p, chunksize=700, n_rows_hint=5_000)
+    for got in (a, b):
+        assert list(got.columns) == list(ref.columns)
+        assert np.allclose(got["IN_BYTES"].to_numpy(), ref["IN_BYTES"].to_numpy(dtype=np.float32), equal_nan=True)
+        assert np.array_equal(got[schema.TIME_START].to_numpy(), ref[schema.TIME_START].to_numpy())
+        assert (got[schema.LABEL_MULTI].astype(str).to_numpy() == ref[schema.LABEL_MULTI].astype(str).to_numpy()).all()
+    s = sort_by_time(b)
+    order = np.argsort(ref[schema.TIME_START].to_numpy(), kind="stable")
+    assert np.array_equal(s["row_id"].to_numpy(), order)
+    assert (s[schema.LABEL_MULTI].astype(str).to_numpy() == ref[schema.LABEL_MULTI].astype(str).to_numpy()[order]).all()
+    assert np.allclose(s["IN_BYTES"].to_numpy(), ref["IN_BYTES"].to_numpy(dtype=np.float32)[order])

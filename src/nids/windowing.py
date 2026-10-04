@@ -21,11 +21,16 @@ HOUR_MS = 3_600_000.0
 
 def sort_by_time(df: pd.DataFrame) -> pd.DataFrame:
     """Stable sort by flow start; the raw row number is kept as `row_id`."""
-    df["row_id"] = np.arange(len(df), dtype=np.int64)  # in place: avoids a full copy of 20M-row frames
-    order = np.lexsort((df["row_id"].to_numpy(), df[schema.TIME_START].to_numpy()))
-    if np.all(order[1:] > order[:-1]):
+    df["row_id"] = np.arange(len(df), dtype=np.int64)
+    t = df[schema.TIME_START].to_numpy()
+    if np.all(t[1:] >= t[:-1]):
         return df.reset_index(drop=True)
-    return df.take(order).reset_index(drop=True)
+    order = np.argsort(t, kind="stable")  # stable: ties keep raw row order
+    # reorder column by column: peak memory is one extra column, not a full frame copy
+    for c in list(df.columns):
+        col = df[c]
+        df[c] = col.array.take(order) if isinstance(col.dtype, pd.CategoricalDtype) else col.to_numpy()[order]
+    return df.reset_index(drop=True)
 
 
 def hour_groups(t_ms: np.ndarray, block_ms: float = HOUR_MS) -> np.ndarray:
@@ -86,11 +91,16 @@ class WindowIndex:
                    T=int(z["T"]), stride=int(z["stride"]))
 
 
-def make_windows(group: np.ndarray, codes: np.ndarray, raw_features: np.ndarray,
+def make_windows(group: np.ndarray, codes: np.ndarray, raw_features,
                  T: int = 32, stride: int = 16) -> tuple[WindowIndex, dict]:
-    """Build every window. `raw_features` (n, F) is hashed for global dedupe."""
+    """Build every window. Raw features are hashed for global dedupe.
+
+    `raw_features` is an (n, F) array, or a callable (a, b) -> float32 array of
+    rows a:b, so a 27M-row dataset is hashed one group at a time.
+    """
     n = len(group)
-    if len(codes) != n or len(raw_features) != n:
+    rows_fn = raw_features if callable(raw_features) else (lambda a, b: raw_features[a:b])
+    if len(codes) != n or (not callable(raw_features) and len(raw_features) != n):
         raise ValueError("length mismatch")
     if np.any(np.diff(group) < 0):
         raise ValueError("groups must be non-decreasing in time order")
@@ -127,12 +137,19 @@ def make_windows(group: np.ndarray, codes: np.ndarray, raw_features: np.ndarray,
     for c in range(n_cls):
         mask |= (counts[:, c] > 0).astype(np.uint64) << np.uint64(c)
 
-    raw = np.ascontiguousarray(raw_features, dtype=np.float32)
-    row_bytes = raw.shape[1] * 4
-    buf = raw.view(np.uint8).reshape(-1)
     sha = np.empty(W, dtype="S32")
-    for i, s in enumerate(start):
-        sha[i] = hashlib.sha256(buf[s * row_bytes:(s + T) * row_bytes]).digest()
+    win_group_end = np.searchsorted(start, g_end, side="left")
+    i = 0
+    for a, b, iend in zip(g_start, g_end, win_group_end):
+        if i >= iend:
+            continue
+        raw = np.ascontiguousarray(rows_fn(a, b), dtype=np.float32)
+        row_bytes = raw.shape[1] * 4
+        buf = raw.view(np.uint8).reshape(-1)
+        for k in range(i, iend):
+            s = start[k] - a
+            sha[k] = hashlib.sha256(buf[s * row_bytes:(s + T) * row_bytes]).digest()
+        i = iend
 
     wi = WindowIndex(start=start, group=group[start].astype(np.int32), y_bin=y_bin, y_cls=maj,
                      purity=purity, class_mask=mask, n_attack=n_attack, sha=sha, T=T, stride=stride)

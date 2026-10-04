@@ -1,0 +1,46 @@
+{
+  "source": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/ (v3 section, class tables)",
+  "retrieved_utc": "2026-10-04",
+  "counts": {
+    "D1": {
+      "Benign": 17514626,
+      "BruteForce": 575194,
+      "Bot": 207703,
+      "DoS": 302966,
+      "DDoS": 1324350,
+      "Infiltration": 188152,
+      "Web Attacks": 2538
+    },
+    "D2": {
+      "Benign": 2237731,
+      "Fuzzers": 33816,
+      "Analysis": 2381,
+      "Backdoor": 1226,
+      "DoS": 5980,
+      "Exploits": 42748,
+      "Generic": 19651,
+      "Reconnaissance": 17074,
+      "Shellcode": 4659,
+      "Worms": 158
+    },
+    "D3": {
+      "Benign": 16792214,
+      "Backdoor": 203384,
+      "DoS": 203456,
+      "DDoS": 4141256,
+      "Injection": 381777,
+      "MITM": 6013,
+      "Password": 1594777,
+      "Ransomware": 3971,
+      "Scanning": 1358977,
+      "XSS": 2834435
+    },
+    "D4": {
+      "Benign": 51989,
+      "Reconnaissance": 1695132,
+      "DDoS": 7150882,
+      "DoS": 8034190,
+      "Theft": 1651
+    }
+  }
+}
