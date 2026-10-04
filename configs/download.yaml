@@ -1,0 +1,10 @@
+# Direct file URLs for the UQ NetFlow v3 datasets.
+# Fill each one only after checking it against the v3 section of
+# https://staff.itee.uq.edu.au/marius/NIDS_datasets/ (or the UQ Research Data
+# record). Never use a Kaggle mirror without checking its row count and columns
+# against the UQ page. Empty = manual download into data/raw/.
+urls:
+  D1: null   # NF-CSE-CIC-IDS2018-v3  (record: https://researchdata.edu.au/nf-cse-cic-ids2018-v3/3485181)
+  D2: null   # NF-UNSW-NB15-v3
+  D3: null   # NF-ToN-IoT-v3
+  D4: null   # NF-BoT-IoT-v3          (record: https://researchdata.edu.au/nf-bot-iot-v3/3485178)

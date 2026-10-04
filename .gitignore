@@ -1,0 +1,9 @@
+smoke_out/
+data/raw/*
+!data/raw/.gitkeep
+data/interim/
+data/processed/
+__pycache__/
+*.pyc
+.pytest_cache/
+runs/

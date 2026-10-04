@@ -1,0 +1,38 @@
+# Data preparation config (spec §3–4). One file drives every dataset.
+datasets:
+  D1:
+    name: NF-CSE-CIC-IDS2018-v3
+    raw_glob: "NF-CSE-CIC-IDS2018-v3*"
+    role: [in_domain, loaco, transfer]
+  D2:
+    name: NF-UNSW-NB15-v3
+    raw_glob: "NF-UNSW-NB15-v3*"
+    role: [in_domain, loaco, transfer]
+  D3:
+    name: NF-ToN-IoT-v3
+    raw_glob: "NF-ToN-IoT-v3*"
+    role: [in_domain, loaco, transfer]
+  D4:
+    name: NF-BoT-IoT-v3
+    raw_glob: "NF-BoT-IoT-v3*"
+    role: [transfer_target]
+    loaco_min_benign_windows: 2000   # LOACO only if this many benign windows survive
+
+raw_dir: data/raw
+interim_dir: data/interim
+processed_dir: data/processed
+audit_dir: audit
+
+keep_ttl: false            # true only for the TTL ablation (P8)
+window: {T: 32, stride: 16, block_ms: 3600000}
+splits: [temporal_gap, grouped_random]
+data_seed: 0               # split shuffling and balancing draws (model seeds are separate)
+balance:
+  train_ratio: 1           # benign:attack = 1:1
+  eval_ratio: 5            # benign:attack = 5:1 for val and test
+  train_cap: 14000
+  val_cap: 3000
+  test_cap: 3000
+  natural_cap: 20000       # natural-prior test set (uniform subsample of the test split)
+  loaco_min_train: 200
+corr_sample_rows: 1000000

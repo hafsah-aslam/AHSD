@@ -1,0 +1,20 @@
+# P1 pilot (go/no-go): D1 + D2, AHSD-fixed, 3 seeds, LOACO, then S2.
+datasets: [D1, D2]
+scheme: temporal_gap
+seeds: [17, 23, 42]
+D: 128
+epochs: 15
+n_boot: 1000
+threads: 4
+processed_dir: data/processed
+results_dir: results/p1
+report_dir: report/p1
+
+smoke:
+  processed_dir: smoke_out/processed
+  results_dir: smoke_out/results/p1
+  report_dir: smoke_out/report/p1
+  seeds: [17]
+  epochs: 2
+  D: 32
+  n_boot: 50
