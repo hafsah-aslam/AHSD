@@ -73,3 +73,24 @@ def verify_flows(flows: np.ndarray) -> list:
     _check(bool(np.isfinite(flows).all()), "cleaned flows finite", log)
     _check(flows.dtype == np.float32, "cleaned flows float32", log)
     return log
+
+
+def verify_natural_novelty(wi: WindowIndex, split: np.ndarray, sets: dict, classes: list[str],
+                           nn_classes: list[str]) -> list:
+    log = []
+    bits = np.uint64(0)
+    for c in nn_classes:
+        bits |= np.uint64(1) << np.uint64(classes.index(c))
+    for part, s in (("train", TRAIN), ("val", VAL)):
+        idx = sets[part]
+        _check(bool(np.all(split[idx] == s)), f"natural_novelty: {part} from split {SPLIT_NAMES[s]}", log)
+        _check(bool(np.all((wi.class_mask[idx] & bits) == 0)), f"natural_novelty: {part} has no flow of any NN class", log)
+    tr_classes = set(np.unique(wi.y_cls[split == TRAIN]).tolist())
+    for c in nn_classes:
+        k = classes.index(c)
+        _check(k not in tr_classes, f"natural_novelty {c}: absent from the train split", log)
+        t = sets[f"test/{c}"]
+        _check(bool(np.all(split[t] == TEST)), f"natural_novelty {c}: test from test split", log)
+        _check(bool(np.all((wi.y_cls[t] == 0) | (wi.y_cls[t] == k))), f"natural_novelty {c}: test is benign + {c} only", log)
+        _check(int((wi.y_cls[t] == k).sum()) > 0, f"natural_novelty {c}: test holds windows of the class", log)
+    return log

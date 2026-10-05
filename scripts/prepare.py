@@ -34,6 +34,9 @@ def smoke_cfg(cfg: dict) -> dict:
              audit_dir=f"{base}/audit", corr_sample_rows=20000)
     c["balance"].update(train_cap=2000, val_cap=600, test_cap=600, natural_cap=2000, loaco_min_train=30)
     c["datasets"] = {k: v for k, v in c["datasets"].items() if k in ("D1", "D2")}
+    for d in c["datasets"].values():  # real-data-only options (AMENDMENT_01)
+        for k in ("class_map", "natural_novelty", "target_only"):
+            d.pop(k, None)
     return c
 
 
@@ -66,7 +69,8 @@ def main():
         if missing or not ds_list:
             raise SystemExit(f"raw files missing for {missing or 'all datasets'}; run scripts/download.py "
                              f"or place the files in {cfg['raw_dir']}")
-        if a.stage != "index" and set(ds_list) != set(cfg["datasets"]) and not a.allow_partial_common:
+        in_domain_all = [d for d, v in cfg["datasets"].items() if not v.get("target_only")]
+        if a.stage != "index" and not set(in_domain_all) <= set(ds_list) and not a.allow_partial_common:
             raise SystemExit(f"only {ds_list} requested; the common feature list must span "
                              f"{list(cfg['datasets'])}. Pass --allow-partial-common to proceed anyway.")
         manifest = ROOT / "data" / "MANIFEST.json"
@@ -80,20 +84,33 @@ def main():
         if a.stage == "finalize":
             ds_list = present if not a.datasets else ds_list
 
-    common = pipeline.common_features(cfg, ds_list)
-    write_json(ROOT / cfg["processed_dir"] / "common_features.json",
-               {"datasets": ds_list, "partial": set(ds_list) != set(cfg["datasets"]) and not a.smoke,
-                "features": common})
-    print(f"common features ({len(common)}): {common}")
-    for ds in ds_list:
+    targets = [d for d in ds_list if cfg["datasets"][d].get("target_only")]
+    in_domain = [d for d in ds_list if d not in targets]
+    common = pipeline.common_features(cfg, in_domain)
+    frozen_path = ROOT / cfg["processed_dir"] / "common_features.json"
+    if frozen_path.exists() and not a.smoke:
+        frozen = json.loads(frozen_path.read_text())
+        if frozen["features"] != common:
+            raise SystemExit(f"recomputed common features differ from the frozen list in {frozen_path}: "
+                             f"{sorted(set(frozen['features']) ^ set(common))}")
+        print(f"common features: {len(common)}, identical to the frozen list")
+    else:
+        write_json(frozen_path, {"datasets": in_domain,
+                                 "partial": set(in_domain) != {d for d, v in cfg["datasets"].items()
+                                                               if not v.get("target_only")} and not a.smoke,
+                                 "features": common})
+        print(f"common features ({len(common)}): {common}")
+    for ds in in_domain:
         pipeline.stage_finalize(ds, cfg, common, resume=a.resume)
     if not a.skip_transfer:
-        for src in ds_list:
-            for tgt in ds_list:
+        for src in in_domain:
+            for tgt in in_domain:
                 if src != tgt:
                     pipeline.stage_transfer(src, tgt, cfg, resume=a.resume)
+            for tgt in targets:
+                pipeline.stage_transfer_target_only(src, tgt, cfg, common, resume=a.resume)
     log_path = ROOT / ("smoke_out/PREPROCESS_LOG.md" if a.smoke else "PREPROCESS_LOG.md")
-    log_path.write_text(render_preprocess_log(cfg, ds_list, smoke=a.smoke))
+    log_path.write_text(render_preprocess_log(cfg, in_domain, smoke=a.smoke))
     print(f"wrote {log_path.relative_to(ROOT)}")
 
 

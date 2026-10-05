@@ -4,6 +4,8 @@ datasets:
     name: NF-CSE-CIC-IDS2018-v3
     raw_glob: "NF-CSE-CIC-IDS2018-v3*"
     role: [in_domain, loaco, transfer]
+    class_map: configs/d1_class_map.yaml          # AMENDMENT_01 A1.2: families = primary LOACO classes
+    natural_novelty: [Bot, Infilteration]          # AMENDMENT_01 A1.3 (temporal_gap test-only classes)
   D2:
     name: NF-UNSW-NB15-v3
     raw_glob: "NF-UNSW-NB15-v3*"
@@ -12,11 +14,17 @@ datasets:
     name: NF-ToN-IoT-v3
     raw_glob: "NF-ToN-IoT-v3*"
     role: [in_domain, loaco, transfer]
+    natural_novelty: [Backdoor, mitm, password, ransomware, xss]   # AMENDMENT_01 A1.3
   D4:
     name: NF-BoT-IoT-v3
     raw_glob: "NF-BoT-IoT-v3*"
     role: [transfer_target]
     loaco_min_benign_windows: 2000   # LOACO only if this many benign windows survive
+    target_only:                     # AMENDMENT_01 A1.4: no split; re-anchoring pool + test set
+      anchor_groups_first: 4         # benign windows of the first 4 one-hour groups (time order)
+      anchor_sizes: [100, 500]       # nested draws from the pool
+      test_ratio: 5                  # benign:attack in the test set
+      attack_allocation: equal       # equal share per attack class, shortfall redistributed
 
 raw_dir: data/raw
 interim_dir: data/interim

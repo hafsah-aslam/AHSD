@@ -24,7 +24,7 @@ from . import audit as audit_mod
 from . import io, schema, splits, verify
 from .preprocess import Cleaner, common_feature_list
 from .provenance import ROOT, sha256_bytes, sha256_file, write_json, provenance
-from .windowing import WindowIndex, class_codes, dedupe, hour_groups, make_windows, sort_by_time
+from .windowing import WindowIndex, class_codes, dedupe, hour_groups, make_windows, relabel, sort_by_time
 
 
 def cfg_hash(cfg: dict) -> str:
@@ -48,6 +48,30 @@ def _done(meta_path: Path, h: str) -> bool:
 
 def _save_folds(path: Path, folds: dict):
     np.savez(path, **{f"{c}/{part}": idx for c, f in folds.items() for part, idx in f.items()})
+
+
+def family_codes(codes: np.ndarray, classes: list[str], map_path: Path) -> tuple[np.ndarray, list[str], dict]:
+    """Map flow class codes to family codes via a {family: [sub-labels]} YAML. Fails closed."""
+    import yaml
+    fams = yaml.safe_load(open(map_path))["families"]
+    owner = {}
+    for f, subs in fams.items():
+        for x in subs:
+            if x in owner:
+                raise RuntimeError(f"class map: {x!r} in two families")
+            owner[x] = f
+    missing = [c for c in classes if c not in owner]
+    if missing:
+        raise RuntimeError(f"class map {map_path.name}: unmapped file labels {missing}")
+    if owner.get(classes[0]) != schema.BENIGN:
+        raise RuntimeError("class map must map Benign to Benign")
+    fam_classes = [schema.BENIGN] + sorted(f for f in fams if f != schema.BENIGN)
+    lut = np.array([fam_classes.index(owner[c]) for c in classes], dtype=np.int16)
+    counts = np.bincount(lut[codes], minlength=len(fam_classes))
+    return lut[codes], fam_classes, {"map": str(map_path.relative_to(ROOT)) if map_path.is_relative_to(ROOT) else str(map_path),
+                                     "map_sha256": sha256_file(map_path),
+                                     "flow_counts": {c: int(n) for c, n in zip(fam_classes, counts)},
+                                     "sub_to_family": {c: owner[c] for c in classes}}
 
 
 def load_folds(path: Path) -> dict:
@@ -102,7 +126,8 @@ def peak_rss_gb() -> float:
 def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool = False,
                 raw_sha256: str | None = None, source_file: str | None = None,
                 n_rows_hint: int | None = None) -> dict:
-    h = cfg_hash(cfg)
+    dcfg = cfg["datasets"][ds]
+    h = cfg_hash(cfg) + sha256_bytes(json.dumps(dcfg, sort_keys=True).encode())[:8]
     out = _p(cfg, "processed_dir") / ds
     meta_path = out / "index_meta.json"
     if resume and _done(meta_path, h):
@@ -139,6 +164,11 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
     del hash_arrays
     mem.append(("windowed", rss_gb()))
     wi, dstats = dedupe(wi)
+    wi_fam, fam_classes, fam_info = None, None, None
+    if dcfg.get("class_map"):
+        fcodes, fam_classes, fam_info = family_codes(codes, classes, ROOT / dcfg["class_map"])
+        wi_fam, fam_info["majority_ties"] = relabel(wi, fcodes)
+        del fcodes
     n_benign_windows = int((wi.y_bin == 0).sum())
 
     interim = _p(cfg, "interim_dir") / ds
@@ -159,6 +189,21 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
     info["loaco_allowed"] = bool(loaco_allowed)
 
     np.savez(out / "windows.npz", **wi.to_npz_dict())
+    if dcfg.get("target_only"):
+        tsets, tinfo, tlog = target_only_sets(wi, classes, dcfg["target_only"], cfg["data_seed"])
+        np.savez(out / "target_sets.npz", **tsets)
+        info.update(target_only=tinfo, verification=tlog)
+        mem.append(("done", rss_gb()))
+        info["memory_trace_gb"] = mem
+        info["peak_rss_gb_process"] = peak_rss_gb()
+        info["provenance"] = provenance(config=cfg, data_sha256={ds: raw_sha256})
+        write_json(meta_path, info)
+        print(f"[{ds}] index (target only): {len(wi)} windows; test {tinfo['test']}; pool {tinfo['anchor_pool']}")
+        return info
+    if wi_fam is not None:
+        np.savez(out / "windows_family.npz", y_cls=wi_fam.y_cls, class_mask=wi_fam.class_mask,
+                 purity=wi_fam.purity, classes=np.array(fam_classes))
+        info["family"] = {"classes": fam_classes, **fam_info}
     for scheme in cfg["splits"]:
         sd = out / scheme
         sd.mkdir(exist_ok=True)
@@ -172,6 +217,22 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
         vlog = verify.verify_splits(wi, split, df["row_id"].to_numpy())
         vlog += verify.verify_sets(wi, split, sets, set_info, cfg["balance"])
         vlog += verify.verify_loaco(wi, split, folds, classes)
+        extra = {}
+        if wi_fam is not None:
+            ffolds, ffinfo = splits.loaco_folds(wi_fam, split, fam_classes, cfg["balance"], cfg["data_seed"])
+            vlog += [{**v, "check": "[family] " + v["check"]} for v in verify.verify_loaco(wi_fam, split, ffolds, fam_classes)]
+            _save_folds(sd / "loaco_family.npz", ffolds)
+            extra["loaco_family"] = ffinfo
+            extra["composition_family"] = splits.composition(wi_fam, split, fam_classes)
+        nn_cfg = dcfg.get("natural_novelty")
+        if nn_cfg and scheme == "temporal_gap":
+            found = comp["test_classes_absent_from_train"]
+            if sorted(found) != sorted(nn_cfg):
+                raise RuntimeError(f"{ds}: natural_novelty classes {sorted(found)} differ from the amendment's {sorted(nn_cfg)}")
+            nn_sets, nn_info = splits.natural_novelty_sets(wi, split, classes, nn_cfg, cfg["balance"], cfg["data_seed"])
+            vlog += verify.verify_natural_novelty(wi, split, nn_sets, classes, nn_cfg)
+            np.savez(sd / "natural_novelty.npz", **nn_sets)
+            extra["natural_novelty"] = nn_info
 
         train_groups = np.array(sinfo["groups"]["train"])
         train_rows = np.isin(group, train_groups)
@@ -183,7 +244,7 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
         info["schemes"][scheme] = {"split": sinfo, "composition": comp, "sets": set_info,
                                    "loaco": finfo, "verification": vlog,
                                    "cleaner_fit_rows": int(train_rows.sum()),
-                                   "cleaner_kept": cl.features, "cleaner_dropped": cl.dropped}
+                                   "cleaner_kept": cl.features, "cleaner_dropped": cl.dropped, **extra}
     mem.append(("done", rss_gb()))
     info["memory_trace_gb"] = mem
     info["peak_rss_gb_process"] = peak_rss_gb()
@@ -191,6 +252,91 @@ def stage_index(ds: str, cfg: dict, df: pd.DataFrame | None = None, resume: bool
     write_json(meta_path, info)
     print(f"[{ds}] index: {wstats['windows']} windows, {dstats['duplicates_removed']} duplicates removed")
     return info
+
+
+def target_only_sets(wi: WindowIndex, classes: list[str], tcfg: dict, seed: int) -> tuple[dict, dict, list]:
+    """AMENDMENT_01 A1.4: re-anchoring pool (benign windows of the first k groups) and a
+    group-disjoint test set (all remaining benign + attack at 1/ratio, equal per class)."""
+    rng = np.random.default_rng(seed)
+    groups = np.unique(wi.group)  # ids are in time order
+    first = groups[:tcfg["anchor_groups_first"]]
+    in_first = np.isin(wi.group, first)
+    pool = np.flatnonzero(in_first & (wi.y_bin == 0))
+    sizes = sorted(tcfg["anchor_sizes"])
+    if len(pool) < sizes[-1]:
+        raise RuntimeError(f"re-anchoring pool has {len(pool)} benign windows < {sizes[-1]}")
+    perm = rng.permutation(pool)
+    sets = {"anchor_pool": np.sort(pool)}
+    for k in sizes:
+        sets[f"anchor_{k}"] = np.sort(perm[:k])  # nested: anchor_100 is a subset of anchor_500
+    rest = ~in_first
+    benign = np.flatnonzero(rest & (wi.y_bin == 0))
+    n_att = len(benign) // tcfg["test_ratio"]
+    att_classes = [c for c in range(1, len(classes)) if ((wi.y_cls == c) & rest).any()]
+    avail = {c: np.flatnonzero(rest & (wi.y_cls == c)) for c in att_classes}
+    quota = {c: 0 for c in att_classes}
+    left, open_c = n_att, list(att_classes)
+    while left > 0 and open_c:  # equal allocation; a class short of windows passes its share on
+        share = max(left // len(open_c), 1)
+        for c in list(open_c):
+            take = min(share, len(avail[c]) - quota[c], left)
+            quota[c] += take
+            left -= take
+            if quota[c] >= len(avail[c]):
+                open_c.remove(c)
+            if left == 0:
+                break
+    attack = np.concatenate([rng.choice(avail[c], quota[c], replace=False) for c in att_classes if quota[c]])
+    sets["test"] = np.sort(np.r_[benign, attack]).astype(np.int64)
+    log = []
+    verify._check(len(np.intersect1d(wi.group[sets["anchor_pool"]], wi.group[sets["test"]])) == 0,
+                  "D4: re-anchoring pool and test share no group (hence no flow)", log)
+    for a, b in zip(sizes[:-1], sizes[1:]):
+        verify._check(set(sets[f"anchor_{a}"]) <= set(sets[f"anchor_{b}"]), f"D4: anchor_{a} nested in anchor_{b}", log)
+    verify._check(bool(np.all(wi.y_bin[sets["anchor_pool"]] == 0)), "D4: re-anchoring pool is benign only", log)
+    verify._check(len(np.unique(sets["test"])) == len(sets["test"]), "D4: no test window drawn twice", log)
+    info = {"anchor_groups": first.tolist(), "anchor_pool": int(len(pool)), "anchor_sizes": sizes,
+            "test": {"benign": int(len(benign)), "attack": int(len(attack)),
+                     "attack_by_class": {classes[c]: int(quota[c]) for c in att_classes},
+                     "available_by_class": {classes[c]: int(len(avail[c])) for c in att_classes},
+                     "ratio": f"{len(benign)}:{len(attack)}"},
+            "windows_total": int(len(wi))}
+    return sets, info, log
+
+
+def stage_transfer_target_only(src: str, tgt: str, cfg: dict, common: list[str], resume: bool = False) -> dict:
+    """Source cleaner applied to a target-only dataset (D4): test + re-anchoring windows."""
+    out = _p(cfg, "processed_dir") / "transfer" / f"{src}__to__{tgt}"
+    meta_path = out / "meta.json"
+    src_meta = json.loads((_p(cfg, "processed_dir") / src / "archive_meta.json").read_text())
+    h = src_meta["cfg_hash"]
+    if resume and _done(meta_path, h):
+        print(f"[{src}->{tgt}] transfer: up to date, skipped")
+        return json.loads(meta_path.read_text())
+    import pyarrow.parquet as pq
+    parquet = _p(cfg, "interim_dir") / tgt / "sorted.parquet"
+    missing = [c for c in common if c not in pq.read_schema(parquet).names]
+    if missing:
+        raise RuntimeError(f"{tgt}: frozen common features missing from the target: {missing}")
+    tbase = _p(cfg, "processed_dir") / tgt
+    tinfo = json.loads((tbase / "index_meta.json").read_text())
+    wi = WindowIndex.from_npz(np.load(tbase / "windows.npz"))
+    sets = dict(np.load(tbase / "target_sets.npz"))
+    meta = {"source": src, "target": tgt, "cfg_hash": h, "target_only": True, "schemes": {}}
+    for scheme in cfg["splits"]:
+        src_cleaner_path = _p(cfg, "processed_dir") / src / scheme / "archive" / "cleaner.json"
+        cl = Cleaner.from_dict(json.loads(src_cleaner_path.read_text()))
+        if cl.features != common:
+            raise RuntimeError(f"{src}/{scheme} cleaner features differ from the frozen common list")
+        meta["schemes"][scheme] = _write_archive(
+            out / scheme, parquet, tinfo["flows"], cl, wi, np.full(len(wi), -1, np.int8), sets, {},
+            {"source_cleaner_sha256": sha256_file(src_cleaner_path), "missing_features": missing,
+             "note": "target-only (AMENDMENT_01 A1.4): source cleaner; nothing fitted on the target"})
+    meta["peak_rss_gb_process"] = peak_rss_gb()
+    meta["provenance"] = provenance(config=cfg)
+    write_json(meta_path, meta)
+    print(f"[{src}->{tgt}] target-only transfer package written")
+    return meta
 
 
 # ------------------------------------------------------------------ finalize
@@ -207,8 +353,9 @@ def _compact(wi: WindowIndex, ref: np.ndarray, n_rows: int) -> tuple[np.ndarray,
     return rows, start_c
 
 
-def _referenced(sets: dict, folds: dict) -> np.ndarray:
+def _referenced(sets: dict, folds: dict, extra_sets: list[dict] = ()) -> np.ndarray:
     parts = list(sets.values()) + [i for f in folds.values() for i in f.values()]
+    parts += [i for d in extra_sets for i in d.values()]
     return np.unique(np.concatenate(parts)) if parts else np.zeros(0, np.int64)
 
 
@@ -222,9 +369,14 @@ def common_features(cfg: dict, ds_list: list[str]) -> list[str]:
 
 
 def _write_archive(out: Path, parquet: Path, n_rows: int, cl: Cleaner, wi: WindowIndex,
-                   split: np.ndarray, sets: dict, folds: dict, extra: dict) -> dict:
+                   split: np.ndarray, sets: dict, folds: dict, extra: dict,
+                   extra_files: dict | None = None, copy_files: dict | None = None) -> dict:
+    """extra_files: {file name: {key: window index array}} saved beside sets.npz and materialised too.
+    copy_files: {file name: {key: array}} saved as-is (e.g. family labels), not window indices."""
     out.mkdir(parents=True, exist_ok=True)
-    ref = _referenced(sets, folds)
+    extra_files = extra_files or {}
+    copy_files = copy_files or {}
+    ref = _referenced(sets, folds, list(extra_files.values()))
     rows, start_c = _compact(wi, ref, n_rows)
     tab = _read_rows(parquet, cl.features + ["row_id"], rows)
     flows, tdiag = cl.transform(tab)
@@ -236,8 +388,10 @@ def _write_archive(out: Path, parquet: Path, n_rows: int, cl: Cleaner, wi: Windo
     np.savez(out / "sets.npz", **sets)
     _save_folds(out / "loaco.npz", folds)
     write_json(out / "cleaner.json", cl.to_dict())
+    for name, arrs in {**extra_files, **copy_files}.items():
+        np.savez(out / name, **arrs)
     files = {f: sha256_file(out / f) for f in ("flows.npy", "row_id.npy", "windows.npz", "sets.npz",
-                                                "loaco.npz", "cleaner.json")}
+                                                "loaco.npz", "cleaner.json", *extra_files, *copy_files)}
     return {"rows_materialised": int(len(rows)), "windows_referenced": int(len(ref)),
             "n_features": len(cl.features), "transform": tdiag, "verification": vlog,
             "sha256": files, **extra}
@@ -259,8 +413,16 @@ def stage_finalize(ds: str, cfg: dict, common: list[str], resume: bool = False) 
         cl = Cleaner.from_dict(json.loads((sd / "cleaner_fit.json").read_text())).restrict(common)
         sets = dict(np.load(sd / "sets.npz"))
         folds = load_folds(sd / "loaco.npz")
+        extra_files = {}
+        if (sd / "loaco_family.npz").exists():
+            extra_files["loaco_family.npz"] = dict(np.load(sd / "loaco_family.npz"))
+        if (sd / "natural_novelty.npz").exists():
+            extra_files["natural_novelty.npz"] = dict(np.load(sd / "natural_novelty.npz"))
+        copy_files = {}
+        if (base / "windows_family.npz").exists():
+            copy_files["windows_family.npz"] = {k: v for k, v in np.load(base / "windows_family.npz").items()}
         meta["schemes"][scheme] = _write_archive(sd / "archive", parquet, n_rows, cl, wi, np.load(sd / "split.npy"),
-                                                 sets, folds, {})
+                                                 sets, folds, {}, extra_files, copy_files)
     meta["peak_rss_gb_process"] = peak_rss_gb()
     meta["provenance"] = provenance(config=cfg)
     write_json(meta_path, meta)
@@ -310,15 +472,28 @@ class Archive:
         self.sets = dict(np.load(self.path / "sets.npz"))
         self.folds = load_folds(self.path / "loaco.npz")
         self.cleaner = json.loads((self.path / "cleaner.json").read_text())
+        p = self.path / "loaco_family.npz"
+        self.folds_family = load_folds(p) if p.exists() else {}
+        p = self.path / "natural_novelty.npz"
+        self.natural_novelty = dict(np.load(p)) if p.exists() else {}
+        p = self.path / "windows_family.npz"
+        self.family = dict(np.load(p)) if p.exists() else None
 
     @property
     def n_features(self) -> int:
         return self.flows.shape[1]
 
-    def windows(self, idx: np.ndarray) -> dict:
+    def windows(self, idx: np.ndarray, labelling: str = "file") -> dict:
+        """labelling='family' returns family class codes (D1) in y_cls."""
         s = self.start_c[idx]
         if (s < 0).any():
             raise KeyError("window not materialised in this archive")
         X = np.asarray(self.flows[s[:, None] + np.arange(self.wi.T)[None, :]])
+        if labelling == "family":
+            if self.family is None:
+                raise KeyError("no family labelling in this archive")
+            y_cls, pur = self.family["y_cls"][idx], self.family["purity"][idx]
+        else:
+            y_cls, pur = self.wi.y_cls[idx], self.wi.purity[idx]
         return {"X": X, "y_bin": self.wi.y_bin[idx].astype(np.int64),
-                "y_cls": self.wi.y_cls[idx].astype(np.int64), "purity": self.wi.purity[idx], "idx": idx}
+                "y_cls": y_cls.astype(np.int64), "purity": pur, "idx": idx}

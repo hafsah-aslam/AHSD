@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-"""P1 pilot: AHSD-fixed LOACO + S2 predictor + competing predictors (spec §8 P1).
+"""P1 pilot (AMENDMENT_01 scope): AHSD-fixed, LOACO and natural_novelty, S2 + competing predictors.
 
-One JSON per (dataset, held-out class, seed) under results/p1/. Nothing is
-aggregated here; scripts/report_p1.py builds tables, figures and the report.
+Evaluations are listed in the config. Each writes one JSON per (held-out class,
+seed) under results/p1/<eval id>/. Nothing is aggregated here;
+scripts/report_p1.py builds the tables, figures and PILOT_REPORT.md.
 
-  python scripts/run_loaco.py --config configs/p1_pilot.yaml [--resume]
+  python scripts/run_loaco.py --config configs/p1_pilot.yaml [--resume] [--only D2_gr ...]
   python scripts/run_loaco.py --config configs/p1_pilot.yaml --smoke
 """
 
@@ -13,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -23,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from nids import metrics, predictors, scores, spectral  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
-from nids.provenance import ROOT, provenance, sha256_file, write_json  # noqa: E402
+from nids.provenance import ROOT, provenance, write_json  # noqa: E402
 from nids.train import fit, predict  # noqa: E402
 
 
@@ -45,41 +47,42 @@ def s2_block(m, pr_train_benign, z_by: dict, T: int) -> dict:
     return out
 
 
-def run_fold(arc: Archive, cls: str, seed: int, cfg: dict, log) -> dict:
-    f = arc.folds[cls]
-    tr, va, te = arc.windows(f["train"]), arc.windows(f["val"]), arc.windows(f["test"])
-    c = arc_classes(arc).index(cls)
+def train_model(arc: Archive, tr: dict, va: dict, seed: int, cfg: dict, log):
     torch.set_num_threads(cfg.get("threads", 4))
     m = AHSD(arc.n_features, D=cfg["D"], variant="fixed")
     tinfo = fit(m, tr, va, seed=seed, epochs=cfg["epochs"], log=log)
+    return m, tinfo
 
+
+def score_class(m, arc: Archive, tr: dict, va: dict, te: dict, c: int, seed: int, cfg: dict,
+                cache: dict) -> dict:
+    """Measured detectability of class c (test = benign + c) and every predictor, on one trained model."""
+    if "sv" not in cache:
+        cache["sv"] = predict(m, va["X"], states=True)
+        cache["trb"] = predict(m, tr["X"][tr["y_bin"] == 0], states=True)
+        cache["mah"] = predictors.BenignMahalanobis(tr["X"][tr["y_bin"] == 0])
+    sv, trb = cache["sv"], cache["trb"]
     st = predict(m, te["X"], states=True)
-    sv = predict(m, va["X"], states=True)
-    trb = predict(m, tr["X"][tr["y_bin"] == 0], states=True)
     y = te["y_bin"]
     is_c, is_b = te["y_cls"] == c, te["y_cls"] == 0
-    assert np.all(is_c | is_b)
-
-    T = arc.wi.T
+    if not np.all(is_c | is_b):
+        raise AssertionError("test set holds windows other than benign and the held-out class")
     s2 = s2_block(m, trb, {"class": st["z"][is_c], "benign": st["z"][is_b],
-                          "val_benign": sv["z"][va["y_bin"] == 0]}, T)
+                          "val_benign": sv["z"][va["y_bin"] == 0]}, arc.wi.T)
     D_pred = spectral.detectability(s2["S_class"], s2["S_benign"])
     D_pred_val = spectral.detectability(s2["S_class"], s2["S_val_benign"])
     D_pred_ch = spectral.detectability(s2["Sch_class"], s2["Sch_benign"])
     for k in ("S_class", "S_benign", "S_val_benign", "Sch_class", "Sch_benign", "Sch_val_benign"):
         s2[k] = {"mean": float(np.mean(s2[k])), "std": float(np.std(s2[k], ddof=1)), "n": int(len(s2[k]))}
-
-    mah = predictors.BenignMahalanobis(tr["X"][tr["y_bin"] == 0])
     comp = {
         "wasserstein": predictors.wasserstein_to_train_attacks(te["X"][is_c], tr["X"][tr["y_bin"] == 1], seed=seed),
-        "mahalanobis": float(mah(te["X"][is_c]).mean()),
+        "mahalanobis": float(cache["mah"](te["X"][is_c]).mean()),
         "stationarity": float(predictors.stationarity_index(st["z"][is_c]).mean()),
     }
     vb = va["y_bin"] == 0
     s3 = scores.s3_score(st["stress"], st["delta_norm"], sv["stress"][vb], sv["delta_norm"][vb])
     thr = metrics.threshold_at_val_fpr(sv["stress"][vb], 0.01)
     return {
-        "dataset": cfg["_ds"], "scheme": cfg["scheme"], "held_out": cls, "seed": seed,
         "n_test": {"benign": int(is_b.sum()), "held_out": int(is_c.sum())},
         "measured": {
             "stress": metrics.detection(y, st["stress"]),
@@ -91,14 +94,74 @@ def run_fold(arc: Archive, cls: str, seed: int, cfg: dict, log) -> dict:
         },
         "predictors": {"D_pred": D_pred, "D_pred_val_benign": D_pred_val, "D_pred_per_channel": D_pred_ch, **comp},
         "s2": s2,
-        "training": tinfo,
         "gamma_final": float(m.gamma().detach()),
     }
 
 
-def arc_classes(arc: Archive) -> list[str]:
-    meta = json.loads((arc.path.parents[1] / "index_meta.json").read_text())
-    return meta["classes"]
+def _safe(s: str) -> str:
+    return "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in s)
+
+
+def run_evaluation(ev: dict, cfg: dict, resume: bool, smoke: bool):
+    proc = ROOT / cfg["processed_dir"]
+    out_root = ROOT / cfg["results_dir"] / ev["id"]
+    ds, scheme, lab = ev["dataset"], ev["scheme"], ev.get("labelling", "file")
+    arc = Archive(proc / ds / scheme / "archive")
+    meta = json.loads((proc / ds / "index_meta.json").read_text())
+    data_sha = json.loads((proc / ds / "archive_meta.json").read_text())["schemes"][scheme]["sha256"]
+    smeta = meta["schemes"][scheme]
+    base = {"eval_id": ev["id"], "dataset": ds, "scheme": scheme, "kind": ev["kind"], "labelling": lab,
+            "rho_set": ev["rho_set"]}
+
+    def done(path):
+        return resume and path.exists()
+
+    def save(path, res):
+        res["provenance"] = provenance(config={**cfg, "evaluation": ev}, data_sha256=data_sha)
+        res["smoke"] = smoke
+        write_json(path, res)
+
+    if ev["kind"] == "loaco":
+        classes = meta["family"]["classes"] if lab == "family" else meta["classes"]
+        finfo = smeta["loaco_family"] if lab == "family" else smeta["loaco"]
+        folds = arc.folds_family if lab == "family" else arc.folds
+        for cls, rec in finfo.items():
+            if not rec.get("eligible") or not rec.get("feasible"):
+                save(out_root / f"{_safe(cls)}__skipped.json", {**base, "held_out": cls, "skipped": True, "fold_info": rec})
+                continue
+            f = folds[cls]
+            for seed in cfg["seeds"]:
+                path = out_root / _safe(cls) / f"seed{seed}.json"
+                if done(path):
+                    continue
+                t0 = time.time()
+                print(f"[{ev['id']}] LOACO {cls} seed {seed}", flush=True)
+                tr, va, te = (arc.windows(f[k], labelling=lab) for k in ("train", "val", "test"))
+                m, tinfo = train_model(arc, tr, va, seed, cfg, log=lambda s: print(s, flush=True))
+                res = score_class(m, arc, tr, va, te, classes.index(cls), seed, cfg, {})
+                save(path, {**base, "held_out": cls, "seed": seed, **res, "training": tinfo,
+                            "fold_info": rec, "wall_seconds": time.time() - t0})
+    elif ev["kind"] == "natural_novelty":
+        classes = meta["classes"]
+        nn = arc.natural_novelty
+        nn_classes = smeta["natural_novelty"]["classes"]
+        for seed in cfg["seeds"]:
+            paths = {c: out_root / _safe(c) / f"seed{seed}.json" for c in nn_classes}
+            if all(done(p) for p in paths.values()):
+                continue
+            t0 = time.time()
+            print(f"[{ev['id']}] natural_novelty seed {seed} (one model, {len(nn_classes)} classes)", flush=True)
+            tr, va = arc.windows(nn["train"]), arc.windows(nn["val"])
+            m, tinfo = train_model(arc, tr, va, seed, cfg, log=lambda s: print(s, flush=True))
+            cache = {}
+            for c in nn_classes:
+                te = arc.windows(nn[f"test/{c}"])
+                res = score_class(m, arc, tr, va, te, classes.index(c), seed, cfg, cache)
+                save(paths[c], {**base, "held_out": c, "seed": seed, **res, "training": tinfo,
+                                "set_info": smeta["natural_novelty"][f"test/{c}"],
+                                "wall_seconds": time.time() - t0})
+    else:
+        raise ValueError(ev["kind"])
 
 
 def main():
@@ -106,36 +169,15 @@ def main():
     ap.add_argument("--config", default="configs/p1_pilot.yaml")
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--only", nargs="*", help="evaluation ids to run")
     a = ap.parse_args()
     cfg = yaml.safe_load(open(ROOT / a.config))
     if a.smoke:
         cfg.update(cfg["smoke"])
-    proc = ROOT / cfg["processed_dir"]
-    out_root = ROOT / cfg["results_dir"]
-    for ds in cfg["datasets"]:
-        arc = Archive(proc / ds / cfg["scheme"] / "archive")
-        meta = json.loads((proc / ds / "index_meta.json").read_text())
-        finfo = meta["schemes"][cfg["scheme"]]["loaco"]
-        data_sha = json.loads((proc / ds / "archive_meta.json").read_text())["schemes"][cfg["scheme"]]["sha256"]
-        for cls, rec in finfo.items():
-            if not isinstance(rec, dict) or not rec.get("eligible") or not rec.get("feasible"):
-                write_json(out_root / ds / f"{_safe(cls)}__skipped.json",
-                           {"dataset": ds, "held_out": cls, "skipped": True, "fold_info": rec,
-                            "provenance": provenance(config=cfg)})
-                continue
-            for seed in cfg["seeds"]:
-                path = out_root / ds / _safe(cls) / f"seed{seed}.json"
-                if a.resume and path.exists():
-                    continue
-                print(f"[{ds}] LOACO {cls} seed {seed}")
-                res = run_fold(arc, cls, seed, {**cfg, "_ds": ds}, log=print)
-                res["provenance"] = provenance(config=cfg, data_sha256=data_sha)
-                res["smoke"] = bool(a.smoke)
-                write_json(path, res)
-
-
-def _safe(s: str) -> str:
-    return "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in s)
+    for ev in cfg["evaluations"]:
+        if a.only and ev["id"] not in a.only:
+            continue
+        run_evaluation(ev, cfg, a.resume, a.smoke)
 
 
 if __name__ == "__main__":

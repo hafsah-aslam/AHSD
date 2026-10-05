@@ -91,6 +91,45 @@ class WindowIndex:
                    T=int(z["T"]), stride=int(z["stride"]))
 
 
+def window_labels(codes: np.ndarray, start: np.ndarray, T: int) -> dict:
+    """Labels of the windows starting at `start` under a flow labelling `codes` (0 = benign).
+
+    Binary = any attack flow; class = majority among attack flows (ties -> lowest
+    code); purity = share of the window's flows carrying its label; class_mask bit
+    c set if any flow of class c is present.
+    """
+    W = len(start)
+    n_cls = int(codes.max()) + 1 if len(codes) else 1
+    if n_cls > 64:
+        raise ValueError("more than 64 classes; class_mask is uint64")
+    win_codes = codes[start[:, None] + np.arange(T)[None, :]] if W else np.zeros((0, T), np.int16)
+    counts = np.zeros((W, n_cls), dtype=np.int16)
+    for c in range(n_cls):
+        counts[:, c] = (win_codes == c).sum(axis=1)
+    n_attack = (T - counts[:, 0]).astype(np.int16)
+    y_bin = (n_attack > 0).astype(np.int8)
+    att = counts[:, 1:]
+    maj = np.where(y_bin == 1, att.argmax(axis=1) + 1, 0).astype(np.int16) if n_cls > 1 else np.zeros(W, np.int16)
+    ties = int(((att == att.max(axis=1, keepdims=True)).sum(axis=1) > 1)[y_bin == 1].sum()) if n_cls > 1 else 0
+    purity = counts[np.arange(W), maj].astype(np.float32) / T
+    mask = np.zeros(W, dtype=np.uint64)
+    for c in range(n_cls):
+        mask |= (counts[:, c] > 0).astype(np.uint64) << np.uint64(c)
+    return {"y_bin": y_bin, "y_cls": maj, "purity": purity, "class_mask": mask, "n_attack": n_attack,
+            "ties": ties}
+
+
+def relabel(wi: "WindowIndex", codes: np.ndarray) -> tuple["WindowIndex", int]:
+    """Same windows (starts, groups, hashes) under another flow labelling, e.g. attack families."""
+    lab = window_labels(codes, wi.start, wi.T)
+    out = WindowIndex(start=wi.start, group=wi.group, y_bin=lab["y_bin"], y_cls=lab["y_cls"],
+                      purity=lab["purity"], class_mask=lab["class_mask"], n_attack=lab["n_attack"],
+                      sha=wi.sha, T=wi.T, stride=wi.stride)
+    if not np.array_equal(out.y_bin, wi.y_bin):
+        raise ValueError("relabelling changed the binary labels")
+    return out, lab["ties"]
+
+
 def make_windows(group: np.ndarray, codes: np.ndarray, raw_features,
                  T: int = 32, stride: int = 16) -> tuple[WindowIndex, dict]:
     """Build every window. Raw features are hashed for global dedupe.
@@ -119,23 +158,7 @@ def make_windows(group: np.ndarray, codes: np.ndarray, raw_features,
         dropped_tail += int(b - (s[-1] + T))
     start = np.concatenate(starts) if starts else np.zeros(0, np.int64)
     W = len(start)
-    n_cls = int(codes.max()) + 1 if n else 1
-    if n_cls > 64:
-        raise ValueError("more than 64 classes; class_mask is uint64")
-
-    win_codes = codes[start[:, None] + np.arange(T)[None, :]] if W else np.zeros((0, T), np.int16)
-    counts = np.zeros((W, n_cls), dtype=np.int16)
-    for c in range(n_cls):
-        counts[:, c] = (win_codes == c).sum(axis=1)
-    n_attack = (T - counts[:, 0]).astype(np.int16)
-    y_bin = (n_attack > 0).astype(np.int8)
-    att = counts[:, 1:]
-    maj = np.where(y_bin == 1, att.argmax(axis=1) + 1, 0).astype(np.int16) if n_cls > 1 else np.zeros(W, np.int16)
-    ties = int(((att == att.max(axis=1, keepdims=True)).sum(axis=1) > 1)[y_bin == 1].sum()) if n_cls > 1 else 0
-    purity = counts[np.arange(W), maj].astype(np.float32) / T
-    mask = np.zeros(W, dtype=np.uint64)
-    for c in range(n_cls):
-        mask |= (counts[:, c] > 0).astype(np.uint64) << np.uint64(c)
+    lab = window_labels(codes, start, T)
 
     sha = np.empty(W, dtype="S32")
     win_group_end = np.searchsorted(start, g_end, side="left")
@@ -151,10 +174,11 @@ def make_windows(group: np.ndarray, codes: np.ndarray, raw_features,
             sha[k] = hashlib.sha256(buf[s * row_bytes:(s + T) * row_bytes]).digest()
         i = iend
 
-    wi = WindowIndex(start=start, group=group[start].astype(np.int32), y_bin=y_bin, y_cls=maj,
-                     purity=purity, class_mask=mask, n_attack=n_attack, sha=sha, T=T, stride=stride)
+    wi = WindowIndex(start=start, group=group[start].astype(np.int32), y_bin=lab["y_bin"], y_cls=lab["y_cls"],
+                     purity=lab["purity"], class_mask=lab["class_mask"], n_attack=lab["n_attack"], sha=sha,
+                     T=T, stride=stride)
     stats = {"windows": W, "flows_not_in_any_window": int(dropped_tail),
-             "majority_ties": ties, "groups": int(len(g_start)),
+             "majority_ties": lab["ties"], "groups": int(len(g_start)),
              "groups_too_short": int(((g_end - g_start) < T).sum())}
     return wi, stats
 

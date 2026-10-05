@@ -1,6 +1,11 @@
-# P1 pilot (go/no-go): D1 + D2, AHSD-fixed, 3 seeds, LOACO, then S2.
-datasets: [D1, D2]
-scheme: temporal_gap
+# P1 pilot (go/no-go), scope revised by AMENDMENT_01 (RESEARCH_QUESTIONS.md):
+# D1, D2, D3; AHSD-fixed only; seeds {17, 23, 42}.
+#   rho_set: which Spearman set a point belongs to (A1.5)
+#     families     D1 UQ families, LOACO on grouped_random            -> set (a), and part of (b)
+#     pooled       D2 / D3 LOACO on grouped_random                     -> part of set (b)
+#     sublabels    D1 file sub-labels ("variant novelty")              -> set (c)
+#     d2_temporal  D2 LOACO on temporal_gap (difference vs grouped)    -> table only
+#     natural      natural_novelty on temporal_gap (D1, D3)            -> table only
 seeds: [17, 23, 42]
 D: 128
 epochs: 15
@@ -10,6 +15,15 @@ processed_dir: data/processed
 results_dir: results/p1
 report_dir: report/p1
 
+evaluations:
+  - {id: D1_family_gr, dataset: D1, scheme: grouped_random, kind: loaco, labelling: family, rho_set: families}
+  - {id: D2_gr,        dataset: D2, scheme: grouped_random, kind: loaco, labelling: file,   rho_set: pooled}
+  - {id: D3_gr,        dataset: D3, scheme: grouped_random, kind: loaco, labelling: file,   rho_set: pooled}
+  - {id: D1_sub_gr,    dataset: D1, scheme: grouped_random, kind: loaco, labelling: file,   rho_set: sublabels}
+  - {id: D2_tg,        dataset: D2, scheme: temporal_gap,   kind: loaco, labelling: file,   rho_set: d2_temporal}
+  - {id: D1_nn,        dataset: D1, scheme: temporal_gap,   kind: natural_novelty,          rho_set: natural}
+  - {id: D3_nn,        dataset: D3, scheme: temporal_gap,   kind: natural_novelty,          rho_set: natural}
+
 smoke:
   processed_dir: smoke_out/processed
   results_dir: smoke_out/results/p1
@@ -18,3 +32,7 @@ smoke:
   epochs: 2
   D: 32
   n_boot: 50
+  evaluations:
+    - {id: D1_gr, dataset: D1, scheme: grouped_random, kind: loaco, labelling: file, rho_set: pooled}
+    - {id: D2_gr, dataset: D2, scheme: grouped_random, kind: loaco, labelling: file, rho_set: pooled}
+    - {id: D2_tg, dataset: D2, scheme: temporal_gap,   kind: loaco, labelling: file, rho_set: d2_temporal}

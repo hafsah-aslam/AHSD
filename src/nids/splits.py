@@ -150,3 +150,32 @@ def loaco_folds(wi: WindowIndex, split: np.ndarray, classes: list[str], cfg: dic
         folds[name] = f
         info[name] = rec
     return folds, info
+
+
+def natural_novelty_sets(wi: WindowIndex, split: np.ndarray, classes: list[str], nn_classes: list[str],
+                         cfg: dict, seed: int = 0) -> tuple[dict, dict]:
+    """AMENDMENT_01 A1.3: classes present in the test split but absent from train, scored as unseen.
+
+    train/val: balanced as usual from their splits after removing every window
+    with any flow of any natural-novelty class. test/<c>: benign + windows whose
+    majority class is c (5:1, test cap) from the test split.
+    """
+    rng = np.random.default_rng(seed)
+    idx = [classes.index(c) for c in nn_classes]
+    bits = np.uint64(0)
+    for c in idx:
+        bits |= np.uint64(1) << np.uint64(c)
+    has_nn = (wi.class_mask & bits) != 0
+    out, info = {}, {"classes": list(nn_classes)}
+    for nm, s, r, cap in (("train", TRAIN, cfg["train_ratio"], cfg["train_cap"]),
+                          ("val", VAL, cfg["eval_ratio"], cfg["val_cap"])):
+        m = (split == s) & ~has_nn
+        out[nm], info[nm] = balance(np.flatnonzero(m & (wi.y_bin == 0)), np.flatnonzero(m & (wi.y_bin == 1)),
+                                    r, cap, rng)
+        info[nm]["removed_windows_with_nn_flows"] = int(((split == s) & has_nn).sum())
+    m = split == TEST
+    for name, c in zip(nn_classes, idx):
+        out[f"test/{name}"], info[f"test/{name}"] = balance(
+            np.flatnonzero(m & (wi.y_bin == 0)), np.flatnonzero(m & (wi.y_cls == c)),
+            cfg["eval_ratio"], cfg["test_cap"], rng)
+    return out, info
