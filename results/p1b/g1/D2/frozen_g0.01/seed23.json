@@ -1,0 +1,230 @@
+{
+  "dataset": "D2",
+  "scheme": "grouped_random",
+  "labelling": "file",
+  "model": {
+    "id": "frozen_g0.01",
+    "variant": "frozen",
+    "gamma": 0.01
+  },
+  "seed": 23,
+  "test": {
+    "d_prime_stress": 2.2458572387695312,
+    "auc_stress": 0.9767735999999999,
+    "d_prime_prob": 12.580059051513672,
+    "auc_prob": 0.9990787999999999,
+    "macro_f1_pct": 99.04305914851403,
+    "n": {
+      "benign": 2500,
+      "attack": 500
+    }
+  },
+  "per_class": {
+    "DoS": {
+      "n": 35,
+      "d_prime_stress": 2.195556402206421,
+      "stationarity": 1.2114113569259644
+    },
+    "Exploits": {
+      "n": 223,
+      "d_prime_stress": 2.231813669204712,
+      "stationarity": 1.210300087928772
+    },
+    "Fuzzers": {
+      "n": 103,
+      "d_prime_stress": 2.6830832958221436,
+      "stationarity": 1.2118077278137207
+    },
+    "Generic": {
+      "n": 52,
+      "d_prime_stress": 2.3952126502990723,
+      "stationarity": 1.2712149620056152
+    },
+    "Reconnaissance": {
+      "n": 55,
+      "d_prime_stress": 1.852043867111206,
+      "stationarity": 1.1832112073898315
+    }
+  },
+  "best_val_macro_f1": 0.9922433611624297,
+  "gamma_final": 0.009999999776482582,
+  "gamma_by_epoch": [
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582,
+    0.009999999776482582
+  ],
+  "training": {
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.41832881334849764,
+        "val_macro_f1": 0.9093711843208854,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.0981776243533407,
+        "val_macro_f1": 0.9786384124068102,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.04676219533969249,
+        "val_macro_f1": 0.9675303591142281,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.02739599549770355,
+        "val_macro_f1": 0.9834889954154444,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.017311710633869683,
+        "val_macro_f1": 0.9869661657461357,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.011585895387189729,
+        "val_macro_f1": 0.986447924381775,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.0068374561656798635,
+        "val_macro_f1": 0.9904760015079664,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.004741397814026901,
+        "val_macro_f1": 0.9922433611624297,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.004642285220324993,
+        "val_macro_f1": 0.9893192062034051,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.002218185396332826,
+        "val_macro_f1": 0.9898727521232966,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.0014316635938095195,
+        "val_macro_f1": 0.9893023889746458,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.0009905613125967129,
+        "val_macro_f1": 0.9881324513371167,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.0009246416971686163,
+        "val_macro_f1": 0.9893023889746458,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.0007978712931258737,
+        "val_macro_f1": 0.9893023889746458,
+        "gamma": 0.009999999776482582
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.0007702302735831056,
+        "val_macro_f1": 0.9893023889746458,
+        "gamma": 0.009999999776482582
+      }
+    ],
+    "best_val_macro_f1": 0.9922433611624297,
+    "seconds": 35.398311376571655,
+    "hparams": {
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip": 1.0,
+      "batch": 256,
+      "epochs": 15
+    }
+  },
+  "wall_seconds": 35.59483790397644,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "cf3ff87c8340397cd51a734f4387a01fa8d454e3",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T05:35:32+00:00",
+    "results_head": "2b18c200273a757266038fc4741552aff8f6c0b6",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {
+      "flows.npy": "937514d658ca4c3a61a12b402649f3550ee5b46ba936043170f02d00fdcc1533",
+      "row_id.npy": "22aedb4358a70e0e7d533df268ea16d34588e81fcc4f417764654c68e9a5fc70",
+      "windows.npz": "fb48964ba59ca9802e1430b6eb2f3af88e18a179da725b280ce733e19f9382f7",
+      "sets.npz": "f0102dd4fe75c53933af17d25177ebadab1f030fed5f6c5bf049fac67d3e576d",
+      "loaco.npz": "95a0ecc860db40b0e3da6580cb025570211b2919e07867b3dbf5b922af4b9d65",
+      "cleaner.json": "501cb95462a12eecf544e62d7046d03e3a32e277f32fbb80209624786bed3db5"
+    },
+    "config": {
+      "datasets": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "scheme": "grouped_random",
+      "labelling": {
+        "D1": "family"
+      },
+      "gammas": [
+        0,
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "s1_tau_mult": [
+        0.5,
+        1,
+        2
+      ],
+      "s1_kappa": [
+        0.01,
+        0.05
+      ],
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1b/g1"
+    },
+    "timestamp_utc": "2026-10-05T06:22:50+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

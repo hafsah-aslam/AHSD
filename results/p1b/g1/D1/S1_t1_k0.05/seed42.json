@@ -1,0 +1,227 @@
+{
+  "dataset": "D1",
+  "scheme": "grouped_random",
+  "labelling": "family",
+  "model": {
+    "id": "S1_t1_k0.05",
+    "variant": "S1",
+    "tau_mult": 1,
+    "kappa": 0.05
+  },
+  "seed": 42,
+  "test": {
+    "d_prime_stress": 1.1131006479263306,
+    "auc_stress": 0.8094048,
+    "d_prime_prob": 1.5598117113113403,
+    "auc_prob": 0.8346688000000001,
+    "macro_f1_pct": 81.29323134236779,
+    "n": {
+      "benign": 2500,
+      "attack": 500
+    }
+  },
+  "per_class": {
+    "Bot": {
+      "n": 91,
+      "d_prime_stress": 2.635960578918457,
+      "stationarity": 1.1007200479507446
+    },
+    "DoS": {
+      "n": 158,
+      "d_prime_stress": 1.888184666633606,
+      "stationarity": 1.0600440502166748
+    },
+    "Infiltration": {
+      "n": 217,
+      "d_prime_stress": 0.3436894416809082,
+      "stationarity": 1.1164968013763428
+    }
+  },
+  "best_val_macro_f1": 0.963448473395548,
+  "gamma_final": 0.04862524941563606,
+  "gamma_by_epoch": [
+    0.04966454580426216,
+    0.04917892441153526,
+    0.04862524941563606,
+    0.04822685569524765,
+    0.047863539308309555,
+    0.04749181494116783,
+    0.047262586653232574,
+    0.047152336686849594,
+    0.046941887587308884,
+    0.046781282871961594,
+    0.046642985194921494,
+    0.04656088352203369,
+    0.046509623527526855,
+    0.046485304832458496,
+    0.046482231467962265
+  ],
+  "training": {
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.37553144560541424,
+        "val_macro_f1": 0.9466396362008975,
+        "gamma": 0.04966454580426216
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.26937145905835286,
+        "val_macro_f1": 0.941846511160374,
+        "gamma": 0.04917892441153526
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.24408967397894177,
+        "val_macro_f1": 0.963448473395548,
+        "gamma": 0.04862524941563606
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.22966947429520743,
+        "val_macro_f1": 0.9430357664181601,
+        "gamma": 0.04822685569524765
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.21298418864182064,
+        "val_macro_f1": 0.9404887114156204,
+        "gamma": 0.047863539308309555
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.2013412205151149,
+        "val_macro_f1": 0.9493637606164833,
+        "gamma": 0.04749181494116783
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.18953573657785144,
+        "val_macro_f1": 0.8676913761660685,
+        "gamma": 0.047262586653232574
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.18111042354788098,
+        "val_macro_f1": 0.9234563312657658,
+        "gamma": 0.047152336686849594
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.16665570734228408,
+        "val_macro_f1": 0.8864422091784977,
+        "gamma": 0.046941887587308884
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.15523267657416207,
+        "val_macro_f1": 0.9089550779886333,
+        "gamma": 0.046781282871961594
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.1455344191959926,
+        "val_macro_f1": 0.8870585895725357,
+        "gamma": 0.046642985194921494
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.13725475967781883,
+        "val_macro_f1": 0.8864422091784977,
+        "gamma": 0.04656088352203369
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.1308205511229379,
+        "val_macro_f1": 0.8883056362638705,
+        "gamma": 0.046509623527526855
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.1267026053581919,
+        "val_macro_f1": 0.8850507512625979,
+        "gamma": 0.046485304832458496
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.1250854269180979,
+        "val_macro_f1": 0.8897093778721517,
+        "gamma": 0.046482231467962265
+      }
+    ],
+    "best_val_macro_f1": 0.963448473395548,
+    "seconds": 74.63697624206543,
+    "hparams": {
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip": 1.0,
+      "batch": 256,
+      "epochs": 15
+    },
+    "tau_ref_log": [
+      0.4655197262763977,
+      0.4258025884628296
+    ]
+  },
+  "wall_seconds": 74.97074389457703,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "cf3ff87c8340397cd51a734f4387a01fa8d454e3",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T05:35:32+00:00",
+    "results_head": "2b18c200273a757266038fc4741552aff8f6c0b6",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "datasets": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "scheme": "grouped_random",
+      "labelling": {
+        "D1": "family"
+      },
+      "gammas": [
+        0,
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "s1_tau_mult": [
+        0.5,
+        1,
+        2
+      ],
+      "s1_kappa": [
+        0.01,
+        0.05
+      ],
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1b/g1"
+    },
+    "timestamp_utc": "2026-10-05T06:09:28+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

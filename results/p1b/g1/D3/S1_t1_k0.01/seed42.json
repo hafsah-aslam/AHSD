@@ -1,0 +1,235 @@
+{
+  "dataset": "D3",
+  "scheme": "grouped_random",
+  "labelling": "file",
+  "model": {
+    "id": "S1_t1_k0.01",
+    "variant": "S1",
+    "tau_mult": 1,
+    "kappa": 0.01
+  },
+  "seed": 42,
+  "test": {
+    "d_prime_stress": 2.2486603260040283,
+    "auc_stress": 0.9472288,
+    "d_prime_prob": 3.8993568420410156,
+    "auc_prob": 0.9737383999999999,
+    "macro_f1_pct": 89.66153846153846,
+    "n": {
+      "benign": 2500,
+      "attack": 500
+    }
+  },
+  "per_class": {
+    "ddos": {
+      "n": 237,
+      "d_prime_stress": 2.027564764022827,
+      "stationarity": 0.8173555135726929
+    },
+    "injection": {
+      "n": 21,
+      "d_prime_stress": 3.5870361328125,
+      "stationarity": 1.1367517709732056
+    },
+    "password": {
+      "n": 106,
+      "d_prime_stress": 4.707653999328613,
+      "stationarity": 0.6379626989364624
+    },
+    "scanning": {
+      "n": 27,
+      "d_prime_stress": 0.0007997003849595785,
+      "stationarity": 0.746679425239563
+    },
+    "xss": {
+      "n": 91,
+      "d_prime_stress": 5.838322162628174,
+      "stationarity": 1.1989779472351074
+    }
+  },
+  "best_val_macro_f1": 0.8328742290094947,
+  "gamma_final": 0.048227276653051376,
+  "gamma_by_epoch": [
+    0.04960240051150322,
+    0.04938066005706787,
+    0.04898347333073616,
+    0.04874013364315033,
+    0.048541948199272156,
+    0.048434872180223465,
+    0.04828351363539696,
+    0.048227276653051376,
+    0.04814378544688225,
+    0.04807543754577637,
+    0.048038169741630554,
+    0.04801860824227333,
+    0.048003215342760086,
+    0.04799346253275871,
+    0.047991957515478134
+  ],
+  "training": {
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.33449461838177275,
+        "val_macro_f1": 0.7693766555921652,
+        "gamma": 0.04960240051150322
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.26076980226380486,
+        "val_macro_f1": 0.784770331189832,
+        "gamma": 0.04938066005706787
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.24225328413077762,
+        "val_macro_f1": 0.8235506387555322,
+        "gamma": 0.04898347333073616
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.23035018585409436,
+        "val_macro_f1": 0.7801349664902502,
+        "gamma": 0.04874013364315033
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.2193911088194166,
+        "val_macro_f1": 0.821521287642783,
+        "gamma": 0.048541948199272156
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.21795485150814056,
+        "val_macro_f1": 0.8257239079421599,
+        "gamma": 0.048434872180223465
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.20771389533792223,
+        "val_macro_f1": 0.8166577760239009,
+        "gamma": 0.04828351363539696
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.20145831683703833,
+        "val_macro_f1": 0.8328742290094947,
+        "gamma": 0.048227276653051376
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.193873785001891,
+        "val_macro_f1": 0.8103963860787682,
+        "gamma": 0.04814378544688225
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.1899623785529818,
+        "val_macro_f1": 0.823149326045149,
+        "gamma": 0.04807543754577637
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.18274375275203159,
+        "val_macro_f1": 0.8213488728250172,
+        "gamma": 0.048038169741630554
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.17917336239133563,
+        "val_macro_f1": 0.8321200124051777,
+        "gamma": 0.04801860824227333
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.17516706699984413,
+        "val_macro_f1": 0.8274048260898152,
+        "gamma": 0.048003215342760086
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.17340607985428402,
+        "val_macro_f1": 0.8212204513587671,
+        "gamma": 0.04799346253275871
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.17269392328602928,
+        "val_macro_f1": 0.8267336974511751,
+        "gamma": 0.047991957515478134
+      }
+    ],
+    "best_val_macro_f1": 0.8328742290094947,
+    "seconds": 52.221110105514526,
+    "hparams": {
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip": 1.0,
+      "batch": 256,
+      "epochs": 15
+    },
+    "tau_ref_log": [
+      0.44833824038505554,
+      0.34663963317871094
+    ]
+  },
+  "wall_seconds": 52.58715891838074,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "cf3ff87c8340397cd51a734f4387a01fa8d454e3",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T05:35:32+00:00",
+    "results_head": "2b18c200273a757266038fc4741552aff8f6c0b6",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {
+      "flows.npy": "89f267802a92fbe2bb31d060690c05fdfec48e8a32581566ec5d94f31d3b965b",
+      "row_id.npy": "451861cf7596c5fab6f27124a96f0a8f8cba0af7f57a9f48fa4c4e84ff2ef56d",
+      "windows.npz": "ff993176bb971ff7079f95dc1c178b37f1e4607be7dc9a59d3cfecee4238846b",
+      "sets.npz": "dc582731774b7857a18e7879141891841337b7bd6e8af652bf1ab004ad3f2ca0",
+      "loaco.npz": "a9adea15339cfc544414d6d5ebed93aaa5719f4e6b310e2840fe8008931676c7",
+      "cleaner.json": "0a2d49ddc3a1c9dbc2e145868690ee00b82124cc3d886187d15bac7dad74952c"
+    },
+    "config": {
+      "datasets": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "scheme": "grouped_random",
+      "labelling": {
+        "D1": "family"
+      },
+      "gammas": [
+        0,
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "s1_tau_mult": [
+        0.5,
+        1,
+        2
+      ],
+      "s1_kappa": [
+        0.01,
+        0.05
+      ],
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1b/g1"
+    },
+    "timestamp_utc": "2026-10-05T07:11:12+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
