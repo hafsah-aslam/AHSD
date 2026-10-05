@@ -15,6 +15,14 @@
       "old_commit": "32333f6",
       "new_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
       "results_before_amendment": "P1 (results/p1, PILOT_REPORT.md, GATE_DECISION.md = STOP); no P1b run"
+    },
+    {
+      "id": "AMENDMENT_03",
+      "date": "2026-10-05",
+      "old_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+      "old_commit": "35be633",
+      "new_sha256": "dc2efcae3986b9cc076374c9324e6b2cf740503ffe1ab7bd92b2031406cdf5ec",
+      "results_before_amendment": "P1, P1b (gates STOP, STOP); P0 feasibility counts for A3.2/A3.3(iii); no P1c run"
     }
   ]
 }

@@ -270,3 +270,161 @@ Operational choices added by the implementer:
   at least 20 test windows.
   - The stationarity index is computed on the γ = 0 model's embeddings of
     that class (mean over seeds).
+
+---
+
+## AMENDMENT_03 (2026-10-05, after gate G1, before any P1c run)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c`
+  (AMENDMENT_02, commit 35be633).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:** both gates returned STOP (`GATE_DECISION.md` and
+  `GATE_G1_DECISION.md`), and the authors accepted both. P2 is not started.
+- **What this amendment adds:** pilot P1c. It is written and hashed before any
+  P1c run.
+
+### A3.1 Status
+- G1 answered RQ3/RQ4 negatively. Test d′ does not collapse monotonically
+  with γ: it peaks at γ = 0.02 on D1, D2 and D3. The learned adaptive γ
+  stays ≈ 0.048.
+- S1 is dropped.
+- S2-dir stays exploratory and secondary.
+
+### A3.2 D1 natural_novelty made feasible ("train-tail validation")
+- **Validation:** the last 20% (by time) of the `temporal_gap` TRAIN period,
+  before the gap.
+  - Whole 1-hour groups are used. The tail is the train-period groups that
+    start after 80% of the period's windows, counting cumulatively in time
+    order.
+- **Training:** the first 80% of the train period.
+- **Test:** unchanged (the `temporal_gap` test period), except for the
+  re-anchoring removal in A3.3(iii).
+- **Exclusions:** windows with any natural-novelty flow are excluded from
+  training and validation.
+- **Feasibility counts:** P0 data, computed before this amendment with no
+  model.
+  - D1 tail: 146,904 benign and 3,767 attack windows. The tail's attacks are
+    only Brute_Force_-Web, Brute_Force_-XSS and SQL_Injection, none of which
+    occur in the training head.
+  - D3 tail: 26,627 benign and 119,972 attack windows (ddos only).
+- **Scope:** D2 is excluded (it has no test-only classes).
+- **Implementer's note:** train-tail validation applies to D3 as well as D1,
+  so both datasets share one protocol. It also makes A3.3(ii)'s
+  "train-period benign val windows" well defined.
+
+### A3.3 P1c experiments
+- **Data:** D1 and D3 natural_novelty.
+  - D1 classes: Bot, Infilteration.
+  - D3 classes: Backdoor, mitm, password, ransomware, xss.
+- **Seeds:** {17, 23, 42, 101, 202}. Seeding is fixed: models are seeded
+  before construction, and the preflight test runs first.
+
+**(i) Detectors**, all on identical windows (9 detectors):
+1. AHSD-fixed stress.
+2–5. Post-hoc scores on the same trained AHSD backbone:
+   - 2. MSP;
+   - 3. Energy;
+   - 4. Mahalanobis on penultimate features;
+   - 5. kNN on penultimate features.
+6–9. Benign-only detectors:
+   - 6. Isolation Forest;
+   - 7. OCSVM;
+   - 8. PCA reconstruction;
+   - 9. Autoencoder.
+
+Per class, report mean AUC, the Student-t 95% CI, and the fraction of seeds
+with AUC < 0.5.
+
+**(ii) Drift diagnostic**, per detector:
+- d′(test-period benign vs train-period benign validation windows);
+- d′(held-out attack vs train-period benign validation windows).
+
+**(iii) Re-anchoring.**
+- Refit only the benign reference, using N ∈ {100, 500} benign windows from
+  the first test-period groups:
+  - the AHSD E₀;
+  - the Mahalanobis and kNN benign statistics;
+  - the IF, OCSVM, PCA and AE models, refit on benign windows.
+- Remove those groups from the test set for every condition, with and
+  without re-anchoring.
+- No attack labels are used, and the supervised backbone is not retrained.
+
+### A3.4 Gate G2 (frozen). GO only if all three hold
+- **(a)** ≥ 5 of 9 detectors have mean AUC < 0.5 on ≥ 3 natural-novelty
+  classes (D1 and D3 pooled: 7 classes).
+- **(b)** ≥ 5 of 9 detectors have median-over-classes
+  d′(test benign vs train benign) ≥ 0.5.
+- **(c)** For ≥ 5 of 9 detectors, re-anchoring with N = 500 raises mean AUC
+  by ≥ 0.15 over no re-anchoring, AND to above 0.5, on at least half of the
+  classes (≥ 4 of 7).
+- Every criterion is reported per detector and per dataset, whatever the
+  outcome.
+
+### Operational choices added by the implementer
+These are fixed here, before any P1c run, because A3.3 and A3.4 leave them
+open.
+
+**Score orientation.** Every score is higher = more anomalous (attack), and
+is never flipped.
+
+| Detector | Score |
+|---|---|
+| AHSD stress | stress |
+| MSP | 1 − max softmax probability |
+| Energy | −logsumexp(logits) |
+| Mahalanobis | distance to the benign mean |
+| kNN | distance to the k-th nearest benign reference |
+| IF | −score_samples |
+| OCSVM | −decision_function |
+| PCA, AE | mean squared reconstruction error |
+
+**Penultimate features.** The output of the AHSD head's hidden layer
+(Linear → GELU, D = 128).
+
+**Benign reference** (the thing re-anchoring refits):
+- **AHSD stress:** E₀ = mean embedding of the reference windows.
+- **Mahalanobis:** benign mean and Ledoit-Wolf covariance of penultimate
+  features.
+- **kNN:** a k = 10 search over L2-normalised penultimate features of the
+  reference windows.
+- **IF, OCSVM, PCA, AE:** refit on the reference windows only (not
+  augmented).
+- **Without re-anchoring,** the reference is the benign windows of the
+  training set.
+- **MSP and Energy** have no benign reference. Re-anchoring does not apply
+  to them, so they count as failing (c).
+
+**Benign-only detector inputs.** Windows flattened to 32 × 41 = 1,312
+cleaned features, with these settings:
+
+| Detector | Settings |
+|---|---|
+| IF | 200 trees, random_state = seed |
+| OCSVM | RBF, ν = 0.1, γ = "scale"; deterministic, so identical across seeds |
+| PCA | components explaining 95% of the variance (at most N − 1 when refit on N windows); deterministic |
+| AE | MLP 1312–256–64–256–1312 (ReLU), Adam lr 1e-3, 30 epochs, batch 128, MSE, seed = run seed |
+
+**Sets** (data seed 0; identical for every detector and seed):
+- **Train:** balanced 1:1 from the train head, cap 14,000.
+- **Validation:** 5:1 from the train tail, cap 3,000.
+- **Anchors:**
+  - anchor_N = the first N benign windows of the test period, in time order
+    (so anchor_100 ⊂ anchor_500);
+  - every group containing an anchor_500 window is removed from the test
+    pool.
+- **Test:**
+  - one shared benign sample of 2,500 windows from the remaining test
+    benign;
+  - per class, up to 500 windows whose majority class is that class.
+  - So the benign:attack ratio is 5:1 when 500 attack windows exist.
+- **Drift baseline:** "Train-period benign" means the benign validation
+  windows (train tail).
+
+**Aggregation and gate details.**
+- "Mean AUC" is the mean over seeds per class.
+- For (b), a class's d′(test benign vs train benign) is its dataset's value,
+  because the test benign sample is shared within a dataset. The median is
+  over the 7 classes.
+- d′ uses test benign (or the attack) as the positive class, with higher
+  score = more anomalous.
