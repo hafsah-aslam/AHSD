@@ -111,8 +111,9 @@ class AHSD(nn.Module):
         feats = [H[:, -1], H.mean(1)]
         if self.use_stress:
             feats.append(stress[:, None])
-        logits = self.head(torch.cat(feats, -1))
-        out = {"logits": logits, "stress": stress, "z": z}
+        pen = self.head[1](self.head[0](torch.cat(feats, -1)))  # penultimate (Linear -> GELU)
+        logits = self.head[2](pen)
+        out = {"logits": logits, "stress": stress, "z": z, "penultimate": pen}
         if return_states:
             out.update(h=H, E=EE, alpha=torch.stack(als, 1), beta=torch.stack(bes, 1),
                        gamma_t=torch.stack(gts, 1), delta=torch.stack(ds, 1), stress_t=stress_td.mean(-1))

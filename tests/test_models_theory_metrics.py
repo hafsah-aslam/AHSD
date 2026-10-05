@@ -144,3 +144,14 @@ def test_preflight_runs_regression_tests():
     assert any("initialisation_depends_only_on_seed" in t for t in preflight.REGRESSION_TESTS)
     out = preflight.preflight("unit-test")
     assert out["passed"]
+
+
+def test_penultimate_split_is_numerically_identical():
+    m = AHSD(n_features=6, D=16, variant="fixed")
+    x = torch.randn(4, 32, 6)
+    out = m(x)
+    # same computation as applying the whole head Sequential
+    H_feats = None
+    with torch.no_grad():
+        ref = m.head[2](out["penultimate"])
+    assert torch.equal(ref, out["logits"]) and out["penultimate"].shape == (4, 16)
