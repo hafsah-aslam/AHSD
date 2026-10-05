@@ -1,0 +1,147 @@
+{
+  "eval_id": "D2_tg",
+  "dataset": "D2",
+  "scheme": "temporal_gap",
+  "kind": "loaco",
+  "labelling": "file",
+  "rho_set": "d2_temporal",
+  "held_out": "Worms",
+  "skipped": true,
+  "fold_info": {
+    "class_index": 9,
+    "train_windows_majority": 11,
+    "eligible": false,
+    "reason": "< 200 training windows"
+  },
+  "provenance": {
+    "git_hash": "8be7753da9370ec70af9a14e8e66f98a8fb7bffb",
+    "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+    "data_sha256": {
+      "flows.npy": "df6a55f175c0a8dc464c4ce59df702d4b774f1bddcfbeaa3530d23b654f63abd",
+      "row_id.npy": "8776d224eba63934415dff5ec17ce3b22ee3ecc26af5ad72cff3807a0be889e7",
+      "windows.npz": "9324d544369df7500f9669cc49f7a35e2f44cf9b91eb752dfad000d154f584a9",
+      "sets.npz": "213e4feccb941f4457ca596b17a6c59edc58061f9108d9e99f3fdc7f6fc81e18",
+      "loaco.npz": "3a99a56f4e099204fd9455b366f8ebdd0841c4a0704b9203e88398991e4d6d85",
+      "cleaner.json": "ca37445e9e546d30a5df844f8e4ec74d5975ccf88e0152c252946088f4d200f8"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "n_boot": 1000,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1",
+      "report_dir": "report/p1",
+      "evaluations": [
+        {
+          "id": "D1_family_gr",
+          "dataset": "D1",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "family",
+          "rho_set": "families"
+        },
+        {
+          "id": "D2_gr",
+          "dataset": "D2",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "pooled"
+        },
+        {
+          "id": "D3_gr",
+          "dataset": "D3",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "pooled"
+        },
+        {
+          "id": "D1_sub_gr",
+          "dataset": "D1",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "sublabels"
+        },
+        {
+          "id": "D2_tg",
+          "dataset": "D2",
+          "scheme": "temporal_gap",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "d2_temporal"
+        },
+        {
+          "id": "D1_nn",
+          "dataset": "D1",
+          "scheme": "temporal_gap",
+          "kind": "natural_novelty",
+          "rho_set": "natural"
+        },
+        {
+          "id": "D3_nn",
+          "dataset": "D3",
+          "scheme": "temporal_gap",
+          "kind": "natural_novelty",
+          "rho_set": "natural"
+        }
+      ],
+      "smoke": {
+        "processed_dir": "smoke_out/processed",
+        "results_dir": "smoke_out/results/p1",
+        "report_dir": "smoke_out/report/p1",
+        "seeds": [
+          17
+        ],
+        "epochs": 2,
+        "D": 32,
+        "n_boot": 50,
+        "evaluations": [
+          {
+            "id": "D1_gr",
+            "dataset": "D1",
+            "scheme": "grouped_random",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "pooled"
+          },
+          {
+            "id": "D2_gr",
+            "dataset": "D2",
+            "scheme": "grouped_random",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "pooled"
+          },
+          {
+            "id": "D2_tg",
+            "dataset": "D2",
+            "scheme": "temporal_gap",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "d2_temporal"
+          }
+        ]
+      },
+      "evaluation": {
+        "id": "D2_tg",
+        "dataset": "D2",
+        "scheme": "temporal_gap",
+        "kind": "loaco",
+        "labelling": "file",
+        "rho_set": "d2_temporal"
+      }
+    },
+    "timestamp_utc": "2026-10-05T02:09:04+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  },
+  "smoke": false
+}

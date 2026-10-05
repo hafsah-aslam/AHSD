@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from nids import metrics, predictors, scores, spectral  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
-from nids.provenance import ROOT, provenance, write_json  # noqa: E402
+from nids.provenance import ROOT, provenance, require_clean_tree, write_json  # noqa: E402
 from nids.train import fit, predict  # noqa: E402
 
 
@@ -184,6 +184,8 @@ def main():
     cfg = yaml.safe_load(open(ROOT / a.config))
     if a.smoke:
         cfg.update(cfg["smoke"])
+    else:
+        require_clean_tree("P1")
     for ev in cfg["evaluations"]:
         if a.only and ev["id"] not in a.only:
             continue

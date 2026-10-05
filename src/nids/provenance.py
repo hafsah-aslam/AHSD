@@ -29,6 +29,32 @@ def sha256_bytes(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
+def _head() -> tuple[str, bool]:
+    """(HEAD commit, tracked-files-dirty) of the repository right now."""
+    try:
+        out = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                             capture_output=True, text=True, check=True).stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"],
+                               cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        return out, bool(dirty)
+    except Exception:
+        return "unknown", True
+
+
+# Captured once, when this module is first imported (i.e. at process start, before any
+# result is written). This is the code the process runs, whatever HEAD becomes later.
+_CODE_HEAD, _CODE_DIRTY = _head()
+CODE_COMMIT = {"code_commit": _CODE_HEAD, "code_dirty": _CODE_DIRTY,
+               "code_commit_captured_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")}
+
+
+def require_clean_tree(what: str = "this phase") -> None:
+    """Refuse to start work from a tree with uncommitted changes to tracked files."""
+    if CODE_COMMIT["code_dirty"] or CODE_COMMIT["code_commit"] == "unknown":
+        raise SystemExit(f"refusing to start {what}: working tree has uncommitted changes to tracked files "
+                         f"(code_commit {CODE_COMMIT['code_commit']}). Commit first.")
+
+
 def git_hash() -> str:
     try:
         out = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
@@ -50,7 +76,8 @@ def now_iso() -> str:
 
 def provenance(config: dict | None = None, data_sha256: dict | None = None) -> dict:
     return {
-        "git_hash": git_hash(),
+        **CODE_COMMIT,                 # compared by provenance checks
+        "results_head": git_hash(),    # HEAD at write time; informational only
         "rq_sha256": rq_sha256(),
         "data_sha256": data_sha256 or {},
         "config": config or {},

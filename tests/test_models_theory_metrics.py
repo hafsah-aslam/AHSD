@@ -106,3 +106,13 @@ def test_s3_flags_both_tails():
     d = np.stack([rng.normal(1, 0.3, 32), rng.normal(1, 0.3, 32), np.full(32, 1.0)])
     sc = scores.s3_score(s, d, vb_s, vb_d)
     assert sc[1] > sc[0] and sc[2] > sc[0]
+
+
+def test_provenance_code_commit_is_captured_once():
+    from nids import provenance as pv
+    a = pv.provenance()
+    b = pv.provenance()
+    assert a["code_commit"] == b["code_commit"] == pv.CODE_COMMIT["code_commit"]
+    assert a["code_commit_captured_utc"] == b["code_commit_captured_utc"]
+    assert {"code_commit", "code_dirty", "results_head", "rq_sha256"} <= set(a)
+    assert "git_hash" not in a

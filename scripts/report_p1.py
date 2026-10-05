@@ -169,24 +169,38 @@ def _git(*args) -> str:
     return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
 
 
-def provenance_block(runs, cfg_path: Path) -> dict:
-    """Commit(s), config hash, RQ hash and dataset hashes recorded by the runs.
+# P0-era records the archives can be checked against (the P0 archive files themselves were
+# overwritten by the AMENDMENT_01 rebuild and their hashes were never recorded).
+P0_INDEX_HASHES = "results/p0_index_hashes_pre_amendment.txt"   # sha256sum of index-level files, pre-rebuild
+P0_REPORT_COMMIT = "4449654"                                     # P0_REPORT.md as committed at the end of P0
 
-    Fails closed (SystemExit) if runs were produced by different code: any two recorded
-    commits must have an empty diff over CODE_PATHS, no commit may be '-dirty', and every
-    run must carry the same config hash and the same archive hashes per dataset/scheme.
+
+def _p0_archive_records() -> dict:
+    """Rows/windows materialised per archive and source-cleaner SHA prefixes from the P0-era report."""
+    import re
+    txt = _git("show", f"{P0_REPORT_COMMIT}:P0_REPORT.md")
+    rows = {}
+    for m in re.finditer(r"^\| (D\d) \| (temporal_gap|grouped_random) \| [\d,]+ \| .*? \| ([\d,]+) \| ([\d,]+) \|", txt, re.M):
+        rows[f"{m.group(1)}/{m.group(2)}"] = (int(m.group(3).replace(",", "")), int(m.group(4).replace(",", "")))
+    cleaners = {}
+    for m in re.finditer(r"^\| (D\d) → D\d \| (temporal_gap|grouped_random) \| .*`([0-9a-f]{16})…` \|", txt, re.M):
+        cleaners[f"{m.group(1)}/{m.group(2)}"] = m.group(3)
+    return {"rows_windows": rows, "cleaner_sha_prefix": cleaners}
+
+
+def provenance_block(runs, cfg_path: Path) -> dict:
+    """code_commit (captured at process start) must be one value and clean; results_head is informational.
+
+    Also: one config hash, one archive-hash set per dataset/scheme, archive SHA-256 per evaluation, and
+    the D2/D3 archives checked against the P0-era records. Fails closed (SystemExit) on any mismatch.
     """
     import hashlib
-    by_commit = defaultdict(list)
-    for r in runs:
-        by_commit[r["provenance"]["git_hash"]].append(r)
-    commits = sorted(by_commit, key=lambda h: min(x["provenance"]["timestamp_utc"] for x in by_commit[h]))
-    if any(h.endswith("-dirty") or h == "unknown" for h in commits):
-        raise SystemExit(f"runs recorded a dirty/unknown tree: {[h for h in commits if h.endswith('-dirty')]}")
-    ref = commits[0]
-    code_identical = {h: _git("diff", "--stat", ref, h, "--", *CODE_PATHS) == "" for h in commits}
-    if not all(code_identical.values()):
-        raise SystemExit(f"runs come from different code versions: {[h for h, ok in code_identical.items() if not ok]}")
+    missing = [r["eval_id"] + "/" + r["held_out"] for r in runs if "code_commit" not in r["provenance"]]
+    if missing:
+        raise SystemExit(f"{len(missing)} runs lack code_commit (run the backfill first): {missing[:5]}")
+    commits = sorted({r["provenance"]["code_commit"] for r in runs})
+    if len(commits) != 1 or any(r["provenance"]["code_dirty"] for r in runs):
+        raise SystemExit(f"runs come from several code commits or a dirty tree: {commits}")
 
     def cfg_hash(r):
         c = {k: v for k, v in r["provenance"]["config"].items() if k != "evaluation"}
@@ -199,21 +213,60 @@ def provenance_block(runs, cfg_path: Path) -> dict:
         data[(r["dataset"], r["scheme"])].add(json.dumps(r["provenance"]["data_sha256"], sort_keys=True))
     if any(len(v) != 1 for v in data.values()):
         raise SystemExit("runs on the same archive recorded different archive hashes")
+    archives = {f"{ds}/{sc}": json.loads(next(iter(v))) for (ds, sc), v in sorted(data.items())}
+    per_eval = {}
+    for r in runs:
+        files = archives[f"{r['dataset']}/{r['scheme']}"]
+        used = ["flows.npy", "row_id.npy", "windows.npz", "sets.npz", "cleaner.json"]
+        used += {"loaco": ["loaco_family.npz", "windows_family.npz"] if r["labelling"] == "family" else ["loaco.npz"],
+                 "natural_novelty": ["natural_novelty.npz"]}[r["kind"]]
+        per_eval[r["eval_id"]] = {"archive": f"data/processed/{r['dataset']}/{r['scheme']}/archive",
+                                  "files": {f: files[f] for f in used}}
+    # D2/D3 vs P0
+    p0 = _p0_archive_records()
+    pre = {}
+    for ln in (ROOT / P0_INDEX_HASHES).read_text().splitlines():
+        h, f = ln.split()
+        pre[f] = h
+    checks = []
+    for key in sorted(k for k in archives if k.split("/")[0] in ("D2", "D3")):
+        ds, sc = key.split("/")
+        meta = json.loads((ROOT / f"data/processed/{ds}/archive_meta.json").read_text())["schemes"][sc]
+        for f in (f"data/processed/{ds}/{sc}/sets.npz", f"data/processed/{ds}/{sc}/loaco.npz",
+                  f"data/processed/{ds}/{sc}/split.npy", f"data/processed/{ds}/windows.npz",
+                  f"data/processed/{ds}/{sc}/cleaner_fit.json"):
+            now = hashlib.sha256((ROOT / f).read_bytes()).hexdigest()
+            checks.append({"archive": key, "what": f"index file {f}", "p0": pre[f], "now": now, "match": pre[f] == now})
+        exp_rows = p0["rows_windows"].get(key)
+        nn_extra = sc == "temporal_gap" and ds == "D3"  # natural_novelty windows added by AMENDMENT_01
+        got = (meta["rows_materialised"], meta["windows_referenced"])
+        checks.append({"archive": key, "what": "rows / windows materialised", "p0": exp_rows, "now": got,
+                       "match": exp_rows == got if not nn_extra else None,
+                       "note": "differs by design: AMENDMENT_01 natural_novelty windows added" if nn_extra else ""})
+        pref = p0["cleaner_sha_prefix"].get(key)
+        checks.append({"archive": key, "what": "cleaner.json SHA-256 (16-hex prefix in P0 report)",
+                       "p0": pref, "now": archives[key]["cleaner.json"][:16],
+                       "match": pref == archives[key]["cleaner.json"][:16]})
+    bad = [c for c in checks if c["match"] is False]
+    if bad:
+        raise SystemExit(f"D2/D3 archives differ from P0: {bad}")
     man = json.loads((ROOT / "data/MANIFEST.json").read_text())["datasets"]
+    heads = defaultdict(int)
+    for r in runs:
+        heads[r["provenance"]["results_head"]] += 1
+    backfilled = sum(1 for r in runs if r["provenance"].get("code_commit_backfill"))
     return {
-        "code_commit_at_process_start": _git("log", "-1", "--format=%H", f"--until={min(r['provenance']['timestamp_utc'] for r in runs)}",
-                                             "--", *CODE_PATHS) or ref,
-        "recorded_commits": [{"commit": h, "runs": len(by_commit[h]),
-                              "first_utc": min(x["provenance"]["timestamp_utc"] for x in by_commit[h]),
-                              "last_utc": max(x["provenance"]["timestamp_utc"] for x in by_commit[h]),
-                              "folds": sorted({f"{x['eval_id']}/{x['held_out']}" for x in by_commit[h]}),
-                              "code_identical_to_first": code_identical[h]} for h in commits],
+        "code_commit": commits[0], "code_dirty": False, "backfilled_runs": backfilled,
+        "backfill_note": next((r["provenance"]["code_commit_backfill"] for r in runs
+                               if r["provenance"].get("code_commit_backfill")), None),
+        "results_heads": dict(heads),
         "config_sha256": cfg_hashes[0],
         "config_file_sha256": hashlib.sha256(cfg_path.read_bytes()).hexdigest(),
         "rq_sha256_in_runs": sorted({r["provenance"]["rq_sha256"] for r in runs}),
         "raw_dataset_sha256": {ds: {"file": man[ds]["file"], "sha256": man[ds]["sha256"]}
                                for ds in sorted({r["dataset"] for r in runs})},
-        "archive_sha256": {f"{ds}/{sc}": json.loads(next(iter(v))) for (ds, sc), v in sorted(data.items())},
+        "archive_sha256_per_evaluation": per_eval,
+        "p0_archive_checks": checks,
     }
 
 
@@ -239,7 +292,7 @@ def render_md(S, smoke: bool) -> str:
         L += ["> **SMOKE RUN on synthetic NF-v3-schema data. These numbers mean nothing.**", ""]
     L += [f"Generated by `scripts/report_p1.py` from `{S['results_dir']}` JSON. RQ SHA-256 in force: "
           f"`{S['rq_sha256']}` (runs: {', '.join('`' + h[:12] + '…`' for h in S['rq_sha256_in_runs'])}). "
-          f"Git: `{S['provenance']['git_hash']}`.", "",
+          f"Code commit: `{S['provenance']['code_commit']}`.", "",
           "Scope (AMENDMENT_01): AHSD-fixed, seeds " + ", ".join(map(str, S["seeds"])) +
           "; LOACO on grouped_random (D1 families + sub-labels, D2, D3), D2 also on temporal_gap; "
           "natural_novelty on temporal_gap (D1, D3). Measured AUC = stress score (higher = attack). "
@@ -302,29 +355,39 @@ def render_md(S, smoke: bool) -> str:
                                          f"{s['fold_info'].get('reason', '')} (train windows "
                                          f"{s['fold_info'].get('train_windows_majority')})" for s in S["skipped"]]
     P = S["provenance_runs"]
+    bf = P["backfill_note"]
     L += ["", "## Provenance", "",
-          f"- Code: every run executed the code tree of commit `{P['code_commit_at_process_start']}` "
-          f"(last commit touching {', '.join('`' + c + '`' for c in CODE_PATHS)} before the first run). "
-          f"Runs record the repository HEAD at write time; {len(P['recorded_commits'])} distinct HEADs were recorded "
-          f"because completed results were committed while the run continued. The report generator verified that "
-          f"the diff between every recorded HEAD and the first, over those paths, is empty, and that no recorded "
-          f"tree was dirty; it refuses to build otherwise.",
-          f"- Report generated at commit `{S['provenance']['git_hash']}`.",
-          f"- P1 config hash (canonical JSON of the run config, excluding the per-evaluation entry): "
-          f"`{P['config_sha256']}`; `{Path(S['config_path']).as_posix()}` file SHA-256 `{P['config_file_sha256']}`.",
-          f"- RESEARCH_QUESTIONS.md SHA-256 recorded by the runs: "
+          f"- **code_commit** (the code the runs executed): `{P['code_commit']}`, clean tree. All "
+          f"{S['n_runs']} runs share it; the report generator refuses mixed or dirty code commits.",
+          f"- **Backfill:** {P['backfilled_runs']} of {S['n_runs']} runs were written before result JSONs had a "
+          f"`code_commit` field (process {bf['process'] if bf else '—'}). For them, `code_commit` was backfilled: "
+          + (bf["method"] if bf else "—") + ". The original field is kept as `results_head`.",
+          f"- **results_head** (HEAD when each JSON was written; informational only): {len(P['results_heads'])} "
+          f"distinct values, because completed results were committed while the run continued.",
+          f"- Report generated at commit `{S['provenance']['code_commit']}`"
+          f"{' (dirty)' if S['provenance']['code_dirty'] else ''}.",
+          f"- **Config:** run-config hash (canonical JSON, excluding the per-evaluation entry) "
+          f"`{P['config_sha256']}`; `{Path(S['config_path']).as_posix()}` SHA-256 `{P['config_file_sha256']}`.",
+          "- **RESEARCH_QUESTIONS.md** SHA-256 recorded by the runs: "
           + ", ".join(f"`{h}`" for h in P["rq_sha256_in_runs"]) + " (post-AMENDMENT_01; see `docs/AMENDMENTS.json`).",
-          "", "| Recorded HEAD | runs | first (UTC) | last (UTC) | code identical to first | folds |", "|---|---|---|---|---|---|"]
-    for c in P["recorded_commits"]:
-        L.append(f"| `{c['commit'][:12]}` | {c['runs']} | {c['first_utc']} | {c['last_utc']} | "
-                 f"{'yes' if c['code_identical_to_first'] else 'NO'} | {', '.join(c['folds'])} |")
-    L += ["", "| Dataset | raw file | raw SHA-256 |", "|---|---|---|"]
+          "", "| Dataset | raw file | raw SHA-256 |", "|---|---|---|"]
     for ds, v in P["raw_dataset_sha256"].items():
         L.append(f"| {ds} | `{v['file']}` | `{v['sha256']}` |")
-    L += ["", "| Archive (dataset/scheme) | file | SHA-256 |", "|---|---|---|"]
-    for k, files in P["archive_sha256"].items():
-        for f, h in files.items():
-            L.append(f"| {k} | `{f}` | `{h}` |")
+    L += ["", "Archive files used by each evaluation:", "", "| Evaluation | archive | file | SHA-256 |",
+          "|---|---|---|---|"]
+    for ev, v in sorted(P["archive_sha256_per_evaluation"].items()):
+        for f, h in v["files"].items():
+            L.append(f"| {ev} | `{v['archive']}` | `{f}` | `{h}` |")
+    L += ["", "D2/D3 archives vs P0. The P0 archive files were overwritten by the AMENDMENT_01 rebuild and "
+          "their hashes were never recorded. The checks below use what P0 did record: SHA-256 of the "
+          "index-level files taken just before the rebuild (`" + P0_INDEX_HASHES + "`), and the "
+          "rows/windows and source-cleaner hash prefixes in `P0_REPORT.md` at commit `" + P0_REPORT_COMMIT + "`.", "",
+          "| Archive | check | P0 | now | match |", "|---|---|---|---|---|"]
+    for c in P["p0_archive_checks"]:
+        p0v = c["p0"] if not isinstance(c["p0"], str) else f"`{c['p0'][:16]}…`"
+        nv = c["now"] if not isinstance(c["now"], str) else f"`{c['now'][:16]}…`"
+        m = {True: "yes", False: "NO", None: "n/a"}[c["match"]]
+        L.append(f"| {c['archive']} | {c['what']} | {p0v} | {nv} | {m}{(' — ' + c['note']) if c.get('note') else ''} |")
     L += ["", "Figures: `report/p1/rq1_scatter_<set>.pdf`. Table: `report/p1/rq1_predictors.tex`.", ""]
     return "\n".join(L)
 
