@@ -161,6 +161,62 @@ def latex_table(corrs, path: Path):
     path.write_text("\n".join(L) + "\n")
 
 
+CODE_PATHS = ["src", "scripts/run_loaco.py", "configs/p1_pilot.yaml", "configs/data.yaml"]
+
+
+def _git(*args) -> str:
+    import subprocess
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+
+
+def provenance_block(runs, cfg_path: Path) -> dict:
+    """Commit(s), config hash, RQ hash and dataset hashes recorded by the runs.
+
+    Fails closed (SystemExit) if runs were produced by different code: any two recorded
+    commits must have an empty diff over CODE_PATHS, no commit may be '-dirty', and every
+    run must carry the same config hash and the same archive hashes per dataset/scheme.
+    """
+    import hashlib
+    by_commit = defaultdict(list)
+    for r in runs:
+        by_commit[r["provenance"]["git_hash"]].append(r)
+    commits = sorted(by_commit, key=lambda h: min(x["provenance"]["timestamp_utc"] for x in by_commit[h]))
+    if any(h.endswith("-dirty") or h == "unknown" for h in commits):
+        raise SystemExit(f"runs recorded a dirty/unknown tree: {[h for h in commits if h.endswith('-dirty')]}")
+    ref = commits[0]
+    code_identical = {h: _git("diff", "--stat", ref, h, "--", *CODE_PATHS) == "" for h in commits}
+    if not all(code_identical.values()):
+        raise SystemExit(f"runs come from different code versions: {[h for h, ok in code_identical.items() if not ok]}")
+
+    def cfg_hash(r):
+        c = {k: v for k, v in r["provenance"]["config"].items() if k != "evaluation"}
+        return hashlib.sha256(json.dumps(c, sort_keys=True).encode()).hexdigest()
+    cfg_hashes = sorted({cfg_hash(r) for r in runs})
+    if len(cfg_hashes) != 1:
+        raise SystemExit(f"runs used {len(cfg_hashes)} different P1 configs")
+    data = defaultdict(set)
+    for r in runs:
+        data[(r["dataset"], r["scheme"])].add(json.dumps(r["provenance"]["data_sha256"], sort_keys=True))
+    if any(len(v) != 1 for v in data.values()):
+        raise SystemExit("runs on the same archive recorded different archive hashes")
+    man = json.loads((ROOT / "data/MANIFEST.json").read_text())["datasets"]
+    return {
+        "code_commit_at_process_start": _git("log", "-1", "--format=%H", f"--until={min(r['provenance']['timestamp_utc'] for r in runs)}",
+                                             "--", *CODE_PATHS) or ref,
+        "recorded_commits": [{"commit": h, "runs": len(by_commit[h]),
+                              "first_utc": min(x["provenance"]["timestamp_utc"] for x in by_commit[h]),
+                              "last_utc": max(x["provenance"]["timestamp_utc"] for x in by_commit[h]),
+                              "folds": sorted({f"{x['eval_id']}/{x['held_out']}" for x in by_commit[h]}),
+                              "code_identical_to_first": code_identical[h]} for h in commits],
+        "config_sha256": cfg_hashes[0],
+        "config_file_sha256": hashlib.sha256(cfg_path.read_bytes()).hexdigest(),
+        "rq_sha256_in_runs": sorted({r["provenance"]["rq_sha256"] for r in runs}),
+        "raw_dataset_sha256": {ds: {"file": man[ds]["file"], "sha256": man[ds]["sha256"]}
+                               for ds in sorted({r["dataset"] for r in runs})},
+        "archive_sha256": {f"{ds}/{sc}": json.loads(next(iter(v))) for (ds, sc), v in sorted(data.items())},
+    }
+
+
 def _wall_hours(runs) -> float:
     """LOACO: one training per run. natural_novelty: one training per (eval, seed); its class
     records carry the elapsed time since that training began, so take the max per seed."""
@@ -245,6 +301,30 @@ def render_md(S, smoke: bool) -> str:
         L += ["## Skipped folds", ""] + [f"- {s['eval_id']} / {s['held_out']}: "
                                          f"{s['fold_info'].get('reason', '')} (train windows "
                                          f"{s['fold_info'].get('train_windows_majority')})" for s in S["skipped"]]
+    P = S["provenance_runs"]
+    L += ["", "## Provenance", "",
+          f"- Code: every run executed the code tree of commit `{P['code_commit_at_process_start']}` "
+          f"(last commit touching {', '.join('`' + c + '`' for c in CODE_PATHS)} before the first run). "
+          f"Runs record the repository HEAD at write time; {len(P['recorded_commits'])} distinct HEADs were recorded "
+          f"because completed results were committed while the run continued. The report generator verified that "
+          f"the diff between every recorded HEAD and the first, over those paths, is empty, and that no recorded "
+          f"tree was dirty; it refuses to build otherwise.",
+          f"- Report generated at commit `{S['provenance']['git_hash']}`.",
+          f"- P1 config hash (canonical JSON of the run config, excluding the per-evaluation entry): "
+          f"`{P['config_sha256']}`; `{Path(S['config_path']).as_posix()}` file SHA-256 `{P['config_file_sha256']}`.",
+          f"- RESEARCH_QUESTIONS.md SHA-256 recorded by the runs: "
+          + ", ".join(f"`{h}`" for h in P["rq_sha256_in_runs"]) + " (post-AMENDMENT_01; see `docs/AMENDMENTS.json`).",
+          "", "| Recorded HEAD | runs | first (UTC) | last (UTC) | code identical to first | folds |", "|---|---|---|---|---|---|"]
+    for c in P["recorded_commits"]:
+        L.append(f"| `{c['commit'][:12]}` | {c['runs']} | {c['first_utc']} | {c['last_utc']} | "
+                 f"{'yes' if c['code_identical_to_first'] else 'NO'} | {', '.join(c['folds'])} |")
+    L += ["", "| Dataset | raw file | raw SHA-256 |", "|---|---|---|"]
+    for ds, v in P["raw_dataset_sha256"].items():
+        L.append(f"| {ds} | `{v['file']}` | `{v['sha256']}` |")
+    L += ["", "| Archive (dataset/scheme) | file | SHA-256 |", "|---|---|---|"]
+    for k, files in P["archive_sha256"].items():
+        for f, h in files.items():
+            L.append(f"| {k} | `{f}` | `{h}` |")
     L += ["", "Figures: `report/p1/rq1_scatter_<set>.pdf`. Table: `report/p1/rq1_predictors.tex`.", ""]
     return "\n".join(L)
 
@@ -278,7 +358,7 @@ def main():
                "dpred_gr": gr[c]["D_pred"] if c in gr else float("nan"),
                "dpred_tg": tg[c]["D_pred"] if c in tg else float("nan")} for c in sorted(set(gr) | set(tg))]
     tails = [p["ir_tail_ratio"] for p in points]
-    S = {"results_dir": cfg["results_dir"], "seeds": cfg["seeds"], "n_runs": len(runs), "n_points": len(points),
+    S = {"config_path": a.config, "results_dir": cfg["results_dir"], "seeds": cfg["seeds"], "n_runs": len(runs), "n_points": len(points),
          "points": points, "correlations": corrs, "inversion": invs,
          "decision_set": DECISION_SET, "decision": decision(corrs[DECISION_SET]),
          "d2_split_difference": d2diff,
@@ -291,6 +371,7 @@ def main():
          "skipped": [{"eval_id": s["eval_id"], "held_out": s["held_out"], "fold_info": s["fold_info"]} for s in skipped],
          "rq_sha256": rq_sha256(), "rq_sha256_in_runs": sorted({r["provenance"]["rq_sha256"] for r in runs}),
          "provenance": provenance(config=cfg), "smoke": a.smoke}
+    S["provenance_runs"] = provenance_block(runs, ROOT / a.config)
     if S["rq_sha256_in_runs"] != [S["rq_sha256"]]:
         S["warning"] = "runs were produced under a different RESEARCH_QUESTIONS.md"
     write_json(rdir / "summary.json", S)
