@@ -1,0 +1,22 @@
+{
+  "eval_id": "D1_family_gr",
+  "held_out": "Bot",
+  "seed": 17,
+  "skipped": true,
+  "exploratory": true,
+  "reason": "first training of the P1 process: initial weights drawn from torch's random start-of-process RNG state (not seeded), so the run cannot be reproduced",
+  "provenance": {
+    "code_commit": "ad61131e8553508f985918d94fa461f0cc1fde7d",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T04:32:43+00:00",
+    "results_head": "ad61131e8553508f985918d94fa461f0cc1fde7d",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {},
+    "config": {
+      "experiment": "P1b-S2dir"
+    },
+    "timestamp_utc": "2026-10-05T04:32:43+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
