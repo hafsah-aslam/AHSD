@@ -1,0 +1,12 @@
+{
+  "amendments": [
+    {
+      "id": "AMENDMENT_01",
+      "date": "2026-10-05",
+      "old_sha256": "c2c9bd1be22c0bf25f8e4c7ff50c91cd226d2028742b4d8da622c4fe72e6943e",
+      "old_commit": "60f2b42",
+      "new_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+      "results_on_real_data_before_amendment": "none (P0 audits and fold-feasibility counts only)"
+    }
+  ]
+}

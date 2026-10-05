@@ -1,0 +1,54 @@
+{
+  "policy": "File labels are used unchanged (AMENDMENT_01 A1.6). Recorded for the paper; no other action.",
+  "uq_page_source": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/ (v3 section, class tables)",
+  "uq_page_retrieved": "2026-10-04",
+  "items": [
+    {
+      "id": "D2_label_permutation",
+      "dataset": "D2",
+      "file": "NF-UNSW-NB15-v3.zip",
+      "file_sha256": "6d51554df43e324ba8d68fc31a02a83d860ba0a3a93d63320a4a6fc314c9cdfd",
+      "classes": {
+        "Backdoor": {
+          "file": 4659,
+          "uq_page": 1226
+        },
+        "Shellcode": {
+          "file": 2381,
+          "uq_page": 4659
+        },
+        "Analysis": {
+          "file": 1226,
+          "uq_page": 2381
+        }
+      },
+      "observation": "The file's counts for Backdoor, Shellcode and Analysis are a permutation of the UQ page's counts for these three classes (file Backdoor = page Shellcode, file Shellcode = page Analysis, file Analysis = page Backdoor). All other D2 classes match exactly.",
+      "consequence": "Either the page table or the file's labels for these three classes are swapped. LOACO folds for these three classes use the file labels."
+    },
+    {
+      "id": "D4_theft_row_gap",
+      "dataset": "D4",
+      "file": "NF-BoT-IoT-v3.zip",
+      "file_sha256": "cd0d3eab5b2da73a377561492aafae078432e69c7932b6302a9fbd7f51429eca",
+      "classes": {
+        "Theft": {
+          "file": 1615,
+          "uq_page": 1651
+        }
+      },
+      "file_rows": 16933808,
+      "uq_page_sum": 16933844,
+      "observation": "The file has 36 fewer rows than the UQ page's class counts sum to; the whole difference is in Theft.",
+      "consequence": "None for P1 (D4 is a transfer target only). Theft is one of the four D4 test attack classes."
+    }
+  ],
+  "provenance": {
+    "git_hash": "444965447c104f845fe6d318e631d3491d15f10d-dirty",
+    "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-05T00:02:54+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

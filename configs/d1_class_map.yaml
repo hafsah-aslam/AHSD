@@ -1,0 +1,15 @@
+# D1 (NF-CSE-CIC-IDS2018-v3): file sub-labels (Attack column) -> UQ attack families.
+# Families and their counts are those tabulated in the v3 section of
+# https://staff.itee.uq.edu.au/marius/NIDS_datasets/ (configs/uq_published_class_counts_v3.json).
+# AMENDMENT_01: families are the primary D1 LOACO classes; sub-labels give the
+# secondary "variant novelty" analysis. Validated by scripts/validate_class_map.py
+# (every sub-label mapped exactly once, family sums equal the UQ page counts).
+dataset: D1
+families:
+  Benign: [Benign]
+  Bot: [Bot]
+  BruteForce: [FTP-BruteForce, SSH-Bruteforce]
+  DDoS: [DDOS_attack-HOIC, DDoS_attacks-LOIC-HTTP, DDOS_attack-LOIC-UDP]
+  DoS: [DoS_attacks-GoldenEye, DoS_attacks-Hulk, DoS_attacks-SlowHTTPTest, DoS_attacks-Slowloris]
+  Infiltration: [Infilteration]
+  Web Attacks: [Brute_Force_-Web, Brute_Force_-XSS, SQL_Injection]

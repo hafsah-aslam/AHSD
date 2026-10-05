@@ -54,10 +54,18 @@ def test_s1_drift_never_exceeds_bound(gamma, tau, kappa, R):
 
 
 def test_adaptive_equilibrium_absorbs_persistent_offset():
-    """No attacker: with γ > 0 a constant offset's stress decays; at γ = 0 it does not."""
+    """No attacker: with γ > 0 a constant offset's stress decays; at γ = 0 it does not.
+
+    Gates are pinned (α = 0.5, β = 0.3) and identical for both models. With random gates the
+    decay rate depends on the draw (torch seed 237 gave α ≈ 0.06 and missed the 1% threshold).
+    """
     stress = {}
     for g in (0.0, 0.1):
         m = AHSD(n_features=4, D=4, variant="frozen", gamma=g).double()
+        with torch.no_grad():
+            m.gates.weight.zero_()
+            m.gates.bias[:4] = float(np.log(0.5 / 0.5))
+            m.gates.bias[4:] = float(np.log(0.3 / 0.7))
         z = torch.full((1, 200, 4), 2.0, dtype=torch.float64)
         stress[g] = m.recur(z, return_states=True)["stress_t"][0].detach().numpy()
     assert stress[0.1][-1] < 0.01 * stress[0.1][5]

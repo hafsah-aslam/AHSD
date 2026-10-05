@@ -1,0 +1,81 @@
+{
+  "ok": true,
+  "errors": [],
+  "families": {
+    "Benign": {
+      "sub_labels": {
+        "Benign": 17514626
+      },
+      "file_sum": 17514626,
+      "uq_page": 17514626,
+      "match": true
+    },
+    "Bot": {
+      "sub_labels": {
+        "Bot": 207703
+      },
+      "file_sum": 207703,
+      "uq_page": 207703,
+      "match": true
+    },
+    "BruteForce": {
+      "sub_labels": {
+        "FTP-BruteForce": 386720,
+        "SSH-Bruteforce": 188474
+      },
+      "file_sum": 575194,
+      "uq_page": 575194,
+      "match": true
+    },
+    "DDoS": {
+      "sub_labels": {
+        "DDOS_attack-HOIC": 1032311,
+        "DDoS_attacks-LOIC-HTTP": 288589,
+        "DDOS_attack-LOIC-UDP": 3450
+      },
+      "file_sum": 1324350,
+      "uq_page": 1324350,
+      "match": true
+    },
+    "DoS": {
+      "sub_labels": {
+        "DoS_attacks-GoldenEye": 61300,
+        "DoS_attacks-Hulk": 100076,
+        "DoS_attacks-SlowHTTPTest": 105550,
+        "DoS_attacks-Slowloris": 36040
+      },
+      "file_sum": 302966,
+      "uq_page": 302966,
+      "match": true
+    },
+    "Infiltration": {
+      "sub_labels": {
+        "Infilteration": 188152
+      },
+      "file_sum": 188152,
+      "uq_page": 188152,
+      "match": true
+    },
+    "Web Attacks": {
+      "sub_labels": {
+        "Brute_Force_-Web": 1618,
+        "Brute_Force_-XSS": 480,
+        "SQL_Injection": 440
+      },
+      "file_sum": 2538,
+      "uq_page": 2538,
+      "match": true
+    }
+  },
+  "map_sha256": "72ad6d8ed122d015b4e7807fbcc328d41d1238df72d3a1c9b2f4dda8aad45164",
+  "audit": "audit/D1.json",
+  "provenance": {
+    "git_hash": "444965447c104f845fe6d318e631d3491d15f10d-dirty",
+    "rq_sha256": "c2c9bd1be22c0bf25f8e4c7ff50c91cd226d2028742b4d8da622c4fe72e6943e",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-05T00:02:04+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
