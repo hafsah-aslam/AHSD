@@ -2780,16 +2780,16 @@
       }
     }
   ],
-  "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+  "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
   "rq_sha256_in_runs": [
     "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04"
   ],
   "provenance": {
-    "code_commit": "b6b8cc0a88d042395c185a339c662a853252bbed",
+    "code_commit": "1a7618346550d7789dc173e9a81fd8f27840f7e7",
     "code_dirty": false,
-    "code_commit_captured_utc": "2026-10-05T02:14:06+00:00",
-    "results_head": "b6b8cc0a88d042395c185a339c662a853252bbed",
-    "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+    "code_commit_captured_utc": "2026-10-05T05:36:18+00:00",
+    "results_head": "1a7618346550d7789dc173e9a81fd8f27840f7e7-dirty",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
     "data_sha256": {},
     "config": {
       "seeds": [
@@ -2898,7 +2898,7 @@
         ]
       }
     },
-    "timestamp_utc": "2026-10-05T02:14:11+00:00",
+    "timestamp_utc": "2026-10-05T05:36:26+00:00",
     "python": "3.11.15",
     "host": "vm"
   },
@@ -3243,5 +3243,6 @@
         "match": true
       }
     ]
-  }
+  },
+  "warning": "runs were produced under a different RESEARCH_QUESTIONS.md"
 }
