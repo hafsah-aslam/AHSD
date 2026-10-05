@@ -1,0 +1,18 @@
+{
+  "d5_natural_novelty_feasible": true,
+  "d5_loaco_feasible_folds": [],
+  "outcome": "STOP (not evaluated): D5 LOACO infeasible",
+  "rq_sha256": "6a474852e58aeab6f71ccc98d25204a172a025879262214b352e78a816dbc05c",
+  "provenance": {
+    "code_commit": "e7017b64384cf2c046ce1f1af5f6106d6a8dd938",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T15:09:15+00:00",
+    "results_head": "e7017b64384cf2c046ce1f1af5f6106d6a8dd938",
+    "rq_sha256": "6a474852e58aeab6f71ccc98d25204a172a025879262214b352e78a816dbc05c",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-05T15:09:15+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

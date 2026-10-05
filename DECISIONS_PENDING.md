@@ -64,3 +64,28 @@ Numbers come from `results/p1/summary.json` and `results/p1/gate.json`.
     backbone-based scores (AHSD 2.69, Mahalanobis 2.63, kNN 2.73) and small on
     D1 (≤ 0.19 for all detectors).
 - Decision needed on the plan.
+
+## 7. P1d stopped before any model run: D5 LOACO infeasible (AMENDMENT_04)
+- Status: `P1D_REPORT.md`, `GATE_G3_DECISION.md` (G3 not evaluated).
+- D5 (Lycos2017) P0 is complete and validated:
+  - 1,837,498 flows; label counts identical to the authors' labelling log;
+  - 114,783 windows in 42 one-hour groups; 73 own-space features.
+- **D5 LOACO (`grouped_random`) has 0 feasible folds.** Every class with
+  ≥ 200 training windows is absent from the test split, because each attack
+  occupies a few hours of a 5-day capture.
+- **D5 natural_novelty is feasible.**
+  - Classes: ddos and portscan (6,639 and 1,335 test windows).
+  - Train-tail validation is thin: 130 benign + 26 attack windows
+    (22 heartbleed, 4 dos_slowloris).
+- Nothing else in A4.5 was run.
+- Decision needed: how to obtain the D5 LOACO arm, or how G3 should treat its
+  absence. Options, none adopted:
+  1. A D5-specific LOACO split. For example, a shorter block than 1 hour,
+     or a day-stratified group split. Either is a new protocol and needs an
+     amendment before any run.
+  2. Gate (b) on D3 only, with D5 contributing (a) only. This changes the
+     frozen G3.
+  3. The Wilkie et al. protocol (flow-level 50/50 split, with SQLi and
+     Heartbleed held out). This conflicts with the spec's "no random
+     flow-level splits", and Heartbleed (22) and SQLi (23 windows) are below
+     the 200-window LOACO threshold.

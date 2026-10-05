@@ -1,0 +1,105 @@
+{
+  "dataset": "D5",
+  "rule": "test-only majority classes with >= 20 test windows",
+  "test_only_classes": [
+    "ddos",
+    "portscan"
+  ],
+  "test_windows": {
+    "ddos": 6639,
+    "portscan": 1335
+  },
+  "evaluable_classes": [
+    "ddos",
+    "portscan"
+  ],
+  "train_tail": {
+    "groups": 4,
+    "benign": 9182,
+    "attack": 26,
+    "attack_classes": {
+      "dos_slowloris": 4,
+      "heartbleed": 22
+    }
+  },
+  "train_head_attack_classes": {
+    "dos_goldeneye": 565,
+    "dos_hulk": 10164,
+    "dos_slowhttptest": 681,
+    "dos_slowloris": 955,
+    "ftp_patator": 1902,
+    "ssh_patator": 1496
+  },
+  "split_windows": {
+    "train": 71516,
+    "gap": 2084,
+    "val": 29225,
+    "test": 11958
+  },
+  "composition": {
+    "train": {
+      "Benign": 55727,
+      "bot": 0,
+      "ddos": 0,
+      "dos_goldeneye": 565,
+      "dos_hulk": 10164,
+      "dos_slowhttptest": 681,
+      "dos_slowloris": 959,
+      "ftp_patator": 1902,
+      "heartbleed": 22,
+      "portscan": 0,
+      "ssh_patator": 1496,
+      "webattack_bruteforce": 0,
+      "webattack_sql_injection": 0,
+      "webattack_xss": 0
+    },
+    "val": {
+      "Benign": 18392,
+      "bot": 628,
+      "ddos": 0,
+      "dos_goldeneye": 0,
+      "dos_hulk": 0,
+      "dos_slowhttptest": 0,
+      "dos_slowloris": 0,
+      "ftp_patator": 0,
+      "heartbleed": 0,
+      "portscan": 8944,
+      "ssh_patator": 0,
+      "webattack_bruteforce": 908,
+      "webattack_sql_injection": 23,
+      "webattack_xss": 330
+    },
+    "test": {
+      "Benign": 3984,
+      "bot": 0,
+      "ddos": 6639,
+      "dos_goldeneye": 0,
+      "dos_hulk": 0,
+      "dos_slowhttptest": 0,
+      "dos_slowloris": 0,
+      "ftp_patator": 0,
+      "heartbleed": 0,
+      "portscan": 1335,
+      "ssh_patator": 0,
+      "webattack_bruteforce": 0,
+      "webattack_sql_injection": 0,
+      "webattack_xss": 0
+    }
+  },
+  "feasible": true,
+  "reasons": [],
+  "provenance": {
+    "code_commit": "e7017b64384cf2c046ce1f1af5f6106d6a8dd938",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T15:08:28+00:00",
+    "results_head": "e7017b64384cf2c046ce1f1af5f6106d6a8dd938",
+    "rq_sha256": "6a474852e58aeab6f71ccc98d25204a172a025879262214b352e78a816dbc05c",
+    "data_sha256": {},
+    "config": {
+      "min_test_windows": 20
+    },
+    "timestamp_utc": "2026-10-05T15:08:28+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
