@@ -23,6 +23,14 @@
       "old_commit": "35be633",
       "new_sha256": "dc2efcae3986b9cc076374c9324e6b2cf740503ffe1ab7bd92b2031406cdf5ec",
       "results_before_amendment": "P1, P1b (gates STOP, STOP); P0 feasibility counts for A3.2/A3.3(iii); no P1c run"
+    },
+    {
+      "id": "AMENDMENT_04",
+      "date": "2026-10-05",
+      "old_sha256": "dc2efcae3986b9cc076374c9324e6b2cf740503ffe1ab7bd92b2031406cdf5ec",
+      "old_commit": "8a6dc3c",
+      "new_sha256": "6a474852e58aeab6f71ccc98d25204a172a025879262214b352e78a816dbc05c",
+      "results_before_amendment": "P1, P1b, P1c (gates STOP, STOP, STOP); Lycos2017 archive downloaded (SHA-256 recorded), listing/code/header/feature-doc and the Wilkie paper read; no D5 flow data parsed; no P1d run"
     }
   ]
 }

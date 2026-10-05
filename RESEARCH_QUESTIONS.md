@@ -428,3 +428,184 @@ cleaned features, with these settings:
   over the 7 classes.
 - d′ uses test benign (or the attack) as the positive class, with higher
   score = more anomalous.
+
+---
+
+## AMENDMENT_04 (2026-10-05, after gate G2, before any P1d data processing or run)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `dc2efcae3986b9cc076374c9324e6b2cf740503ffe1ab7bd92b2031406cdf5ec`
+  (AMENDMENT_03, commit 8a6dc3c).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:** all three gates returned STOP (P1, G1, G2). The authors
+  accepted them.
+- **What this amendment fixes:** P1d is the final confirmatory pilot. Its gate
+  (G3) fixes the paper's direction, with no further pivots.
+- **Inputs used before this amendment:**
+  - the Lycos2017 archive was downloaded, with its SHA-256 recorded below;
+  - the archive listing, the authors' README and `labelling.py` code, the
+    feature documentation and one CSV header were read;
+  - the Wilkie et al. paper (arXiv 2601.09902) was read.
+  - No flow data was parsed or processed.
+
+### A4.1 Status
+- G2 was negative. Drift is not the inversion mechanism, and re-anchoring is
+  dropped.
+- The P1c observation is EXPLORATORY and is not used as confirmatory
+  evidence. That observation: on D3 natural novelty, the benign-only
+  detectors beat the scores computed from the supervised AHSD model.
+
+### A4.2 Confirmatory hypothesis H-REV (frozen)
+Under natural temporal novelty, benign-only detectors outperform
+supervised-model-based scores, AND this ordering reverses (or vanishes) under
+LOACO on the same dataset.
+
+### A4.3 Fresh dataset D5 = Lycos2017 (corrected CIC-IDS2017)
+- **Source:** https://lycos-ids.univ-lemans.fr/ (download page).
+  - It links to `https://maupiti-git.univ-lemans.fr/lycos/lycos-ids2017/archive/master.zip`,
+    with no form or login.
+  - Archive SHA-256:
+    `7457f65587fe609fbe983672c12577bb9a07996e6920f8e4a183b8a24a51cf1e`
+    (532,484,362 bytes).
+- **Processing:** the same P0 pipeline as before:
+  - manifest with SHA-256, and an audit;
+  - identifier and timestamp drops;
+  - train-only fitting;
+  - 1-hour groups, windows T = 32 with stride 16, dedupe;
+  - fail-closed validators.
+- **Feature space:** D5 is processed in its own feature space (no transfer
+  in P1d).
+- **Feasibility report before any model run:**
+  - the natural_novelty classes, i.e. those in the `temporal_gap` test split
+    but absent from its train split;
+  - whether the train-tail validation has attack windows.
+  If either is infeasible: STOP and report.
+
+### A4.4 Detectors (the 9 from P1c, plus 1)
+1. AHSD stress.
+2–5. MSP, Energy, Mahalanobis and kNN, all on the supervised AHSD model.
+6–9. IF, OCSVM, PCA and AE (benign-only).
+10. Wilkie et al. 2026 contrastive zero-day loss (CLAD; IEEE TNSM,
+    doi 10.1109/TNSM.2026.3652529), implemented from the paper.
+
+Settings and score directions follow AMENDMENT_03.
+
+### A4.5 Evaluations, seeds {17, 23, 42, 101, 202}
+- D5 natural_novelty (train-tail validation).
+- D5 LOACO (`grouped_random`).
+- D3 LOACO (`grouped_random`), with all 10 detectors (not yet run).
+- D3 natural_novelty: rerun only the new Wilkie detector.
+
+### A4.6 Gate G3 (frozen)
+Defined per dataset and evaluation:
+- B = the mean over classes of (the mean AUC of the 4 benign-only detectors).
+- S = the mean over classes of (the mean AUC of the 5 supervised-backbone
+  scores).
+
+GO only if ALL of the following hold:
+- **(a)** D5 natural_novelty: B − S ≥ 0.15, AND its paired-bootstrap 95% CI
+  is > 0.
+- **(b)** D5 LOACO: B − S ≤ 0.05 (a reversal, or no benign-only advantage).
+- **(c)** The same (a)/(b) pattern holds on D3, using the natural_novelty
+  results from P1c and the new LOACO.
+
+Report the Wilkie detector separately against B and S (not gating). Report
+every number either way.
+
+### Operational choices added by the implementer
+These are fixed here, before any P1d processing or run.
+
+**D5 construction.**
+- **Labels:** produced by running the authors' `labelling.py`, unmodified
+  (LYCOS-IDS2017 `master`), on their LycoSTand CSVs from the same archive.
+  It labels flows by timestamp windows and addresses.
+- **Adapter** (logged in `PREPROCESS_LOG.md`):
+  - `timestamp` (µs) becomes `FLOW_START_MILLISECONDS` (÷ 1000; used only
+    for sorting and grouping);
+  - `label` becomes `Attack`, and `Label` = (`label` ≠ "benign");
+  - `src_addr`, `dst_addr`, `src_port` and `dst_port` take the NF identifier
+    names, so the identifier drop applies;
+  - `flow_id` is removed (identifier).
+- **Derived file:** written beside the untouched archive under
+  `data/raw/lycos/derived/`, with its own SHA-256 and the SHA-256s of
+  `labelling.py` and the input archive.
+- **Heavy-tailed rule for D5** (lower-case LycoSTand names): log1p is applied
+  to non-negative features whose name contains any of `len`, `cnt`, `tot`,
+  `bytes`, `per_s`, `iat`, `duration`, `active`, `idle`, `bulk`, `subflow`,
+  `win`, `var`, `std`, `mean`, `max`, `min`.
+  - The `flag_*`, `fwd_flag_*` and `bwd_flag_*` counts, `ip_prot` and
+    `down_up_ratio` are not logged.
+  - The NF rule (upper-case names) is unchanged.
+- **Splits:**
+  - D5 has no TTL columns.
+  - `temporal_gap` and `grouped_random` splits are built as for D1–D3.
+  - LOACO folds come from `grouped_random` (≥ 200 training windows, and the
+    class must be present in the test split).
+
+**Natural-novelty classes for D5.**
+- These are all classes present (as a window's majority class) in the
+  `temporal_gap` test split and absent from its train split.
+- A class needs ≥ 20 test windows to be evaluated. Others are listed but not
+  evaluated.
+- Validation is train-tail validation (A3.2).
+- Re-anchoring is dropped, so the D5 test pool is the whole test period.
+- D3 natural_novelty (Wilkie rerun, and the B/S values for (c)) uses the
+  P1c package unchanged, with its anchor groups removed, so that every
+  detector is compared on identical windows.
+
+**LOACO for D3 and D5.**
+- Use the existing `grouped_random` folds:
+  - training excludes every window holding any flow of the held-out class;
+  - test = benign + held-out class, 5:1, cap 3,000.
+- Per fold and seed:
+  - the supervised AHSD model is trained on the fold's training set;
+  - the benign-only detectors and the AHSD/Mahalanobis/kNN benign references
+    use that set's benign windows;
+  - Wilkie is trained on the fold's training set.
+
+**Wilkie / CLAD, as implemented from the paper.**
+- **Encoder φ:** a linear projection to d_model, then L blocks of
+  [Linear(d_model→d_model), ReLU], then a linear head to f_o, L2-normalised
+  onto the unit sphere.
+- **Loss (Eq. 7):** for each benign anchor i in the batch:
+  - the mean over the other benign samples p of d(z_i, z_p)²;
+  - plus the mean over the malicious samples n of (1 − d(z_i, z_n))²;
+  - with d(z, z′) = (1 − z·z′)/2;
+  - averaged over the batch's benign anchors.
+- **Score (Eqs. 8–9):** s(x) = −z·μ, with μ the L2-normalised sum of the
+  embeddings of the benign training windows.
+- **Unspecified in the paper, fixed here:**
+  - Input: the flattened window (T × F), the same windows as every other
+    detector.
+  - Architecture: d_model = 256, L = 2, f_o = 64, no dropout.
+  - Optimiser: AdamW, lr 1e-3, weight decay 1e-4, batch 256.
+  - Batches are drawn from the 1:1-balanced training set, which stands in
+    for "weighted class balancing".
+  - Epochs: 15, the shared budget of spec §5, instead of the paper's 200. A
+    linear warm-up over the first 10% of steps (the paper's 20/200 ratio)
+    is followed by cosine annealing.
+  - There is no hyperparameter search (spec §5: no per-model tuning), where
+    the paper ran a 200-iteration random search.
+  - Checkpoint: the epoch with the best validation AUROC of s(x) (benign vs
+    attack). The paper has no classifier head, so validation macro-F1 does
+    not apply.
+  - Seed: the run seed, set before model construction.
+
+**G3 statistics.**
+- **Per-class AUC** is the mean over seeds.
+- **B and S** are computed from the class means of each detector group,
+  using all evaluated classes of that dataset and evaluation.
+- **Paired bootstrap for (a)** (2,000 resamples, bootstrap seed 0):
+  - resample classes with replacement, and independently resample seeds with
+    replacement;
+  - per resample, compute the mean over the resampled classes of [the mean
+    over the resampled seeds of (the mean benign-only AUC minus the mean
+    supervised AUC)];
+  - the 95% CI is the 2.5–97.5 percentile interval.
+- **For (a):** the point estimate must be ≥ 0.15 and the CI lower bound
+  > 0.
+- **For (b):** the point estimate must be ≤ 0.05.
+- **(c):** applies the same two tests to D3, using P1c's no-re-anchoring
+  natural_novelty AUCs (code commit 702fc4d) and the new D3 LOACO.
+- **Wilkie** is reported separately as its AUC minus B and its AUC minus S,
+  per evaluation (not gating).
