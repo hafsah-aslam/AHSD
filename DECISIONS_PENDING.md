@@ -47,3 +47,20 @@ Numbers come from `results/p1/summary.json` and `results/p1/gate.json`.
 - Its S2-dir value (3689.1) is far larger than the other folds'. The normaliser divides by a 2-sample std of 0.000207.
 - Spearman ρ is rank-based, so the extreme value is bounded in effect, but the normalisation itself is fragile with n ≤ 3 seeds.
 - S2-dir is EXPLORATORY; no action taken.
+
+## 6. Gate G2 = STOP (AMENDMENT_03 A3.4; 2026-10-05)
+- `GATE_G2_DECISION.md`: criteria (a) 4/9 (needs 5), (b) 5/9 (pass), (c) 0/9.
+- PLAN_P2_v2.md was not drafted (only for GO). P2 has not started.
+- Facts from `P1C_REPORT.md` (no interpretation adopted):
+  - On D3, the four benign-only detectors (IF, OCSVM, PCA, AE) reach mean AUC
+    0.70–0.99 on every natural-novelty class.
+  - On D3, the five backbone-based scores (AHSD stress, MSP, Energy,
+    Mahalanobis, kNN) range from 0.13 to 0.67, with wide seed CIs.
+  - On D1, every detector lies between 0.38 and 0.69.
+  - Re-anchoring with N = 500 raises no detector's AUC by ≥ 0.15 on any class.
+  - On D3, re-anchoring lowers the backbone-based scores. For example, AHSD
+    stress Backdoor goes 0.67 → 0.29, and kNN xss 0.49 → 0.03.
+  - Benign drift d′ (test vs train-period benign) is large on D3 for the
+    backbone-based scores (AHSD 2.69, Mahalanobis 2.63, kNN 2.73) and small on
+    D1 (≤ 0.19 for all detectors).
+- Decision needed on the plan.
