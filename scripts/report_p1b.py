@@ -214,7 +214,9 @@ def sweep_figure(G: dict, path: Path):
 def main():
     p1_runs, _ = R1.load(ROOT / "results/p1")
     points = R1.aggregate(p1_runs)
-    s2r = _load("results/p1b/s2dir/*/*/seed*.json")
+    s2r = _load("results/p1b/s2dir/*/*/seed*[0-9].json")
+    s2_skipped = [f"{json.loads(p.read_text())['eval_id']}/{json.loads(p.read_text())['held_out']}/seed"
+                  f"{json.loads(p.read_text())['seed']}" for p in sorted(ROOT.glob("results/p1b/s2dir/*/*/*__skipped.json"))]
     nnr = _load("results/p1b/d3_nn/D3_nn/*/seed*.json")
     g1r = _load("results/p1b/g1/*/*/seed*.json")
     commits = {"P1b-S2dir": _one_commit(s2r, "S2-dir") if s2r else None,
@@ -227,7 +229,7 @@ def main():
          "s2dir": s2dir_analysis(s2r, points) if s2r else None,
          "d3_nn": d3_nn(nnr, [r for r in p1_runs if r["eval_id"] == "D3_nn"]) if nnr else None,
          "g1": g1(g1r) if g1r else None,
-         "code_commits": commits, "n_runs": {"s2dir": len(s2r), "d3_nn": len(nnr), "g1": len(g1r)},
+         "s2dir_skipped": s2_skipped, "code_commits": commits, "n_runs": {"s2dir": len(s2r), "d3_nn": len(nnr), "g1": len(g1r)},
          "rq_sha256": rq_sha256(),
          "rq_sha256_in_runs": sorted({r["provenance"]["rq_sha256"] for r in s2r + nnr + g1r}),
          "p1_gate": {"outcome": gate1["outcome"], "primary": gate1["primary_oriented"], "raw": gate1["raw_sign_variant"]},
@@ -286,8 +288,12 @@ def render(S) -> str:
         sd = S["s2dir"]
         md = max(r["repro_max_abs_dev"] for r in sd["rows"])
         L += ["## A2.3 S2-dir — EXPLORATORY (never gating)", "",
-              f"Computed on re-executed P1 runs ({S['n_runs']['s2dir']} runs); every re-execution reproduced the recorded "
-              f"P1 stress AUC, probability AUC and D_pred (max |Δ| = {md:.2e}, tolerance 1e-6). Measured AUC = P1 value.", "",
+              f"Computed on re-executed P1 runs ({S['n_runs']['s2dir']} runs). P1 (code f557bcd) built each model before "
+              "seeding, so a run's initial weights came from the torch RNG state left by the previous P1 training "
+              "(= manual_seed of that run's seed); the replay restores that state. Every re-execution reproduced the "
+              f"recorded P1 stress AUC, probability AUC and D_pred (max |Δ| = {md:.2e}, tolerance 1e-6). Measured AUC = "
+              f"P1 value. Not reproducible, hence skipped: {S['s2dir_skipped'] or 'none'} (first P1 training, initialised "
+              "from torch's random start-of-process state).", "",
               "| Set | S2-dir ρ [95% CI] | Mahalanobis ρ [95% CI] | S2 D_pred ρ [95% CI] | n |", "|---|---|---|---|---|"]
         for name in ("pooled", *WITHIN):
             v = sd[name]
@@ -306,7 +312,10 @@ def render(S) -> str:
     if S["d3_nn"]:
         L += ["## A2.5 D3 natural_novelty — 8 seeds", "",
               f"All 8 seeds on one code commit (`{S['code_commits']['P1b-D3nn']}`). Stress AUC; Student-t 95% CI (n = 8).", "",
-              "| Class | mean AUC | 95% CI (±) | fraction of seeds < 0.5 | per-seed AUC | max |Δ| vs P1 seeds 17/23/42 |",
+              "The model-initialisation seeding fix (after P1) applies to all 8 seeds, so seeds 17/23/42 are not "
+              "expected to equal their P1 values (P1 initial weights depended on the previous run); the last column "
+              "shows the difference for transparency.", "",
+              "| Class | mean AUC | 95% CI (±) | fraction of seeds < 0.5 | per-seed AUC | max |Δ| vs P1 (seeds 17/23/42) |",
               "|---|---|---|---|---|---|"]
         for r in S["d3_nn"]["rows"]:
             L.append(f"| {r['class']} | {_f(r['mean'])} | {_f(r['ci95'])} | {r['frac_below_0.5']:.3f} | "

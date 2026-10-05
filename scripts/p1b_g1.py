@@ -24,7 +24,7 @@ from nids import metrics, predictors  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
 from nids.provenance import ROOT, provenance, require_clean_tree, write_json  # noqa: E402
-from nids.train import fit, predict  # noqa: E402
+from nids.train import fit, predict, set_seed  # noqa: E402
 
 MIN_CLASS_WINDOWS = 20
 
@@ -45,6 +45,7 @@ def build(n_features: int, spec: dict, D: int) -> AHSD:
 def run_one(arc: Archive, ds: str, lab: str, classes: list[str], spec: dict, seed: int, cfg: dict) -> dict:
     tr, va, te = (arc.windows(arc.sets[k], labelling=lab) for k in ("train", "val", "test"))
     torch.set_num_threads(cfg["threads"])
+    set_seed(seed)  # before building: initial weights depend on this run's seed only
     m = build(arc.n_features, spec, cfg["D"])
     tinfo = fit(m, tr, va, seed=seed, epochs=cfg["epochs"], log=lambda s: print(s, flush=True))
     st = predict(m, te["X"], states=True)

@@ -26,7 +26,7 @@ from nids import metrics, predictors, scores, spectral  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
 from nids.provenance import ROOT, provenance, require_clean_tree, write_json  # noqa: E402
-from nids.train import fit, predict  # noqa: E402
+from nids.train import fit, predict, set_seed  # noqa: E402
 
 
 def s2_block(m, pr_train_benign, z_by: dict, T: int) -> dict:
@@ -49,6 +49,10 @@ def s2_block(m, pr_train_benign, z_by: dict, T: int) -> dict:
 
 def train_model(arc: Archive, tr: dict, va: dict, seed: int, cfg: dict, log):
     torch.set_num_threads(cfg.get("threads", 4))
+    # Seed BEFORE building the model, so the initial weights depend on this run's seed only.
+    # (P1, code f557bcd, built the model before fit() seeded: its initial weights came from the
+    # torch RNG state left by the previous run in the process. Fixed after P1; see P1B_REPORT.md.)
+    set_seed(seed)
     m = AHSD(arc.n_features, D=cfg["D"], variant="fixed")
     tinfo = fit(m, tr, va, seed=seed, epochs=cfg["epochs"], log=log)
     return m, tinfo

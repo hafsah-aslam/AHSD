@@ -116,3 +116,24 @@ def test_provenance_code_commit_is_captured_once():
     assert a["code_commit_captured_utc"] == b["code_commit_captured_utc"]
     assert {"code_commit", "code_dirty", "results_head", "rq_sha256"} <= set(a)
     assert "git_hash" not in a
+
+
+def test_train_model_initialisation_depends_only_on_seed():
+    """Regression: P1 built the model before seeding, so init depended on the previous run."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import run_loaco as R
+
+    class _Arc:
+        n_features = 5
+
+    rng = np.random.default_rng(0)
+    data = {"X": rng.normal(size=(64, 32, 5)).astype(np.float32), "y_bin": np.r_[np.zeros(32), np.ones(32)].astype(np.int64)}
+    weights = []
+    for burn in (0, 3):
+        torch.manual_seed(1234 + burn)
+        torch.randn(burn * 10)  # different prior RNG state
+        m, _ = R.train_model(_Arc(), data, data, seed=17, cfg={"D": 8, "epochs": 1, "threads": 1}, log=lambda s: None)
+        weights.append(m.gates.weight.detach().clone())
+    assert torch.equal(weights[0], weights[1])
