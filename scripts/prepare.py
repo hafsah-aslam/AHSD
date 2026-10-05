@@ -69,7 +69,8 @@ def main():
         if missing or not ds_list:
             raise SystemExit(f"raw files missing for {missing or 'all datasets'}; run scripts/download.py "
                              f"or place the files in {cfg['raw_dir']}")
-        in_domain_all = [d for d, v in cfg["datasets"].items() if not v.get("target_only")]
+        in_domain_all = [d for d, v in cfg["datasets"].items()
+                         if not v.get("target_only") and not v.get("own_feature_space")]
         if a.stage != "index" and not set(in_domain_all) <= set(ds_list) and not a.allow_partial_common:
             raise SystemExit(f"only {ds_list} requested; the common feature list must span "
                              f"{list(cfg['datasets'])}. Pass --allow-partial-common to proceed anyway.")
@@ -85,7 +86,16 @@ def main():
             ds_list = present if not a.datasets else ds_list
 
     targets = [d for d in ds_list if cfg["datasets"][d].get("target_only")]
-    in_domain = [d for d in ds_list if d not in targets]
+    own_space = [d for d in ds_list if cfg["datasets"][d].get("own_feature_space")]
+    for ds in own_space:  # own feature space: own common list, no transfer (AMENDMENT_04)
+        own_common = pipeline.common_features(cfg, [ds])
+        write_json(ROOT / cfg["processed_dir"] / ds / "own_features.json", {"dataset": ds, "features": own_common})
+        print(f"[{ds}] own feature space ({len(own_common)}): {own_common}")
+        pipeline.stage_finalize(ds, cfg, own_common, resume=a.resume)
+    in_domain = [d for d in ds_list if d not in targets and d not in own_space]
+    if not in_domain:
+        print("no shared-feature-space datasets in this run")
+        return
     common = pipeline.common_features(cfg, in_domain)
     frozen_path = ROOT / cfg["processed_dir"] / "common_features.json"
     if frozen_path.exists() and not a.smoke:
@@ -97,7 +107,8 @@ def main():
     else:
         write_json(frozen_path, {"datasets": in_domain,
                                  "partial": set(in_domain) != {d for d, v in cfg["datasets"].items()
-                                                               if not v.get("target_only")} and not a.smoke,
+                                                               if not v.get("target_only")
+                                                               and not v.get("own_feature_space")} and not a.smoke,
                                  "features": common})
         print(f"common features ({len(common)}): {common}")
     for ds in in_domain:

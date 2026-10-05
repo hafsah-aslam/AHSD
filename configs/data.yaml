@@ -25,6 +25,11 @@ datasets:
       anchor_sizes: [100, 500]       # nested draws from the pool
       test_ratio: 5                  # benign:attack in the test set
       attack_allocation: equal       # equal share per attack class, shortfall redistributed
+  D5:
+    name: Lycos2017 (LYCOS-IDS2017)          # AMENDMENT_04 A4.3; built by scripts/d5_build_source.py
+    raw_glob: "lycos/derived/Lycos2017-D5*"
+    role: [in_domain, loaco]
+    own_feature_space: true                  # processed in its own feature space (no transfer in P1d)
 
 raw_dir: data/raw
 interim_dir: data/interim

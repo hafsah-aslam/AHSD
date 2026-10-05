@@ -64,7 +64,17 @@ _HEAVY_TOKENS = ("BYTES", "PKTS", "DURATION", "THROUGHPUT", "IAT",
                  "FLOW_PKT", "PKT_LEN", "TCP_WIN_MAX", "DNS_TTL_ANSWER")
 
 
+# D5 / Lycos2017 (lower-case LycoSTand names; AMENDMENT_04): flag counts, ip_prot and
+# down_up_ratio are never logged.
+_HEAVY_TOKENS_LYCOS = ("len", "cnt", "tot", "bytes", "per_s", "iat", "duration", "active", "idle", "bulk",
+                       "subflow", "win", "var", "std", "mean", "max", "min")
+
+
 def is_heavy_tailed(col: str) -> bool:
+    if col.islower():  # LycoSTand naming (D5)
+        if col.startswith(("flag_", "fwd_flag_", "bwd_flag_")) or col in ("ip_prot", "down_up_ratio"):
+            return False
+        return any(tok in col for tok in _HEAVY_TOKENS_LYCOS)
     return any(tok in col for tok in _HEAVY_TOKENS)
 
 
