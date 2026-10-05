@@ -126,9 +126,10 @@ dtypes as loaded (pipeline read types; raw CSV is text): **float64** (2): FLOW_S
 
 | ID | flows | 1-h groups | groups < 32 flows | windows | duplicates removed | dup. label conflicts | windows kept | benign windows | flows in no window | majority ties | LOACO allowed | peak RAM index (GB) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| D1 | 20,115,529 | 145 | 14 | 1,257,018 | 1,838 (0.1%) | 31 | 1,255,180 | 900,483 | 1,145 | 829 | True | 6.46 |
-| D2 | 2,365,424 | 26 | 0 | 147,801 | 0 (0.0%) | 0 | 147,801 | 65,026 | 192 | 23,388 | True | 2.09 |
-| D3 | 27,520,260 | 105 | 1 | 1,719,860 | 166,669 (9.7%) | 2,022 | 1,553,191 | 494,203 | 836 | 0 | True | 8.25 |
+| D1 | 20,115,529 | 145 | 14 | 1,257,018 | 1,838 (0.1%) | 31 | 1,255,180 | 900,483 | 1,145 | 829 | True | 6.47 |
+| D2 | 2,365,424 | 26 | 0 | 147,801 | 0 (0.0%) | 0 | 147,801 | 65,026 | 192 | 23,388 | True | 2.11 |
+| D3 | 27,520,260 | 105 | 1 | 1,719,860 | 166,669 (9.7%) | 2,022 | 1,553,191 | 494,203 | 836 | 0 | True | 8.27 |
+| D4 | 16,933,808 | 35 | 1 | 1,058,314 | 167,462 (15.8%) | 335 | 890,852 | 1,315 | 240 | 0 | False | 6.57 |
 
 ## 4. Splits, balanced sets, class coverage
 
@@ -181,7 +182,7 @@ Windows by majority class (all windows of each split, before balancing):
 | SQL_Injection | 323 | yes | False | 7000/7000 | 2500/500 | 0/0 | held-out class absent from the test split |
 | SSH-Bruteforce | 25,696 | yes | False | 7000/7000 | 2500/500 | 0/0 | held-out class absent from the test split |
 
-Index-stage validators: **84/84 passed**.
+Index-stage validators: **116/116 passed**.
 
 ### D1 / grouped_random
 
@@ -232,7 +233,7 @@ Windows by majority class (all windows of each split, before balancing):
 | SQL_Injection | 178 | no | — | — | — | — | < 200 training windows |
 | SSH-Bruteforce | 24,324 | yes | True | 7000/7000 | 2500/500 | 2500/500 |  |
 
-Index-stage validators: **79/79 passed**.
+Index-stage validators: **109/109 passed**.
 
 ### D2 / temporal_gap
 
@@ -355,7 +356,7 @@ Windows by majority class (all windows of each split, before balancing):
 | scanning | 228,318 | yes | False | 7000/7000 | 2500/500 | 0/0 | held-out class absent from the test split |
 | xss | 0 | no | — | — | — | — | < 200 training windows |
 
-Index-stage validators: **44/44 passed**.
+Index-stage validators: **68/68 passed**.
 
 ### D3 / grouped_random
 
@@ -408,11 +409,11 @@ Not in the common list (12): `DNS_QUERY_ID`, `FLOW_END_MILLISECONDS`, `FLOW_STAR
 
 | ID | scheme | cleaner fit rows | dropped by cleaner (not fixed rules) | rows materialised | windows referenced | NaN/inf imputed | log1p negatives clipped | archive validators | peak RAM finalize (GB) |
 |---|---|---|---|---|---|---|---|---|---|
-| D1 | temporal_gap | 12,161,287 | `FTP_COMMAND_RET_CODE`: zero variance on train; `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 6,012,000 | 209,850 | 0 | 0 | 2/2 | 8.27 |
-| D1 | grouped_random | 12,190,882 | `FTP_COMMAND_RET_CODE`: zero variance on train; `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 6,046,784 | 209,288 | 0 | 0 | 2/2 | 8.27 |
-| D2 | temporal_gap | 1,467,235 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 1,828,304 | 90,797 | 176,316 | 0 | 2/2 | 8.27 |
-| D2 | grouped_random | 1,474,358 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 2,086,096 | 107,096 | 208,100 | 0 | 2/2 | 8.27 |
-| D3 | temporal_gap | 15,853,859 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 3,185,904 | 104,033 | 0 | 0 | 2/2 | 9.27 |
+| D1 | temporal_gap | 12,161,287 | `FTP_COMMAND_RET_CODE`: zero variance on train; `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 6,509,216 | 234,683 | 0 | 0 | 2/2 | 8.92 |
+| D1 | grouped_random | 12,190,882 | `FTP_COMMAND_RET_CODE`: zero variance on train; `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 7,506,800 | 268,669 | 0 | 0 | 2/2 | 8.92 |
+| D2 | temporal_gap | 1,467,235 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 1,828,304 | 90,797 | 176,316 | 0 | 2/2 | 8.92 |
+| D2 | grouped_random | 1,474,358 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 2,086,096 | 107,096 | 208,100 | 0 | 2/2 | 8.92 |
+| D3 | temporal_gap | 15,853,859 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 3,477,776 | 114,928 | 0 | 0 | 2/2 | 9.27 |
 | D3 | grouped_random | 18,219,152 | `MAX_IP_PKT_LEN`: abs(corr) >= 0.999999 with LONGEST_FLOW_PKT on train; `ICMP_IPV4_TYPE`: abs(corr) >= 0.999999 with ICMP_TYPE on train | 5,415,680 | 182,391 | 0 | 0 | 2/2 | 9.27 |
 
 Transfer packages (target rebuilt with the source cleaner; nothing fitted on target):
@@ -423,18 +424,24 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D1 → D2 | grouped_random | 889,312 | 37,581 | 2/2 | `5637e9b50d4e8f27…` |
 | D1 → D3 | temporal_gap | 1,241,712 | 39,801 | 2/2 | `4e1c5d4158da0481…` |
 | D1 → D3 | grouped_random | 1,240,480 | 39,774 | 2/2 | `5637e9b50d4e8f27…` |
+| D1 → D4 | temporal_gap | 30,528 | 1,473 | 2/2 | `4e1c5d4158da0481…` |
+| D1 → D4 | grouped_random | 30,528 | 1,473 | 2/2 | `5637e9b50d4e8f27…` |
 | D2 → D1 | temporal_gap | 1,234,640 | 39,776 | 2/2 | `ca37445e9e546d30…` |
 | D2 → D1 | grouped_random | 1,233,024 | 39,767 | 2/2 | `501cb95462a12eec…` |
 | D2 → D3 | temporal_gap | 1,241,712 | 39,801 | 2/2 | `ca37445e9e546d30…` |
 | D2 → D3 | grouped_random | 1,240,480 | 39,774 | 2/2 | `501cb95462a12eec…` |
+| D2 → D4 | temporal_gap | 30,528 | 1,473 | 2/2 | `ca37445e9e546d30…` |
+| D2 → D4 | grouped_random | 30,528 | 1,473 | 2/2 | `501cb95462a12eec…` |
 | D3 → D1 | temporal_gap | 1,234,640 | 39,776 | 2/2 | `f81edd87b3903bc0…` |
 | D3 → D1 | grouped_random | 1,233,024 | 39,767 | 2/2 | `0a2d49ddc3a1c9db…` |
 | D3 → D2 | temporal_gap | 841,248 | 36,359 | 2/2 | `f81edd87b3903bc0…` |
 | D3 → D2 | grouped_random | 889,312 | 37,581 | 2/2 | `0a2d49ddc3a1c9db…` |
+| D3 → D4 | temporal_gap | 30,528 | 1,473 | 2/2 | `f81edd87b3903bc0…` |
+| D3 → D4 | grouped_random | 30,528 | 1,473 | 2/2 | `0a2d49ddc3a1c9db…` |
 
 ## 6. Every validator result
 
-**440/440 passed.** (The pipeline fails closed: a failing check aborts before writing.)
+**538/538 passed.** (The pipeline fails closed: a failing check aborts before writing.)
 
 <details><summary>All checks</summary>
 
@@ -524,6 +531,38 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D1 | temporal_gap | index | LOACO SSH-Bruteforce: test from test split | True |
 | D1 | temporal_gap | index | LOACO SSH-Bruteforce: test is benign + held-out only | True |
 | D1 | temporal_gap | index | LOACO SSH-Bruteforce: train from train split | True |
+| D1 | temporal_gap | index | [family] LOACO BruteForce: train has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO BruteForce: val has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO BruteForce: test from test split | True |
+| D1 | temporal_gap | index | [family] LOACO BruteForce: test is benign + held-out only | True |
+| D1 | temporal_gap | index | [family] LOACO BruteForce: train from train split | True |
+| D1 | temporal_gap | index | [family] LOACO DDoS: train has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO DDoS: val has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO DDoS: test from test split | True |
+| D1 | temporal_gap | index | [family] LOACO DDoS: test is benign + held-out only | True |
+| D1 | temporal_gap | index | [family] LOACO DDoS: train from train split | True |
+| D1 | temporal_gap | index | [family] LOACO DoS: train has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO DoS: val has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO DoS: test from test split | True |
+| D1 | temporal_gap | index | [family] LOACO DoS: test is benign + held-out only | True |
+| D1 | temporal_gap | index | [family] LOACO DoS: train from train split | True |
+| D1 | temporal_gap | index | [family] LOACO Web Attacks: train has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO Web Attacks: val has no flow of the held-out class | True |
+| D1 | temporal_gap | index | [family] LOACO Web Attacks: test from test split | True |
+| D1 | temporal_gap | index | [family] LOACO Web Attacks: test is benign + held-out only | True |
+| D1 | temporal_gap | index | [family] LOACO Web Attacks: train from train split | True |
+| D1 | temporal_gap | index | natural_novelty: train from split train | True |
+| D1 | temporal_gap | index | natural_novelty: train has no flow of any NN class | True |
+| D1 | temporal_gap | index | natural_novelty: val from split val | True |
+| D1 | temporal_gap | index | natural_novelty: val has no flow of any NN class | True |
+| D1 | temporal_gap | index | natural_novelty Bot: absent from the train split | True |
+| D1 | temporal_gap | index | natural_novelty Bot: test from test split | True |
+| D1 | temporal_gap | index | natural_novelty Bot: test is benign + Bot only | True |
+| D1 | temporal_gap | index | natural_novelty Bot: test holds windows of the class | True |
+| D1 | temporal_gap | index | natural_novelty Infilteration: absent from the train split | True |
+| D1 | temporal_gap | index | natural_novelty Infilteration: test from test split | True |
+| D1 | temporal_gap | index | natural_novelty Infilteration: test is benign + Infilteration only | True |
+| D1 | temporal_gap | index | natural_novelty Infilteration: test holds windows of the class | True |
 | D1 | temporal_gap | archive | cleaned flows finite | True |
 | D1 | temporal_gap | archive | cleaned flows float32 | True |
 | D1 | grouped_random | index | window SHA-256 globally unique after dedupe | True |
@@ -605,6 +644,36 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D1 | grouped_random | index | LOACO SSH-Bruteforce: test from test split | True |
 | D1 | grouped_random | index | LOACO SSH-Bruteforce: test is benign + held-out only | True |
 | D1 | grouped_random | index | LOACO SSH-Bruteforce: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO Bot: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Bot: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Bot: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO Bot: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO Bot: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO BruteForce: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO BruteForce: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO BruteForce: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO BruteForce: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO BruteForce: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO DDoS: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO DDoS: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO DDoS: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO DDoS: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO DDoS: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO DoS: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO DoS: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO DoS: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO DoS: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO DoS: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO Infiltration: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Infiltration: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Infiltration: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO Infiltration: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO Infiltration: train from train split | True |
+| D1 | grouped_random | index | [family] LOACO Web Attacks: train has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Web Attacks: val has no flow of the held-out class | True |
+| D1 | grouped_random | index | [family] LOACO Web Attacks: test from test split | True |
+| D1 | grouped_random | index | [family] LOACO Web Attacks: test is benign + held-out only | True |
+| D1 | grouped_random | index | [family] LOACO Web Attacks: train from train split | True |
 | D1 | grouped_random | archive | cleaned flows finite | True |
 | D1 | grouped_random | archive | cleaned flows float32 | True |
 | D2 | temporal_gap | index | window SHA-256 globally unique after dedupe | True |
@@ -783,6 +852,30 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D3 | temporal_gap | index | LOACO scanning: test from test split | True |
 | D3 | temporal_gap | index | LOACO scanning: test is benign + held-out only | True |
 | D3 | temporal_gap | index | LOACO scanning: train from train split | True |
+| D3 | temporal_gap | index | natural_novelty: train from split train | True |
+| D3 | temporal_gap | index | natural_novelty: train has no flow of any NN class | True |
+| D3 | temporal_gap | index | natural_novelty: val from split val | True |
+| D3 | temporal_gap | index | natural_novelty: val has no flow of any NN class | True |
+| D3 | temporal_gap | index | natural_novelty Backdoor: absent from the train split | True |
+| D3 | temporal_gap | index | natural_novelty Backdoor: test from test split | True |
+| D3 | temporal_gap | index | natural_novelty Backdoor: test is benign + Backdoor only | True |
+| D3 | temporal_gap | index | natural_novelty Backdoor: test holds windows of the class | True |
+| D3 | temporal_gap | index | natural_novelty mitm: absent from the train split | True |
+| D3 | temporal_gap | index | natural_novelty mitm: test from test split | True |
+| D3 | temporal_gap | index | natural_novelty mitm: test is benign + mitm only | True |
+| D3 | temporal_gap | index | natural_novelty mitm: test holds windows of the class | True |
+| D3 | temporal_gap | index | natural_novelty password: absent from the train split | True |
+| D3 | temporal_gap | index | natural_novelty password: test from test split | True |
+| D3 | temporal_gap | index | natural_novelty password: test is benign + password only | True |
+| D3 | temporal_gap | index | natural_novelty password: test holds windows of the class | True |
+| D3 | temporal_gap | index | natural_novelty ransomware: absent from the train split | True |
+| D3 | temporal_gap | index | natural_novelty ransomware: test from test split | True |
+| D3 | temporal_gap | index | natural_novelty ransomware: test is benign + ransomware only | True |
+| D3 | temporal_gap | index | natural_novelty ransomware: test holds windows of the class | True |
+| D3 | temporal_gap | index | natural_novelty xss: absent from the train split | True |
+| D3 | temporal_gap | index | natural_novelty xss: test from test split | True |
+| D3 | temporal_gap | index | natural_novelty xss: test is benign + xss only | True |
+| D3 | temporal_gap | index | natural_novelty xss: test holds windows of the class | True |
 | D3 | temporal_gap | archive | cleaned flows finite | True |
 | D3 | temporal_gap | archive | cleaned flows float32 | True |
 | D3 | grouped_random | index | window SHA-256 globally unique after dedupe | True |
@@ -864,6 +957,10 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D1→D3 | temporal_gap | transfer | cleaned flows float32 | True |
 | D1→D3 | grouped_random | transfer | cleaned flows finite | True |
 | D1→D3 | grouped_random | transfer | cleaned flows float32 | True |
+| D1→D4 | temporal_gap | transfer | cleaned flows finite | True |
+| D1→D4 | temporal_gap | transfer | cleaned flows float32 | True |
+| D1→D4 | grouped_random | transfer | cleaned flows finite | True |
+| D1→D4 | grouped_random | transfer | cleaned flows float32 | True |
 | D2→D1 | temporal_gap | transfer | cleaned flows finite | True |
 | D2→D1 | temporal_gap | transfer | cleaned flows float32 | True |
 | D2→D1 | grouped_random | transfer | cleaned flows finite | True |
@@ -872,6 +969,10 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D2→D3 | temporal_gap | transfer | cleaned flows float32 | True |
 | D2→D3 | grouped_random | transfer | cleaned flows finite | True |
 | D2→D3 | grouped_random | transfer | cleaned flows float32 | True |
+| D2→D4 | temporal_gap | transfer | cleaned flows finite | True |
+| D2→D4 | temporal_gap | transfer | cleaned flows float32 | True |
+| D2→D4 | grouped_random | transfer | cleaned flows finite | True |
+| D2→D4 | grouped_random | transfer | cleaned flows float32 | True |
 | D3→D1 | temporal_gap | transfer | cleaned flows finite | True |
 | D3→D1 | temporal_gap | transfer | cleaned flows float32 | True |
 | D3→D1 | grouped_random | transfer | cleaned flows finite | True |
@@ -880,6 +981,10 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 | D3→D2 | temporal_gap | transfer | cleaned flows float32 | True |
 | D3→D2 | grouped_random | transfer | cleaned flows finite | True |
 | D3→D2 | grouped_random | transfer | cleaned flows float32 | True |
+| D3→D4 | temporal_gap | transfer | cleaned flows finite | True |
+| D3→D4 | temporal_gap | transfer | cleaned flows float32 | True |
+| D3→D4 | grouped_random | transfer | cleaned flows finite | True |
+| D3→D4 | grouped_random | transfer | cleaned flows float32 | True |
 
 </details>
 
@@ -918,9 +1023,6 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 - D4: UQ page class counts sum to 16,933,844, file has 16,933,808 rows (difference +36)
 - D2/temporal_gap: val set below cap (1,992 < 3,000); limited by available benign windows
 - D2/temporal_gap: test set below cap (2,112 < 3,000); limited by available benign windows
-- D4 / temporal_gap: the pipeline stopped (fail-closed) because the validation split is empty. D4 has 34 one-hour groups that contain windows, but 7 consecutive groups on 2018-06-04 (DoS/DDoS) hold 820,537 of its 890,852 windows (92%). With 60/20/20 measured in windows (an implementation choice, not in the spec), train ends inside that block, the one gap group consumes the next large group, and the cumulative share is already past 80% before val receives anything. No D4 archive, cleaner or LOACO was produced. D4 is therefore excluded from the common feature list for now.
-- D4 dedupe statistics are unavailable: the index stage aborted before writing index_meta.json. Windows kept after dedupe: 890,852.
-- D4 diagnostic only (not adopted): grouped_random would succeed with windows {'train': 702518, 'gap': 0, 'val': 46370, 'test': 141964}, but val and test would each hold only 36 benign windows, so a 5:1 benign:attack set has at most 7 attack windows.
 - D4: 1,315 benign windows after dedupe (< 2,000), so D4 is transfer-target only and gets no LOACO, as the spec anticipated.
 - LOACO under the primary split temporal_gap: D1 has 0 feasible folds, D3 has 0 feasible folds, D2 has 8 (Analysis, Backdoor, DoS, Exploits, Fuzzers, Generic, Reconnaissance, Shellcode). In CIC-IDS2018 and ToN-IoT each attack class is recorded on its own day(s), so a time-ordered group split puts a class entirely in train or entirely in test. The P1 pilot (D1 + D2, temporal_gap) would run on D2 classes only.
 - LOACO under grouped_random: D1 6 feasible (Bot, Brute_Force_-Web, Brute_Force_-XSS, DDoS_attacks-LOIC-HTTP, Infilteration, SSH-Bruteforce); D2 8; D3 6 (Backdoor, ddos, injection, password, scanning, xss).
@@ -933,4 +1035,6 @@ Transfer packages (target rebuilt with the source cleaner; nothing fitted on tar
 - D2: the file's counts for Backdoor (4,659), Shellcode (2,381) and Analysis (1,226) are a permutation of the UQ page's (Backdoor 1,226, Shellcode 4,659, Analysis 2,381). All other D2 classes match. Either the page table or the file's labels for these three classes are swapped; this cannot be resolved from the data alone. LOACO uses the file labels, so these three folds should be interpreted with care (or confirmed with the dataset authors).
 - D1: the file's 14 sub-class counts sum exactly to the UQ page's 6 grouped classes (BruteForce = FTP + SSH; DoS = Hulk + SlowHTTPTest + GoldenEye + Slowloris; DDoS = HOIC + LOIC-HTTP + LOIC-UDP; Web Attacks = Brute_Force_-Web + Brute_Force_-XSS + SQL_Injection; Infilteration = Infiltration). The file and page agree; they differ only in granularity.
 - Peak RAM for the finalize stage (8.27 GB for D1/D2, 9.27 GB for D3) is the process-level maximum of one process that finalised D1-D3 in sequence and then built the transfer packages, not a per-dataset figure. The index-stage peaks are per dataset (one process each): D1 6.46 GB, D2 2.09 GB, D3 8.25 GB, D4 ~6.2 GB sampled before it stopped.
+- AMENDMENT_01 (2026-10-05) resolved the P0 blockers: LOACO now uses grouped_random for D1-D3, D1 uses UQ families as the primary LOACO classes, natural_novelty is a new evaluation, and D4 is transfer-target only (group-disjoint re-anchoring pool + test set; no split). D4 index after the amendment: 890,852 windows kept, 167,462 duplicates removed (15.8%).
+- natural_novelty D1 is infeasible under A1.3 as written: every temporal_gap validation window of D1 contains at least one Infilteration flow (33,826 windows), so excluding windows with natural-novelty flows leaves val empty. Recorded as skipped (fail closed); needs an author decision. D3 natural_novelty is feasible (val keeps 2,500 + 500 windows after removing 74,916).
 

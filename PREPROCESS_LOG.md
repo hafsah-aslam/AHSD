@@ -67,7 +67,7 @@ Window T=32, stride=16, group block=1 h; balance {'train_ratio': 1, 'eval_ratio'
 | SQL_Injection | 323 | True | False | held-out class absent from the test split |
 | SSH-Bruteforce | 25696 | True | False | held-out class absent from the test split |
 
-Verification: 84/84 checks passed (fail-closed).
+Verification: 116/116 checks passed (fail-closed).
 
 ### D1 / grouped_random
 
@@ -104,7 +104,7 @@ Verification: 84/84 checks passed (fail-closed).
 | SQL_Injection | 178 | False | — | < 200 training windows |
 | SSH-Bruteforce | 24324 | True | True |  |
 
-Verification: 79/79 checks passed (fail-closed).
+Verification: 109/109 checks passed (fail-closed).
 
 ## D2 — NF-UNSW-NB15-v3
 
@@ -209,7 +209,7 @@ Verification: 64/64 checks passed (fail-closed).
 | scanning | 228318 | True | False | held-out class absent from the test split |
 | xss | 0 | False | — | < 200 training windows |
 
-Verification: 44/44 checks passed (fail-closed).
+Verification: 68/68 checks passed (fail-closed).
 
 ### D3 / grouped_random
 
