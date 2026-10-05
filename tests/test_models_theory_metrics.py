@@ -137,3 +137,10 @@ def test_train_model_initialisation_depends_only_on_seed():
         m, _ = R.train_model(_Arc(), data, data, seed=17, cfg={"D": 8, "epochs": 1, "threads": 1}, log=lambda s: None)
         weights.append(m.gates.weight.detach().clone())
     assert torch.equal(weights[0], weights[1])
+
+
+def test_preflight_runs_regression_tests():
+    from nids import preflight
+    assert any("initialisation_depends_only_on_seed" in t for t in preflight.REGRESSION_TESTS)
+    out = preflight.preflight("unit-test")
+    assert out["passed"]

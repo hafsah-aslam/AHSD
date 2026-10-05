@@ -101,19 +101,30 @@ def s2dir_analysis(runs: list[dict], points: list[dict]) -> dict:
 
 # ------------------------------------------------------------------ A2.5
 def d3_nn(runs: list[dict], p1_runs: list[dict]) -> dict:
+    """Post-fix: 8 fresh seeds (seeding fix ad61131). Pre-fix: P1's 3 seeds, reported separately, never pooled."""
     by = defaultdict(list)
     for r in runs:
         by[r["held_out"]].append(r)
-    p1 = {(r["held_out"], r["seed"]): r for r in p1_runs}
-    rows = []
-    for cls, rs in sorted(by.items()):
-        aucs = [r["measured"]["stress"]["auc"] for r in sorted(rs, key=lambda r: r["seed"])]
-        repro = [abs(r["measured"]["stress"]["auc"] - p1[(cls, r["seed"])]["measured"]["stress"]["auc"])
-                 for r in rs if (cls, r["seed"]) in p1]
-        rows.append({"class": cls, "seeds": sorted(r["seed"] for r in rs), **metrics.mean_ci(aucs),
-                     "aucs": aucs, "frac_below_0.5": float(np.mean(np.array(aucs) < 0.5)),
-                     "p1_seed_repro_max_abs_dev": max(repro) if repro else None})
-    return {"rows": rows}
+    pre = defaultdict(list)
+    for r in p1_runs:
+        pre[r["held_out"]].append(r)
+    if any(r["provenance"]["code_commit"] == "f557bcd4602719b6a160e46b4a9ad1b503a5e6fc" for r in runs):
+        raise SystemExit("post-fix D3 natural_novelty set contains a P1 (pre-fix) run")
+    rows, spread = [], []
+    for cls in sorted(set(by) | set(pre)):
+        post = {r["seed"]: r["measured"]["stress"]["auc"] for r in by.get(cls, [])}
+        old = {r["seed"]: r["measured"]["stress"]["auc"] for r in pre.get(cls, [])}
+        aucs = [post[s] for s in sorted(post)]
+        rows.append({"class": cls, "seeds": sorted(post), **metrics.mean_ci(aucs), "aucs": aucs,
+                     "frac_below_0.5": float(np.mean(np.array(aucs) < 0.5)) if aucs else float("nan")})
+        same = [s for s in sorted(old) if s in post]
+        sd = lambda v: float(np.std(v, ddof=1)) if len(v) > 1 else float("nan")  # noqa: E731
+        spread.append({"class": cls,
+                       "pre_fix_p1": {"seeds": sorted(old), **metrics.mean_ci([old[s] for s in sorted(old)]),
+                                      "aucs": [old[s] for s in sorted(old)], "std": sd([old[s] for s in sorted(old)])},
+                       "post_fix_same_seeds_std": sd([post[s] for s in same]),
+                       "post_fix_all8_std": sd(aucs)})
+    return {"rows": rows, "spread": spread}
 
 
 # ------------------------------------------------------------------ A2.6 / G1
@@ -310,16 +321,27 @@ def render(S) -> str:
           "Infeasible as specified in A1.3: every D1 temporal_gap validation window (33,826) contains at least one "
           "Infilteration flow, so removing windows with natural-novelty flows leaves validation empty. See PILOT_REPORT.md.", ""]
     if S["d3_nn"]:
-        L += ["## A2.5 D3 natural_novelty — 8 seeds", "",
-              f"All 8 seeds on one code commit (`{S['code_commits']['P1b-D3nn']}`). Stress AUC; Student-t 95% CI (n = 8).", "",
-              "The model-initialisation seeding fix (after P1) applies to all 8 seeds, so seeds 17/23/42 are not "
-              "expected to equal their P1 values (P1 initial weights depended on the previous run); the last column "
-              "shows the difference for transparency.", "",
-              "| Class | mean AUC | 95% CI (±) | fraction of seeds < 0.5 | per-seed AUC | max |Δ| vs P1 (seeds 17/23/42) |",
-              "|---|---|---|---|---|---|"]
+        L += ["## A2.5 D3 natural_novelty — 8 seeds (post-fix seeding)", "",
+              f"All 8 seeds {{17, 23, 42, 101, 202, 303, 404, 505}} run fresh on code commit "
+              f"`{S['code_commits']['P1b-D3nn']}` (code-identical to the seeding fix ad61131), with model "
+              "initialisation seeded per run. P1's 3 runs are not pooled into this estimate. Stress AUC; "
+              "Student-t 95% CI (n = 8).", "",
+              "| Class | mean AUC | 95% CI (±) | fraction of seeds < 0.5 | per-seed AUC (seed order) |", "|---|---|---|---|---|"]
         for r in S["d3_nn"]["rows"]:
-            L.append(f"| {r['class']} | {_f(r['mean'])} | {_f(r['ci95'])} | {r['frac_below_0.5']:.3f} | "
-                     + ", ".join(f"{a:.3f}" for a in r["aucs"]) + f" | {('%.2e' % r['p1_seed_repro_max_abs_dev']) if r['p1_seed_repro_max_abs_dev'] is not None else '—'} |")
+            L.append(f"| {r['class']} | {_f(r['mean'])} | {_f(r['ci95'])} | {_f(r['frac_below_0.5'])} | "
+                     + ", ".join(f"{a:.3f}" for a in r["aucs"]) + " |")
+        L += ["", "### P1 result, pre-fix seeding (reported separately, not pooled)", "",
+              "P1 (code f557bcd): model initial weights came from the previous run's RNG state, so seed labels do "
+              "not identify these runs. Seeds 17, 23, 42; Student-t 95% CI (n = 3).", "",
+              "| Class | mean AUC | 95% CI (±) | per-run AUC |", "|---|---|---|---|"]
+        for sp in S["d3_nn"]["spread"]:
+            q = sp["pre_fix_p1"]
+            L.append(f"| {sp['class']} | {_f(q['mean'])} | {_f(q['ci95'])} | " + ", ".join(f"{a:.3f}" for a in q["aucs"]) + " |")
+        L += ["", "### Seed spread, pre-fix vs post-fix (std of stress AUC across seeds)", "",
+              "| Class | pre-fix P1 (3 runs) | post-fix, same seeds 17/23/42 | post-fix, all 8 seeds |", "|---|---|---|---|"]
+        for sp in S["d3_nn"]["spread"]:
+            L.append(f"| {sp['class']} | {_f(sp['pre_fix_p1']['std'])} | {_f(sp['post_fix_same_seeds_std'])} | "
+                     f"{_f(sp['post_fix_all8_std'])} |")
         L.append("")
     if S["g1"]:
         G = S["g1"]

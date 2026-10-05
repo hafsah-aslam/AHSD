@@ -1,0 +1,177 @@
+{
+  "eval_id": "D2_gr",
+  "dataset": "D2",
+  "scheme": "grouped_random",
+  "labelling": "file",
+  "rho_set": "pooled",
+  "held_out": "Shellcode",
+  "seed": 23,
+  "exploratory": true,
+  "p1_init_state": "torch.manual_seed(17)",
+  "s2dir": {
+    "raw": 1.5913080430894886,
+    "Q_benign_halves": 0.0009402057558787543,
+    "whitener_condition_number": 21.719939505437413
+  },
+  "reproduction": {
+    "p1_file": "results/p1/D2_gr/Shellcode/seed23.json",
+    "values": {
+      "stress_auc": [
+        0.8618525823654029,
+        0.8618525823654029
+      ],
+      "prob_auc": [
+        0.9993388852363211,
+        0.9993388852363211
+      ],
+      "D_pred": [
+        0.06188373689943867,
+        0.06188373689943867
+      ]
+    },
+    "abs_dev": {
+      "stress_auc": 0.0,
+      "prob_auc": 0.0,
+      "D_pred": 0.0
+    },
+    "tolerance": 1e-06,
+    "ok": true
+  },
+  "p1_measured_stress_auc": 0.8618525823654029,
+  "p1_code_commit": "f557bcd4602719b6a160e46b4a9ad1b503a5e6fc",
+  "wall_seconds": 52.075780153274536,
+  "provenance": {
+    "code_commit": "ad61131e8553508f985918d94fa461f0cc1fde7d",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T04:32:43+00:00",
+    "results_head": "cf3ff87c8340397cd51a734f4387a01fa8d454e3",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {
+      "flows.npy": "937514d658ca4c3a61a12b402649f3550ee5b46ba936043170f02d00fdcc1533",
+      "row_id.npy": "22aedb4358a70e0e7d533df268ea16d34588e81fcc4f417764654c68e9a5fc70",
+      "windows.npz": "fb48964ba59ca9802e1430b6eb2f3af88e18a179da725b280ce733e19f9382f7",
+      "sets.npz": "f0102dd4fe75c53933af17d25177ebadab1f030fed5f6c5bf049fac67d3e576d",
+      "loaco.npz": "95a0ecc860db40b0e3da6580cb025570211b2919e07867b3dbf5b922af4b9d65",
+      "cleaner.json": "501cb95462a12eecf544e62d7046d03e3a32e277f32fbb80209624786bed3db5"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "n_boot": 1000,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1",
+      "report_dir": "report/p1",
+      "evaluations": [
+        {
+          "id": "D1_family_gr",
+          "dataset": "D1",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "family",
+          "rho_set": "families"
+        },
+        {
+          "id": "D2_gr",
+          "dataset": "D2",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "pooled"
+        },
+        {
+          "id": "D3_gr",
+          "dataset": "D3",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "pooled"
+        },
+        {
+          "id": "D1_sub_gr",
+          "dataset": "D1",
+          "scheme": "grouped_random",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "sublabels"
+        },
+        {
+          "id": "D2_tg",
+          "dataset": "D2",
+          "scheme": "temporal_gap",
+          "kind": "loaco",
+          "labelling": "file",
+          "rho_set": "d2_temporal"
+        },
+        {
+          "id": "D1_nn",
+          "dataset": "D1",
+          "scheme": "temporal_gap",
+          "kind": "natural_novelty",
+          "rho_set": "natural"
+        },
+        {
+          "id": "D3_nn",
+          "dataset": "D3",
+          "scheme": "temporal_gap",
+          "kind": "natural_novelty",
+          "rho_set": "natural"
+        }
+      ],
+      "smoke": {
+        "processed_dir": "smoke_out/processed",
+        "results_dir": "smoke_out/results/p1",
+        "report_dir": "smoke_out/report/p1",
+        "seeds": [
+          17
+        ],
+        "epochs": 2,
+        "D": 32,
+        "n_boot": 50,
+        "evaluations": [
+          {
+            "id": "D1_gr",
+            "dataset": "D1",
+            "scheme": "grouped_random",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "pooled"
+          },
+          {
+            "id": "D2_gr",
+            "dataset": "D2",
+            "scheme": "grouped_random",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "pooled"
+          },
+          {
+            "id": "D2_tg",
+            "dataset": "D2",
+            "scheme": "temporal_gap",
+            "kind": "loaco",
+            "labelling": "file",
+            "rho_set": "d2_temporal"
+          }
+        ]
+      },
+      "evaluation": {
+        "id": "D2_gr",
+        "dataset": "D2",
+        "scheme": "grouped_random",
+        "kind": "loaco",
+        "labelling": "file",
+        "rho_set": "pooled"
+      },
+      "experiment": "P1b-S2dir"
+    },
+    "timestamp_utc": "2026-10-05T05:09:15+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

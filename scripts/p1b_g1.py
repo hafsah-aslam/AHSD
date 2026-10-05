@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from nids import metrics, predictors  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
+from nids.preflight import preflight  # noqa: E402
 from nids.provenance import ROOT, provenance, require_clean_tree, write_json  # noqa: E402
 from nids.train import fit, predict, set_seed  # noqa: E402
 
@@ -90,6 +91,7 @@ def main():
         cfg.update(cfg["smoke"])
     else:
         require_clean_tree("P1b-G1")
+        preflight("P1b-G1 " + a.config)
     out_root = ROOT / cfg["results_dir"]
     for ds in cfg["datasets"]:
         if a.datasets and ds not in a.datasets:

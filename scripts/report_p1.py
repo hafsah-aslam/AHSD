@@ -376,6 +376,21 @@ def render_md(S, smoke: bool) -> str:
           f"`{P['config_sha256']}`; `{Path(S['config_path']).as_posix()}` SHA-256 `{P['config_file_sha256']}`.",
           "- **RESEARCH_QUESTIONS.md** SHA-256 recorded by the runs: "
           + ", ".join(f"`{h}`" for h in P["rq_sha256_in_runs"]) + " (post-AMENDMENT_01; see `docs/AMENDMENTS.json`).",
+          "",
+          "**Seeding bug (found in P1b, after P1).** P1's code (`f557bcd`) built each AHSD model *before* "
+          "`fit()` called `set_seed(seed)`, so a run's initial weights were drawn from the torch RNG state "
+          "left by the previous training in the same process (equivalently `torch.manual_seed(<previous run's "
+          "seed>)`), and the first training of the process drew from torch's random start-of-process state. "
+          "Verified: replaying the predecessor's seed reproduces P1 runs exactly (|Δ| = 0).",
+          "- Fixed in commit `ad61131` (seed before model construction, in `scripts/run_loaco.py` and "
+          "`scripts/p1b_g1.py`); regression test "
+          "`tests/test_models_theory_metrics.py::test_train_model_initialisation_depends_only_on_seed`, which "
+          "every phase from P2 on runs as a fail-closed preflight (`src/nids/preflight.py`).",
+          "- Consequence for P1: the seed labels {17, 23, 42} are **not reproducible identifiers** of P1 runs. "
+          "Each P1 run is still a valid independent training (random initialisation, seeded data order), so the "
+          "P1 results and the gate stand as computed; they are not citable as seeded results.",
+          "- D1 families / Bot / seed 17 was the first training of the P1 process and cannot be reproduced; it is "
+          "excluded from the P1b S2-dir analysis (which needs exact re-execution).",
           "", "| Dataset | raw file | raw SHA-256 |", "|---|---|---|"]
     for ds, v in P["raw_dataset_sha256"].items():
         L.append(f"| {ds} | `{v['file']}` | `{v['sha256']}` |")
