@@ -1,0 +1,227 @@
+{
+  "dataset": "D1",
+  "scheme": "grouped_random",
+  "labelling": "family",
+  "model": {
+    "id": "S1_t0.5_k0.05",
+    "variant": "S1",
+    "tau_mult": 0.5,
+    "kappa": 0.05
+  },
+  "seed": 23,
+  "test": {
+    "d_prime_stress": 1.0703709125518799,
+    "auc_stress": 0.7898244000000001,
+    "d_prime_prob": 1.433236837387085,
+    "auc_prob": 0.793894,
+    "macro_f1_pct": 80.22802684627612,
+    "n": {
+      "benign": 2500,
+      "attack": 500
+    }
+  },
+  "per_class": {
+    "Bot": {
+      "n": 91,
+      "d_prime_stress": 2.174473524093628,
+      "stationarity": 1.0882948637008667
+    },
+    "DoS": {
+      "n": 158,
+      "d_prime_stress": 1.8498200178146362,
+      "stationarity": 1.0556470155715942
+    },
+    "Infiltration": {
+      "n": 217,
+      "d_prime_stress": 0.34751513600349426,
+      "stationarity": 1.0977319478988647
+    }
+  },
+  "best_val_macro_f1": 0.9587988919815154,
+  "gamma_final": 0.04954205080866814,
+  "gamma_by_epoch": [
+    0.04954205080866814,
+    0.04935818910598755,
+    0.04879411682486534,
+    0.04825490713119507,
+    0.04788333177566528,
+    0.04764275997877121,
+    0.04750870540738106,
+    0.04733792692422867,
+    0.04719396308064461,
+    0.04703424498438835,
+    0.04689035937190056,
+    0.04679174721240997,
+    0.04674210399389267,
+    0.046713024377822876,
+    0.046710606664419174
+  ],
+  "training": {
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.3752002191543579,
+        "val_macro_f1": 0.9587988919815154,
+        "gamma": 0.04954205080866814
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.26995720526150296,
+        "val_macro_f1": 0.9360554584435181,
+        "gamma": 0.04935818910598755
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.24589295322554452,
+        "val_macro_f1": 0.9530063620434623,
+        "gamma": 0.04879411682486534
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.23355209640094213,
+        "val_macro_f1": 0.9384818746307927,
+        "gamma": 0.04825490713119507
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.2143385832309723,
+        "val_macro_f1": 0.9453233214259678,
+        "gamma": 0.04788333177566528
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.20493072395665304,
+        "val_macro_f1": 0.9252997205060312,
+        "gamma": 0.04764275997877121
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.19402327638013023,
+        "val_macro_f1": 0.9187339776649146,
+        "gamma": 0.04750870540738106
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.18458918591908047,
+        "val_macro_f1": 0.9356345728944313,
+        "gamma": 0.04733792692422867
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.172613129734993,
+        "val_macro_f1": 0.9161983336302881,
+        "gamma": 0.04719396308064461
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.16176149472168513,
+        "val_macro_f1": 0.9262289791012845,
+        "gamma": 0.04703424498438835
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.1518676049539021,
+        "val_macro_f1": 0.9063614048464661,
+        "gamma": 0.04689035937190056
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.14390973024708884,
+        "val_macro_f1": 0.8977661725487149,
+        "gamma": 0.04679174721240997
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.13711823649065835,
+        "val_macro_f1": 0.8931511329977648,
+        "gamma": 0.04674210399389267
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.13319794934136528,
+        "val_macro_f1": 0.8982456262578353,
+        "gamma": 0.046713024377822876
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.13146092532362258,
+        "val_macro_f1": 0.8931511329977648,
+        "gamma": 0.046710606664419174
+      }
+    ],
+    "best_val_macro_f1": 0.9587988919815154,
+    "seconds": 78.92811274528503,
+    "hparams": {
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip": 1.0,
+      "batch": 256,
+      "epochs": 15
+    },
+    "tau_ref_log": [
+      0.4728357195854187,
+      0.4362199604511261
+    ]
+  },
+  "wall_seconds": 79.26352739334106,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "cf3ff87c8340397cd51a734f4387a01fa8d454e3",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T05:35:32+00:00",
+    "results_head": "ba282183da1aacf8319013b3839b093946c92e2a",
+    "rq_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "datasets": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "scheme": "grouped_random",
+      "labelling": {
+        "D1": "family"
+      },
+      "gammas": [
+        0,
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "s1_tau_mult": [
+        0.5,
+        1,
+        2
+      ],
+      "s1_kappa": [
+        0.01,
+        0.05
+      ],
+      "seeds": [
+        17,
+        23,
+        42
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "results_dir": "results/p1b/g1"
+    },
+    "timestamp_utc": "2026-10-05T06:00:13+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
