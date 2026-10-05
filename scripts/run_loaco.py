@@ -144,7 +144,17 @@ def run_evaluation(ev: dict, cfg: dict, resume: bool, smoke: bool):
     elif ev["kind"] == "natural_novelty":
         classes = meta["classes"]
         nn = arc.natural_novelty
-        nn_classes = smeta["natural_novelty"]["classes"]
+        nn_info = smeta["natural_novelty"]
+        nn_classes = nn_info["classes"]
+        empty = [k for k in ("train", "val") if nn_info[k]["benign"] == 0 or nn_info[k]["attack"] == 0]
+        if empty:  # fail closed: no checkpoint selection possible (AMENDMENT_01 A1.3 as written)
+            reason = (f"{' and '.join(empty)} empty after removing windows with any flow of "
+                      f"{', '.join(nn_classes)} ({ {k: nn_info[k] for k in ('train', 'val')} })")
+            for c in nn_classes:
+                save(out_root / f"{_safe(c)}__skipped.json",
+                     {**base, "held_out": c, "skipped": True, "fold_info": {"reason": reason}})
+            print(f"[{ev['id']}] natural_novelty infeasible: {reason}", flush=True)
+            return
         for seed in cfg["seeds"]:
             paths = {c: out_root / _safe(c) / f"seed{seed}.json" for c in nn_classes}
             if all(done(p) for p in paths.values()):

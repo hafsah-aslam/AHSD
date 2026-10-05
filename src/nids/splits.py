@@ -173,6 +173,11 @@ def natural_novelty_sets(wi: WindowIndex, split: np.ndarray, classes: list[str],
         out[nm], info[nm] = balance(np.flatnonzero(m & (wi.y_bin == 0)), np.flatnonzero(m & (wi.y_bin == 1)),
                                     r, cap, rng)
         info[nm]["removed_windows_with_nn_flows"] = int(((split == s) & has_nn).sum())
+    empty = [nm for nm in ("train", "val") if info[nm]["benign"] == 0 or info[nm]["attack"] == 0]
+    info["feasible"] = not empty
+    if empty:
+        info["reason"] = (f"{' and '.join(empty)} empty after removing windows with any flow of "
+                          f"{', '.join(nn_classes)}")
     m = split == TEST
     for name, c in zip(nn_classes, idx):
         out[f"test/{name}"], info[f"test/{name}"] = balance(
