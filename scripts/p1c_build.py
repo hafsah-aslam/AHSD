@@ -33,7 +33,10 @@ CFG = {"head_frac": 0.8, "train_cap": 14000, "val_cap": 3000, "val_ratio": 5, "a
        "test_benign": 2500, "test_attack_cap": 500, "data_seed": 0}
 
 
-def build(ds: str, nn_classes: list[str], dcfg: dict) -> dict:
+def build(ds: str, nn_classes: list[str], dcfg: dict, anchors: list[int] | None = None,
+          out_name: str = "p1c") -> dict:
+    """anchors=None -> CFG anchors (P1c). anchors=[] -> no re-anchoring pool; test pool = whole test period."""
+    anchors = CFG["anchors"] if anchors is None else anchors
     proc = ROOT / dcfg["processed_dir"]
     base = proc / ds
     wi = WindowIndex.from_npz(np.load(base / "windows.npz"))
@@ -61,9 +64,9 @@ def build(ds: str, nn_classes: list[str], dcfg: dict) -> dict:
     te = split == splits.TEST
     tb = np.flatnonzero(te & (wi.y_bin == 0))
     tb = tb[np.argsort(wi.start[tb], kind="stable")]
-    for k in CFG["anchors"]:
+    for k in anchors:
         sets[f"anchor_{k}"] = np.sort(tb[:k])
-    anchor_groups = np.unique(wi.group[sets[f"anchor_{max(CFG['anchors'])}"]])
+    anchor_groups = np.unique(wi.group[sets[f"anchor_{max(anchors)}"]]) if anchors else np.zeros(0, np.int64)
     pool = te & ~np.isin(wi.group, anchor_groups)
     pb = np.flatnonzero(pool & (wi.y_bin == 0))
     sets["test_benign"] = np.sort(rng.choice(pb, min(CFG["test_benign"], len(pb)), replace=False))
@@ -86,8 +89,10 @@ def build(ds: str, nn_classes: list[str], dcfg: dict) -> dict:
     verify._check(i_va["attack"] > 0 and i_va["benign"] > 0, f"{ds}: train-tail validation has benign and attack", log)
     verify._check(bool(np.all(split[test_all] == splits.TEST)), f"{ds}: test windows from the TEST period", log)
     verify._check(not grp(test_all) & set(anchor_groups.tolist()), f"{ds}: test excludes every anchor group", log)
-    verify._check(bool(np.all(wi.y_bin[sets['anchor_500']] == 0)) and set(sets["anchor_100"]) <= set(sets["anchor_500"]),
-                  f"{ds}: anchors benign, anchor_100 nested in anchor_500", log)
+    if anchors:
+        a_lo, a_hi = f"anchor_{min(anchors)}", f"anchor_{max(anchors)}"
+        verify._check(bool(np.all(wi.y_bin[sets[a_hi]] == 0)) and set(sets[a_lo]) <= set(sets[a_hi]),
+                      f"{ds}: anchors benign, {a_lo} nested in {a_hi}", log)
     verify._check(bool(np.all(wi.y_bin[sets['test_benign']] == 0)), f"{ds}: test benign windows are benign", log)
     for c in nn_classes:
         k = classes.index(c)
@@ -97,19 +102,22 @@ def build(ds: str, nn_classes: list[str], dcfg: dict) -> dict:
                       f"{ds}: {c} absent from train and val", log)
 
     cl = Cleaner.from_dict(json.loads((base / "temporal_gap" / "archive" / "cleaner.json").read_text()))
-    common = json.loads((proc / "common_features.json").read_text())["features"]
+    if dcfg["datasets"][ds].get("own_feature_space"):
+        common = json.loads((base / "own_features.json").read_text())["features"]
+    else:
+        common = json.loads((proc / "common_features.json").read_text())["features"]
     if cl.features != common:
-        raise SystemExit(f"{ds}: cleaner features differ from the frozen common list")
+        raise SystemExit(f"{ds}: cleaner features differ from its frozen feature list")
     n_rows = meta["flows"]
-    arch = pipeline._write_archive(base / "temporal_gap" / "p1c", ROOT / dcfg["interim_dir"] / ds / "sorted.parquet",
+    arch = pipeline._write_archive(base / "temporal_gap" / out_name, ROOT / dcfg["interim_dir"] / ds / "sorted.parquet",
                                    n_rows, cl, wi, split, sets, {}, {})
-    info = {"dataset": ds, "classes": classes, "natural_novelty": nn_classes, "cfg": CFG,
+    info = {"dataset": ds, "classes": classes, "natural_novelty": nn_classes, "cfg": {**CFG, "anchors": anchors},
             "head_groups": [int(x) for x in head_groups], "tail_groups": sorted(int(x) for x in grp(sets["val"])),
             "anchor_groups": anchor_groups.tolist(), "sets": {"train": i_tr, "val": i_va,
-                                                              "anchor": {k: int(len(sets[f'anchor_{k}'])) for k in CFG["anchors"]},
+                                                              "anchor": {k: int(len(sets[f'anchor_{k}'])) for k in anchors},
                                                               "test_benign": int(len(sets["test_benign"])), "test": test_info},
             "verification": log, "archive": arch, "provenance": provenance(config=CFG)}
-    write_json(base / "temporal_gap" / "p1c" / "p1c_meta.json", info)
+    write_json(base / "temporal_gap" / out_name / "p1c_meta.json", info)
     print(f"[{ds}] P1c package: {len(log)} checks passed; train {i_tr['benign']}+{i_tr['attack']}, "
           f"val {i_va['benign']}+{i_va['attack']}, test benign {len(sets['test_benign'])}, {test_info}")
     return info
