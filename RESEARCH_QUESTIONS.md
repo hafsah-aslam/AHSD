@@ -144,3 +144,129 @@ None yet. Answers are filled in from `results/` JSON only, after the runs.
   - the D2 Backdoor/Shellcode/Analysis count permutation relative to the UQ
     page;
   - the 36-row D4 Theft gap (1,615 in the file vs 1,651 on the page).
+
+---
+
+## AMENDMENT_02 (2026-10-05, after P1 and its gate, before any P1b run)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04`
+  (AMENDMENT_01, commit 32333f6).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:**
+  - P1 results exist: `PILOT_REPORT.md`.
+  - The P1 gate (`GATE_DECISION.md`) returned STOP.
+  - The authors accepted STOP for P2 under the plan in force.
+- **Status:** this amendment is written and hashed before any P1b run. It does
+  not change any P1 result or definition.
+
+### A2.1 S2 status
+- Under the original rule (0.3 ≤ ρ < 0.6), S2 is a secondary analysis.
+- Pooled oriented ρ = 0.326.
+- The P1 gate outcome (STOP) and both Wasserstein readings (oriented and raw
+  sign) stay in the record (`GATE_DECISION.md`, `results/p1/gate.json`).
+
+### A2.2 Secondary analysis (declared now, not gating)
+- Compute the Spearman ρ between predictor and measured LOACO stress AUC
+  within each dataset:
+  - D1 families;
+  - D2 `grouped_random`;
+  - D3 `grouped_random`.
+- Report the mean of the three within-dataset ρ for S2, Wasserstein,
+  Mahalanobis and stationarity, alongside the pooled ρ.
+- Signs are oriented as pre-registered (Wasserstein −).
+- **Uncertainty:** stratified bootstrap, resampling classes within each dataset
+  (2000 resamples, seed 0), with a percentile 95% CI.
+
+### A2.3 S2-dir (EXPLORATORY; never used in any gate)
+Definition (frozen by the authors):
+- Whiten embedded windows with the benign training covariance:
+  u = W (z − E₀), W = Σ_benign^(−1/2), shrinkage 0.1.
+- Compute per-channel spectra P_{c,d}(ω) of u.
+- S2dir(c) = Σ_d Σ_ω |H(ω)|² · (P_{c,d}(ω) − P_{benign,d}(ω))², normalised by
+  the benign seed-to-seed std of the same quantity.
+- Report its ρ against measured AUC, with a bootstrap CI, alongside
+  Mahalanobis.
+
+Operational choices added by the implementer (the definition above leaves
+them open):
+- **Covariance:** Σ_benign is the covariance of (z − E₀) over all time steps of
+  the fold's benign training windows. Shrinkage: Σ_s = 0.9·Σ + 0.1·(tr Σ / D)·I.
+  W = Σ_s^(−1/2) via eigendecomposition.
+- **Filter:** H is the same linearised AHSD filter as S2 (mean gates over
+  benign training windows; 32-step impulse response).
+- **Power:** one-sided and normalised as in S2, but not averaged over
+  channels.
+- **Benign reference:** the fold's benign test windows (as in primary S2).
+- **Normaliser** (the "same quantity" on benign data):
+  - per seed, split the fold's benign test windows into two random halves
+    (seed-specific split);
+  - compute Q_b = Σ_d Σ_ω |H|²(P_{half A,d} − P_{half B,d})²;
+  - the normaliser is the std (ddof = 1) of Q_b across the fold's 3 seeds;
+  - S2dir is reported per seed and averaged over seeds.
+- **Embeddings without retraining:** P1 stored no checkpoints or embeddings,
+  so S2-dir is computed by re-executing each P1 LOACO run deterministically
+  (same code path, seed, data and thread count).
+  - The re-executed run must reproduce the recorded P1 stress AUC, probability
+    AUC and D_pred to within 1e-6.
+  - Any mismatch fails closed, and S2-dir is not reported for that run.
+  - Re-executed runs produce no new measured results; the measured AUC stays
+    the P1 value.
+  - Scope: the pooled-set evaluations, D1 families, D2 `grouped_random` and
+    D3 `grouped_random` (60 runs).
+
+### A2.4 D1 natural_novelty: DROPPED
+- It is infeasible as specified in A1.3.
+- Every D1 `temporal_gap` validation window (33,826 windows) contains at
+  least one Infilteration flow. Excluding windows with natural-novelty flows
+  therefore empties the validation set, and no checkpoint can be selected.
+- This is documented in `PILOT_REPORT.md`.
+
+### A2.5 D3 natural_novelty: 8 seeds
+- Seeds: {17, 23, 42} plus {101, 202, 303, 404, 505}.
+- Report per class:
+  - mean stress AUC;
+  - Student-t 95% CI (n = 8);
+  - the fraction of seeds with AUC < 0.5.
+- No interpretation until all 8 seeds exist.
+- **Implementation:** all 8 seeds run on one P1b code commit, so the
+  reported quantity has a single code version. The 3 original seeds are
+  re-run, and their reproduction of the P1 values is checked and reported.
+
+### A2.6 Gate G1 (frozen). Experiment P1b-G1
+- **Data:** D1, D2, D3; `grouped_random`; in-distribution (no LOACO).
+  - The balanced train/val/test sets of the archive: train 1:1, val/test 5:1.
+- **Models:**
+  - AHSD frozen_γ, γ ∈ {0, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2};
+  - AHSD adaptive (γ learned in [0, 0.2], logged every epoch);
+  - S1 gated-anchored, τ ∈ {0.5, 1, 2} × median benign validation stress,
+    κ ∈ {0.01, 0.05}.
+- **S1 selection:** on validation macro-F1 only. Per dataset, choose the
+  (τ, κ) with the highest mean (over seeds) best-validation macro-F1. Ties go
+  to the smaller τ, then the smaller κ. Then measure test d′.
+- **Seeds:** {17, 23, 42}.
+- **GO** if both of the following hold on at least 2 of the 3 datasets:
+  - (a) Spearman(γ, mean test d′) ≤ −0.8 across the 7 frozen γ;
+  - (b) S1 test d′ ≥ 0.8 × fixed (γ = 0) test d′, AND the S1 test macro-F1
+    drop versus fixed is < 1.0 point (means over seeds).
+  Otherwise STOP and report.
+- **Descriptive (not gating):**
+  - per-class collapse ratio d′_γ / d′_0 against the class stationarity index;
+  - the learned adaptive γ.
+
+Operational choices added by the implementer:
+- **d′:** computed on the post-hoc stress score (higher = attack, never
+  flipped), on the test set. Mean = mean over seeds.
+- **Macro-F1:** from the supervised head (argmax), on the test set, in
+  percentage points.
+- **"fixed (γ = 0)":** the frozen_γ = 0 runs. This is the same computation as
+  AHSD-fixed.
+- **S1 τ unit:** the median per-step stress mean_d |h_t − E_{t−1}| on benign
+  validation windows, measured with the gate open.
+  - Measured before training and re-measured once after epoch 1, then
+    frozen.
+  - This replaces the earlier benign-training measurement, for S1 only.
+- **Per-class collapse:** class-vs-benign test d′ for each attack class with
+  at least 20 test windows.
+  - The stationarity index is computed on the γ = 0 model's embeddings of
+    that class (mean over seeds).

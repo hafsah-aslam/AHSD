@@ -7,6 +7,14 @@
       "old_commit": "60f2b42",
       "new_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
       "results_on_real_data_before_amendment": "none (P0 audits and fold-feasibility counts only)"
+    },
+    {
+      "id": "AMENDMENT_02",
+      "date": "2026-10-05",
+      "old_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+      "old_commit": "32333f6",
+      "new_sha256": "fb0b207e5f82edb4fb66eb0d4cbbfd454eb02838213bac9741d11ca00d24840c",
+      "results_before_amendment": "P1 (results/p1, PILOT_REPORT.md, GATE_DECISION.md = STOP); no P1b run"
     }
   ]
 }
