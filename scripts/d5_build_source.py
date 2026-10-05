@@ -52,7 +52,11 @@ def main():
     (repo / "python_logs").mkdir(exist_ok=True)
     (repo / "lycos-ids2017").mkdir(exist_ok=True)
     labelling_sha = sha256_file(repo / "labelling.py")
-    r = subprocess.run([sys.executable, "labelling.py"], cwd=repo, capture_output=True, text=True)
+    # labelling.py asks interactively for the number of worker processes (input()); the answer
+    # only sets the pool size, not the labels. Supplied on stdin and recorded in the manifest.
+    n_workers = "4"
+    r = subprocess.run([sys.executable, "labelling.py"], cwd=repo, capture_output=True, text=True,
+                       input=n_workers + "\n")
     (ROOT / "logs").mkdir(exist_ok=True)
     (ROOT / "logs/d5_labelling.log").write_text(r.stdout + r.stderr)
     if r.returncode != 0:
@@ -93,7 +97,7 @@ def main():
         "url": URL, "landing": "https://lycos-ids.univ-lemans.fr/download-lycos-ids2017.html",
         "archive_file": str(ARCHIVE.relative_to(ROOT / "data/raw")), "archive_sha256": ARCHIVE_SHA,
         "archive_size_bytes": ARCHIVE.stat().st_size,
-        "labelling_py_sha256": labelling_sha, "sha256": sha256_file(OUT), "size_bytes": OUT.stat().st_size,
+        "labelling_py_sha256": labelling_sha, "labelling_py_stdin_workers": n_workers, "sha256": sha256_file(OUT), "size_bytes": OUT.stat().st_size,
         "row_count": int(len(out)), "rows_before_adapter": n_in, "columns": list(out.columns),
         "n_columns": len(out.columns), "label_counts_labelling_py": label_counts,
         "adapter": {"timestamp": "us -> FLOW_START_MILLISECONDS (ms)", "label": "-> Attack ('benign' -> 'Benign'), Label = != benign",
