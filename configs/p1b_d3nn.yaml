@@ -1,0 +1,12 @@
+# P1b D3 natural_novelty, 8 seeds on one code commit (AMENDMENT_02 A2.5).
+# Same model/training settings as configs/p1_pilot.yaml; only seeds and outputs differ.
+seeds: [17, 23, 42, 101, 202, 303, 404, 505]
+D: 128
+epochs: 15
+n_boot: 1000
+threads: 4
+processed_dir: data/processed
+results_dir: results/p1b/d3_nn
+report_dir: report/p1b
+evaluations:
+  - {id: D3_nn, dataset: D3, scheme: temporal_gap, kind: natural_novelty, rho_set: natural}

@@ -92,8 +92,13 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
     steps = hp["epochs"] * int(np.ceil(len(Xtr) / hp["batch"]))
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, max(steps, 1))
     is_s1 = getattr(model, "variant", None) == "S1"
+    # S1 τ unit (AMENDMENT_02 A2.6): median per-step benign *validation* stress, gate open;
+    # measured before training, re-measured once after epoch 1, then frozen.
+    Xvb = val["X"][val["y_bin"] == 0]
+    tau_log = []
     if is_s1:
-        model.tau_ref.fill_(calibrate_tau(model, Xtr[ytr == 0]))
+        tau_log.append(calibrate_tau(model, Xvb))
+        model.tau_ref.fill_(tau_log[-1])
     best, best_state, history = -1.0, None, []
     t0 = time.time()
     for ep in range(hp["epochs"]):
@@ -114,7 +119,8 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
             sched.step()
             tot += loss.item() * len(idx)
         if is_s1 and ep == 0:
-            model.tau_ref.fill_(calibrate_tau(model, Xtr[ytr == 0]))  # recalibrate once, then frozen
+            tau_log.append(calibrate_tau(model, Xvb))  # recalibrate once, then frozen
+            model.tau_ref.fill_(tau_log[-1])
         pv = predict(model, val["X"])
         f1 = classification(val["y_bin"], (pv["prob"] >= 0.5).astype(int))["macro_f1"]
         rec = {"epoch": ep + 1, "train_loss": tot / len(Xtr), "val_macro_f1": f1}
@@ -128,4 +134,7 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
     model.load_state_dict(best_state)
     if hasattr(model, "set_E0"):
         model.set_E0(benign_embedding_mean(model, Xtr[ytr == 0]))
-    return {"history": history, "best_val_macro_f1": best, "seconds": time.time() - t0, "hparams": hp}
+    out = {"history": history, "best_val_macro_f1": best, "seconds": time.time() - t0, "hparams": hp}
+    if is_s1:
+        out["tau_ref_log"] = tau_log
+    return out

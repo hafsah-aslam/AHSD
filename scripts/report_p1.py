@@ -45,6 +45,8 @@ def load(results_dir: Path):
         if p.name == "summary.json":
             continue
         r = json.loads(p.read_text())
+        if "eval_id" not in r:  # e.g. gate.json: not a run record
+            continue
         (skipped if r.get("skipped") else runs).append(r)
     return runs, skipped
 
@@ -336,6 +338,10 @@ def render_md(S, smoke: bool) -> str:
                  f"{_f(r['dpred_tg'], 2)} |")
     L += ["", "## natural_novelty (temporal_gap; A1.3)", "",
           "Stress, supervised probability and S3 only; the §7B benign-only baselines run in P3.", "",
+          "**D1 natural_novelty: DROPPED (AMENDMENT_02 A2.4).** Infeasible as specified in A1.3: every D1 "
+          "temporal_gap validation window (33,826) contains at least one Infilteration flow, so removing windows "
+          "with any natural-novelty flow empties the validation set and no checkpoint can be selected. "
+          "D3 natural_novelty is extended to 8 seeds in P1b (P1B_REPORT.md, A2.5).", "",
           "| Eval | Class | n test (b/c) | AUC stress | AUC prob | AUC S3 | D_pred | inversion predicted | inversion observed |",
           "|---|---|---|---|---|---|---|---|---|"]
     for p in [q for q in S["points"] if q["kind"] == "natural_novelty"]:

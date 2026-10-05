@@ -1,0 +1,24 @@
+# P1b-G1 (AMENDMENT_02 A2.6). In-distribution, grouped_random, balanced archive sets.
+datasets: [D1, D2, D3]
+scheme: grouped_random
+labelling: {D1: family}          # per-class descriptives use D1 families (A1.2); D2/D3 file labels
+gammas: [0, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2]
+s1_tau_mult: [0.5, 1, 2]         # x median benign validation stress
+s1_kappa: [0.01, 0.05]
+seeds: [17, 23, 42]
+D: 128
+epochs: 15
+threads: 4
+processed_dir: data/processed
+results_dir: results/p1b/g1
+smoke:
+  processed_dir: smoke_out/processed
+  results_dir: smoke_out/results/p1b/g1
+  datasets: [D1]
+  labelling: {}
+  gammas: [0, 0.1]
+  s1_tau_mult: [1]
+  s1_kappa: [0.05]
+  seeds: [17]
+  D: 16
+  epochs: 1
