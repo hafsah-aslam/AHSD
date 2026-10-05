@@ -1,0 +1,191 @@
+{
+  "rule": "Automatic P1 gate (rule frozen by the authors on 2026-10-05, no human judgement):\n\n  rho_S2 = Spearman(D_pred, LOACO stress AUC) on the pooled set (D1 families + D2 + D3, grouped_random)\n  rho_W  = the same for the Wasserstein predictor\n  GO  iff rho_S2 >= 0.6 AND the lower 95% bound of (rho_S2 - rho_W) > 0,\n      with a paired bootstrap over pooled points (2000 resamples, seed 0).\n\nrho_W is taken ORIENTED (multiplied by the pre-registered expected sign, -1; RESEARCH_QUESTIONS.md\n\"Predictor sign\"), which is how the frozen RQ file defines predictor comparisons. The raw-sign\nvariant is computed too; if the two variants give different outcomes the gate returns STOP and the\ndiscrepancy is written to DECISIONS_PENDING.md (not resolved by choice).\n\nWrites GATE_DECISION.md and results/p1/gate.json either way.",
+  "primary_oriented": {
+    "rho_S2": 0.32631578947368417,
+    "rho_W": -0.1819548872180451,
+    "w_sign": -1,
+    "diff": 0.5082706766917293,
+    "diff_ci95": [
+      -0.5778748055246126,
+      1.286290076335877
+    ],
+    "n_points": 20,
+    "n_boot": 2000,
+    "n_boot_valid": 2000,
+    "criterion_rho": false,
+    "criterion_diff": false,
+    "outcome": "STOP"
+  },
+  "raw_sign_variant": {
+    "rho_S2": 0.32631578947368417,
+    "rho_W": 0.1819548872180451,
+    "w_sign": 1,
+    "diff": 0.14436090225563908,
+    "diff_ci95": [
+      -0.1820048277604943,
+      0.500475126381827
+    ],
+    "n_points": 20,
+    "n_boot": 2000,
+    "n_boot_valid": 2000,
+    "criterion_rho": false,
+    "criterion_diff": false,
+    "outcome": "STOP"
+  },
+  "variants_agree": true,
+  "outcome": "STOP",
+  "points": [
+    {
+      "eval_id": "D1_family_gr",
+      "class": "Bot",
+      "D_pred": 1.0988274929180293,
+      "wasserstein": 0.1891485629217773,
+      "auc_stress": 0.8327286666666666
+    },
+    {
+      "eval_id": "D1_family_gr",
+      "class": "BruteForce",
+      "D_pred": 2.342435791283495,
+      "wasserstein": 0.3521891739709877,
+      "auc_stress": 0.7926176000000001
+    },
+    {
+      "eval_id": "D1_family_gr",
+      "class": "DDoS",
+      "D_pred": 0.04546731957020459,
+      "wasserstein": 0.1639426176020806,
+      "auc_stress": 0.5692633333333333
+    },
+    {
+      "eval_id": "D1_family_gr",
+      "class": "DoS",
+      "D_pred": 4.74818222503205,
+      "wasserstein": 0.9396572148012411,
+      "auc_stress": 0.9386130666666667
+    },
+    {
+      "eval_id": "D1_family_gr",
+      "class": "Infiltration",
+      "D_pred": 0.4518168009763371,
+      "wasserstein": 0.22007873347850163,
+      "auc_stress": 0.5988890666666666
+    },
+    {
+      "eval_id": "D1_family_gr",
+      "class": "Web Attacks",
+      "D_pred": 0.0621979304988751,
+      "wasserstein": 0.19440092236461504,
+      "auc_stress": 0.6027986666666666
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Analysis",
+      "D_pred": -0.13615467143101131,
+      "wasserstein": 0.0500057477034807,
+      "auc_stress": 0.9710118666666666
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Backdoor",
+      "D_pred": -0.10149008188003646,
+      "wasserstein": 0.040264472132738545,
+      "auc_stress": 0.9321140070111263
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "DoS",
+      "D_pred": -0.004380546345440652,
+      "wasserstein": 0.031808700233831054,
+      "auc_stress": 0.9452532000000001
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Exploits",
+      "D_pred": 0.049429746442557314,
+      "wasserstein": 0.029068873352616865,
+      "auc_stress": 0.9284152
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Fuzzers",
+      "D_pred": 0.011157580604449076,
+      "wasserstein": 0.04293190762078349,
+      "auc_stress": 0.9619879999999998
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Generic",
+      "D_pred": 0.07229056280003004,
+      "wasserstein": 0.09963070646346806,
+      "auc_stress": 0.9272365333333332
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Reconnaissance",
+      "D_pred": 0.04467567414363305,
+      "wasserstein": 0.021428803094108984,
+      "auc_stress": 0.9145261333333333
+    },
+    {
+      "eval_id": "D2_gr",
+      "class": "Shellcode",
+      "D_pred": 0.12497612037088328,
+      "wasserstein": 0.06227571751284291,
+      "auc_stress": 0.8858694328779798
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "Backdoor",
+      "D_pred": 2.445733246348788,
+      "wasserstein": 0.9803173781398614,
+      "auc_stress": 0.9872261333333333
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "ddos",
+      "D_pred": 1.079756477338295,
+      "wasserstein": 0.5337291707552865,
+      "auc_stress": 0.7570474666666667
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "injection",
+      "D_pred": 3.105117630852847,
+      "wasserstein": 0.8564503323189442,
+      "auc_stress": 0.9883631999999999
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "password",
+      "D_pred": 3.7030590175929063,
+      "wasserstein": 0.8056684610033432,
+      "auc_stress": 0.9932349333333333
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "scanning",
+      "D_pred": -0.4957213827558864,
+      "wasserstein": 0.5960871033064926,
+      "auc_stress": 0.5954877333333334
+    },
+    {
+      "eval_id": "D3_gr",
+      "class": "xss",
+      "D_pred": 2.4705819019670976,
+      "wasserstein": 0.6651730346659215,
+      "auc_stress": 0.9809842666666667
+    }
+  ],
+  "provenance": {
+    "code_commit": "b6b8cc0a88d042395c185a339c662a853252bbed",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T02:14:13+00:00",
+    "results_head": "b6b8cc0a88d042395c185a339c662a853252bbed",
+    "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-05T02:14:15+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
