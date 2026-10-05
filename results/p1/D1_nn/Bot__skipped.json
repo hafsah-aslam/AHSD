@@ -11,7 +11,6 @@
     "reason": "val empty after removing windows with any flow of Bot, Infilteration ({'train': {'benign': 7000, 'attack': 7000, 'available_benign': 545362, 'available_attack': 213817, 'target_ratio': 1, 'cap': 14000, 'removed_windows_with_nn_flows': 0}, 'val': {'benign': 0, 'attack': 0, 'available_benign': 212805, 'available_attack': 0, 'target_ratio': 5, 'cap': 3000, 'removed_windows_with_nn_flows': 33826}})"
   },
   "provenance": {
-    "git_hash": "8be7753da9370ec70af9a14e8e66f98a8fb7bffb",
     "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
     "data_sha256": {
       "flows.npy": "4b77ed7e3c59728609fe8b4f688cf15f8e6ec86478498e48ce72245e8066a068",
@@ -140,7 +139,16 @@
     },
     "timestamp_utc": "2026-10-05T02:09:04+00:00",
     "python": "3.11.15",
-    "host": "vm"
+    "host": "vm",
+    "results_head": "8be7753da9370ec70af9a14e8e66f98a8fb7bffb",
+    "code_commit": "f557bcd4602719b6a160e46b4a9ad1b503a5e6fc",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T00:26:14+00:00",
+    "code_commit_backfill": {
+      "backfilled": true,
+      "process": "PID 5266, started 2026-10-05T00:26:14Z",
+      "method": "the field did not exist when this run was written; code_commit is the last commit before process start (f557bcd); results_head (the recorded git_hash) was verified to have an empty diff over src, scripts/run_loaco.py, configs/p1_pilot.yaml, configs/data.yaml against it, and was not dirty"
+    }
   },
   "smoke": false
 }

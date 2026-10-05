@@ -299,7 +299,6 @@
   },
   "wall_seconds": 78.70931577682495,
   "provenance": {
-    "git_hash": "8be7753da9370ec70af9a14e8e66f98a8fb7bffb",
     "rq_sha256": "83f3ba055431860ef62e45e11c920fe6f08a533b81acdd06431a9c9a58e3ad04",
     "data_sha256": {
       "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
@@ -428,7 +427,16 @@
     },
     "timestamp_utc": "2026-10-05T01:27:54+00:00",
     "python": "3.11.15",
-    "host": "vm"
+    "host": "vm",
+    "results_head": "8be7753da9370ec70af9a14e8e66f98a8fb7bffb",
+    "code_commit": "f557bcd4602719b6a160e46b4a9ad1b503a5e6fc",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-05T00:26:14+00:00",
+    "code_commit_backfill": {
+      "backfilled": true,
+      "process": "PID 5266, started 2026-10-05T00:26:14Z",
+      "method": "the field did not exist when this run was written; code_commit is the last commit before process start (f557bcd); results_head (the recorded git_hash) was verified to have an empty diff over src, scripts/run_loaco.py, configs/p1_pilot.yaml, configs/data.yaml against it, and was not dirty"
+    }
   },
   "smoke": false
 }
