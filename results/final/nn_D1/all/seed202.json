@@ -1,0 +1,245 @@
+{
+  "eval_id": "nn_D1",
+  "kind": "natural_novelty",
+  "dataset": "D1",
+  "seed": 202,
+  "unit": "all",
+  "classes": [
+    "Bot",
+    "Infilteration"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Bot": 0.533338,
+        "Infilteration": 0.4472592
+      },
+      "Energy": {
+        "Bot": 0.51267,
+        "Infilteration": 0.4453224
+      },
+      "P_attack": {
+        "Bot": 0.5294800000000001,
+        "Infilteration": 0.501324
+      },
+      "AHSD_stress": {
+        "Bot": 0.7060744,
+        "Infilteration": 0.5764936
+      },
+      "Mahalanobis": {
+        "Bot": 0.7280815999999999,
+        "Infilteration": 0.5748936
+      },
+      "kNN": {
+        "Bot": 0.7016928,
+        "Infilteration": 0.5623904000000001
+      },
+      "IF": {
+        "Bot": 0.522924,
+        "Infilteration": 0.48270480000000004
+      },
+      "OCSVM": {
+        "Bot": 0.37868080000000004,
+        "Infilteration": 0.4962056
+      },
+      "PCA": {
+        "Bot": 0.586804,
+        "Infilteration": 0.5283336000000001
+      },
+      "AE": {
+        "Bot": 0.5487072000000001,
+        "Infilteration": 0.5029704
+      },
+      "Wilkie_CLAD": {
+        "Bot": 0.6829052,
+        "Infilteration": 0.537434
+      },
+      "XGBoost": {
+        "Bot": 0.5119623999999999,
+        "Infilteration": 0.535004
+      }
+    },
+    "final": {
+      "MSP": {
+        "Bot": 0.3747188,
+        "Infilteration": 0.46261159999999996
+      },
+      "Energy": {
+        "Bot": 0.36972,
+        "Infilteration": 0.4577408
+      },
+      "P_attack": {
+        "Bot": 0.37488,
+        "Infilteration": 0.5130096
+      },
+      "AHSD_stress": {
+        "Bot": 0.6885248,
+        "Infilteration": 0.5731348
+      },
+      "Mahalanobis": {
+        "Bot": 0.705336,
+        "Infilteration": 0.5686688
+      },
+      "kNN": {
+        "Bot": 0.6231884000000001,
+        "Infilteration": 0.5676616000000001
+      },
+      "Wilkie_CLAD": {
+        "Bot": 0.5728536,
+        "Infilteration": 0.51296
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.47839804590097196,
+      "final_val_macro_f1": 0.4705653969386915,
+      "best_epoch": 4,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.18238901604073388,
+          "val_macro_f1": 0.4703056773213028,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.05846647608280182,
+          "val_macro_f1": 0.46978476693351306,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.03127585471394871,
+          "val_macro_f1": 0.4641480078106756,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.019945940137973853,
+          "val_macro_f1": 0.47839804590097196,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.01461900441508208,
+          "val_macro_f1": 0.4661648141399417,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.011410349303058216,
+          "val_macro_f1": 0.4646225373444631,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.007278493061927812,
+          "val_macro_f1": 0.4727045266480301,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.005170174658963723,
+          "val_macro_f1": 0.47069538197792776,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.003774405979684421,
+          "val_macro_f1": 0.4705653969386915,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.002574371655604669,
+          "val_macro_f1": 0.4705653969386915,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.0018165022557202195,
+          "val_macro_f1": 0.47069538197792776,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.0013324585067374366,
+          "val_macro_f1": 0.47069538197792776,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.0010711467589384744,
+          "val_macro_f1": 0.4705653969386915,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.0009381165453232825,
+          "val_macro_f1": 0.4705653969386915,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.0008714673089395676,
+          "val_macro_f1": 0.4705653969386915,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 114.3005919456482
+    },
+    "benign_only_seconds": 13.465410709381104,
+    "clad": {
+      "best_val_auroc": 0.6336928,
+      "final_val_auroc": 0.60422,
+      "best_epoch": 2
+    },
+    "clad_seconds": 3.8687047958374023,
+    "xgb_seconds": 13.141227960586548
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Bot": 500,
+    "test/Infilteration": 500
+  },
+  "wall_seconds": 146.38967776298523,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T09:14:07+00:00",
+    "results_head": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "33147dea4a5c88d8ac9afe7adfb2b529f09e909f34243e5e6de39fe79b6e5561",
+      "row_id.npy": "9327811513dfeb1266f3b0f7e71d1a3a8929fc019694e1108f3b980fb129b1b6",
+      "windows.npz": "7562ccb9869db84c85bbbb467110fd2de8c1b04b6b62a0c55c0f1be6912e0897",
+      "sets.npz": "7a641a80281cd1c9fe17a481a514be68d69361dbb1977060c5f0bab5fe591bd8",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "4e1c5d4158da0481fcfc33e3c349660bb0f6572298eef2118d8a9586535deff6"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "nn_D1",
+        "kind": "natural_novelty",
+        "dataset": "D1",
+        "package": "temporal_gap/p1c"
+      }
+    },
+    "timestamp_utc": "2026-10-09T09:52:08+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

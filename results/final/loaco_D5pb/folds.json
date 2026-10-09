@@ -1,0 +1,244 @@
+{
+  "classes": [
+    "Benign",
+    "bot",
+    "ddos",
+    "dos_goldeneye",
+    "dos_hulk",
+    "dos_slowhttptest",
+    "dos_slowloris",
+    "ftp_patator",
+    "heartbleed",
+    "portscan",
+    "ssh_patator",
+    "webattack_bruteforce",
+    "webattack_sql_injection",
+    "webattack_xss"
+  ],
+  "feasible": [
+    "dos_hulk"
+  ],
+  "fold_info": {
+    "bot": {
+      "class_index": 1,
+      "train_windows_majority": 154,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    },
+    "ddos": {
+      "class_index": 2,
+      "train_windows_majority": 6636,
+      "train": {
+        "benign": 4381,
+        "attack": 4381,
+        "available_benign": 17896,
+        "available_attack": 4381,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "dos_goldeneye": {
+      "class_index": 3,
+      "train_windows_majority": 566,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 10451,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "dos_hulk": {
+      "class_index": 4,
+      "train_windows_majority": 2466,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 8551,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 18557,
+        "available_attack": 1929,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true,
+      "test_windows_majority": 1929
+    },
+    "dos_slowhttptest": {
+      "class_index": 5,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 215
+    },
+    "dos_slowloris": {
+      "class_index": 6,
+      "train_windows_majority": 4,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 2
+    },
+    "ftp_patator": {
+      "class_index": 7,
+      "train_windows_majority": 962,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 10055,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1191,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "heartbleed": {
+      "class_index": 8,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 16
+    },
+    "portscan": {
+      "class_index": 9,
+      "train_windows_majority": 30,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 606
+    },
+    "ssh_patator": {
+      "class_index": 10,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 302
+    },
+    "webattack_bruteforce": {
+      "class_index": 11,
+      "train_windows_majority": 199,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 228
+    },
+    "webattack_sql_injection": {
+      "class_index": 12,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    },
+    "webattack_xss": {
+      "class_index": 13,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    }
+  },
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T09:14:07+00:00",
+    "results_head": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {},
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D5pb",
+        "kind": "loaco",
+        "dataset": "D5",
+        "scheme": "purged_block",
+        "labelling": "file"
+      }
+    },
+    "timestamp_utc": "2026-10-09T09:28:19+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

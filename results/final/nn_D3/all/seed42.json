@@ -1,0 +1,308 @@
+{
+  "eval_id": "nn_D3",
+  "kind": "natural_novelty",
+  "dataset": "D3",
+  "seed": 42,
+  "unit": "all",
+  "classes": [
+    "Backdoor",
+    "mitm",
+    "password",
+    "ransomware",
+    "xss"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Backdoor": 0.1851144,
+        "mitm": 0.3971808,
+        "password": 0.21314,
+        "ransomware": 0.4215936,
+        "xss": 0.24604359999999997
+      },
+      "Energy": {
+        "Backdoor": 0.26166239999999996,
+        "mitm": 0.4430792,
+        "password": 0.3179864,
+        "ransomware": 0.49013359999999995,
+        "xss": 0.348512
+      },
+      "P_attack": {
+        "Backdoor": 0.8196840000000001,
+        "mitm": 0.6108439999999999,
+        "password": 0.7926288,
+        "ransomware": 0.587108,
+        "xss": 0.7582675999999999
+      },
+      "AHSD_stress": {
+        "Backdoor": 0.6275767999999999,
+        "mitm": 0.44694480000000003,
+        "password": 0.7237832,
+        "ransomware": 0.472008,
+        "xss": 0.43737
+      },
+      "Mahalanobis": {
+        "Backdoor": 0.48348399999999997,
+        "mitm": 0.4348844,
+        "password": 0.42915040000000004,
+        "ransomware": 0.3962376,
+        "xss": 0.365212
+      },
+      "kNN": {
+        "Backdoor": 0.1550808,
+        "mitm": 0.47141960000000005,
+        "password": 0.1379456,
+        "ransomware": 0.126828,
+        "xss": 0.1112664
+      },
+      "IF": {
+        "Backdoor": 0.9810327999999999,
+        "mitm": 0.7061919999999999,
+        "password": 0.9883071999999999,
+        "ransomware": 0.9488496,
+        "xss": 0.9511656
+      },
+      "OCSVM": {
+        "Backdoor": 0.9773144,
+        "mitm": 0.8013183999999999,
+        "password": 0.8944735999999999,
+        "ransomware": 0.9193848,
+        "xss": 0.8853864000000001
+      },
+      "PCA": {
+        "Backdoor": 0.9316487999999999,
+        "mitm": 0.8437584,
+        "password": 0.8835600000000001,
+        "ransomware": 0.9073552,
+        "xss": 0.8625584
+      },
+      "AE": {
+        "Backdoor": 0.9682152,
+        "mitm": 0.8307272,
+        "password": 0.8839264000000001,
+        "ransomware": 0.9140448,
+        "xss": 0.8768560000000001
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": 0.8989931999999999,
+        "mitm": 0.726452,
+        "password": 0.9474007999999999,
+        "ransomware": 0.8881087999999999,
+        "xss": 0.8991964000000001
+      },
+      "XGBoost": {
+        "Backdoor": 0.9578268,
+        "mitm": 0.7660404,
+        "password": 0.9865875999999998,
+        "ransomware": 0.9159535999999999,
+        "xss": 0.9863375999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "Backdoor": 0.1222936,
+        "mitm": 0.4130928,
+        "password": 0.3329456,
+        "ransomware": 0.3468196,
+        "xss": 0.11599239999999998
+      },
+      "Energy": {
+        "Backdoor": 0.154868,
+        "mitm": 0.3885104,
+        "password": 0.5485416,
+        "ransomware": 0.3691416,
+        "xss": 0.14777999999999997
+      },
+      "P_attack": {
+        "Backdoor": 0.8789703999999999,
+        "mitm": 0.588336,
+        "password": 0.6608799999999999,
+        "ransomware": 0.6461424,
+        "xss": 0.8840404
+      },
+      "AHSD_stress": {
+        "Backdoor": 0.7275776,
+        "mitm": 0.46570759999999994,
+        "password": 0.5316472,
+        "ransomware": 0.5102848,
+        "xss": 0.4126632
+      },
+      "Mahalanobis": {
+        "Backdoor": 0.7504711999999999,
+        "mitm": 0.5270752,
+        "password": 0.2900472,
+        "ransomware": 0.48540959999999994,
+        "xss": 0.4827272
+      },
+      "kNN": {
+        "Backdoor": 0.3102332,
+        "mitm": 0.4609476,
+        "password": 0.3111456,
+        "ransomware": 0.1525508,
+        "xss": 0.17000600000000002
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": 0.8701443999999999,
+        "mitm": 0.6861967999999999,
+        "password": 0.8593568,
+        "ransomware": 0.8248199999999999,
+        "xss": 0.7511624
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9113207226474311,
+      "final_val_macro_f1": 0.8610868996775037,
+      "best_epoch": 7,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.49664406272343226,
+          "val_macro_f1": 0.6726833578965843,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.4397712538582938,
+          "val_macro_f1": 0.6239151653406264,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.42289139274188453,
+          "val_macro_f1": 0.679104942262837,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.4126777981689998,
+          "val_macro_f1": 0.7361312886736615,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.41098602993147715,
+          "val_macro_f1": 0.7805004314063848,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.39741055526052205,
+          "val_macro_f1": 0.8875237119482263,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.3891109915120261,
+          "val_macro_f1": 0.9113207226474311,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.3774498634338379,
+          "val_macro_f1": 0.7788638992818147,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.3694125795023782,
+          "val_macro_f1": 0.8508594288607059,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.36243711280822755,
+          "val_macro_f1": 0.8460045172008288,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.35479177962030684,
+          "val_macro_f1": 0.8544842105263157,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.3488564434392112,
+          "val_macro_f1": 0.8832061960258045,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.3442178693158286,
+          "val_macro_f1": 0.8748434674200163,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.3412554899965014,
+          "val_macro_f1": 0.8585327162600529,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.3396034879684448,
+          "val_macro_f1": 0.8610868996775037,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 46.5005156993866
+    },
+    "benign_only_seconds": 14.522587299346924,
+    "clad": {
+      "best_val_auroc": 0.9718111999999999,
+      "final_val_auroc": 0.964888,
+      "best_epoch": 9
+    },
+    "clad_seconds": 3.837592124938965,
+    "xgb_seconds": 8.399238348007202
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Backdoor": 500,
+    "test/mitm": 500,
+    "test/password": 500,
+    "test/ransomware": 500,
+    "test/xss": 500
+  },
+  "wall_seconds": 75.00267171859741,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T09:14:07+00:00",
+    "results_head": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "d4a53f3935f05980c34abcd253a5b0f9af2cb20a43a052d596f46798434b8abc",
+      "row_id.npy": "e5c5731ccf4379d6777d54241c3e2f8221f12d1d23e1e53b759ac339a20fc2b3",
+      "windows.npz": "493f376ac653596cfcc707d26ed76ee8dfcc19a3357416aa7697ade57edeb4c5",
+      "sets.npz": "ddfdd88f925703c94d9d4dcda1dcbb0bec5be8b71b2a2dea3ff54f5df24b444c",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "f81edd87b3903bc0747469a2625324aa4274da0f7332146937aba3fe4efeff4b"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "nn_D3",
+        "kind": "natural_novelty",
+        "dataset": "D3",
+        "package": "temporal_gap/p1c"
+      }
+    },
+    "timestamp_utc": "2026-10-09T09:56:00+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
