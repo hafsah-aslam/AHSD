@@ -39,6 +39,14 @@
       "old_commit": "abcf500",
       "new_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
       "results_before_amendment": "P1d stopped before any model run (D5 grouped_random LOACO 0 folds; D5 natural_novelty feasibility); no 10-minute-block count; no P1d model run"
+    },
+    {
+      "id": "AMENDMENT_06",
+      "date": "2026-10-09",
+      "old_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+      "old_commit": "582cac4",
+      "new_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+      "results_before_amendment": "P1, P1b, P1c, P1d (gates STOP, STOP, STOP, STOP); final-run code smoke-tested only (smoke_out, 1 epoch, not reported); no final-run model run"
     }
   ]
 }

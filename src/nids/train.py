@@ -82,8 +82,10 @@ def calibrate_tau(model, X_benign: np.ndarray, bs: int = 1024) -> float:
 
 
 def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log=print,
-        checkpoint: str = "best", **kw) -> dict:
-    """checkpoint="best": best validation macro-F1 (default); "final": last epoch (AMENDMENT_05 A5.3)."""
+        checkpoint: str = "best", keep_states: bool = False, **kw) -> dict:
+    """checkpoint="best": best validation macro-F1 (default); "final": last epoch (AMENDMENT_05 A5.3).
+    keep_states=True also returns both state dicts ("states": {"best", "final"}) from this one run
+    (AMENDMENT_06: checkpoint sensitivity without re-training)."""
     if checkpoint not in ("best", "final"):
         raise ValueError(checkpoint)
     hp = {**DEFAULTS, **kw}
@@ -135,6 +137,7 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
             + (f" γ {rec['gamma']:.4f}" if "gamma" in rec else ""))
         if f1 > best:
             best, best_state = f1, copy.deepcopy(model.state_dict())
+    final_state = copy.deepcopy(model.state_dict()) if keep_states else None
     if checkpoint == "best":
         model.load_state_dict(best_state)
     if hasattr(model, "set_E0"):
@@ -143,4 +146,6 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
            "checkpoint": checkpoint, "final_val_macro_f1": history[-1]["val_macro_f1"]}
     if is_s1:
         out["tau_ref_log"] = tau_log
+    if keep_states:
+        out["states"] = {"best": best_state, "final": final_state}
     return out

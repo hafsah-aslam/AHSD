@@ -26,6 +26,13 @@ def msp_score(logits: np.ndarray) -> np.ndarray:
     return 1.0 - p.max(1)
 
 
+def p_attack_score(logits: np.ndarray) -> np.ndarray:
+    """Softmax probability of the attack class (AMENDMENT_06 A6.2; added post-G3)."""
+    z = logits - logits.max(1, keepdims=True)
+    p = np.exp(z) / np.exp(z).sum(1, keepdims=True)
+    return p[:, 1]
+
+
 def energy_score(logits: np.ndarray) -> np.ndarray:
     m = logits.max(1, keepdims=True)
     return -(m[:, 0] + np.log(np.exp(logits - m).sum(1)))
@@ -126,6 +133,24 @@ class AE:
     def score(self, X):
         F = torch.from_numpy(_flat(X))
         return ((self.m(F) - F) ** 2).mean(1).numpy()
+
+
+class XGB:
+    """Supervised reference (spec §7): XGBoost on the flattened window, fixed parameters, no tuning.
+    Score = predicted P(attack)."""
+    PARAMS = dict(n_estimators=300, max_depth=6, learning_rate=0.1, subsample=1.0, colsample_bytree=1.0,
+                  tree_method="hist", n_jobs=4)
+
+    def __init__(self, seed):
+        self.seed = seed
+
+    def fit(self, X, y):
+        from xgboost import XGBClassifier
+        self.m = XGBClassifier(**self.PARAMS, random_state=self.seed).fit(_flat(X), np.asarray(y))
+        return self
+
+    def score(self, X):
+        return self.m.predict_proba(_flat(X))[:, 1]
 
 
 BENIGN_ONLY = {"IF": IF, "OCSVM": OCSVM, "PCA": PCARecon, "AE": AE}

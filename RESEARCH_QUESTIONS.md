@@ -718,3 +718,150 @@ These are fixed here, before any count or run.
   are reused, and they are seed-deterministic.
 - Sensitivity B − S = the primary benign-only B minus the final-epoch S.
   This is reported only and never enters the gate.
+
+## AMENDMENT_06 (2026-10-09, after gate G3, before any final-run model run)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5`
+  (AMENDMENT_05, commit 582cac4).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:** gate G3 = STOP (`GATE_G3_DECISION.md`), accepted by the authors.
+  The direction is now fixed by the authors.
+
+### A6.1 G3 negative; the paper is a pre-registered benchmark
+- G3 is negative.
+- The paper is the pre-registered benchmark with contributions C1–C6 "in the
+  authors' plan". The C1–C6 text is not in this repository; it is recorded as
+  pending in `DECISIONS_PENDING.md` (item 8) and is not reconstructed here.
+- No new hypotheses.
+
+### A6.2 Known gate flaw, recorded
+- MSP and Energy measure classifier confidence. In a binary task, a confident
+  "attack" prediction on an unseen attack therefore reads as "normal".
+- For all descriptive reporting, the supervised-backbone scores are split into
+  two families:
+  - (i) classifier-confidence scores: MSP, Energy, P(attack);
+  - (ii) representation-distance scores: AHSD stress, Mahalanobis, kNN.
+- P(attack) is ADDED as a detector and labelled "added post-G3" wherever it
+  appears.
+- The gate verdicts G1, G2 and G3 remain unchanged in the record.
+
+### A6.3 No further gates
+Everything below is descriptive and reported in full.
+
+### Final run (authors' specification)
+- One code commit for every number in the paper. Prior evaluations are re-run,
+  not reused from mixed-commit results.
+- Seeds {17, 23, 42, 101, 202}.
+- Detectors: the 10 from P1d, plus P(attack), plus XGBoost (supervised reference).
+- Evaluations:
+  - LOACO (`grouped_random`): D1 families, D2, D3;
+  - natural_novelty (train-tail validation): D1, D3, D5;
+  - D5 purged_block: the single feasible fold (dos_hulk), reported as a limitation;
+  - transfer: train on D1/D2/D3 in-domain; evaluate binary detection on every
+    other NF-v3 dataset including D4 (zero-shot), all detectors;
+  - in-distribution `temporal_gap` + `grouped_random`: the supervised backbone vs
+    XGBoost (saturation table);
+  - checkpoint sensitivity (best vs final epoch) for every evaluation;
+  - seed std reported explicitly for every detector × evaluation.
+- Outputs (generated from JSON only): `report/` LaTeX tables and PDF figures
+  F1–F6; `RESULTS_SUMMARY.md`; `NEGATIVE_RESULTS.md`; release package.
+
+### Operational choices added by the implementer
+These are fixed here, before any final-run model run.
+
+**Code.** `scripts/final_run.py` (runs), `scripts/report_final.py` (tables,
+figures, summaries). One JSON per (evaluation, unit, seed) under `results/final/`.
+The run refuses a dirty tree and runs the preflight seeding test first.
+
+**Detector families** (reported separately; never pooled across families):
+- classifier-confidence: MSP, Energy, P_attack (softmax probability of the
+  attack class from the AHSD backbone's logits; added post-G3);
+- representation-distance: AHSD_stress, Mahalanobis, kNN (penultimate
+  features; benign training windows as reference);
+- benign-only: IF, OCSVM, PCA, AE (fitted on benign training windows);
+- Wilkie_CLAD (AMENDMENT_04 settings);
+- XGBoost: supervised reference on the flattened window. Fixed parameters,
+  no tuning: 300 trees, max depth 6, learning rate 0.1, `hist`, subsample 1,
+  colsample 1, `random_state` = seed. Score = predicted P(attack).
+- Every score: higher = more anomalous / attack; never flipped.
+
+**Supervised backbone.** The only supervised neural backbone implemented is
+AHSD (fixed, γ = 0; spec §5 shared setup). The other backbones in spec §5 were
+never built (P2 never started). The saturation table therefore compares the
+AHSD backbone's P(attack) with XGBoost. This is a scope limitation, stated in
+the report.
+
+**Checkpoint sensitivity, every evaluation.**
+- The AHSD backbone and CLAD are trained once per (unit, seed). Both the
+  primary state (AHSD: best validation macro-F1; CLAD: best validation AUROC)
+  and the final-epoch state are kept from that same training run.
+- Every checkpoint-dependent score (the 6 backbone scores and CLAD) is computed
+  at both states. E₀ and the Mahalanobis / kNN / CLAD benign references are
+  recomputed from the training benign windows for each state.
+- Benign-only detectors and XGBoost have no checkpoint choice and are scored
+  once.
+- Unlike A5.3 (which re-trained), no re-training. With a fixed seed, the
+  final-epoch state of the primary run is the state a final-epoch re-training
+  would produce.
+- The primary state is the one used in every headline table; the final-epoch
+  state appears only in the sensitivity table (F6).
+
+**Evaluations and data** (no data artefact is rebuilt):
+- LOACO, `grouped_random` archives:
+  - D1 at attack-family level (`loaco_family`, 6 families);
+  - D2 (8 folds) and D3 (6 folds);
+  - feasible folds as recorded in each `index_meta.json`.
+  Per-class AUC = held-out class vs the fold's test benign windows.
+- D5 purged_block: the archive and meta from AMENDMENT_05
+  (`results/p1d/d5_purged_block_meta.json`); single fold dos_hulk.
+- natural_novelty: the train-tail validation packages, unchanged:
+  - D1 and D3: `temporal_gap/p1c` (A3.2; the anchor sets are unused, and the
+    test pool still excludes the anchor groups);
+  - D5: `temporal_gap/p1d` (A4).
+  Per-class AUC = class vs `test_benign`.
+- In-distribution: D1, D2, D3, D5 × `temporal_gap`, `grouped_random`.
+  - Train on `train`, select the checkpoint on `val`.
+  - Report on `test` (5:1) and `test_natural` (natural prior).
+  - Metrics for every detector: AUC, PR-AUC, TPR at 1% and 0.1% FPR, d′.
+  - For P_attack and XGBoost also macro-F1 and MCC at threshold 0.5.
+- Transfer:
+  - Sources: the in-distribution `temporal_gap` models of D1, D2, D3 (same
+    runs).
+  - Targets: every other NF-v3 dataset, including D4.
+  - Each target is scored on the `test` set of its `transfer/<src>__to__<tgt>/temporal_gap`
+    package, which was rebuilt with the source cleaner (D4: the AMENDMENT_01
+    target-only test set).
+  - All detector references (benign-only fits, Mahalanobis / kNN / CLAD
+    references, E₀) come from the source training data. Nothing is fitted on
+    the target.
+  - The run fails closed if a target package's cleaner differs from the
+    source's.
+  - D5 has its own feature space and is not a transfer source or target.
+
+**Statistics (descriptive).**
+- Per detector × evaluation × class: mean over the 5 seeds, Student-t 95% CI
+  (t = 2.776), seed std (ddof = 1), and the fraction of seeds with AUC < 0.5.
+- Family means per evaluation, with family differences as descriptive
+  contrasts. The paired bootstrap over classes × seeds is the G3 procedure
+  (2,000 resamples, seed 0). No thresholds and no verdicts.
+- Caveats are printed wherever they apply:
+  - D5 natural_novelty has 2 classes;
+  - checkpoint fragility, where the validation set is thin;
+  - the A5.2 fallback;
+  - the D5 purged_block single fold;
+  - the AHSD-only saturation table.
+
+**Figures and tables** (`report/final/`, from JSON only):
+- F1: protocol diagram;
+- F2: feasibility table per dataset;
+- F3: AUC heatmap detector × class × protocol;
+- F4: seed std, LOACO vs natural_novelty;
+- F5: transfer matrix;
+- F6: checkpoint sensitivity;
+- LaTeX tables for each.
+
+**Prior phases.**
+- `NEGATIVE_RESULTS.md` reports P1, G1, G2 and G3 with their own recorded JSON
+  numbers and code commits, as historical records.
+- No number from those runs enters the final-run tables.

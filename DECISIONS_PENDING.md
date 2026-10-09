@@ -89,3 +89,19 @@ Numbers come from `results/p1/summary.json` and `results/p1/gate.json`.
      Heartbleed held out). This conflicts with the spec's "no random
      flow-level splits", and Heartbleed (22) and SQLi (23 windows) are below
      the 200-window LOACO threshold.
+
+## 8. C1–C6 contribution text (AMENDMENT_06 A6.1)
+- The authors' decision says the paper is the pre-registered benchmark
+  "C1–C6 in my plan". No C1–C6 list exists in this repository or in the
+  original project spec.
+- `RESULTS_SUMMARY.md` is to be organised by C1–C6. Until the text is
+  supplied, it is organised by evaluation, with a C1–C6 mapping left for the
+  authors. No contribution wording has been invented.
+- Decision needed: the C1–C6 text.
+
+## 9. Saturation table scope (AMENDMENT_06)
+- "Supervised backbones vs XGBoost": the only supervised neural backbone
+  implemented is AHSD (fixed). The other spec §5 backbones were never built,
+  because P2 never started.
+- The table compares AHSD P(attack) with XGBoost and states this limitation.
+- Decision needed only if more backbones are wanted.

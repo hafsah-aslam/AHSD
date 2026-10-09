@@ -97,10 +97,18 @@ class CLAD:
             hist.append({"epoch": ep + 1, "val_auroc": v})
             if v > best:
                 best, best_state = v, copy.deepcopy(self.enc.state_dict())
+        self.states = {"best": best_state, "final": copy.deepcopy(self.enc.state_dict())}
         if checkpoint == "best":
             self.enc.load_state_dict(best_state)
         self._set_centroid(Xtr[np.asarray(ytr) == 0])
         self.history, self.best_val_auroc, self.checkpoint = hist, best, checkpoint
+        return self
+
+    def use(self, checkpoint: str, Xtr_benign):
+        """Switch to the kept best/final encoder state and recompute the benign centroid."""
+        self.enc.load_state_dict(self.states[checkpoint])
+        self._set_centroid(Xtr_benign)
+        self.checkpoint = checkpoint
         return self
 
     def _set_centroid(self, Xb):
