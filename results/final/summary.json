@@ -1823,6 +1823,36 @@
         "Wilkie_CLAD": 0.041215852780752855,
         "XGBoost": 0.0
       },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.10022344,
+          "ci95": [
+            -0.03515030044444445,
+            0.2819486953333333
+          ]
+        },
+        "representation": {
+          "mean": -0.07545117333333333,
+          "ci95": [
+            -0.17892896755555557,
+            0.012571049444444421
+          ]
+        },
+        "benign-only": {
+          "mean": -0.00638620000000001,
+          "ci95": [
+            -0.09852838633333331,
+            0.0837408782499999
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.028430546666666643,
+          "ci95": [
+            -0.1255455036666667,
+            0.05313458966666672
+          ]
+        }
+      },
       "checkpoint_per_detector": {
         "MSP": {
           "Bot": -0.21373255999999996,
@@ -4219,6 +4249,36 @@
         "Wilkie_CLAD": 0.003897989761436682,
         "XGBoost": 3.1031676915590914e-17
       },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.5101304785017017,
+          "ci95": [
+            0.4623302735321861,
+            0.556141411093334
+          ]
+        },
+        "representation": {
+          "mean": -0.027616058468981925,
+          "ci95": [
+            -0.03423781998681661,
+            -0.020575017475689784
+          ]
+        },
+        "benign-only": {
+          "mean": 0.1422998715921498,
+          "ci95": [
+            0.1185549243254712,
+            0.16427754074264592
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.048381323980532236,
+          "ci95": [
+            -0.05394495668483571,
+            -0.04274140379869679
+          ]
+        }
+      },
       "checkpoint_per_detector": {
         "MSP": {
           "Analysis": -0.0004390399999999892,
@@ -6095,6 +6155,36 @@
         "Wilkie_CLAD": 0.019422166163026902,
         "XGBoost": 0.0
       },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.35377180444444445,
+          "ci95": [
+            0.18785888133333334,
+            0.5155500797777777
+          ]
+        },
+        "representation": {
+          "mean": -0.10033065333333337,
+          "ci95": [
+            -0.2320346087777778,
+            -0.025696194888888916
+          ]
+        },
+        "benign-only": {
+          "mean": -0.12258896666666667,
+          "ci95": [
+            -0.2766602127500001,
+            -0.03355059750000003
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.08219428000000001,
+          "ci95": [
+            -0.18294034633333328,
+            -0.018867357000000088
+          ]
+        }
+      },
       "checkpoint_per_detector": {
         "MSP": {
           "Backdoor": -0.02496151999999998,
@@ -6621,6 +6711,36 @@
         "AE": 0.004002194621954363,
         "Wilkie_CLAD": 0.014307622702321951,
         "XGBoost": 0.0
+      },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.39203384,
+          "ci95": [
+            0.24186352000000003,
+            0.5449909866666667
+          ]
+        },
+        "representation": {
+          "mean": -0.025971733333333424,
+          "ci95": [
+            -0.03962794666666671,
+            -0.015700480000000083
+          ]
+        },
+        "benign-only": {
+          "mean": 0.1388706400000001,
+          "ci95": [
+            0.12587040000000016,
+            0.1483823200000001
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.027742080000000002,
+          "ci95": [
+            -0.04053967999999997,
+            -0.018359040000000014
+          ]
+        }
       },
       "checkpoint_per_detector": {
         "MSP": {
@@ -7380,6 +7500,36 @@
         "AE": 0.0014664560074866507,
         "Wilkie_CLAD": 0.029230407525574282,
         "XGBoost": 0.0
+      },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.04489526666666666,
+          "ci95": [
+            -0.05068058666666662,
+            0.11172911999999999
+          ]
+        },
+        "representation": {
+          "mean": -0.048305946666666676,
+          "ci95": [
+            -0.07306701333333328,
+            -0.02511999999999994
+          ]
+        },
+        "benign-only": {
+          "mean": 0.06943385999999997,
+          "ci95": [
+            0.008888879999999988,
+            0.14587811999999997
+          ]
+        },
+        "XGBoost": {
+          "mean": 0.05084264000000001,
+          "ci95": [
+            -0.022876240000000037,
+            0.14151240000000007
+          ]
+        }
       },
       "checkpoint_per_detector": {
         "MSP": {
@@ -8948,6 +9098,36 @@
         "Wilkie_CLAD": 0.054846355850304465,
         "XGBoost": 0.0
       },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.355080912,
+          "ci95": [
+            0.19185844626666673,
+            0.49151998333333324
+          ]
+        },
+        "representation": {
+          "mean": 0.30018645866666666,
+          "ci95": [
+            0.15400165173333338,
+            0.4497248426666666
+          ]
+        },
+        "benign-only": {
+          "mean": -0.07543200799999998,
+          "ci95": [
+            -0.12954301899999998,
+            -0.02291719400000003
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.10003523199999989,
+          "ci95": [
+            -0.1555103727999999,
+            -0.058818504799999956
+          ]
+        }
+      },
       "checkpoint_per_detector": {
         "MSP": {
           "Backdoor": 0.048290639999999996,
@@ -9734,6 +9914,36 @@
         "AE": 0.07088864165505107,
         "Wilkie_CLAD": 0.09384999892541683,
         "XGBoost": 0.0
+      },
+      "clad_vs": {
+        "confidence": {
+          "mean": 0.6073117066666666,
+          "ci95": [
+            0.4429079999999999,
+            0.7268761333333333
+          ]
+        },
+        "representation": {
+          "mean": -0.07604379999999994,
+          "ci95": [
+            -0.24111015999999993,
+            0.023221813333333396
+          ]
+        },
+        "benign-only": {
+          "mean": 0.07001734000000005,
+          "ci95": [
+            -0.17752243999999995,
+            0.24082155999999996
+          ]
+        },
+        "XGBoost": {
+          "mean": -0.10420583999999992,
+          "ci95": [
+            -0.28620071999999996,
+            -0.00935615999999997
+          ]
+        }
       },
       "checkpoint_per_detector": {
         "MSP": {
@@ -27582,19 +27792,19 @@
     "D5 LOACO (purged_block) has 1 feasible fold (dos_hulk); under A5.2 it is a protocol limitation, not a LOACO estimate.",
     "Checkpoint fragility: the D5 train-tail validation set has 26 attack windows; checkpoint choice changes backbone scores (see the checkpoint section).",
     "P(attack) was added after G3 (A6.2); MSP and Energy measure classifier confidence and read confident attack predictions as normal in a binary task.",
-    "The saturation table compares the AHSD backbone only with XGBoost; no other neural backbone was built.",
+    "Temporal-split degradation (R5) compares a single neural backbone (AHSD) with XGBoost; no other backbone was built or will be (authors' decision, DECISIONS_PENDING item 9). Conclusions about 'neural backbones' rest on AHSD alone.",
     "All analyses here are descriptive (A6.3); intervals are not tests and no threshold is applied.",
     "XGBoost uses subsample = colsample = 1 (fixed parameters, AMENDMENT_06), so its fit is deterministic: its seed std is 0 by construction and its interval reflects no training randomness."
   ],
   "provenance": {
-    "code_commit": "e124a3a315e8545828d3b280d9a4928fcb6fcab3",
+    "code_commit": "89dd4f3c10ee66b0ac7e3b6be493f4aab35549ea",
     "code_dirty": true,
-    "code_commit_captured_utc": "2026-10-09T11:26:34+00:00",
-    "results_head": "e124a3a315e8545828d3b280d9a4928fcb6fcab3-dirty",
+    "code_commit_captured_utc": "2026-10-09T13:55:21+00:00",
+    "results_head": "89dd4f3c10ee66b0ac7e3b6be493f4aab35549ea-dirty",
     "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
     "data_sha256": {},
     "config": {},
-    "timestamp_utc": "2026-10-09T11:26:41+00:00",
+    "timestamp_utc": "2026-10-09T13:55:31+00:00",
     "python": "3.11.15",
     "host": "vm"
   }

@@ -90,18 +90,46 @@ Numbers come from `results/p1/summary.json` and `results/p1/gate.json`.
      flow-level splits", and Heartbleed (22) and SQLi (23 windows) are below
      the 200-window LOACO threshold.
 
-## 8. C1–C6 contribution text (AMENDMENT_06 A6.1)
+## 8. C1–C6 contribution text (AMENDMENT_06 A6.1) — RESOLVED 2026-10-09
 - The authors' decision says the paper is the pre-registered benchmark
   "C1–C6 in my plan". No C1–C6 list exists in this repository or in the
   original project spec.
 - `RESULTS_SUMMARY.md` is to be organised by C1–C6. Until the text is
   supplied, it is organised by evaluation, with a C1–C6 mapping left for the
   authors. No contribution wording has been invented.
-- Decision needed: the C1–C6 text.
+- **Resolved (2026-10-09):** the authors supplied C1–C6. `RESULTS_SUMMARY.md` is organised by
+  them, with automatic evidence checks; the per-evaluation results (R1–R7) are kept as an appendix.
+  No number changed.
 
-## 9. Saturation table scope (AMENDMENT_06)
+## 9. Saturation table scope (AMENDMENT_06) — RESOLVED 2026-10-09
 - "Supervised backbones vs XGBoost": the only supervised neural backbone
   implemented is AHSD (fixed). The other spec §5 backbones were never built,
   because P2 never started.
 - The table compares AHSD P(attack) with XGBoost and states this limitation.
-- Decision needed only if more backbones are wanted.
+- **Resolved (2026-10-09):** no new backbones, no further runs. The section is renamed
+  "Temporal-split degradation: AHSD vs XGBoost", and the single-backbone scope is stated as a
+  limitation.
+
+## 10. Contribution wording vs evidence (C2, C4, C5; found 2026-10-09)
+The automatic evidence checks in `RESULTS_SUMMARY.md` flag the following. No number was changed and
+no claim was reworded.
+- **C4 — not supported as worded for P(attack).**
+  - MSP and Energy are below 0.5 in all 4 named evaluations.
+  - P(attack) is not below 0.5 in any of them (mean AUC 0.999 / 0.752 / 0.853 / 0.575).
+  - P(attack) falls below 0.5 on single classes only: D3 LOACO ddos and scanning, and D5 natural
+    novelty portscan.
+  - The family mean is below 0.5 because of MSP and Energy.
+  - Decision needed: the wording, e.g. restrict C4 to MSP and Energy.
+- **C2 — qualifications.**
+  - XGBoost (the supervised reference) is higher than the leading novelty family in LOACO D2,
+    natural novelty D3 and natural novelty D5.
+  - On natural novelty D1 the representation family is 0.623 [0.562, 0.692], so "near chance
+    for all families" does not hold for it.
+- **C5 — holds on D3 only, with one backbone.**
+  - D1: both models drop.
+  - D2: neither drops.
+  - D5: temporal_gap scores higher than grouped_random for both, and grouped_random favours
+    P(attack) (0.831 vs 0.705).
+
+## 11. 100 GB dataset — RESOLVED 2026-10-09
+Not joining this paper. No amendment, no run.

@@ -2,7 +2,7 @@
 \begin{table}[t]
 \centering
 \scriptsize
-\caption{In-distribution binary detection: AHSD backbone P(attack) vs XGBoost (mean ± t-CI, 5 seeds).}
+\caption{Temporal-split degradation: AHSD backbone P(attack) vs XGBoost, in-distribution binary detection (mean ± t-CI, 5 seeds). Single neural backbone (limitation).}
 \label{tab:saturation}
 \begin{tabular}{lllrrrrr}
 \hline
@@ -49,5 +49,5 @@ D5\_grouped\_random & XGBoost & test & 0.705 ± 0.000 & 0.397 ± 0.000 & 0.492 �
 D5\_grouped\_random & XGBoost & test\_natural & 0.694 ± 0.000 & 0.273 ± 0.000 & 0.505 ± 0.000 & 0.135 ± 0.000 & 0.103 ± 0.000 \\
 \hline
 \end{tabular}
-\\[2pt]\parbox{\linewidth}{\tiny The AHSD backbone is the only supervised neural backbone implemented (DECISIONS\_PENDING item 9).}
+\\[2pt]\parbox{\linewidth}{\tiny Limitation: AHSD is the only neural backbone evaluated (authors' decision, DECISIONS\_PENDING item 9); XGBoost is deterministic under the fixed parameters (seed std 0).}
 \end{table}

@@ -161,6 +161,9 @@ def class_eval_stats(A, expect):
             st["checkpoint"][f"benign-only − {fam}"] = {
                 "best": boot_mean_ci(Bm - fam_matrix(A[e]["best"], fam, classes)),
                 "final": boot_mean_ci(Bm - fam_matrix(A[e]["final"], fam, classes))}
+        Cm = fam_matrix(A[e]["best"], "CLAD", classes)
+        st["clad_vs"] = {f: boot_mean_ci(Cm - fam_matrix(A[e]["best"], f, classes))
+                         for f in ("confidence", "representation", "benign-only", "XGBoost")}
         st["checkpoint_per_detector"] = {
             d: {c: float(np.mean([A[e]["final"][d][c][s] - A[e]["best"][d][c][s] for s in SEEDS])) for c in classes}
             for d in CK_DEP}
@@ -314,9 +317,11 @@ def tables(CS, I, T, F):
                 rows.append([e.replace("indist_", ""), lab(d), k] + [f"{m[x]['mean']:.3f} ± {m[x]['ci95']:.3f}"
                                                                     for x in ("auc", "pr_auc", "macro_f1", "mcc", "tpr_at_1pct_fpr")])
         rows.append("---")
-    write_tex("T_saturation", "In-distribution binary detection: AHSD backbone P(attack) vs XGBoost (mean ± t-CI, 5 seeds).",
+    write_tex("T_saturation", "Temporal-split degradation: AHSD backbone P(attack) vs XGBoost, in-distribution binary detection "
+              "(mean ± t-CI, 5 seeds). Single neural backbone (limitation).",
               "tab:saturation", ["Dataset/split", "Model", "Test set", "AUC", "PR-AUC", "macro-F1", "MCC", "TPR@1%FPR"],
-              rows[:-1], "lllrrrrr", "The AHSD backbone is the only supervised neural backbone implemented (DECISIONS_PENDING item 9).")
+              rows[:-1], "lllrrrrr", "Limitation: AHSD is the only neural backbone evaluated (authors' decision, DECISIONS_PENDING item 9); "
+              "XGBoost is deterministic under the fixed parameters (seed std 0).")
     # transfer
     rows = []
     for d in DETS:
@@ -536,11 +541,201 @@ def caveats(F, CS):
         "backbone scores (see the checkpoint section).",
         "P(attack) was added after G3 (A6.2); MSP and Energy measure classifier confidence and read confident attack "
         "predictions as normal in a binary task.",
-        "The saturation table compares the AHSD backbone only with XGBoost; no other neural backbone was built.",
+        "Temporal-split degradation (R5) compares a single neural backbone (AHSD) with XGBoost; no other backbone was built "
+        "or will be (authors' decision, DECISIONS_PENDING item 9). Conclusions about 'neural backbones' rest on AHSD alone.",
         "All analyses here are descriptive (A6.3); intervals are not tests and no threshold is applied.",
         "XGBoost uses subsample = colsample = 1 (fixed parameters, AMENDMENT_06), so its fit is deterministic: its seed std "
         "is 0 by construction and its interval reflects no training randomness.",
     ]
+
+
+NOVELTY_FAMS = ["confidence", "representation", "benign-only", "CLAD"]
+
+
+def _ci(v, sign=False):
+    f = "+.3f" if sign else ".3f"
+    return f"{v['mean']:{f}} [{v['ci95'][0]:{f}}, {v['ci95'][1]:{f}}]"
+
+
+def _det_mean(st, d):
+    return float(np.mean([st["cells"][d][c]["mean"] for c in st["classes"]]))
+
+
+def contributions(S, CS, I, T, F):
+    """C1–C6 (authors' text, DECISIONS_PENDING item 8) with evidence and automatic evidence checks."""
+    L = []
+    nm = {e: EVAL_NAME[e].replace("\\_", "_") for e in CLASS_EVALS}
+    # ---------------- C1
+    D = F["datasets"]
+    L += ["## C1. Protocol feasibility", "",
+          "*Claim (authors):* On day-scheduled captures (D1, D3, D5), class hold-out (LOACO) is structurally limited: D5 "
+          "purged_block yields 1 feasible fold; temporal_gap LOACO yields 0 folds on D1 and D3. Natural temporal novelty "
+          "is available where LOACO is not.", "",
+          "*Evidence* (Feasibility in the appendix; `T_feasibility.tex`; F1, F2; `P0_REPORT.md`, `P1D_REPORT.md`):", ""]
+    for ds, r in D.items():
+        nn = F["natural_novelty"].get(f"nn_{ds}", {}).get("classes", [])
+        L.append(f"- {ds}: feasible LOACO folds temporal_gap {r['loaco_temporal_gap']}, grouped_random {r['loaco_grouped_random']}"
+                 + (f", families (grouped_random) {r['loaco_family_grouped_random']}" if "loaco_family_grouped_random" in r else "")
+                 + f"; natural-novelty classes {len(nn)}" + (f" ({', '.join(nn)})" if nn else "") + ".")
+    pb = F["d5_purged_block"]
+    L.append(f"- D5 purged_block: {len(pb['feasible'])} feasible fold ({', '.join(pb['feasible'])}) of "
+             f"{pb['blocks']['non_empty']} ten-minute blocks ({pb['blocks']['purged_rule1'] + pb['blocks']['purged_rule2']} purged); "
+             f"A5.2 fallback applied: {F['a52_fallback_applied']}.")
+    chk = []
+    zero_tg = [ds for ds in ("D1", "D3", "D5") if D[ds]["loaco_temporal_gap"] == 0]
+    chk.append(f"temporal_gap LOACO has 0 feasible folds on {', '.join(zero_tg)}"
+               + ("" if len(zero_tg) == 3 else " only") + "; D5 grouped_random also has "
+               f"{D['D5']['loaco_grouped_random']}.")
+    gr_ok = [f"{ds} ({D[ds]['loaco_grouped_random']})" for ds in ("D1", "D3") if D[ds]["loaco_grouped_random"] > 0]
+    if gr_ok:
+        chk.append(f"LOACO remains feasible under grouped_random on {', '.join(gr_ok)}: the limitation concerns temporal "
+                   "splits on D1/D3 and every split on D5.")
+    chk.append(f"D2 (not day-scheduled) has {D['D2']['loaco_temporal_gap']} temporal_gap folds and no natural-novelty classes.")
+    L += ["", "*Evidence check:* " + " ".join(chk), ""]
+    # ---------------- C2
+    L += ["## C2. No detector family dominates", "",
+          "*Claim (authors):* The best family changes with dataset and protocol: representation-distance scores lead under "
+          "LOACO D2 and natural novelty D5; benign-only detectors lead under natural novelty D3 (+0.376 [+0.25, +0.50]); "
+          "D1 is near chance for all families under natural novelty. Single-protocol evaluations can therefore crown the "
+          "wrong method.", "",
+          "*Evidence* (R1–R3; `T_families.tex`, `T_auc_*.tex`; F3). Family mean AUC [95% bootstrap CI]; the leading "
+          "novelty-score family excludes XGBoost, which is the supervised reference:", "",
+          "| Evaluation | classes | confidence | representation | benign-only | CLAD | XGBoost | leading novelty family |",
+          "|---|---|---|---|---|---|---|---|"]
+    lead = {}
+    for e in CLASS_EVALS:
+        st = CS[e]
+        lead[e] = max(NOVELTY_FAMS, key=lambda f: st["families"][f]["mean"])
+        L.append(f"| {nm[e]} | {st['n_classes']} | " + " | ".join(_ci(st["families"][f]) for f in FAMILIES) + f" | {lead[e]} |")
+    L += ["", "Wilkie et al. CLAD vs each family (CLAD − family, paired bootstrap):", "",
+          "| Evaluation | CLAD | − confidence | − representation | − benign-only | − XGBoost |", "|---|---|---|---|---|---|"]
+    for e in CLASS_EVALS:
+        st = CS[e]
+        L.append(f"| {nm[e]} | {_ci(st['families']['CLAD'])} | " + " | ".join(_ci(st["clad_vs"][f], True)
+                                                                          for f in ("confidence", "representation", "benign-only", "XGBoost")) + " |")
+    chk = []
+    for e, f in (("loaco_D2", "representation"), ("nn_D5", "representation"), ("nn_D3", "benign-only")):
+        st = CS[e]
+        ok = lead[e] == f
+        chk.append(f"{nm[e]}: leading novelty family is {lead[e]} ({'as claimed' if ok else f'claim says {f}'})"
+                   + (f"; XGBoost is higher still ({st['families']['XGBoost']['mean']:.3f} vs {st['families'][lead[e]]['mean']:.3f})"
+                      if st["families"]["XGBoost"]["mean"] > st["families"][lead[e]]["mean"] else "") + ".")
+    c = CS["nn_D3"]["contrasts"]["benign-only − representation"]
+    chk.append(f"Natural novelty D3 benign-only − representation = {_ci(c, True)} (matches the quoted value).")
+    fd1 = CS["nn_D1"]["families"]
+    lo_, hi_ = min(v["mean"] for v in fd1.values()), max(v["mean"] for v in fd1.values())
+    far = [f"{f} {_ci(fd1[f])}" for f in FAMILIES if fd1[f]["mean"] - 0.5 > 0.1]
+    chk.append(f"Natural novelty D1: family means range {lo_:.3f}–{hi_:.3f}. "
+               + (f"More than 0.1 above chance: {'; '.join(far)}, with a CI that excludes 0.5; 'near chance for all "
+                  "families' holds for the other families and should be softened for this one."
+                  if far else "No family is more than 0.1 above chance."))
+    L += ["", "*Evidence check:* " + " ".join(chk), ""]
+    # ---------------- C3
+    lo = [e for e in LOACO_EVALS if e != "loaco_D5pb"]
+
+    def pooled(evals, d):
+        return float(np.mean([CS[e]["cells"][d][c]["std"] for e in evals for c in CS[e]["classes"]]))
+    L += ["## C3. Natural novelty exposes instability that LOACO hides", "",
+          "*Claim (authors):* Seed std of every supervised score is higher under natural novelty than under LOACO; benign-only "
+          "detectors stay stable throughout.", "",
+          "*Evidence* (R7; `T_seed_std.tex`; F4). Mean seed std of AUC over classes, LOACO (D1 families, D2, D3) vs natural "
+          "novelty (D1, D3, D5):", "", "| Detector | family | LOACO | natural novelty | ratio |", "|---|---|---|---|---|"]
+    for fam, dets in FAMILIES.items():
+        for d in dets:
+            a, b = pooled(lo, d), pooled(NN_EVALS, d)
+            L.append(f"| {lab(d)} | {fam} | {a:.4f} | {b:.4f} | {(f'{b / a:.1f}' if a > 1e-6 else 'n/a (deterministic)')} |")
+    sup = CONF + REPR
+    higher = [d for d in sup if pooled(NN_EVALS, d) > pooled(lo, d)]
+    bmax = max(max(pooled(lo, d), pooled(NN_EVALS, d)) for d in BEN)
+    det0 = [d for d in BEN if pooled(lo, d) < 1e-6 and pooled(NN_EVALS, d) < 1e-6]
+    L += ["", f"*Evidence check:* {len(higher)} of {len(sup)} supervised scores have higher seed std under natural novelty "
+          f"({'as claimed' if len(higher) == len(sup) else 'not all: ' + ', '.join(d for d in sup if d not in higher)}); CLAD too "
+          f"({pooled(lo, CLAD_):.4f} → {pooled(NN_EVALS, CLAD_):.4f}). Benign-only seed std is at most {bmax:.4f}. "
+          + (f"{', '.join(det0)} are deterministic (seed std 0 by construction), so their stability is not evidence; "
+             "the seeded benign-only detectors (IF, AE) carry the claim." if det0 else ""), ""]
+    # ---------------- C4
+    ev4 = ["loaco_D2", "loaco_D3", "nn_D3", "nn_D5"]
+    L += ["## C4. Classifier-confidence scores as novelty scores", "",
+          "*Claim (authors):* Classifier-confidence scores (MSP, Energy, P(attack)) are invalid novelty scores for binary NIDS: "
+          "below 0.5 under LOACO D2/D3 and natural novelty D3/D5, because confidently detected attacks read as \"normal\".", "",
+          "*Evidence* (R1, R2; `T_families.tex`, `T_auc_*.tex`; A6.2). Mean AUC over classes:", "",
+          "| Evaluation | confidence family | MSP | Energy | P(attack)† | P(attack)† classes < 0.5 |", "|---|---|---|---|---|---|"]
+    below = {d: [] for d in CONF}
+    for e in ev4:
+        st = CS[e]
+        for d in CONF:
+            if _det_mean(st, d) < 0.5:
+                below[d].append(e)
+        pc = [f"{c} {st['cells']['P_attack'][c]['mean']:.2f}" for c in st["classes"] if st["cells"]["P_attack"][c]["mean"] < 0.5]
+        L.append(f"| {nm[e]} | {_ci(st['families']['confidence'])} | " + " | ".join(f"{_det_mean(st, d):.3f}" for d in CONF)
+                 + f" | {', '.join(pc) or 'none'} |")
+    fam_below = [e for e in ev4 if CS[e]["families"]["confidence"]["mean"] < 0.5]
+    L += ["", f"*Evidence check:* the confidence-family mean is below 0.5 in {len(fam_below)} of 4 evaluations. MSP is below "
+          f"0.5 in {len(below['MSP'])} of 4 and Energy in {len(below['Energy'])} of 4. **P(attack) is below 0.5 in "
+          f"{len(below['P_attack'])} of 4** "
+          + ("— the claim as worded is not supported for P(attack). Its mean AUC is "
+             + ", ".join(f"{nm[e]} {_det_mean(CS[e], 'P_attack'):.3f}" for e in ev4)
+             + ". The supported statement: MSP and Energy (confidence magnitude) fall below 0.5, because a confidently "
+             "detected attack has high max-softmax confidence; P(attack), the directional attack probability, does not "
+             "invert on average and falls below 0.5 only on the classes listed. The family mean is below 0.5 because of "
+             "MSP and Energy. The wording is an author decision (DECISIONS_PENDING item 10)."
+             if len(below["P_attack"]) < 4 else "(as claimed)."), ""]
+    # ---------------- C5
+    def au(e, d, k="test"):
+        return I[e]["best"][d][k]["auc"]
+    L += ["## C5. Temporal splits break neural backbones more than trees", "",
+          "*Claim (authors):* Grouped-random in-distribution AUC is ~0.98–1.0 for both AHSD P(attack) and XGBoost on D2/D3; "
+          "under temporal_gap D1 both drop to ~0.52–0.55, and on D3 P(attack) falls to 0.66 (seed std 0.20) while XGBoost "
+          "keeps 0.98. Zero-shot cross-dataset transfer mostly falls to 0.3–0.6.", "",
+          "*Evidence* (R5 Temporal-split degradation, R4; `T_saturation.tex`, `T_transfer.tex`; F5). Limitation: a single "
+          "neural backbone (AHSD).", "",
+          "| Dataset | P(attack)† grouped_random | P(attack)† temporal_gap | XGBoost grouped_random | XGBoost temporal_gap | "
+          "drop P(attack) | drop XGBoost |", "|---|---|---|---|---|---|---|"]
+    drops = {}
+    for ds in ("D1", "D2", "D3", "D5"):
+        g, t = f"indist_{ds}_grouped_random", f"indist_{ds}_temporal_gap"
+        dp = au(g, "P_attack")["mean"] - au(t, "P_attack")["mean"]
+        dx = au(g, XGB)["mean"] - au(t, XGB)["mean"]
+        drops[ds] = (dp, dx)
+        L.append(f"| {ds} | " + " | ".join(f"{au(e, d)['mean']:.3f} (sd {au(e, d)['std']:.3f})"
+                                           for e, d in ((g, "P_attack"), (t, "P_attack"), (g, XGB), (t, XGB)))
+                 + f" | {dp:+.3f} | {dx:+.3f} |")
+    off = np.array([T[d][s][t]["mean"] for d in T for s in T[d] for t in T[d][s] if s != t])
+    L += ["", f"Zero-shot transfer, all {len(off)} off-diagonal (detector × source × target) mean AUCs: "
+          f"{np.mean((off >= 0.3) & (off <= 0.6)):.0%} in [0.3, 0.6], {np.mean(off < 0.3):.0%} below 0.3, "
+          f"{np.mean(off > 0.6):.0%} above 0.6; median {np.median(off):.3f}."]
+    worse = [ds for ds, (dp, dx) in drops.items() if dp > 0.05 and dp - dx > 0.05]
+    L += ["", f"*Evidence check:* the neural drop exceeds the tree drop by more than 0.05 AUC on {', '.join(worse) or 'no dataset'}"
+          + f" only. D1: both drop ({drops['D1'][0]:+.3f} / {drops['D1'][1]:+.3f}). D2: neither drops "
+          f"({drops['D2'][0]:+.3f} / {drops['D2'][1]:+.3f}). D5: temporal_gap scores higher than grouped_random for both "
+          f"({drops['D5'][0]:+.3f} / {drops['D5'][1]:+.3f}), and grouped_random P(attack) "
+          f"{au('indist_D5_grouped_random', 'P_attack')['mean']:.3f} vs XGBoost {au('indist_D5_grouped_random', XGB)['mean']:.3f}. "
+          "\"Break neural backbones more than trees\" is therefore supported on D3, with one backbone; "
+          f"grouped_random D1 is {au('indist_D1_grouped_random', 'P_attack')['mean']:.3f} / {au('indist_D1_grouped_random', XGB)['mean']:.3f}, "
+          "not ~0.98 (the claim names D2/D3 only).", ""]
+    # ---------------- C6
+    g = json.loads((ROOT / "results/p1/gate.json").read_text())
+    b = json.loads((ROOT / "results/p1b/summary.json").read_text())
+    c = json.loads((ROOT / "results/p1c/summary.json").read_text())
+    d = json.loads((ROOT / "results/p1d/summary.json").read_text())
+    am = json.loads((ROOT / "docs/AMENDMENTS.json").read_text())["amendments"]
+    G = d["gate"]["stats"]
+    L += ["## C6. Pre-registered negative results and release", "",
+          "*Claim (authors):* Pre-registered negative results: spectral detectability (P1), adaptive-equilibrium collapse not "
+          "reproduced (G1), drift re-anchoring (G2), benign-only superiority (G3). Released pipeline, splits, amendments and "
+          "provenance.", "", "*Evidence* (`NEGATIVE_RESULTS.md`; `release/`):", "",
+          f"- P1 ({g['outcome']}): pooled ρ_S2 = {g['primary_oriented']['rho_S2']:.3f} (needs ≥ 0.6); ρ_S2 − ρ_W 95% CI "
+          f"[{g['primary_oriented']['diff_ci95'][0]:.3f}, {g['primary_oriented']['diff_ci95'][1]:.3f}].",
+          f"- G1 ({b['g1']['outcome']}): {b['g1']['datasets_passing']} of 3 datasets pass; ρ(γ, d′) = "
+          + " / ".join(f"{v['rho_gamma_dprime']:.3f}" for v in b["g1"]["datasets"].values()) + " (D1 / D2 / D3; needs ≤ −0.8).",
+          f"- G2 ({c['gate']['outcome']}): detectors passing (a) {c['gate']['detectors_passing']['a']}/9, (b) "
+          f"{c['gate']['detectors_passing']['b']}/9, (c) re-anchoring {c['gate']['detectors_passing']['c']}/9 (5 needed each).",
+          f"- G3 ({d['gate']['outcome']}): D5 natural novelty B − S = {G['D5_nn']['B_minus_S']:.3f}; D3 LOACO B − S = "
+          f"{G['D3_loaco']['B_minus_S']:.3f} (needs ≤ 0.05); criterion (b) on {d['gate']['criteria']['b_evaluated_on']} (A5.2).",
+          f"- Release: {len(am)} dated, hashed amendments (`docs/AMENDMENTS.json`); splits, file hashes and checklist in "
+          "`release/`; every final-run number from one code commit.", "",
+          "*Evidence check:* gate outcomes as recorded; the G3 verdict stands although A6.2 records a flaw in its S definition.", ""]
+    return L
 
 
 def results_summary(S, CS, I, T, F, commit):
@@ -549,11 +744,15 @@ def results_summary(S, CS, I, T, F, commit):
          "no gate. Seeds 17/23/42/101/202; mean ± Student-t 95% CI (n = 5, t = 2.776); seed std reported explicitly; "
          "family contrasts use the G3 paired bootstrap (classes × seeds, 2,000 resamples, seed 0). Scores: higher = "
          "more anomalous, never flipped. † = added post-G3.", "",
-         "**C1–C6 mapping: pending.** The authors' C1–C6 text is not in the repository (`DECISIONS_PENDING.md` item 8). "
-         "Results are grouped by evaluation (R1–R7) so each block can be assigned to a contribution without changing "
-         "any number.", "",
+         "Organised by the authors' contributions C1–C6 (`DECISIONS_PENDING.md` item 8, decided 2026-10-09). Each "
+         "contribution states the authors' claim, the evidence with its R-section and table/figure, and an automatic "
+         "**evidence check** wherever the JSON qualifies or contradicts the wording. Every number is computed from "
+         "`results/final` (or, for C6, the recorded gate JSON); the full per-evaluation results follow in the appendix "
+         "(R1–R7).", "",
          f"Single code commit for every number: `{commit}`. RQ SHA-256 in every run: `{S['rq_sha256']}`.", "",
          "## Caveats (apply throughout)", ""] + [f"- {c}" for c in caveats(F, CS)] + [""]
+    L += contributions(S, CS, I, T, F)
+    L += ["# Appendix: results by evaluation (R1–R7)", ""]
 
     def fam_line(e):
         st = CS[e]
@@ -588,7 +787,9 @@ def results_summary(S, CS, I, T, F, commit):
             L.append(f"| {lab(d)} | {src} | " + " | ".join(
                 f"{_f(T[d][src][t]['mean'])} ± {_f(T[d][src][t]['ci95'], 2)} (sd {_f(T[d][src][t]['std'], 2)})"
                 if t in T[d][src] else "—" for t in ("D1", "D2", "D3", "D4")) + " |")
-    L += ["", "## R5 In-distribution saturation: AHSD P(attack)† vs XGBoost", "",
+    L += ["", "## R5 Temporal-split degradation: AHSD vs XGBoost", "",
+          "Limitation: a single neural backbone (AHSD, P(attack)†) is compared with XGBoost; no other backbone was built "
+          "(authors' decision). XGBoost is deterministic under the fixed parameters (seed std 0).", "",
           "| Dataset / split | model | test set | AUC | PR-AUC | macro-F1 | MCC | TPR@1%FPR |", "|---|---|---|---|---|---|---|---|"]
     for e in IND_EVALS:
         for d in ("P_attack", XGB):
