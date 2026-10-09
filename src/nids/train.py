@@ -81,7 +81,11 @@ def calibrate_tau(model, X_benign: np.ndarray, bs: int = 1024) -> float:
     return float(np.median(np.concatenate(vals)))
 
 
-def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log=print, **kw) -> dict:
+def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log=print,
+        checkpoint: str = "best", **kw) -> dict:
+    """checkpoint="best": best validation macro-F1 (default); "final": last epoch (AMENDMENT_05 A5.3)."""
+    if checkpoint not in ("best", "final"):
+        raise ValueError(checkpoint)
     hp = {**DEFAULTS, **kw}
     if epochs is not None:
         hp["epochs"] = epochs
@@ -131,10 +135,12 @@ def fit(model, train: dict, val: dict, seed: int, epochs: int | None = None, log
             + (f" γ {rec['gamma']:.4f}" if "gamma" in rec else ""))
         if f1 > best:
             best, best_state = f1, copy.deepcopy(model.state_dict())
-    model.load_state_dict(best_state)
+    if checkpoint == "best":
+        model.load_state_dict(best_state)
     if hasattr(model, "set_E0"):
         model.set_E0(benign_embedding_mean(model, Xtr[ytr == 0]))
-    out = {"history": history, "best_val_macro_f1": best, "seconds": time.time() - t0, "hparams": hp}
+    out = {"history": history, "best_val_macro_f1": best, "seconds": time.time() - t0, "hparams": hp,
+           "checkpoint": checkpoint, "final_val_macro_f1": history[-1]["val_macro_f1"]}
     if is_s1:
         out["tau_ref_log"] = tau_log
     return out

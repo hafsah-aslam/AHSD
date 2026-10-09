@@ -1,5 +1,9 @@
 #!/usr/bin/env python
-"""P1d (AMENDMENT_04): 10 detectors on D5 natural_novelty, D5 LOACO, D3 LOACO; Wilkie on D3 natural_novelty.
+"""P1d (AMENDMENT_04, AMENDMENT_05): 10 detectors on D5 natural_novelty, D5 LOACO (purged_block),
+D3 LOACO; Wilkie on D3 natural_novelty; A5.3 final-epoch sensitivity on D5 natural_novelty.
+
+D5 LOACO uses the purged_block archive (scripts/d5_purged_block.py) and is skipped when
+results/p1d/a52_decision.json says the A5.2 fallback applies (a skip record is written).
 
 Per (evaluation, unit, seed) one JSON under results/p1d/<eval>/. Unit = held-out class (LOACO)
 or "all" (natural_novelty: one model per seed, every natural-novelty class scored).
@@ -36,7 +40,9 @@ ALL = SUPERVISED + BENIGN_ONLY + ["Wilkie_CLAD"]
 CFG = {"seeds": [17, 23, 42, 101, 202], "D": 128, "epochs": 15, "threads": 4, "processed_dir": "data/processed"}
 EVALS = [
     {"id": "D5_nn", "dataset": "D5", "kind": "natural_novelty", "package": "temporal_gap/p1d", "detectors": ALL},
-    {"id": "D5_loaco", "dataset": "D5", "kind": "loaco", "scheme": "grouped_random", "detectors": ALL},
+    {"id": "D5_nn_final", "dataset": "D5", "kind": "natural_novelty", "package": "temporal_gap/p1d",
+     "detectors": SUPERVISED + ["Wilkie_CLAD"], "checkpoint": "final"},
+    {"id": "D5_loaco", "dataset": "D5", "kind": "loaco", "scheme": "purged_block", "detectors": ALL},
     {"id": "D3_loaco", "dataset": "D3", "kind": "loaco", "scheme": "grouped_random", "detectors": ALL},
     {"id": "D3_nn_wilkie", "dataset": "D3", "kind": "natural_novelty", "package": "temporal_gap/p1c",
      "detectors": ["Wilkie_CLAD"]},
@@ -50,6 +56,8 @@ def score_sets(arc, tr, va, eval_sets: dict, seed: int, detectors: list[str], cf
     if any(d in SUPERVISED for d in detectors):
         m, tinfo = R.train_model(arc, tr, va, seed, cfg, log=lambda s: None)
         info["ahsd_best_val_macro_f1"] = tinfo["best_val_macro_f1"]
+        info["ahsd_final_val_macro_f1"] = tinfo["final_val_macro_f1"]
+        info["ahsd_checkpoint"] = tinfo["checkpoint"]
         base = {k: backbone_outputs(m, X) for k, X in eval_sets.items()}
         pen_tr = backbone_outputs(m, Xtrb)["pen"]
         maha, knn = det.BenignMahalanobis().fit(pen_tr), det.BenignKNN().fit(pen_tr)
@@ -63,8 +71,10 @@ def score_sets(arc, tr, va, eval_sets: dict, seed: int, detectors: list[str], cf
             d = det.BENIGN_ONLY[name](seed).fit(Xtrb)
             out[name] = {k: d.score(X) for k, X in eval_sets.items()}
     if "Wilkie_CLAD" in detectors:
-        c = CLAD(seed).fit(tr["X"], tr["y_bin"], va["X"], va["y_bin"])
+        c = CLAD(seed).fit(tr["X"], tr["y_bin"], va["X"], va["y_bin"], checkpoint=cfg.get("checkpoint", "best"))
         info["clad_best_val_auroc"] = c.best_val_auroc
+        info["clad_final_val_auroc"] = c.history[-1]["val_auroc"]
+        info["clad_checkpoint"] = c.checkpoint
         out["Wilkie_CLAD"] = {k: c.score(X) for k, X in eval_sets.items()}
     return out, info
 
@@ -88,10 +98,10 @@ def run_nn(ev, seed, cfg):
             "n": {k: int(len(v)) for k, v in eval_sets.items()}, "data_sha256": arc.meta["archive"]["sha256"]}
 
 
-def run_loaco(ev, arc, meta, cls, seed, cfg):
+def run_loaco(ev, arc, classes, cls, seed, cfg):
     f = arc.folds[cls]
     tr, va, te = (arc.windows(f[k]) for k in ("train", "val", "test"))
-    c = meta["classes"].index(cls)
+    c = classes.index(cls)
     eval_sets = {"test_benign": te["X"][te["y_cls"] == 0], f"test/{cls}": te["X"][te["y_cls"] == c]}
     if not np.all((te["y_cls"] == 0) | (te["y_cls"] == c)):
         raise SystemExit(f"{ev['id']}/{cls}: test holds other classes")
@@ -117,6 +127,7 @@ def main():
     for ev in EVALS:
         if a.only and ev["id"] not in a.only:
             continue
+        ecfg = {**cfg, "checkpoint": ev.get("checkpoint", "best")}
         if ev["kind"] == "natural_novelty":
             for seed in cfg["seeds"]:
                 path = out_root / ev["id"] / "all" / f"seed{seed}.json"
@@ -124,19 +135,40 @@ def main():
                     continue
                 t0 = time.time()
                 print(f"[{ev['id']}] seed {seed}", flush=True)
-                r = run_nn(ev, seed, cfg)
+                r = run_nn(ev, seed, ecfg)
                 data_sha = r.pop("data_sha256")
                 write_json(path, {"eval_id": ev["id"], "dataset": ev["dataset"], "kind": ev["kind"], "seed": seed, **r,
-                                  "wall_seconds": time.time() - t0, "smoke": a.smoke,
-                                  "provenance": provenance(config={**cfg, "evaluation": ev}, data_sha256=data_sha)})
+                                  "checkpoint": ecfg["checkpoint"], "wall_seconds": time.time() - t0, "smoke": a.smoke,
+                                  "provenance": provenance(config={**ecfg, "evaluation": ev}, data_sha256=data_sha)})
         else:
-            arc = Archive(ROOT / cfg["processed_dir"] / ev["dataset"] / ev["scheme"] / "archive")
-            meta = json.loads((ROOT / cfg["processed_dir"] / ev["dataset"] / "index_meta.json").read_text())
-            data_sha = json.loads((ROOT / cfg["processed_dir"] / ev["dataset"] / "archive_meta.json").read_text())["schemes"][ev["scheme"]]["sha256"]
-            finfo = meta["schemes"][ev["scheme"]]["loaco"]
-            feasible = [c for c, rec in finfo.items() if rec.get("eligible") and rec.get("feasible")]
+            base = ROOT / cfg["processed_dir"] / ev["dataset"]
+            if ev["scheme"] == "purged_block":
+                dec_path = ROOT / "results/p1d/a52_decision.json"
+                if not dec_path.exists():
+                    raise SystemExit("A5.2 decision missing: run scripts/d5_purged_block.py first")
+                dec = json.loads(dec_path.read_text())
+                if dec["fallback_applied"]:
+                    write_json(out_root / ev["id"] / "skipped.json", {
+                        "skipped": True, "reason": f"A5.2 fallback: {dec['n_feasible']} feasible D5 purged_block "
+                                                   f"LOACO folds (< {dec['threshold']})", "a52_decision": dec,
+                        "provenance": provenance(config={**ecfg, "evaluation": ev})})
+                    print(f"[{ev['id']}] skipped (A5.2 fallback)", flush=True)
+                    continue
+                pmeta = json.loads((base / "purged_block" / "meta.json").read_text())
+                arc = Archive(base / "purged_block" / "archive")
+                classes, finfo, data_sha = pmeta["classes"], pmeta["loaco"], pmeta["archive"]["sha256"]
+                feasible = list(pmeta["feasible_folds"])
+                if sorted(feasible) != sorted(dec["feasible_folds"]) or sorted(arc.folds) != sorted(feasible):
+                    raise SystemExit("D5 purged_block folds differ between meta, archive and A5.2 decision")
+            else:
+                arc = Archive(base / ev["scheme"] / "archive")
+                meta = json.loads((base / "index_meta.json").read_text())
+                classes = meta["classes"]
+                data_sha = json.loads((base / "archive_meta.json").read_text())["schemes"][ev["scheme"]]["sha256"]
+                finfo = meta["schemes"][ev["scheme"]]["loaco"]
+                feasible = [c for c, rec in finfo.items() if rec.get("eligible") and rec.get("feasible")]
             write_json(out_root / ev["id"] / "folds.json", {"feasible": feasible, "fold_info": finfo,
-                                                            "provenance": provenance(config={**cfg, "evaluation": ev})})
+                                                            "provenance": provenance(config={**ecfg, "evaluation": ev})})
             for cls in (feasible[:1] if a.smoke else feasible):
                 for seed in cfg["seeds"]:
                     path = out_root / ev["id"] / R._safe(cls) / f"seed{seed}.json"
@@ -144,10 +176,11 @@ def main():
                         continue
                     t0 = time.time()
                     print(f"[{ev['id']}] {cls} seed {seed}", flush=True)
-                    r = run_loaco(ev, arc, meta, cls, seed, cfg)
+                    r = run_loaco(ev, arc, classes, cls, seed, ecfg)
                     write_json(path, {"eval_id": ev["id"], "dataset": ev["dataset"], "kind": ev["kind"], "seed": seed,
-                                      **r, "wall_seconds": time.time() - t0, "smoke": a.smoke,
-                                      "provenance": provenance(config={**cfg, "evaluation": ev}, data_sha256=data_sha)})
+                                      **r, "checkpoint": ecfg["checkpoint"], "wall_seconds": time.time() - t0,
+                                      "smoke": a.smoke,
+                                      "provenance": provenance(config={**ecfg, "evaluation": ev}, data_sha256=data_sha)})
 
 
 if __name__ == "__main__":

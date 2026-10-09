@@ -68,7 +68,10 @@ class CLAD:
         F_ = self._flat(X)
         return torch.cat([self.enc(F_[a:a + bs]) for a in range(0, len(F_), bs)]).numpy()
 
-    def fit(self, Xtr, ytr, Xva, yva):
+    def fit(self, Xtr, ytr, Xva, yva, checkpoint: str = "best"):
+        """checkpoint="best": best validation AUROC (default); "final": last epoch (AMENDMENT_05 A5.3)."""
+        if checkpoint not in ("best", "final"):
+            raise ValueError(checkpoint)
         hp = self.hp
         torch.manual_seed(self.seed)  # before construction
         self.enc = Encoder(int(np.prod(Xtr.shape[1:])), hp["d_model"], hp["depth"], hp["f_out"])
@@ -94,9 +97,10 @@ class CLAD:
             hist.append({"epoch": ep + 1, "val_auroc": v})
             if v > best:
                 best, best_state = v, copy.deepcopy(self.enc.state_dict())
-        self.enc.load_state_dict(best_state)
+        if checkpoint == "best":
+            self.enc.load_state_dict(best_state)
         self._set_centroid(Xtr[np.asarray(ytr) == 0])
-        self.history, self.best_val_auroc = hist, best
+        self.history, self.best_val_auroc, self.checkpoint = hist, best, checkpoint
         return self
 
     def _set_centroid(self, Xb):

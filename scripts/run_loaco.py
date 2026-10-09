@@ -55,7 +55,7 @@ def train_model(arc: Archive, tr: dict, va: dict, seed: int, cfg: dict, log):
     # torch RNG state left by the previous run in the process. Fixed after P1; see P1B_REPORT.md.)
     set_seed(seed)
     m = AHSD(arc.n_features, D=cfg["D"], variant="fixed")
-    tinfo = fit(m, tr, va, seed=seed, epochs=cfg["epochs"], log=log)
+    tinfo = fit(m, tr, va, seed=seed, epochs=cfg["epochs"], log=log, checkpoint=cfg.get("checkpoint", "best"))
     return m, tinfo
 
 
