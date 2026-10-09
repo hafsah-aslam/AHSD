@@ -538,6 +538,8 @@ def caveats(F, CS):
         "predictions as normal in a binary task.",
         "The saturation table compares the AHSD backbone only with XGBoost; no other neural backbone was built.",
         "All analyses here are descriptive (A6.3); intervals are not tests and no threshold is applied.",
+        "XGBoost uses subsample = colsample = 1 (fixed parameters, AMENDMENT_06), so its fit is deterministic: its seed std "
+        "is 0 by construction and its interval reflects no training randomness.",
     ]
 
 
