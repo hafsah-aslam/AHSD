@@ -28,4 +28,4 @@ Filled by `scripts/make_release.py` from JSON. Each item names its evidence.
 | Splits released | 21 files | `release/splits/MANIFEST.json` |
 | Tables and figures generated from JSON only | yes | `scripts/report_final.py` → `report/final/` |
 | Pending author decisions listed, not guessed | yes | `DECISIONS_PENDING.md` (incl. C1–C6 text, item 8) |
-| Release commit | `e6a5e7a4af2c30ba091688b057708bdcf412aaf5` | `release/FILES.json` |
+| Release commit | `74d2876a69efa5e8b034ee4d1c3512dd5dca1fbf` | `release/FILES.json` |
