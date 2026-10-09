@@ -1,0 +1,227 @@
+{
+  "eval_id": "loaco_D1fam",
+  "kind": "loaco",
+  "dataset": "D1",
+  "seed": 202,
+  "unit": "BruteForce",
+  "classes": [
+    "BruteForce"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "BruteForce": 0.40175039999999995
+      },
+      "Energy": {
+        "BruteForce": 0.3225616
+      },
+      "P_attack": {
+        "BruteForce": 0.9443476000000001
+      },
+      "AHSD_stress": {
+        "BruteForce": 0.8628091999999999
+      },
+      "Mahalanobis": {
+        "BruteForce": 0.9371392
+      },
+      "kNN": {
+        "BruteForce": 0.9396527999999998
+      },
+      "IF": {
+        "BruteForce": 0.7338952
+      },
+      "OCSVM": {
+        "BruteForce": 0.39279200000000003
+      },
+      "PCA": {
+        "BruteForce": 0.721564
+      },
+      "AE": {
+        "BruteForce": 0.6131544000000001
+      },
+      "Wilkie_CLAD": {
+        "BruteForce": 0.6277528
+      },
+      "XGBoost": {
+        "BruteForce": 0.8087944
+      }
+    },
+    "final": {
+      "MSP": {
+        "BruteForce": 0.40159639999999996
+      },
+      "Energy": {
+        "BruteForce": 0.32732160000000005
+      },
+      "P_attack": {
+        "BruteForce": 0.8892672000000001
+      },
+      "AHSD_stress": {
+        "BruteForce": 0.8182267999999999
+      },
+      "Mahalanobis": {
+        "BruteForce": 0.897
+      },
+      "kNN": {
+        "BruteForce": 0.8953831999999999
+      },
+      "Wilkie_CLAD": {
+        "BruteForce": 0.6890084000000001
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9571420067858489,
+      "final_val_macro_f1": 0.8704380369047751,
+      "best_epoch": 5,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.4272619386400495,
+          "val_macro_f1": 0.9455801198657012,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.3244014363629477,
+          "val_macro_f1": 0.9557414856187738,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.2999490726334708,
+          "val_macro_f1": 0.9481888062700965,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.2833304717200143,
+          "val_macro_f1": 0.9494447148564347,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.2673176214013781,
+          "val_macro_f1": 0.9571420067858489,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.2553447460787637,
+          "val_macro_f1": 0.9456236913873579,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.24169208090645927,
+          "val_macro_f1": 0.8679809892624538,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.22655228132861002,
+          "val_macro_f1": 0.8859367835127898,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.21876531755924225,
+          "val_macro_f1": 0.914884209362737,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.20144439671720776,
+          "val_macro_f1": 0.9063333790406969,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.1919002899953297,
+          "val_macro_f1": 0.8851725278359608,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.18197813099622726,
+          "val_macro_f1": 0.8920632658877173,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.17489124882221221,
+          "val_macro_f1": 0.856416872049168,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.17099260200772967,
+          "val_macro_f1": 0.8717543776149949,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.16919293011937822,
+          "val_macro_f1": 0.8704380369047751,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 80.4037880897522
+    },
+    "benign_only_seconds": 12.261725187301636,
+    "clad": {
+      "best_val_auroc": 0.9388512,
+      "final_val_auroc": 0.9302984000000001,
+      "best_epoch": 9
+    },
+    "clad_seconds": 3.718782424926758,
+    "xgb_seconds": 14.255176544189453
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/BruteForce": 500
+  },
+  "wall_seconds": 112.27484798431396,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T06:21:44+00:00",
+    "results_head": "a55bbc4180ab629c1dc8e5759711cedd0a94adc6",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-09T06:39:53+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

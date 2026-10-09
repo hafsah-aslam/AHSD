@@ -1,0 +1,227 @@
+{
+  "eval_id": "loaco_D1fam",
+  "kind": "loaco",
+  "dataset": "D1",
+  "seed": 101,
+  "unit": "BruteForce",
+  "classes": [
+    "BruteForce"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "BruteForce": 0.8285272000000001
+      },
+      "Energy": {
+        "BruteForce": 0.7146584
+      },
+      "P_attack": {
+        "BruteForce": 0.8878816
+      },
+      "AHSD_stress": {
+        "BruteForce": 0.8186880000000001
+      },
+      "Mahalanobis": {
+        "BruteForce": 0.9390151999999999
+      },
+      "kNN": {
+        "BruteForce": 0.9014000000000001
+      },
+      "IF": {
+        "BruteForce": 0.7159752
+      },
+      "OCSVM": {
+        "BruteForce": 0.39279200000000003
+      },
+      "PCA": {
+        "BruteForce": 0.721564
+      },
+      "AE": {
+        "BruteForce": 0.6262984
+      },
+      "Wilkie_CLAD": {
+        "BruteForce": 0.6665023999999999
+      },
+      "XGBoost": {
+        "BruteForce": 0.8087944
+      }
+    },
+    "final": {
+      "MSP": {
+        "BruteForce": 0.26254120000000003
+      },
+      "Energy": {
+        "BruteForce": 0.2128352
+      },
+      "P_attack": {
+        "BruteForce": 0.9400280000000001
+      },
+      "AHSD_stress": {
+        "BruteForce": 0.800876
+      },
+      "Mahalanobis": {
+        "BruteForce": 0.9126664000000001
+      },
+      "kNN": {
+        "BruteForce": 0.9248368
+      },
+      "Wilkie_CLAD": {
+        "BruteForce": 0.6714183999999999
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9532747230628779,
+      "final_val_macro_f1": 0.8689643992328462,
+      "best_epoch": 2,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.42167515063285826,
+          "val_macro_f1": 0.9521529574257015,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.3218002527441297,
+          "val_macro_f1": 0.9532747230628779,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.29746184206008913,
+          "val_macro_f1": 0.9379128385225113,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.28213304604802814,
+          "val_macro_f1": 0.9412161733513708,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.26842321160861426,
+          "val_macro_f1": 0.8858008067230239,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.25160803621155875,
+          "val_macro_f1": 0.8884176840804222,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.23324812030792236,
+          "val_macro_f1": 0.8877885437446567,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.22135898108141763,
+          "val_macro_f1": 0.9195540783175739,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.20447714013712748,
+          "val_macro_f1": 0.8758624807704698,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.19263477454866682,
+          "val_macro_f1": 0.9144063394148061,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.1768244836841311,
+          "val_macro_f1": 0.8818482312398903,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.16655667340755462,
+          "val_macro_f1": 0.8751300728407909,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.1585805104630334,
+          "val_macro_f1": 0.8714344977851514,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.15417578950950078,
+          "val_macro_f1": 0.8754173692615217,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.1519270851952689,
+          "val_macro_f1": 0.8689643992328462,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 76.58406519889832
+    },
+    "benign_only_seconds": 12.061145067214966,
+    "clad": {
+      "best_val_auroc": 0.942852,
+      "final_val_auroc": 0.9414000000000001,
+      "best_epoch": 10
+    },
+    "clad_seconds": 3.67864727973938,
+    "xgb_seconds": 14.476097583770752
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/BruteForce": 500
+  },
+  "wall_seconds": 108.17241072654724,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T06:21:44+00:00",
+    "results_head": "a55bbc4180ab629c1dc8e5759711cedd0a94adc6",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-09T06:38:00+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

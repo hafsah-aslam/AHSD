@@ -1,0 +1,227 @@
+{
+  "eval_id": "loaco_D1fam",
+  "kind": "loaco",
+  "dataset": "D1",
+  "seed": 202,
+  "unit": "Web Attacks",
+  "classes": [
+    "Web Attacks"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Web Attacks": 0.6427656
+      },
+      "Energy": {
+        "Web Attacks": 0.6486232
+      },
+      "P_attack": {
+        "Web Attacks": 0.6459552000000001
+      },
+      "AHSD_stress": {
+        "Web Attacks": 0.6972908
+      },
+      "Mahalanobis": {
+        "Web Attacks": 0.614776
+      },
+      "kNN": {
+        "Web Attacks": 0.7015716000000001
+      },
+      "IF": {
+        "Web Attacks": 0.567736
+      },
+      "OCSVM": {
+        "Web Attacks": 0.6189864
+      },
+      "PCA": {
+        "Web Attacks": 0.7572760000000001
+      },
+      "AE": {
+        "Web Attacks": 0.7099312
+      },
+      "Wilkie_CLAD": {
+        "Web Attacks": 0.5885916
+      },
+      "XGBoost": {
+        "Web Attacks": 0.5919472
+      }
+    },
+    "final": {
+      "MSP": {
+        "Web Attacks": 0.6329868
+      },
+      "Energy": {
+        "Web Attacks": 0.6482775999999999
+      },
+      "P_attack": {
+        "Web Attacks": 0.6508927999999999
+      },
+      "AHSD_stress": {
+        "Web Attacks": 0.698712
+      },
+      "Mahalanobis": {
+        "Web Attacks": 0.641396
+      },
+      "kNN": {
+        "Web Attacks": 0.7078480000000001
+      },
+      "Wilkie_CLAD": {
+        "Web Attacks": 0.5626488000000001
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9700478993992807,
+      "final_val_macro_f1": 0.8904641164149487,
+      "best_epoch": 4,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.3930772786140442,
+          "val_macro_f1": 0.954974027123014,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.28270523810386655,
+          "val_macro_f1": 0.9662920266196682,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.25610853002752576,
+          "val_macro_f1": 0.9489762786080729,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.23998109708513532,
+          "val_macro_f1": 0.9700478993992807,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.22961473195893423,
+          "val_macro_f1": 0.9472766863493933,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.2144139231954302,
+          "val_macro_f1": 0.9566996217653447,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.20644990357330867,
+          "val_macro_f1": 0.9378741680220675,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.19284874175276076,
+          "val_macro_f1": 0.9275339387401504,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.1805712231908526,
+          "val_macro_f1": 0.9138838756058982,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.16679345689501082,
+          "val_macro_f1": 0.9146283810144535,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.1556926930802209,
+          "val_macro_f1": 0.890604898540007,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.1469875710606575,
+          "val_macro_f1": 0.9103518798044651,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.13981782226903097,
+          "val_macro_f1": 0.889864031498887,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.13568491220474244,
+          "val_macro_f1": 0.8900057535451992,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.1338161881991795,
+          "val_macro_f1": 0.8904641164149487,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 75.09817504882812
+    },
+    "benign_only_seconds": 12.177347660064697,
+    "clad": {
+      "best_val_auroc": 0.9383887999999999,
+      "final_val_auroc": 0.9336399999999999,
+      "best_epoch": 9
+    },
+    "clad_seconds": 3.745757818222046,
+    "xgb_seconds": 14.256056070327759
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Web Attacks": 500
+  },
+  "wall_seconds": 106.60118317604065,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T06:21:44+00:00",
+    "results_head": "a55bbc4180ab629c1dc8e5759711cedd0a94adc6",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-09T07:14:34+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
