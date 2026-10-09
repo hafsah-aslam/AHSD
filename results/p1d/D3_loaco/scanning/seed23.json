@@ -1,0 +1,107 @@
+{
+  "eval_id": "D3_loaco",
+  "dataset": "D3",
+  "kind": "loaco",
+  "seed": 23,
+  "unit": "scanning",
+  "classes": [
+    "scanning"
+  ],
+  "auc": {
+    "AHSD_stress": {
+      "scanning": 0.6223791999999999
+    },
+    "MSP": {
+      "scanning": 0.4563304
+    },
+    "Energy": {
+      "scanning": 0.4312328
+    },
+    "Mahalanobis": {
+      "scanning": 0.5651128000000001
+    },
+    "kNN": {
+      "scanning": 0.528876
+    },
+    "IF": {
+      "scanning": 0.5344404
+    },
+    "OCSVM": {
+      "scanning": 0.5788648000000001
+    },
+    "PCA": {
+      "scanning": 0.622584
+    },
+    "AE": {
+      "scanning": 0.633316
+    },
+    "Wilkie_CLAD": {
+      "scanning": 0.5052783999999999
+    }
+  },
+  "info": {
+    "ahsd_best_val_macro_f1": 0.9597795140160621,
+    "ahsd_final_val_macro_f1": 0.9502670620657538,
+    "ahsd_checkpoint": "best",
+    "clad_best_val_auroc": 0.9829872,
+    "clad_final_val_auroc": 0.9823687999999999,
+    "clad_checkpoint": "best"
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/scanning": 500
+  },
+  "checkpoint": "best",
+  "wall_seconds": 83.88908362388611,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:51+00:00",
+    "results_head": "e297350524934f6deba9ee79d2a12dc8a3818cc3",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {
+      "flows.npy": "89f267802a92fbe2bb31d060690c05fdfec48e8a32581566ec5d94f31d3b965b",
+      "row_id.npy": "451861cf7596c5fab6f27124a96f0a8f8cba0af7f57a9f48fa4c4e84ff2ef56d",
+      "windows.npz": "ff993176bb971ff7079f95dc1c178b37f1e4607be7dc9a59d3cfecee4238846b",
+      "sets.npz": "dc582731774b7857a18e7879141891841337b7bd6e8af652bf1ab004ad3f2ca0",
+      "loaco.npz": "a9adea15339cfc544414d6d5ebed93aaa5719f4e6b310e2840fe8008931676c7",
+      "cleaner.json": "0a2d49ddc3a1c9dbc2e145868690ee00b82124cc3d886187d15bac7dad74952c"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "checkpoint": "best",
+      "evaluation": {
+        "id": "D3_loaco",
+        "dataset": "D3",
+        "kind": "loaco",
+        "scheme": "grouped_random",
+        "detectors": [
+          "AHSD_stress",
+          "MSP",
+          "Energy",
+          "Mahalanobis",
+          "kNN",
+          "IF",
+          "OCSVM",
+          "PCA",
+          "AE",
+          "Wilkie_CLAD"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-10-09T05:13:21+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

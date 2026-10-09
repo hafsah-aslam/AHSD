@@ -1,0 +1,80 @@
+{
+  "eval_id": "D3_nn_wilkie",
+  "dataset": "D3",
+  "kind": "natural_novelty",
+  "seed": 101,
+  "unit": "all",
+  "classes": [
+    "Backdoor",
+    "mitm",
+    "password",
+    "ransomware",
+    "xss"
+  ],
+  "auc": {
+    "Wilkie_CLAD": {
+      "Backdoor": 0.9154279999999999,
+      "mitm": 0.5577616000000001,
+      "password": 0.9422016000000001,
+      "ransomware": 0.866104,
+      "xss": 0.7963376
+    }
+  },
+  "info": {
+    "clad_best_val_auroc": 0.9725328,
+    "clad_final_val_auroc": 0.9691799999999999,
+    "clad_checkpoint": "best"
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Backdoor": 500,
+    "test/mitm": 500,
+    "test/password": 500,
+    "test/ransomware": 500,
+    "test/xss": 500
+  },
+  "checkpoint": "best",
+  "wall_seconds": 3.786435604095459,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:51+00:00",
+    "results_head": "e297350524934f6deba9ee79d2a12dc8a3818cc3",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {
+      "flows.npy": "d4a53f3935f05980c34abcd253a5b0f9af2cb20a43a052d596f46798434b8abc",
+      "row_id.npy": "e5c5731ccf4379d6777d54241c3e2f8221f12d1d23e1e53b759ac339a20fc2b3",
+      "windows.npz": "493f376ac653596cfcc707d26ed76ee8dfcc19a3357416aa7697ade57edeb4c5",
+      "sets.npz": "ddfdd88f925703c94d9d4dcda1dcbb0bec5be8b71b2a2dea3ff54f5df24b444c",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "f81edd87b3903bc0747469a2625324aa4274da0f7332146937aba3fe4efeff4b"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "checkpoint": "best",
+      "evaluation": {
+        "id": "D3_nn_wilkie",
+        "dataset": "D3",
+        "kind": "natural_novelty",
+        "package": "temporal_gap/p1c",
+        "detectors": [
+          "Wilkie_CLAD"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-10-09T05:22:36+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

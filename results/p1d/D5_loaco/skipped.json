@@ -1,0 +1,68 @@
+{
+  "skipped": true,
+  "reason": "A5.2 fallback: 1 feasible D5 purged_block LOACO folds (< 3)",
+  "a52_decision": {
+    "feasible_folds": [
+      "dos_hulk"
+    ],
+    "n_feasible": 1,
+    "threshold": 3,
+    "fallback_applied": true,
+    "rule": "A5.2: if < 3 feasible D5 LOACO folds, G3 (b) on D3 LOACO only; D5 contributes (a) only",
+    "provenance": {
+      "code_commit": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3",
+      "code_dirty": false,
+      "code_commit_captured_utc": "2026-10-09T04:41:04+00:00",
+      "results_head": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3",
+      "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+      "data_sha256": {},
+      "config": {},
+      "timestamp_utc": "2026-10-09T04:41:31+00:00",
+      "python": "3.11.15",
+      "host": "vm"
+    }
+  },
+  "provenance": {
+    "code_commit": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:51+00:00",
+    "results_head": "e297350524934f6deba9ee79d2a12dc8a3818cc3",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {},
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "checkpoint": "best",
+      "evaluation": {
+        "id": "D5_loaco",
+        "dataset": "D5",
+        "kind": "loaco",
+        "scheme": "purged_block",
+        "detectors": [
+          "AHSD_stress",
+          "MSP",
+          "Energy",
+          "Mahalanobis",
+          "kNN",
+          "IF",
+          "OCSVM",
+          "PCA",
+          "AE",
+          "Wilkie_CLAD"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-10-09T04:50:45+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
