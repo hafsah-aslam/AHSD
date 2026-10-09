@@ -1,0 +1,245 @@
+{
+  "eval_id": "nn_D5",
+  "kind": "natural_novelty",
+  "dataset": "D5",
+  "seed": 202,
+  "unit": "all",
+  "classes": [
+    "ddos",
+    "portscan"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "ddos": 0.048952800000000005,
+        "portscan": 0.06033039999999998
+      },
+      "Energy": {
+        "ddos": 0.0467688,
+        "portscan": 0.0362744
+      },
+      "P_attack": {
+        "ddos": 0.9952576000000001,
+        "portscan": 0.05915839999999999
+      },
+      "AHSD_stress": {
+        "ddos": 0.9871408,
+        "portscan": 0.9769143999999998
+      },
+      "Mahalanobis": {
+        "ddos": 0.9924272000000001,
+        "portscan": 0.9808920000000001
+      },
+      "kNN": {
+        "ddos": 0.9911112,
+        "portscan": 0.6430428000000001
+      },
+      "IF": {
+        "ddos": 0.7906168,
+        "portscan": 0.9894864
+      },
+      "OCSVM": {
+        "ddos": 0.49241759999999996,
+        "portscan": 0.9761944
+      },
+      "PCA": {
+        "ddos": 0.8636495999999999,
+        "portscan": 0.810948
+      },
+      "AE": {
+        "ddos": 0.8708224000000001,
+        "portscan": 0.7581064
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.9837272,
+        "portscan": 0.9236800000000001
+      },
+      "XGBoost": {
+        "ddos": 0.9963056,
+        "portscan": 0.9392543999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "ddos": 0.10480439999999999,
+        "portscan": 0.838644
+      },
+      "Energy": {
+        "ddos": 0.07847200000000001,
+        "portscan": 0.7575495999999999
+      },
+      "P_attack": {
+        "ddos": 0.9971872,
+        "portscan": 0.8377983999999999
+      },
+      "AHSD_stress": {
+        "ddos": 0.9952896,
+        "portscan": 0.9820871999999999
+      },
+      "Mahalanobis": {
+        "ddos": 0.9958736,
+        "portscan": 0.9863519999999999
+      },
+      "kNN": {
+        "ddos": 0.9970135999999999,
+        "portscan": 0.9864864
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.987404,
+        "portscan": 0.5206688
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.5764092538286087,
+      "final_val_macro_f1": 0.48993963782696176,
+      "best_epoch": 1,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.27744424411228724,
+          "val_macro_f1": 0.5764092538286087,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.10953100797108241,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.05261235082575253,
+          "val_macro_f1": 0.5522902077832625,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.0410097176858357,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.027529375412634442,
+          "val_macro_f1": 0.49317738791423,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.02251858887927873,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01844159926420876,
+          "val_macro_f1": 0.49317738791423,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.015185972704419067,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.013750102266669274,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011022260489740542,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009020808662687028,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008419351798083102,
+          "val_macro_f1": 0.48677957840867553,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.007400585767946073,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.006808829906795706,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.006577529157378844,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 40.41829490661621
+    },
+    "benign_only_seconds": 25.311301469802856,
+    "clad": {
+      "best_val_auroc": 0.7745562130177515,
+      "final_val_auroc": 0.7011834319526626,
+      "best_epoch": 1
+    },
+    "clad_seconds": 5.737510442733765,
+    "xgb_seconds": 36.414057970047
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/ddos": 500,
+    "test/portscan": 500
+  },
+  "wall_seconds": 109.68102598190308,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T09:14:07+00:00",
+    "results_head": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "f33564f1fef04bfeccc02ee2739803c5608db6daf9051b14cb2cca264ebc2140",
+      "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+      "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+      "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "d7e9e48a4344a3e8a2b5e94cf3948b5d69ae4b7179f11acebd1d732b4a106953"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "nn_D5",
+        "kind": "natural_novelty",
+        "dataset": "D5",
+        "package": "temporal_gap/p1d"
+      }
+    },
+    "timestamp_utc": "2026-10-09T10:07:25+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

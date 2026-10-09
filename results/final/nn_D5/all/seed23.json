@@ -1,0 +1,245 @@
+{
+  "eval_id": "nn_D5",
+  "kind": "natural_novelty",
+  "dataset": "D5",
+  "seed": 23,
+  "unit": "all",
+  "classes": [
+    "ddos",
+    "portscan"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "ddos": 0.042463600000000004,
+        "portscan": 0.04385679999999999
+      },
+      "Energy": {
+        "ddos": 0.043356000000000006,
+        "portscan": 0.03871119999999996
+      },
+      "P_attack": {
+        "ddos": 0.9927032,
+        "portscan": 0.04317040000000002
+      },
+      "AHSD_stress": {
+        "ddos": 0.990356,
+        "portscan": 0.9802664
+      },
+      "Mahalanobis": {
+        "ddos": 0.9926695999999999,
+        "portscan": 0.9879944
+      },
+      "kNN": {
+        "ddos": 0.9925392000000001,
+        "portscan": 0.7107567999999999
+      },
+      "IF": {
+        "ddos": 0.7528768000000001,
+        "portscan": 0.9845288
+      },
+      "OCSVM": {
+        "ddos": 0.49241759999999996,
+        "portscan": 0.9761944
+      },
+      "PCA": {
+        "ddos": 0.8636495999999999,
+        "portscan": 0.810948
+      },
+      "AE": {
+        "ddos": 0.8756784,
+        "portscan": 0.5978336
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.987496,
+        "portscan": 0.6310088
+      },
+      "XGBoost": {
+        "ddos": 0.9963056,
+        "portscan": 0.9392543999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "ddos": 0.05191999999999998,
+        "portscan": 0.35809
+      },
+      "Energy": {
+        "ddos": 0.055148,
+        "portscan": 0.23897200000000002
+      },
+      "P_attack": {
+        "ddos": 0.99642,
+        "portscan": 0.9895847999999999
+      },
+      "AHSD_stress": {
+        "ddos": 0.9951672,
+        "portscan": 0.9828783999999999
+      },
+      "Mahalanobis": {
+        "ddos": 0.9966872,
+        "portscan": 0.9897047999999999
+      },
+      "kNN": {
+        "ddos": 0.9967592000000001,
+        "portscan": 0.9901831999999999
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.987412,
+        "portscan": 0.6409968
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.5205673758865248,
+      "final_val_macro_f1": 0.45263157894736844,
+      "best_epoch": 1,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.27847675573825836,
+          "val_macro_f1": 0.5205673758865248,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.10167545242820468,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.050372092298098976,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.036393623278609344,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.030016254951911313,
+          "val_macro_f1": 0.49317738791423,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.024747748898608344,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.019971551600843667,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.017599948393447057,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.012599664652454002,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.010773918985256127,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009531538659972805,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008032538467752082,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.006897800079946007,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.006578266851870077,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.0063322244611169615,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 40.59112620353699
+    },
+    "benign_only_seconds": 23.908032655715942,
+    "clad": {
+      "best_val_auroc": 0.7665680473372781,
+      "final_val_auroc": 0.7656804733727811,
+      "best_epoch": 12
+    },
+    "clad_seconds": 5.311158180236816,
+    "xgb_seconds": 34.028913497924805
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/ddos": 500,
+    "test/portscan": 500
+  },
+  "wall_seconds": 105.65822553634644,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T09:14:07+00:00",
+    "results_head": "e6421ea9c81ee7c9e238205eb913905dc67163a1",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {
+      "flows.npy": "f33564f1fef04bfeccc02ee2739803c5608db6daf9051b14cb2cca264ebc2140",
+      "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+      "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+      "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "d7e9e48a4344a3e8a2b5e94cf3948b5d69ae4b7179f11acebd1d732b4a106953"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "nn_D5",
+        "kind": "natural_novelty",
+        "dataset": "D5",
+        "package": "temporal_gap/p1d"
+      }
+    },
+    "timestamp_utc": "2026-10-09T10:02:06+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
