@@ -609,3 +609,112 @@ These are fixed here, before any P1d processing or run.
   natural_novelty AUCs (code commit 702fc4d) and the new D3 LOACO.
 - **Wilkie** is reported separately as its AUC minus B and its AUC minus S,
   per evaluation (not gating).
+
+---
+
+## AMENDMENT_05 (2026-10-09, before any purged_block feasibility count or P1d model run)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `6a474852e58aeab6f71ccc98d25204a172a025879262214b352e78a816dbc05c`
+  (AMENDMENT_04, commit abcf500).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:**
+  - P1d stopped before any model run, because D5 LOACO under
+    `grouped_random` had 0 feasible folds (`P1D_REPORT.md`,
+    `DECISIONS_PENDING.md` item 7).
+  - The authors adopted a D5-specific LOACO protocol and rejected options 2
+    and 3. Option 2 survives only as the pre-declared fallback in A5.2.
+  - No 10-minute-block count of any kind has been computed.
+
+### A5.1 D5 LOACO protocol "purged_block"
+- **Groups:** 10-minute blocks instead of 1-hour blocks, for D5 only.
+- **Split:** day-stratified. Within each capture day, assign blocks 60/20/20
+  to train/val/test by a seeded shuffle.
+- **Purge:**
+  - remove from train and val every block adjacent (±1 block, same day) to a
+    test block;
+  - remove from train every block adjacent to a val block;
+  - log the purged block counts.
+- **LOACO fold thresholds:** unchanged, plus one new condition. The held-out
+  class needs:
+  - ≥ 200 windows in the training pool before removal;
+  - ≥ 50 test windows (new).
+- **Everything else** follows the unchanged P0 rules: dedupe, disjointness,
+  fail-closed checks.
+
+### A5.2 Pre-declared fallback (decided before any count)
+- If purged_block yields < 3 feasible D5 LOACO folds:
+  - G3 criterion (b) is evaluated on D3 LOACO only;
+  - D5 contributes criterion (a) only;
+  - this is recorded as a protocol limitation in the paper.
+
+### A5.3 D5 natural_novelty: thin validation (130 benign + 26 attack)
+- **Primary:** checkpoint by validation macro-F1, as frozen.
+- **Pre-declared sensitivity analysis:** the final-epoch checkpoint.
+- Both are reported; only the primary enters the gate.
+
+### A5.4 G3
+Criteria (a), (b) and (c) are otherwise unchanged.
+
+### Operational choices added by the implementer
+These are fixed here, before any count or run.
+
+**Blocks.**
+- Block index = floor((FLOW_START_MILLISECONDS − first D5 flow start) / 600,000).
+- Empty blocks hold no flows and are skipped. Group ids are the non-empty
+  blocks in time order.
+- Windows (T = 32, stride 16) are rebuilt within 10-minute blocks, and never
+  cross one.
+- Dedupe uses the same raw-feature hashes and the same columns as the D5
+  index (`hash_columns` in `data/processed/D5/index_meta.json`).
+
+**Capture day.**
+- A capture day is a maximal run of non-empty blocks in which consecutive
+  blocks are less than 6 hours apart (a gap of ≥ 6 h starts a new day).
+- The script fails closed unless exactly 5 days (Monday–Friday) are found.
+
+**Per-day split** (data seed 0; one RNG over the days in time order):
+- shuffle the day's non-empty blocks;
+- n_train = round(0.6 n), n_val = round(0.2 n), n_test = n − n_train − n_val.
+
+**Adjacency and purge.**
+- "Adjacent" means a block index differing by exactly 1 within the same day.
+  A neighbouring empty block is not a block, so it purges nothing.
+- Purge order:
+  1. train or val blocks adjacent to a test block are removed;
+  2. then train blocks adjacent to a remaining val block are removed.
+- Purged blocks are used nowhere.
+- Logged: purged counts per day and per rule.
+
+**Folds.**
+- These rules are unchanged: the `grouped_random` fold mechanics, the
+  training and validation exclusion of every window holding any flow of the
+  held-out class, and the 1:1 / 5:1 balance with caps 14,000 / 3,000 / 3,000.
+- "≥ 200 windows in the training pool before removal" means ≥ 200 train-split
+  windows whose majority class is the held-out class.
+- "≥ 50 test windows" means ≥ 50 test-split windows with that majority class.
+
+**Features.**
+- The purged_block cleaner is fitted on the purged_block train rows only.
+- It is restricted to the frozen D5 own feature list of 73 features
+  (`data/processed/D5/own_features.json`).
+- The script fails closed if any of those features is dropped (for example,
+  for zero variance) on the purged_block train split.
+
+**A5.2 application.**
+- `scripts/d5_purged_block.py` writes the feasible-fold count and the A5.2
+  decision to `results/p1d/a52_decision.json` before any model run.
+- G3 reads that file.
+- Under the fallback, D5 LOACO is not run.
+
+**A5.3 scope.**
+- The final-epoch sensitivity re-trains the models that have a checkpoint
+  choice:
+  - the supervised AHSD backbone, so all 5 supervised scores;
+  - CLAD.
+  Their primary checkpoints stay as frozen: AHSD by best validation macro-F1,
+  CLAD by best validation AUROC (AMENDMENT_04).
+- The benign-only detectors have no checkpoint choice. Their primary scores
+  are reused, and they are seed-deterministic.
+- Sensitivity B − S = the primary benign-only B minus the final-epoch S.
+  This is reported only and never enters the gate.
