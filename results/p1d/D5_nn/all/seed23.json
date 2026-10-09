@@ -1,0 +1,119 @@
+{
+  "eval_id": "D5_nn",
+  "dataset": "D5",
+  "kind": "natural_novelty",
+  "seed": 23,
+  "unit": "all",
+  "classes": [
+    "ddos",
+    "portscan"
+  ],
+  "auc": {
+    "AHSD_stress": {
+      "ddos": 0.990356,
+      "portscan": 0.9802664
+    },
+    "MSP": {
+      "ddos": 0.042463600000000004,
+      "portscan": 0.04385679999999999
+    },
+    "Energy": {
+      "ddos": 0.043356000000000006,
+      "portscan": 0.03871119999999996
+    },
+    "Mahalanobis": {
+      "ddos": 0.9926695999999999,
+      "portscan": 0.9879944
+    },
+    "kNN": {
+      "ddos": 0.9925392000000001,
+      "portscan": 0.7107567999999999
+    },
+    "IF": {
+      "ddos": 0.7528768000000001,
+      "portscan": 0.9845288
+    },
+    "OCSVM": {
+      "ddos": 0.49241759999999996,
+      "portscan": 0.9761944
+    },
+    "PCA": {
+      "ddos": 0.8636495999999999,
+      "portscan": 0.810948
+    },
+    "AE": {
+      "ddos": 0.8756784,
+      "portscan": 0.5978336
+    },
+    "Wilkie_CLAD": {
+      "ddos": 0.987496,
+      "portscan": 0.6310088
+    }
+  },
+  "info": {
+    "ahsd_best_val_macro_f1": 0.5205673758865248,
+    "ahsd_final_val_macro_f1": 0.45263157894736844,
+    "ahsd_checkpoint": "best",
+    "clad_best_val_auroc": 0.7665680473372781,
+    "clad_final_val_auroc": 0.7656804733727811,
+    "clad_checkpoint": "best"
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/ddos": 500,
+    "test/portscan": 500
+  },
+  "checkpoint": "best",
+  "wall_seconds": 60.887986183166504,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:51+00:00",
+    "results_head": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {
+      "flows.npy": "f33564f1fef04bfeccc02ee2739803c5608db6daf9051b14cb2cca264ebc2140",
+      "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+      "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+      "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "d7e9e48a4344a3e8a2b5e94cf3948b5d69ae4b7179f11acebd1d732b4a106953"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "checkpoint": "best",
+      "evaluation": {
+        "id": "D5_nn",
+        "dataset": "D5",
+        "kind": "natural_novelty",
+        "package": "temporal_gap/p1d",
+        "detectors": [
+          "AHSD_stress",
+          "MSP",
+          "Energy",
+          "Mahalanobis",
+          "kNN",
+          "IF",
+          "OCSVM",
+          "PCA",
+          "AE",
+          "Wilkie_CLAD"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-10-09T04:44:09+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
