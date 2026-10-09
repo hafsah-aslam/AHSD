@@ -1,0 +1,545 @@
+{
+  "files": [
+    {
+      "file": "splits/D1_temporal_gap.npz",
+      "sha256": "7d8592905b2755534d3bee3b161adf5db0caf8c31e57510d7fdfe0129b07be1a",
+      "bytes": 1261258,
+      "windows": 231525,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "Brute_Force_-Web",
+          "Brute_Force_-XSS",
+          "DDOS_attack-HOIC",
+          "DDOS_attack-LOIC-UDP",
+          "DDoS_attacks-LOIC-HTTP",
+          "DoS_attacks-GoldenEye",
+          "DoS_attacks-Hulk",
+          "DoS_attacks-SlowHTTPTest",
+          "DoS_attacks-Slowloris",
+          "FTP-BruteForce",
+          "SQL_Injection",
+          "SSH-Bruteforce"
+        ],
+        "loaco_family": [
+          "BruteForce",
+          "DDoS",
+          "DoS",
+          "Web Attacks"
+        ]
+      },
+      "source_dir": "data/processed/D1/temporal_gap/archive",
+      "source_sha256": {
+        "windows.npz": "15e2595ed1b1cc0a119eca539f8b11de40371fbb1c1d0cb44eecbe369281e579",
+        "row_id.npy": "6a298ae3db6568d6286f8c3396ea9757bb0eb236cc37dc263eb341a1bec6e1c9",
+        "sets.npz": "80f93cfc1678b3b360c12f24006e529f20447599a7aca3d420d0f509df7d150b",
+        "loaco.npz": "540151d06937d5f04a601a6f2f748aa0e8fbe01240032c3a6987d5645fbbb920",
+        "loaco_family.npz": "58928c9c4e64ce68d352fa300081c621da340326f05a8ff0270c00fe33646306"
+      }
+    },
+    {
+      "file": "splits/D1_grouped_random.npz",
+      "sha256": "6ab76321d0a84dc892fc94842a643f5958371787493597cf4972722135e85d3c",
+      "bytes": 1458471,
+      "windows": 268669,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "Bot",
+          "Brute_Force_-Web",
+          "Brute_Force_-XSS",
+          "DDOS_attack-HOIC",
+          "DDOS_attack-LOIC-UDP",
+          "DDoS_attacks-LOIC-HTTP",
+          "DoS_attacks-SlowHTTPTest",
+          "DoS_attacks-Slowloris",
+          "FTP-BruteForce",
+          "Infilteration",
+          "SSH-Bruteforce"
+        ],
+        "loaco_family": [
+          "Bot",
+          "BruteForce",
+          "DDoS",
+          "DoS",
+          "Infiltration",
+          "Web Attacks"
+        ]
+      },
+      "source_dir": "data/processed/D1/grouped_random/archive",
+      "source_sha256": {
+        "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+        "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+        "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+        "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+        "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5"
+      }
+    },
+    {
+      "file": "splits/D2_temporal_gap.npz",
+      "sha256": "a1478e0f20b567025f3065666afedf425a122f21c7c62dada3e3897f53c2ab51",
+      "bytes": 558474,
+      "windows": 90797,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "Analysis",
+          "Backdoor",
+          "DoS",
+          "Exploits",
+          "Fuzzers",
+          "Generic",
+          "Reconnaissance",
+          "Shellcode"
+        ]
+      },
+      "source_dir": "data/processed/D2/temporal_gap/archive",
+      "source_sha256": {
+        "windows.npz": "9324d544369df7500f9669cc49f7a35e2f44cf9b91eb752dfad000d154f584a9",
+        "row_id.npy": "8776d224eba63934415dff5ec17ce3b22ee3ecc26af5ad72cff3807a0be889e7",
+        "sets.npz": "213e4feccb941f4457ca596b17a6c59edc58061f9108d9e99f3fdc7f6fc81e18",
+        "loaco.npz": "3a99a56f4e099204fd9455b366f8ebdd0841c4a0704b9203e88398991e4d6d85"
+      }
+    },
+    {
+      "file": "splits/D2_grouped_random.npz",
+      "sha256": "2f28586e226c4d4fa9db513d9f12235d3539e561525ef04a74c893127adadc5b",
+      "bytes": 625575,
+      "windows": 107096,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "Analysis",
+          "Backdoor",
+          "DoS",
+          "Exploits",
+          "Fuzzers",
+          "Generic",
+          "Reconnaissance",
+          "Shellcode"
+        ]
+      },
+      "source_dir": "data/processed/D2/grouped_random/archive",
+      "source_sha256": {
+        "windows.npz": "fb48964ba59ca9802e1430b6eb2f3af88e18a179da725b280ce733e19f9382f7",
+        "row_id.npy": "22aedb4358a70e0e7d533df268ea16d34588e81fcc4f417764654c68e9a5fc70",
+        "sets.npz": "f0102dd4fe75c53933af17d25177ebadab1f030fed5f6c5bf049fac67d3e576d",
+        "loaco.npz": "95a0ecc860db40b0e3da6580cb025570211b2919e07867b3dbf5b922af4b9d65"
+      }
+    },
+    {
+      "file": "splits/D3_temporal_gap.npz",
+      "sha256": "c71de6d1e5574646853e4d0ea6f09ab32c81b1aef33093ce9b388f45dd15148e",
+      "bytes": 598818,
+      "windows": 104033,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "ddos",
+          "dos",
+          "injection",
+          "scanning"
+        ]
+      },
+      "source_dir": "data/processed/D3/temporal_gap/archive",
+      "source_sha256": {
+        "windows.npz": "6f57f88dd90a41e8e8d73bcc93b2611e764deabd7edc9d191a550ab8ba71a8fc",
+        "row_id.npy": "ad0d5abbde9f8c47b7444ca01b2119a6086016841b3be8c9ce4c11e7caa22a74",
+        "sets.npz": "a21e938847239c8ca920a55a0ebc5242ad0f6345ce57010cdfda59c6d3b4ddaf",
+        "loaco.npz": "4f3c86528ecd581b582233c8e02f7f1383606049703969b33b06cda017131ecb"
+      }
+    },
+    {
+      "file": "splits/D3_grouped_random.npz",
+      "sha256": "e478d86824e87a634e2dcef2eca6a5e1cb7c236aa34f772aff7d42308fb402da",
+      "bytes": 1014207,
+      "windows": 182391,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "Backdoor",
+          "ddos",
+          "dos",
+          "injection",
+          "mitm",
+          "password",
+          "ransomware",
+          "scanning",
+          "xss"
+        ]
+      },
+      "source_dir": "data/processed/D3/grouped_random/archive",
+      "source_sha256": {
+        "windows.npz": "ff993176bb971ff7079f95dc1c178b37f1e4607be7dc9a59d3cfecee4238846b",
+        "row_id.npy": "451861cf7596c5fab6f27124a96f0a8f8cba0af7f57a9f48fa4c4e84ff2ef56d",
+        "sets.npz": "dc582731774b7857a18e7879141891841337b7bd6e8af652bf1ab004ad3f2ca0",
+        "loaco.npz": "a9adea15339cfc544414d6d5ebed93aaa5719f4e6b310e2840fe8008931676c7"
+      }
+    },
+    {
+      "file": "splits/D5_temporal_gap.npz",
+      "sha256": "1bb26b4f7480d9c0f25cf740e617f25d29bc41340bf1ae22c25a344caead78ae",
+      "bytes": 393220,
+      "windows": 71122,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "dos_goldeneye",
+          "dos_hulk",
+          "dos_slowhttptest",
+          "dos_slowloris",
+          "ftp_patator",
+          "ssh_patator"
+        ]
+      },
+      "source_dir": "data/processed/D5/temporal_gap/archive",
+      "source_sha256": {
+        "windows.npz": "caf7035a0492a013ce657b7952e35985f9617bf566742cae710bdd4ac0ba507d",
+        "row_id.npy": "6a78f1fedd723fc15d6e37874734b4b82a5e538d962c72a88afd843721da622e",
+        "sets.npz": "962cd9bc7bff342e6fe3f75918efa1fc75f3adff4e2f8844541786ca312bab4a",
+        "loaco.npz": "0f99fa708de4a7530e7c7c193b4b3d9fe78efc4e79b7376d1ff1c9788606c6ed"
+      }
+    },
+    {
+      "file": "splits/D5_grouped_random.npz",
+      "sha256": "ce657b8f0eca2a63e572aee70a2343aa22e1cf0653432b7dfa10f138daadfce6",
+      "bytes": 512437,
+      "windows": 93986,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "ddos",
+          "dos_goldeneye",
+          "dos_hulk",
+          "dos_slowhttptest",
+          "dos_slowloris",
+          "ftp_patator",
+          "portscan",
+          "webattack_xss"
+        ]
+      },
+      "source_dir": "data/processed/D5/grouped_random/archive",
+      "source_sha256": {
+        "windows.npz": "cf2162cd025443b66e42eb163e43578e910ac487a8c29c083fb53545490a3eb2",
+        "row_id.npy": "63ba08225093091cb8f898784d6fc7a08c60aec4b9c323456e8cc67bcd83f048",
+        "sets.npz": "fe7b2151b8bfe39d0e444b96dfc38c17d6eb00cbfab718489f4fa3d01950e559",
+        "loaco.npz": "c105c826268013d0bf542207e0030c4e196ecdc3635d5d2b5957c3f24cfb1c12"
+      }
+    },
+    {
+      "file": "splits/D1_natural_novelty_p1c.npz",
+      "sha256": "513d150540961dd7c9502182e358c19977a3f407da237983a361d3d6cd2d8f8b",
+      "bytes": 135584,
+      "windows": 21000,
+      "sets": [
+        "anchor_100",
+        "anchor_500",
+        "test/Bot",
+        "test/Infilteration",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D1/temporal_gap/p1c",
+      "source_sha256": {
+        "windows.npz": "7562ccb9869db84c85bbbb467110fd2de8c1b04b6b62a0c55c0f1be6912e0897",
+        "row_id.npy": "9327811513dfeb1266f3b0f7e71d1a3a8929fc019694e1108f3b980fb129b1b6",
+        "sets.npz": "7a641a80281cd1c9fe17a481a514be68d69361dbb1977060c5f0bab5fe591bd8"
+      }
+    },
+    {
+      "file": "splits/D3_natural_novelty_p1c.npz",
+      "sha256": "be7f03874ffc60e07d2d3321b9ecc464514996e8551bdbcf0fceffe208178819",
+      "bytes": 145744,
+      "windows": 22500,
+      "sets": [
+        "anchor_100",
+        "anchor_500",
+        "test/Backdoor",
+        "test/mitm",
+        "test/password",
+        "test/ransomware",
+        "test/xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D3/temporal_gap/p1c",
+      "source_sha256": {
+        "windows.npz": "493f376ac653596cfcc707d26ed76ee8dfcc19a3357416aa7697ade57edeb4c5",
+        "row_id.npy": "e5c5731ccf4379d6777d54241c3e2f8221f12d1d23e1e53b759ac339a20fc2b3",
+        "sets.npz": "ddfdd88f925703c94d9d4dcda1dcbb0bec5be8b71b2a2dea3ff54f5df24b444c"
+      }
+    },
+    {
+      "file": "splits/D5_natural_novelty_p1d.npz",
+      "sha256": "2d624d75a2fbfdd04fcff8d0cb98f5717241885dffc8ee1c59299815b5e7647a",
+      "bytes": 87806,
+      "windows": 17656,
+      "sets": [
+        "test/ddos",
+        "test/portscan",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D5/temporal_gap/p1d",
+      "source_sha256": {
+        "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+        "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+        "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4"
+      }
+    },
+    {
+      "file": "splits/D5_purged_block.npz",
+      "sha256": "ce4df83449e5a7ca7762affb6099eb8ff25fc5a71f7260fb39acc48b21094199",
+      "bytes": 230812,
+      "windows": 46417,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {
+        "loaco": [
+          "dos_hulk"
+        ]
+      },
+      "source_dir": "data/processed/D5/purged_block/archive",
+      "source_sha256": {
+        "windows.npz": "6b7aa995c52515334e214092425be760201694804a327e175707e3f91df15af3",
+        "row_id.npy": "cbe1e6bed4466e95c805f0bf91760669c18264b8f326d56d22285c33b340ccbf",
+        "sets.npz": "548a64a5c0212f585903caf6cfbdc682d9710801494ab35cb28d91c0bb798600",
+        "loaco.npz": "52893b5a050d670ef779fe0f29075fb050e0c3ef1da01e84b2d5fe994eada2ac"
+      }
+    },
+    {
+      "file": "splits/transfer_D1__to__D2_temporal_gap.npz",
+      "sha256": "e13fcdadce0cc6659751d38ab53cb37d91f243ffe0f203d27c13d8ad61eb6526",
+      "bytes": 195631,
+      "windows": 36359,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D1__to__D2/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "86825aac89c18b07715ec58cc3b6b182870fd1491405887ae0f9ed2455dfccf7",
+        "row_id.npy": "e2052f49ef6e292f1a21b0b065c101b3f1014a5f85490ffc7769007279e236db",
+        "sets.npz": "213e4feccb941f4457ca596b17a6c59edc58061f9108d9e99f3fdc7f6fc81e18"
+      }
+    },
+    {
+      "file": "splits/transfer_D1__to__D3_temporal_gap.npz",
+      "sha256": "c78aa3fa9c16cb310276da8b3359525ceeb4a166bf1c8a6c5d5df379d49a1155",
+      "bytes": 240361,
+      "windows": 39801,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D1__to__D3/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "ad30c48f476b920a438dac310c0a23f5cdf2b346b8710297d72c9ec03dc60154",
+        "row_id.npy": "b22a33a168c67b967764419e644c7d77902b39059ebde2be95bfd05e89539a07",
+        "sets.npz": "a21e938847239c8ca920a55a0ebc5242ad0f6345ce57010cdfda59c6d3b4ddaf"
+      }
+    },
+    {
+      "file": "splits/transfer_D1__to__D4_temporal_gap.npz",
+      "sha256": "10f297656bd7ed42e5bda97e164f8f261eba8959d50ab914bd9e8761d956bf05",
+      "bytes": 11747,
+      "windows": 1473,
+      "sets": [
+        "anchor_100",
+        "anchor_500",
+        "anchor_pool",
+        "test"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D1__to__D4/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "a765657446446c29ee023fdce544b028323bd20fc89f089b07622178f179fcf5",
+        "row_id.npy": "1a9bc77bab925a80e38f5ed1d9fa3c8084b9f5edfc887b38657337f1904e9e21",
+        "sets.npz": "1315e88e3aa0790e7da1fd1b2c6adc40045cac78eec451d7b0b782472313b5fa"
+      }
+    },
+    {
+      "file": "splits/transfer_D2__to__D1_temporal_gap.npz",
+      "sha256": "c41071a36966a8ac1bacb65b6e298c41cef8f2d7ea587333dade394326027aac",
+      "bytes": 238050,
+      "windows": 39776,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D2__to__D1/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "57371fa3a371424656cde6605ba030a09ff9cff08ca8158d6be45e0a317903c9",
+        "row_id.npy": "436a325259ad4694937ed78a84254704cb176d5c447db27f1ff0063c0be56c3d",
+        "sets.npz": "80f93cfc1678b3b360c12f24006e529f20447599a7aca3d420d0f509df7d150b"
+      }
+    },
+    {
+      "file": "splits/transfer_D2__to__D3_temporal_gap.npz",
+      "sha256": "c78aa3fa9c16cb310276da8b3359525ceeb4a166bf1c8a6c5d5df379d49a1155",
+      "bytes": 240361,
+      "windows": 39801,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D2__to__D3/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "ad30c48f476b920a438dac310c0a23f5cdf2b346b8710297d72c9ec03dc60154",
+        "row_id.npy": "b22a33a168c67b967764419e644c7d77902b39059ebde2be95bfd05e89539a07",
+        "sets.npz": "a21e938847239c8ca920a55a0ebc5242ad0f6345ce57010cdfda59c6d3b4ddaf"
+      }
+    },
+    {
+      "file": "splits/transfer_D2__to__D4_temporal_gap.npz",
+      "sha256": "10f297656bd7ed42e5bda97e164f8f261eba8959d50ab914bd9e8761d956bf05",
+      "bytes": 11747,
+      "windows": 1473,
+      "sets": [
+        "anchor_100",
+        "anchor_500",
+        "anchor_pool",
+        "test"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D2__to__D4/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "a765657446446c29ee023fdce544b028323bd20fc89f089b07622178f179fcf5",
+        "row_id.npy": "1a9bc77bab925a80e38f5ed1d9fa3c8084b9f5edfc887b38657337f1904e9e21",
+        "sets.npz": "1315e88e3aa0790e7da1fd1b2c6adc40045cac78eec451d7b0b782472313b5fa"
+      }
+    },
+    {
+      "file": "splits/transfer_D3__to__D1_temporal_gap.npz",
+      "sha256": "c41071a36966a8ac1bacb65b6e298c41cef8f2d7ea587333dade394326027aac",
+      "bytes": 238050,
+      "windows": 39776,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D3__to__D1/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "57371fa3a371424656cde6605ba030a09ff9cff08ca8158d6be45e0a317903c9",
+        "row_id.npy": "436a325259ad4694937ed78a84254704cb176d5c447db27f1ff0063c0be56c3d",
+        "sets.npz": "80f93cfc1678b3b360c12f24006e529f20447599a7aca3d420d0f509df7d150b"
+      }
+    },
+    {
+      "file": "splits/transfer_D3__to__D2_temporal_gap.npz",
+      "sha256": "e13fcdadce0cc6659751d38ab53cb37d91f243ffe0f203d27c13d8ad61eb6526",
+      "bytes": 195631,
+      "windows": 36359,
+      "sets": [
+        "test",
+        "test_natural",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D3__to__D2/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "86825aac89c18b07715ec58cc3b6b182870fd1491405887ae0f9ed2455dfccf7",
+        "row_id.npy": "e2052f49ef6e292f1a21b0b065c101b3f1014a5f85490ffc7769007279e236db",
+        "sets.npz": "213e4feccb941f4457ca596b17a6c59edc58061f9108d9e99f3fdc7f6fc81e18"
+      }
+    },
+    {
+      "file": "splits/transfer_D3__to__D4_temporal_gap.npz",
+      "sha256": "10f297656bd7ed42e5bda97e164f8f261eba8959d50ab914bd9e8761d956bf05",
+      "bytes": 11747,
+      "windows": 1473,
+      "sets": [
+        "anchor_100",
+        "anchor_500",
+        "anchor_pool",
+        "test"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/transfer/D3__to__D4/temporal_gap",
+      "source_sha256": {
+        "windows.npz": "a765657446446c29ee023fdce544b028323bd20fc89f089b07622178f179fcf5",
+        "row_id.npy": "1a9bc77bab925a80e38f5ed1d9fa3c8084b9f5edfc887b38657337f1904e9e21",
+        "sets.npz": "1315e88e3aa0790e7da1fd1b2c6adc40045cac78eec451d7b0b782472313b5fa"
+      }
+    }
+  ],
+  "reconstruction": "Rebuild data/interim/<ds>/sorted.parquet with scripts/download.py + scripts/prepare.py from the raw files listed in data/MANIFEST.json (SHA-256 checked). Flows are stably sorted by FLOW_START_MILLISECONDS (ties keep raw row order; row_id = raw row number). A window is the T = 32 consecutive sorted flows starting at window_start; window_first_row_id checks the alignment. Sets and folds are int32 indices into the window table. group_split: 0 train, 1 gap, 2 val, 3 test.",
+  "provenance": {
+    "code_commit": "e6a5e7a4af2c30ba091688b057708bdcf412aaf5",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T11:27:04+00:00",
+    "results_head": "e6a5e7a4af2c30ba091688b057708bdcf412aaf5",
+    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-09T11:27:10+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
