@@ -178,6 +178,16 @@ def main():
     print(f"G3: {outcome} {crit}")
 
 
+def caveat(S):
+    G = S["gate"]["stats"]
+    n5, n3 = len(G["D5_nn"]["classes"]), len(G["D3_nn"]["classes"])
+    return (f"**Caveat (evidential base).** Criterion (a) rests on {n5} D5 natural-novelty classes "
+            f"({', '.join(G['D5_nn']['classes'])}); resampling classes from a set of {n5} gives very few distinct class draws, "
+            f"so the CI understates between-class uncertainty. D3 ({n3} natural-novelty classes and {len(G['D3_loaco']['classes'])} LOACO folds) "
+            "carries most of the weight" + (", and under the A5.2 fallback also carries criterion (b)." if S["a52"]["fallback_applied"] else ".")
+            + " This holds whatever the gate outcome.")
+
+
 def render_gate(S):
     G, c = S["gate"]["stats"], S["gate"]["criteria"]
     L = ["# GATE_G3_DECISION", "", f"**Outcome: {S['gate']['outcome']}**", "",
@@ -206,7 +216,7 @@ def render_gate(S):
     L += ["", f"(a) {'pass' if c['a'] else 'fail'}; (b) {'pass' if c['b'] else 'fail'} (on {c['b_evaluated_on']}); "
           f"(c) {'pass' if c['c'] else 'fail'}.", "",
           f"A5.3 sensitivity (not gating): D5 natural_novelty B (primary) − S (final-epoch checkpoint) = "
-          f"{_f(sn['B_minus_S'])} [{_f(sn['ci95'][0])}, {_f(sn['ci95'][1])}].", "",
+          f"{_f(sn['B_minus_S'])} [{_f(sn['ci95'][0])}, {_f(sn['ci95'][1])}].", "", caveat(S), "",
           "Wilkie et al. CLAD (not gating): " + "; ".join(
               f"{k}: W {_f(G[k].get('W'))}, W − B {_f(G[k].get('W_minus_B'))}, W − S {_f(G[k].get('W_minus_S'))}" for k in G),
           "", f"P1d code commit `{S['code_commits']['P1d']}`; P1c D3 code commit "
@@ -220,7 +230,7 @@ def render(S):
          "Seeds 17/23/42/101/202; mean AUC ± Student-t 95% CI (n = 5), fraction of seeds < 0.5 in brackets. "
          "Scores higher = more anomalous, never flipped. Supervised-backbone scores: " + ", ".join(SUP)
          + "; benign-only: " + ", ".join(BEN) + "; Wilkie et al. CLAD reported separately.", "",
-         f"**Gate G3: {S['gate']['outcome']}** (see `GATE_G3_DECISION.md`).", "",
+         f"**Gate G3: {S['gate']['outcome']}** (see `GATE_G3_DECISION.md`).", "", caveat(S), "",
          "## D5 natural_novelty feasibility (before any model run)", "",
          f"Evaluable classes: {', '.join(S['d5_feasibility']['evaluable_classes'])}; test windows "
          f"{S['d5_feasibility']['test_windows']}; train-tail validation {S['d5_feasibility']['train_tail']}.", ""]

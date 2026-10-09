@@ -1,0 +1,100 @@
+{
+  "eval_id": "D5_nn_final",
+  "dataset": "D5",
+  "kind": "natural_novelty",
+  "seed": 23,
+  "unit": "all",
+  "classes": [
+    "ddos",
+    "portscan"
+  ],
+  "auc": {
+    "AHSD_stress": {
+      "ddos": 0.9951672,
+      "portscan": 0.9828783999999999
+    },
+    "MSP": {
+      "ddos": 0.05191999999999998,
+      "portscan": 0.35809
+    },
+    "Energy": {
+      "ddos": 0.055148,
+      "portscan": 0.23897200000000002
+    },
+    "Mahalanobis": {
+      "ddos": 0.9966872,
+      "portscan": 0.9897047999999999
+    },
+    "kNN": {
+      "ddos": 0.9967592000000001,
+      "portscan": 0.9901831999999999
+    },
+    "Wilkie_CLAD": {
+      "ddos": 0.987412,
+      "portscan": 0.6409968
+    }
+  },
+  "info": {
+    "ahsd_best_val_macro_f1": 0.5205673758865248,
+    "ahsd_final_val_macro_f1": 0.45263157894736844,
+    "ahsd_checkpoint": "final",
+    "clad_best_val_auroc": 0.7665680473372781,
+    "clad_final_val_auroc": 0.7656804733727811,
+    "clad_checkpoint": "final"
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/ddos": 500,
+    "test/portscan": 500
+  },
+  "checkpoint": "final",
+  "wall_seconds": 41.242501974105835,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:51+00:00",
+    "results_head": "649b97235b4444a3d68c3be3e3b42bd0c6029c10",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {
+      "flows.npy": "f33564f1fef04bfeccc02ee2739803c5608db6daf9051b14cb2cca264ebc2140",
+      "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+      "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+      "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "d7e9e48a4344a3e8a2b5e94cf3948b5d69ae4b7179f11acebd1d732b4a106953"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "checkpoint": "final",
+      "evaluation": {
+        "id": "D5_nn_final",
+        "dataset": "D5",
+        "kind": "natural_novelty",
+        "package": "temporal_gap/p1d",
+        "detectors": [
+          "AHSD_stress",
+          "MSP",
+          "Energy",
+          "Mahalanobis",
+          "kNN",
+          "Wilkie_CLAD"
+        ],
+        "checkpoint": "final"
+      }
+    },
+    "timestamp_utc": "2026-10-09T04:48:41+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
