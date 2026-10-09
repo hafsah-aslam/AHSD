@@ -111,7 +111,7 @@ def main():
             any(r.get("checkpoint") != "final" for r in d5nf):
         raise SystemExit("checkpoint labels inconsistent with A5.3")
     dec = json.loads((ROOT / "results/p1d/a52_decision.json").read_text())
-    pmeta = json.loads((ROOT / "data/processed/D5/purged_block/meta.json").read_text())
+    pmeta = json.loads((ROOT / "results/p1d/d5_purged_block_meta.json").read_text())
     if sorted(dec["feasible_folds"]) != sorted(pmeta["feasible_folds"]) or \
             dec["fallback_applied"] != (len(pmeta["feasible_folds"]) < dec["threshold"]):
         raise SystemExit("A5.2 decision inconsistent with purged_block meta")

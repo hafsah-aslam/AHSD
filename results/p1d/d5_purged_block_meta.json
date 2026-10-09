@@ -1,0 +1,597 @@
+{
+  "dataset": "D5",
+  "scheme": "purged_block",
+  "classes": [
+    "Benign",
+    "bot",
+    "ddos",
+    "dos_goldeneye",
+    "dos_hulk",
+    "dos_slowhttptest",
+    "dos_slowloris",
+    "ftp_patator",
+    "heartbleed",
+    "portscan",
+    "ssh_patator",
+    "webattack_bruteforce",
+    "webattack_sql_injection",
+    "webattack_xss"
+  ],
+  "block_ms": 600000,
+  "day_gap_blocks": 36,
+  "rounding": "half up",
+  "days": [
+    {
+      "day": 0,
+      "blocks": 49,
+      "train": 29,
+      "val": 10,
+      "test": 10,
+      "first_block_utc_ms": 1499082997567.312,
+      "purged_rule1_adjacent_test": 13,
+      "purged_rule2_train_adjacent_val": 8,
+      "after_purge": {
+        "train": 10,
+        "val": 8,
+        "test": 10
+      }
+    },
+    {
+      "day": 1,
+      "blocks": 50,
+      "train": 30,
+      "val": 10,
+      "test": 10,
+      "first_block_utc_ms": 1499168797567.312,
+      "purged_rule1_adjacent_test": 17,
+      "purged_rule2_train_adjacent_val": 5,
+      "after_purge": {
+        "train": 13,
+        "val": 5,
+        "test": 10
+      }
+    },
+    {
+      "day": 2,
+      "blocks": 52,
+      "train": 31,
+      "val": 10,
+      "test": 11,
+      "first_block_utc_ms": 1499254597567.312,
+      "purged_rule1_adjacent_test": 12,
+      "purged_rule2_train_adjacent_val": 9,
+      "after_purge": {
+        "train": 14,
+        "val": 6,
+        "test": 11
+      }
+    },
+    {
+      "day": 3,
+      "blocks": 19,
+      "train": 11,
+      "val": 4,
+      "test": 4,
+      "first_block_utc_ms": 1499342197567.312,
+      "purged_rule1_adjacent_test": 6,
+      "purged_rule2_train_adjacent_val": 3,
+      "after_purge": {
+        "train": 4,
+        "val": 2,
+        "test": 4
+      }
+    },
+    {
+      "day": 4,
+      "blocks": 49,
+      "train": 29,
+      "val": 10,
+      "test": 10,
+      "first_block_utc_ms": 1499428597567.312,
+      "purged_rule1_adjacent_test": 16,
+      "purged_rule2_train_adjacent_val": 5,
+      "after_purge": {
+        "train": 13,
+        "val": 5,
+        "test": 10
+      }
+    }
+  ],
+  "blocks": {
+    "non_empty": 219,
+    "purged_rule1": 64,
+    "purged_rule2": 30,
+    "after_purge": {
+      "train": 54,
+      "val": 26,
+      "test": 45
+    }
+  },
+  "windowing": {
+    "windows": 114523,
+    "flows_not_in_any_window": 1626,
+    "majority_ties": 0,
+    "groups": 219,
+    "groups_too_short": 0
+  },
+  "dedupe": {
+    "windows_before": 114523,
+    "windows_after": 114523,
+    "duplicates_removed": 0,
+    "duplicate_label_conflicts": 0
+  },
+  "split_windows": {
+    "train": 28913,
+    "gap": 53335,
+    "val": 10420,
+    "test": 21855
+  },
+  "composition": {
+    "windows_by_majority_class": {
+      "train": {
+        "Benign": 17896,
+        "bot": 154,
+        "ddos": 6636,
+        "dos_goldeneye": 566,
+        "dos_hulk": 2466,
+        "dos_slowhttptest": 0,
+        "dos_slowloris": 4,
+        "ftp_patator": 962,
+        "heartbleed": 0,
+        "portscan": 30,
+        "ssh_patator": 0,
+        "webattack_bruteforce": 199,
+        "webattack_sql_injection": 0,
+        "webattack_xss": 0
+      },
+      "val": {
+        "Benign": 8881,
+        "bot": 193,
+        "ddos": 0,
+        "dos_goldeneye": 0,
+        "dos_hulk": 0,
+        "dos_slowhttptest": 0,
+        "dos_slowloris": 452,
+        "ftp_patator": 348,
+        "heartbleed": 0,
+        "portscan": 42,
+        "ssh_patator": 340,
+        "webattack_bruteforce": 0,
+        "webattack_sql_injection": 0,
+        "webattack_xss": 164
+      },
+      "test": {
+        "Benign": 18557,
+        "bot": 0,
+        "ddos": 0,
+        "dos_goldeneye": 0,
+        "dos_hulk": 1929,
+        "dos_slowhttptest": 215,
+        "dos_slowloris": 2,
+        "ftp_patator": 0,
+        "heartbleed": 16,
+        "portscan": 606,
+        "ssh_patator": 302,
+        "webattack_bruteforce": 228,
+        "webattack_sql_injection": 0,
+        "webattack_xss": 0
+      }
+    },
+    "test_classes_absent_from_train": [
+      "dos_slowhttptest",
+      "heartbleed",
+      "ssh_patator"
+    ],
+    "val_classes_absent_from_train": [
+      "ssh_patator",
+      "webattack_xss"
+    ]
+  },
+  "sets": {
+    "train": {
+      "benign": 7000,
+      "attack": 7000,
+      "available_benign": 17896,
+      "available_attack": 11017,
+      "target_ratio": 1,
+      "cap": 14000
+    },
+    "val": {
+      "benign": 2500,
+      "attack": 500,
+      "available_benign": 8881,
+      "available_attack": 1539,
+      "target_ratio": 5,
+      "cap": 3000
+    },
+    "test": {
+      "benign": 2500,
+      "attack": 500,
+      "available_benign": 18557,
+      "available_attack": 3298,
+      "target_ratio": 5,
+      "cap": 3000
+    },
+    "test_natural": {
+      "n": 20000,
+      "attack_fraction": 0.1501
+    }
+  },
+  "loaco": {
+    "bot": {
+      "class_index": 1,
+      "train_windows_majority": 154,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    },
+    "ddos": {
+      "class_index": 2,
+      "train_windows_majority": 6636,
+      "train": {
+        "benign": 4381,
+        "attack": 4381,
+        "available_benign": 17896,
+        "available_attack": 4381,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "dos_goldeneye": {
+      "class_index": 3,
+      "train_windows_majority": 566,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 10451,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "dos_hulk": {
+      "class_index": 4,
+      "train_windows_majority": 2466,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 8551,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1539,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 18557,
+        "available_attack": 1929,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true,
+      "test_windows_majority": 1929
+    },
+    "dos_slowhttptest": {
+      "class_index": 5,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 215
+    },
+    "dos_slowloris": {
+      "class_index": 6,
+      "train_windows_majority": 4,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 2
+    },
+    "ftp_patator": {
+      "class_index": 7,
+      "train_windows_majority": 962,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 17896,
+        "available_attack": 10055,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 8881,
+        "available_attack": 1191,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 0,
+        "attack": 0,
+        "available_benign": 18557,
+        "available_attack": 0,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": false,
+      "reason": "held-out class absent from the test split",
+      "test_windows_majority": 0
+    },
+    "heartbleed": {
+      "class_index": 8,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 16
+    },
+    "portscan": {
+      "class_index": 9,
+      "train_windows_majority": 30,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 606
+    },
+    "ssh_patator": {
+      "class_index": 10,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 302
+    },
+    "webattack_bruteforce": {
+      "class_index": 11,
+      "train_windows_majority": 199,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 228
+    },
+    "webattack_sql_injection": {
+      "class_index": 12,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    },
+    "webattack_xss": {
+      "class_index": 13,
+      "train_windows_majority": 0,
+      "eligible": false,
+      "reason": "< 200 training windows",
+      "test_windows_majority": 0
+    }
+  },
+  "feasible_folds": [
+    "dos_hulk"
+  ],
+  "verification": [
+    {
+      "check": "D5: exactly 5 capture days found (5)",
+      "ok": true
+    },
+    {
+      "check": "D5 purge: no train/val block adjacent to a test block; no train block adjacent to a val block (violations: [])",
+      "ok": true
+    },
+    {
+      "check": "window SHA-256 globally unique after dedupe",
+      "ok": true
+    },
+    {
+      "check": "no shared window hash train/val",
+      "ok": true
+    },
+    {
+      "check": "group-disjoint train/val",
+      "ok": true
+    },
+    {
+      "check": "row-ID-disjoint train/val",
+      "ok": true
+    },
+    {
+      "check": "no shared window hash train/test",
+      "ok": true
+    },
+    {
+      "check": "group-disjoint train/test",
+      "ok": true
+    },
+    {
+      "check": "row-ID-disjoint train/test",
+      "ok": true
+    },
+    {
+      "check": "no shared window hash val/test",
+      "ok": true
+    },
+    {
+      "check": "group-disjoint val/test",
+      "ok": true
+    },
+    {
+      "check": "row-ID-disjoint val/test",
+      "ok": true
+    },
+    {
+      "check": "train: no window drawn twice",
+      "ok": true
+    },
+    {
+      "check": "train: all windows from split train",
+      "ok": true
+    },
+    {
+      "check": "val: no window drawn twice",
+      "ok": true
+    },
+    {
+      "check": "val: all windows from split val",
+      "ok": true
+    },
+    {
+      "check": "test: no window drawn twice",
+      "ok": true
+    },
+    {
+      "check": "test: all windows from split test",
+      "ok": true
+    },
+    {
+      "check": "test_natural: no window drawn twice",
+      "ok": true
+    },
+    {
+      "check": "test_natural: all windows from split test",
+      "ok": true
+    },
+    {
+      "check": "train: size 14000 <= cap 14000",
+      "ok": true
+    },
+    {
+      "check": "train: benign:attack = 1:1 exactly (7000:7000)",
+      "ok": true
+    },
+    {
+      "check": "val: size 3000 <= cap 3000",
+      "ok": true
+    },
+    {
+      "check": "val: benign:attack = 5:1 exactly (2500:500)",
+      "ok": true
+    },
+    {
+      "check": "test: size 3000 <= cap 3000",
+      "ok": true
+    },
+    {
+      "check": "test: benign:attack = 5:1 exactly (2500:500)",
+      "ok": true
+    },
+    {
+      "check": "LOACO dos_hulk: train has no flow of the held-out class",
+      "ok": true
+    },
+    {
+      "check": "LOACO dos_hulk: val has no flow of the held-out class",
+      "ok": true
+    },
+    {
+      "check": "LOACO dos_hulk: test from test split",
+      "ok": true
+    },
+    {
+      "check": "LOACO dos_hulk: test is benign + held-out only",
+      "ok": true
+    },
+    {
+      "check": "LOACO dos_hulk: train from train split",
+      "ok": true
+    },
+    {
+      "check": "D5 purged_block cleaner keeps every frozen D5 feature (missing: [])",
+      "ok": true
+    }
+  ],
+  "archive": {
+    "rows_materialised": 890784,
+    "windows_referenced": 46417,
+    "n_features": 73,
+    "transform": {
+      "nonfinite_imputed": 0,
+      "log1p_negative_clipped": 0
+    },
+    "verification": [
+      {
+        "check": "cleaned flows finite",
+        "ok": true
+      },
+      {
+        "check": "cleaned flows float32",
+        "ok": true
+      }
+    ],
+    "sha256": {
+      "flows.npy": "536b24486958c9a4824cd5d7ea317e4d67888184509bb5c163cacceef2a43db7",
+      "row_id.npy": "cbe1e6bed4466e95c805f0bf91760669c18264b8f326d56d22285c33b340ccbf",
+      "windows.npz": "6b7aa995c52515334e214092425be760201694804a327e175707e3f91df15af3",
+      "sets.npz": "548a64a5c0212f585903caf6cfbdc682d9710801494ab35cb28d91c0bb798600",
+      "loaco.npz": "52893b5a050d670ef779fe0f29075fb050e0c3ef1da01e84b2d5fe994eada2ac",
+      "cleaner.json": "056a6b1824f51b35d3c419eb67bbd11718420ba2f123c9343019b812b3c1286c"
+    }
+  },
+  "cleaner_kept_before_restrict": 73,
+  "provenance": {
+    "code_commit": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T04:41:04+00:00",
+    "results_head": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {},
+    "config": {
+      "block_ms": 600000,
+      "min_test": 50,
+      "balance": {
+        "train_ratio": 1,
+        "eval_ratio": 5,
+        "train_cap": 14000,
+        "val_cap": 3000,
+        "test_cap": 3000,
+        "natural_cap": 20000,
+        "loaco_min_train": 200
+      }
+    },
+    "timestamp_utc": "2026-10-09T04:41:31+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
