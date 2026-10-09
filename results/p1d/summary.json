@@ -1,0 +1,1304 @@
+{
+  "gate": {
+    "stats": {
+      "D5_nn": {
+        "classes": [
+          "ddos",
+          "portscan"
+        ],
+        "B": 0.79355682,
+        "S": 0.602494624,
+        "B_minus_S": 0.191062196,
+        "ci95": [
+          0.13578795999999996,
+          0.29784916
+        ],
+        "B_by_class": {
+          "ddos": 0.7488775999999999,
+          "portscan": 0.8382360400000001
+        },
+        "S_by_class": {
+          "ddos": 0.605129136,
+          "portscan": 0.5998601119999999
+        },
+        "W": 0.86357416,
+        "W_by_class": {
+          "ddos": 0.98606304,
+          "portscan": 0.74108528
+        },
+        "W_minus_B": 0.07001733999999993,
+        "W_minus_S": 0.261079536
+      },
+      "D3_loaco": {
+        "classes": [
+          "Backdoor",
+          "ddos",
+          "injection",
+          "password",
+          "scanning",
+          "xss"
+        ],
+        "B": 0.9028264200000001,
+        "S": 0.6337722693333333,
+        "B_minus_S": 0.2690541506666666,
+        "ci95": [
+          0.19020914753333332,
+          0.3223850054166667
+        ],
+        "B_by_class": {
+          "Backdoor": 0.9986767599999999,
+          "ddos": 0.8724765400000001,
+          "injection": 0.98726172,
+          "password": 0.9841805200000001,
+          "scanning": 0.59285314,
+          "xss": 0.98150984
+        },
+        "S_by_class": {
+          "Backdoor": 0.684811552,
+          "ddos": 0.5945550559999999,
+          "injection": 0.6630014080000001,
+          "password": 0.65144536,
+          "scanning": 0.5110916480000001,
+          "xss": 0.697728592
+        },
+        "W": 0.7802374533333333,
+        "W_by_class": {
+          "Backdoor": 0.9708110399999998,
+          "ddos": 0.37158959999999996,
+          "injection": 0.95054432,
+          "password": 0.9398891199999999,
+          "scanning": 0.5018796,
+          "xss": 0.94671104
+        },
+        "W_minus_B": -0.12258896666666685,
+        "W_minus_S": 0.14646518399999997
+      },
+      "D3_nn": {
+        "classes": [
+          "Backdoor",
+          "mitm",
+          "password",
+          "ransomware",
+          "xss"
+        ],
+        "B": 0.8979459759999999,
+        "S": 0.42328212160000006,
+        "B_minus_S": 0.4746638544000001,
+        "ci95": [
+          0.35060930608,
+          0.57945977164
+        ],
+        "B_by_class": {
+          "Backdoor": 0.96486516,
+          "mitm": 0.7932046799999999,
+          "password": 0.91298024,
+          "ransomware": 0.92301944,
+          "xss": 0.8956603599999999
+        },
+        "S_by_class": {
+          "Backdoor": 0.427646064,
+          "mitm": 0.530019008,
+          "password": 0.42431641600000003,
+          "ransomware": 0.39661982399999995,
+          "xss": 0.337809296
+        },
+        "W": 0.822513968,
+        "W_by_class": {
+          "Backdoor": 0.8902657599999999,
+          "mitm": 0.6413909600000001,
+          "password": 0.91364424,
+          "ransomware": 0.8422253599999999,
+          "xss": 0.8250435200000001
+        },
+        "W_minus_B": -0.07543200799999994,
+        "W_minus_S": 0.3992318463999999
+      }
+    },
+    "criteria": {
+      "a": true,
+      "b": false,
+      "b_evaluated_on": "D3_loaco",
+      "c_nn": true,
+      "c_loaco": false,
+      "c": false
+    },
+    "outcome": "STOP"
+  },
+  "tables": {
+    "D5_nn": {
+      "ddos": {
+        "AHSD_stress": {
+          "mean": 0.9890619199999998,
+          "ci95": 0.0019363842262933727,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.04798808,
+          "ci95": 0.011067018179080575,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.04735616,
+          "ci95": 0.007816276343234072,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.9920515200000001,
+          "ci95": 0.0013780855126105944,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.949188,
+          "ci95": 0.11350280849384997,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.778992,
+          "ci95": 0.03774553953628149,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.4924175999999999,
+          "ci95": 7.704947790898586e-17,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "PCA": {
+          "mean": 0.8636495999999999,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.8604512,
+          "ci95": 0.022909842259096036,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.98606304,
+          "ci95": 0.0022597545653556496,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "portscan": {
+        "AHSD_stress": {
+          "mean": 0.97541888,
+          "ci95": 0.005453280401357813,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.15844304,
+          "ci95": 0.28294905696096556,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "Energy": {
+          "mean": 0.1334512,
+          "ci95": 0.25230096659471263,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.97989824,
+          "ci95": 0.006374371814741165,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.7520892,
+          "ci95": 0.2322952791510927,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.98517664,
+          "ci95": 0.005728948453155304,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9761944,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.810948,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.58062512,
+          "ci95": 0.15310168441591557,
+          "n": 5,
+          "frac_below_0.5": 0.2
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.74108528,
+          "ci95": 0.23076321221247936,
+          "n": 5,
+          "frac_below_0.5": 0.2
+        }
+      }
+    },
+    "D3_loaco": {
+      "Backdoor": {
+        "AHSD_stress": {
+          "mean": 0.97943616,
+          "ci95": 0.00734855875689376,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.23906855999999999,
+          "ci95": 0.10723986080256567,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.23131591999999998,
+          "ci95": 0.08731742789831483,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.9842928000000001,
+          "ci95": 0.003378249469808603,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.98994432,
+          "ci95": 0.001203904180541886,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.996596,
+          "ci95": 0.0006607479028977539,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9995879999999999,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.9991984,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.99932464,
+          "ci95": 5.452233610393223e-05,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.9708110399999998,
+          "ci95": 0.0038727799140279916,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "ddos": {
+        "AHSD_stress": {
+          "mean": 0.76411944,
+          "ci95": 0.011323724398510523,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.29506424,
+          "ci95": 0.027742694890831546,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.30061664,
+          "ci95": 0.05519793772281526,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.9109545600000001,
+          "ci95": 0.014516918764144834,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.7020204,
+          "ci95": 0.01769904438871399,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.8852879999999999,
+          "ci95": 0.00808478020133473,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.8578296000000002,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.8753752,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.87141336,
+          "ci95": 0.00352838212440345,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.37158959999999996,
+          "ci95": 0.044863135513584486,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        }
+      },
+      "injection": {
+        "AHSD_stress": {
+          "mean": 0.98791184,
+          "ci95": 0.007331772522650006,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.20176191999999998,
+          "ci95": 0.1308829461523708,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.16105039999999998,
+          "ci95": 0.09248977553476571,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.98791824,
+          "ci95": 0.005900771975110411,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.9763646400000001,
+          "ci95": 0.0201614136186306,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.9977700799999999,
+          "ci95": 0.00019943550631147246,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9908279999999999,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.980584,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.9798648,
+          "ci95": 0.0027186987885077824,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.95054432,
+          "ci95": 0.01967190199012059,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "password": {
+        "AHSD_stress": {
+          "mean": 0.9933534399999999,
+          "ci95": 0.0027641785974473363,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.17565384,
+          "ci95": 0.10251802831778647,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.12638239999999998,
+          "ci95": 0.09131881630431984,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.9926176,
+          "ci95": 0.0041238834639588115,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.96921952,
+          "ci95": 0.015055495576381866,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.9958383999999999,
+          "ci95": 9.255968307496388e-05,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9841024,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.9802728,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.97650848,
+          "ci95": 0.0012025230280713391,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.9398891199999999,
+          "ci95": 0.04054531951799607,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "scanning": {
+        "AHSD_stress": {
+          "mean": 0.59095944,
+          "ci95": 0.033416911438597235,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.44286232000000003,
+          "ci95": 0.01562673946530996,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.43113928,
+          "ci95": 0.020055242591577368,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.56944888,
+          "ci95": 0.015698211682859543,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.52104832,
+          "ci95": 0.011132187561692932,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.5360885599999999,
+          "ci95": 0.005079824985081648,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.5788648000000001,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.622584,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.6338752000000001,
+          "ci95": 0.0011813372291162867,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.5018796,
+          "ci95": 0.016540111946563546,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        }
+      },
+      "xss": {
+        "AHSD_stress": {
+          "mean": 0.9744929600000001,
+          "ci95": 0.011664527315451721,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.25836792,
+          "ci95": 0.23484543428837204,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "Energy": {
+          "mean": 0.29965872000000005,
+          "ci95": 0.23315072850534926,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "Mahalanobis": {
+          "mean": 0.9832449600000001,
+          "ci95": 0.008110372770883877,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.9728784000000001,
+          "ci95": 0.035746147527376,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "IF": {
+          "mean": 0.9903009599999999,
+          "ci95": 0.0005075785973440077,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9781888000000001,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.9791456000000001,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.978404,
+          "ci95": 0.0009282213444937647,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.94671104,
+          "ci95": 0.019178381348325606,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      }
+    },
+    "D3_nn": {
+      "Backdoor": {
+        "AHSD_stress": {
+          "mean": 0.6699742399999999,
+          "ci95": 0.33109851748578056,
+          "n": 5,
+          "frac_below_0.5": 0.2
+        },
+        "MSP": {
+          "mean": 0.12947983999999998,
+          "ci95": 0.10856678206554893,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.16028384,
+          "ci95": 0.13016778393838366,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.6684199200000001,
+          "ci95": 0.213965658848344,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "kNN": {
+          "mean": 0.5100724799999999,
+          "ci95": 0.4765042810322024,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "IF": {
+          "mean": 0.9826856000000002,
+          "ci95": 0.003010481536108841,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9773144,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.9316487999999999,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.9678118399999999,
+          "ci95": 0.0013076502256999538,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.8902657599999999,
+          "ci95": 0.03427887901407795,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "mitm": {
+        "AHSD_stress": {
+          "mean": 0.49178775999999996,
+          "ci95": 0.13328982697494807,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "MSP": {
+          "mean": 0.5205426400000001,
+          "ci95": 0.11252613757131366,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "Energy": {
+          "mean": 0.525734,
+          "ci95": 0.07717813262759127,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "Mahalanobis": {
+          "mean": 0.54202792,
+          "ci95": 0.17176779875691758,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "kNN": {
+          "mean": 0.57000272,
+          "ci95": 0.17324590405991067,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "IF": {
+          "mean": 0.7002212799999998,
+          "ci95": 0.008403245635692462,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.8013183999999999,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.8437584000000001,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.82752064,
+          "ci95": 0.009375068189277184,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.6413909600000001,
+          "ci95": 0.08288269643820352,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "password": {
+        "AHSD_stress": {
+          "mean": 0.6739256,
+          "ci95": 0.30828496767863,
+          "n": 5,
+          "frac_below_0.5": 0.2
+        },
+        "MSP": {
+          "mean": 0.18844944,
+          "ci95": 0.1771574032865919,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.20908192000000003,
+          "ci95": 0.15584766979620032,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.5876964800000001,
+          "ci95": 0.12324365172086378,
+          "n": 5,
+          "frac_below_0.5": 0.2
+        },
+        "kNN": {
+          "mean": 0.46242864000000006,
+          "ci95": 0.4542067137281329,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "IF": {
+          "mean": 0.9883020799999999,
+          "ci95": 0.0006060435028618894,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.8944735999999999,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.8835600000000001,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.8855852800000001,
+          "ci95": 0.00162954226237521,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.91364424,
+          "ci95": 0.06734952207439095,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "ransomware": {
+        "AHSD_stress": {
+          "mean": 0.41633648,
+          "ci95": 0.22418220959569637,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "MSP": {
+          "mean": 0.33689191999999996,
+          "ci95": 0.24332655121894206,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "Energy": {
+          "mean": 0.38099024000000004,
+          "ci95": 0.22931023248021248,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "Mahalanobis": {
+          "mean": 0.38474208,
+          "ci95": 0.12169458663608788,
+          "n": 5,
+          "frac_below_0.5": 0.8
+        },
+        "kNN": {
+          "mean": 0.46413840000000006,
+          "ci95": 0.409043871913697,
+          "n": 5,
+          "frac_below_0.5": 0.4
+        },
+        "IF": {
+          "mean": 0.9511492800000001,
+          "ci95": 0.0024310177270238788,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.9193847999999999,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.9073551999999999,
+          "ci95": 1.5409895581797172e-16,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.91418848,
+          "ci95": 0.00026520164657220464,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.8422253599999999,
+          "ci95": 0.05462374447772867,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "xss": {
+        "AHSD_stress": {
+          "mean": 0.44286104000000004,
+          "ci95": 0.18802135427215308,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "MSP": {
+          "mean": 0.13632768,
+          "ci95": 0.08127514563782844,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.15935887999999998,
+          "ci95": 0.1316175095440524,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.45707664000000003,
+          "ci95": 0.14908083613618997,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "kNN": {
+          "mean": 0.49342223999999996,
+          "ci95": 0.49371997095469,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "IF": {
+          "mean": 0.9576580800000001,
+          "ci95": 0.005208403970285336,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "OCSVM": {
+          "mean": 0.8853864000000001,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "PCA": {
+          "mean": 0.8625584,
+          "ci95": 0.0,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "AE": {
+          "mean": 0.8770385600000001,
+          "ci95": 0.00027632178502428614,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.8250435200000001,
+          "ci95": 0.10131429767400008,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      }
+    },
+    "D5_nn_final (A5.3 sensitivity)": {
+      "ddos": {
+        "AHSD_stress": {
+          "mean": 0.99482304,
+          "ci95": 0.0009466469409043154,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.06717584000000001,
+          "ci95": 0.03346969086805994,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Energy": {
+          "mean": 0.05878095999999999,
+          "ci95": 0.029287347746461943,
+          "n": 5,
+          "frac_below_0.5": 1.0
+        },
+        "Mahalanobis": {
+          "mean": 0.99614832,
+          "ci95": 0.0005093043489604861,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.99701504,
+          "ci95": 0.0007571030639027988,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.98835632,
+          "ci95": 0.0022437285008978817,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      },
+      "portscan": {
+        "AHSD_stress": {
+          "mean": 0.97535248,
+          "ci95": 0.020243273292941344,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "MSP": {
+          "mean": 0.5280988,
+          "ci95": 0.4647550291374994,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "Energy": {
+          "mean": 0.46299912,
+          "ci95": 0.4471081752979937,
+          "n": 5,
+          "frac_below_0.5": 0.6
+        },
+        "Mahalanobis": {
+          "mean": 0.9848336,
+          "ci95": 0.009038650079683583,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "kNN": {
+          "mean": 0.9729417600000001,
+          "ci95": 0.031477597385262374,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        },
+        "Wilkie_CLAD": {
+          "mean": 0.62040888,
+          "ci95": 0.127804317320558,
+          "n": 5,
+          "frac_below_0.5": 0.0
+        }
+      }
+    }
+  },
+  "a52": {
+    "feasible_folds": [
+      "dos_hulk"
+    ],
+    "n_feasible": 1,
+    "threshold": 3,
+    "fallback_applied": true,
+    "rule": "A5.2: if < 3 feasible D5 LOACO folds, G3 (b) on D3 LOACO only; D5 contributes (a) only",
+    "code_commit": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3"
+  },
+  "a53_sensitivity_D5_nn": {
+    "classes": [
+      "ddos",
+      "portscan"
+    ],
+    "B": 0.79355682,
+    "S": 0.703816896,
+    "B_minus_S": 0.08973992399999997,
+    "ci95": [
+      -0.015496219200000102,
+      0.1404170039999999
+    ],
+    "B_by_class": {
+      "ddos": 0.7488775999999999,
+      "portscan": 0.8382360400000001
+    },
+    "S_by_class": {
+      "ddos": 0.62278864,
+      "portscan": 0.7848451519999999
+    },
+    "W": 0.8043826000000001,
+    "W_by_class": {
+      "ddos": 0.98835632,
+      "portscan": 0.62040888
+    },
+    "W_minus_B": 0.010825780000000007,
+    "W_minus_S": 0.10056570400000009
+  },
+  "purged_block": {
+    "days": [
+      {
+        "day": 0,
+        "blocks": 49,
+        "train": 29,
+        "val": 10,
+        "test": 10,
+        "first_block_utc_ms": 1499082997567.312,
+        "purged_rule1_adjacent_test": 13,
+        "purged_rule2_train_adjacent_val": 8,
+        "after_purge": {
+          "train": 10,
+          "val": 8,
+          "test": 10
+        }
+      },
+      {
+        "day": 1,
+        "blocks": 50,
+        "train": 30,
+        "val": 10,
+        "test": 10,
+        "first_block_utc_ms": 1499168797567.312,
+        "purged_rule1_adjacent_test": 17,
+        "purged_rule2_train_adjacent_val": 5,
+        "after_purge": {
+          "train": 13,
+          "val": 5,
+          "test": 10
+        }
+      },
+      {
+        "day": 2,
+        "blocks": 52,
+        "train": 31,
+        "val": 10,
+        "test": 11,
+        "first_block_utc_ms": 1499254597567.312,
+        "purged_rule1_adjacent_test": 12,
+        "purged_rule2_train_adjacent_val": 9,
+        "after_purge": {
+          "train": 14,
+          "val": 6,
+          "test": 11
+        }
+      },
+      {
+        "day": 3,
+        "blocks": 19,
+        "train": 11,
+        "val": 4,
+        "test": 4,
+        "first_block_utc_ms": 1499342197567.312,
+        "purged_rule1_adjacent_test": 6,
+        "purged_rule2_train_adjacent_val": 3,
+        "after_purge": {
+          "train": 4,
+          "val": 2,
+          "test": 4
+        }
+      },
+      {
+        "day": 4,
+        "blocks": 49,
+        "train": 29,
+        "val": 10,
+        "test": 10,
+        "first_block_utc_ms": 1499428597567.312,
+        "purged_rule1_adjacent_test": 16,
+        "purged_rule2_train_adjacent_val": 5,
+        "after_purge": {
+          "train": 13,
+          "val": 5,
+          "test": 10
+        }
+      }
+    ],
+    "blocks": {
+      "non_empty": 219,
+      "purged_rule1": 64,
+      "purged_rule2": 30,
+      "after_purge": {
+        "train": 54,
+        "val": 26,
+        "test": 45
+      }
+    },
+    "split_windows": {
+      "train": 28913,
+      "gap": 53335,
+      "val": 10420,
+      "test": 21855
+    },
+    "fold_info": {
+      "bot": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 154,
+        "test_windows_majority": 0,
+        "reason": "< 200 training windows"
+      },
+      "ddos": {
+        "eligible": true,
+        "feasible": false,
+        "train_windows_majority": 6636,
+        "test_windows_majority": 0,
+        "reason": "held-out class absent from the test split"
+      },
+      "dos_goldeneye": {
+        "eligible": true,
+        "feasible": false,
+        "train_windows_majority": 566,
+        "test_windows_majority": 0,
+        "reason": "held-out class absent from the test split"
+      },
+      "dos_hulk": {
+        "eligible": true,
+        "feasible": true,
+        "train_windows_majority": 2466,
+        "test_windows_majority": 1929,
+        "reason": null
+      },
+      "dos_slowhttptest": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 0,
+        "test_windows_majority": 215,
+        "reason": "< 200 training windows"
+      },
+      "dos_slowloris": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 4,
+        "test_windows_majority": 2,
+        "reason": "< 200 training windows"
+      },
+      "ftp_patator": {
+        "eligible": true,
+        "feasible": false,
+        "train_windows_majority": 962,
+        "test_windows_majority": 0,
+        "reason": "held-out class absent from the test split"
+      },
+      "heartbleed": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 0,
+        "test_windows_majority": 16,
+        "reason": "< 200 training windows"
+      },
+      "portscan": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 30,
+        "test_windows_majority": 606,
+        "reason": "< 200 training windows"
+      },
+      "ssh_patator": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 0,
+        "test_windows_majority": 302,
+        "reason": "< 200 training windows"
+      },
+      "webattack_bruteforce": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 199,
+        "test_windows_majority": 228,
+        "reason": "< 200 training windows"
+      },
+      "webattack_sql_injection": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 0,
+        "test_windows_majority": 0,
+        "reason": "< 200 training windows"
+      },
+      "webattack_xss": {
+        "eligible": false,
+        "feasible": null,
+        "train_windows_majority": 0,
+        "test_windows_majority": 0,
+        "reason": "< 200 training windows"
+      }
+    },
+    "feasible_folds": [
+      "dos_hulk"
+    ],
+    "checks": [
+      32,
+      32
+    ],
+    "code_commit": "00b1bdb419335bbfc0c8b97539e40e59bbf522e3"
+  },
+  "code_commits": {
+    "P1d": "65b6e3fe5afbf61b967de86ee06d825e3303f398",
+    "P1c (D3 natural_novelty, 9 detectors)": "702fc4db4f41ae09b9acbdb9aab2adf85c01857c"
+  },
+  "rq_sha256_in_runs": {
+    "P1d": [
+      "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5"
+    ],
+    "P1c": [
+      "dc2efcae3986b9cc076374c9324e6b2cf740503ffe1ab7bd92b2031406cdf5ec"
+    ]
+  },
+  "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+  "d5_feasibility": {
+    "evaluable_classes": [
+      "ddos",
+      "portscan"
+    ],
+    "test_windows": {
+      "ddos": 6639,
+      "portscan": 1335
+    },
+    "train_tail": {
+      "groups": 4,
+      "benign": 9182,
+      "attack": 26,
+      "attack_classes": {
+        "dos_slowloris": 4,
+        "heartbleed": 22
+      }
+    }
+  },
+  "n_runs": {
+    "D5_nn": 5,
+    "D5_nn_final": 5,
+    "D5_loaco": 0,
+    "D3_loaco": 30,
+    "D3_nn_wilkie": 5
+  },
+  "provenance": {
+    "code_commit": "ae934bd1579b7902f2b2006003562e2962982ecd",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-09T05:48:03+00:00",
+    "results_head": "ae934bd1579b7902f2b2006003562e2962982ecd",
+    "rq_sha256": "5ebbbcffe1067b93d1ab62a7d8827ddf609d963685c4750436fbc67083eb0bb5",
+    "data_sha256": {},
+    "config": {},
+    "timestamp_utc": "2026-10-09T05:48:03+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
