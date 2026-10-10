@@ -1,0 +1,35 @@
+{
+ "nnD3_ben_minus_repr": "+0.376 [+0.247, +0.500]",
+ "loacoD3_ben_minus_repr": "+0.022 [+0.004, +0.047]",
+ "clad_minus_ben_loacoD3": "-0.123 [-0.277, -0.034]",
+ "clad_minus_ben_nnD3": "-0.075 [-0.130, -0.023]",
+ "clad_minus_ben_loacoD2": "+0.142 [+0.119, +0.164]",
+ "clad_loacoD3_ddos": "0.372",
+ "nnD1_repr": "0.623 [0.562, 0.692]",
+ "nnD3_repr": "0.522 [0.402, 0.647]",
+ "nnD3_knn_std": {
+  "Backdoor": 0.384,
+  "mitm": 0.14,
+  "password": 0.366,
+  "ransomware": 0.329,
+  "xss": 0.398
+ },
+ "transfer_frac_03_06": 0.6666666666666666,
+ "transfer_below_03": 0.12037037037037036,
+ "transfer_above_06": 0.21296296296296297,
+ "transfer_median": 0.5001136363636364,
+ "transfer_n": 108,
+ "loacoD2_msp_all_below": true,
+ "loacoD2_pattack_range": [
+  0.997,
+  1.0
+ ],
+ "contribution_checks": {
+  "C1": true,
+  "C2": true,
+  "C3": true,
+  "C4": true,
+  "C5": true,
+  "C6": true
+ }
+}
