@@ -110,7 +110,7 @@ Numbers come from `results/p1/summary.json` and `results/p1/gate.json`.
   "Temporal-split degradation: AHSD vs XGBoost", and the single-backbone scope is stated as a
   limitation.
 
-## 10. Contribution wording vs evidence (C2, C4, C5; found 2026-10-09)
+## 10. Contribution wording vs evidence (C2, C4, C5; found 2026-10-09) — RESOLVED 2026-10-10
 The automatic evidence checks in `RESULTS_SUMMARY.md` flag the following. No number was changed and
 no claim was reworded.
 - **C4 — not supported as worded for P(attack).**
@@ -130,6 +130,10 @@ no claim was reworded.
   - D2: neither drops.
   - D5: temporal_gap scores higher than grouped_random for both, and grouped_random favours
     P(attack) (0.831 vs 0.705).
+- **Resolved (2026-10-10):** the authors adopted revised wording for C2, C4 and C5
+  (C5 renamed "Temporal and cross-dataset generalization"). No number changed. The automatic evidence
+  checks in `RESULTS_SUMMARY.md` test every sub-claim against the JSON; all six (C1–C6) read "holds"
+  (also in `results/final/summary.json`, `contribution_checks`).
 
 ## 11. 100 GB dataset — RESOLVED 2026-10-09
 Not joining this paper. No amendment, no run.

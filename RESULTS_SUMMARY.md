@@ -16,6 +16,17 @@ Single code commit for every number: `e6421ea9c81ee7c9e238205eb913905dc67163a1`.
 - All analyses here are descriptive (A6.3); intervals are not tests and no threshold is applied.
 - XGBoost uses subsample = colsample = 1 (fixed parameters, AMENDMENT_06), so its fit is deterministic: its seed std is 0 by construction and its interval reflects no training randomness.
 
+## Evidence checks
+
+| Contribution | evidence check |
+|---|---|
+| C1 | holds |
+| C2 | holds |
+| C3 | holds |
+| C4 | holds |
+| C5 | holds |
+| C6 | holds |
+
 ## C1. Protocol feasibility
 
 *Claim (authors):* On day-scheduled captures (D1, D3, D5), class hold-out (LOACO) is structurally limited: D5 purged_block yields 1 feasible fold; temporal_gap LOACO yields 0 folds on D1 and D3. Natural temporal novelty is available where LOACO is not.
@@ -28,13 +39,19 @@ Single code commit for every number: `e6421ea9c81ee7c9e238205eb913905dc67163a1`.
 - D5: feasible LOACO folds temporal_gap 0, grouped_random 0; natural-novelty classes 2 (ddos, portscan).
 - D5 purged_block: 1 feasible fold (dos_hulk) of 219 ten-minute blocks (94 purged); A5.2 fallback applied: True.
 
-*Evidence check:* temporal_gap LOACO has 0 feasible folds on D1, D3, D5; D5 grouped_random also has 0. LOACO remains feasible under grouped_random on D1 (6), D3 (6): the limitation concerns temporal splits on D1/D3 and every split on D5. D2 (not day-scheduled) has 8 temporal_gap folds and no natural-novelty classes.
+*Evidence check:* **holds** (3/3 sub-claims verified against the JSON):
+
+- ✓ D5 purged_block yields 1 feasible fold — dos_hulk
+- ✓ temporal_gap LOACO yields 0 folds on D1 and D3 — D1 0, D3 0 (D5 0)
+- ✓ natural novelty is available on D1, D3, D5, where temporal LOACO is not — D1 2 classes, D3 5 classes, D5 2 classes
+
+Note: LOACO stays feasible under grouped_random on D1 (6) and D3 (6); D2 has 8 temporal_gap folds.
 
 ## C2. No detector family dominates
 
-*Claim (authors):* The best family changes with dataset and protocol: representation-distance scores lead under LOACO D2 and natural novelty D5; benign-only detectors lead under natural novelty D3 (+0.376 [+0.25, +0.50]); D1 is near chance for all families under natural novelty. Single-protocol evaluations can therefore crown the wrong method.
+*Claim (authors, revised):* No novelty-detector family dominates across datasets and protocols: representation-distance scores lead under LOACO D2 and natural novelty D5; benign-only detectors lead under natural novelty D3 (+0.376 [+0.25, +0.50]). Under natural novelty D1 all families are weak (best: representation 0.623 [0.562, 0.692]). The supervised reference (XGBoost) exceeds the leading novelty family in LOACO D2, natural novelty D3 and natural novelty D5. Single-protocol evaluations can therefore crown different winners, and dedicated novelty scores do not reliably beat a plain supervised classifier on held-out or new attacks.
 
-*Evidence* (R1–R3; `T_families.tex`, `T_auc_*.tex`; F3). Family mean AUC [95% bootstrap CI]; the leading novelty-score family excludes XGBoost, which is the supervised reference:
+*Evidence* (R1–R3; `T_families.tex`, `T_auc_*.tex`; F3). Family mean AUC [95% bootstrap CI]; novelty families = confidence, representation, benign-only, CLAD; XGBoost is the supervised reference:
 
 | Evaluation | classes | confidence | representation | benign-only | CLAD | XGBoost | leading novelty family |
 |---|---|---|---|---|---|---|---|
@@ -58,7 +75,15 @@ Wilkie et al. CLAD vs each family (CLAD − family, paired bootstrap):
 | Natural novelty D3 | 0.823 [0.722, 0.900] | +0.355 [+0.192, +0.492] | +0.300 [+0.154, +0.450] | -0.075 [-0.130, -0.023] | -0.100 [-0.156, -0.059] |
 | Natural novelty D5 | 0.864 [0.653, 0.987] | +0.607 [+0.443, +0.727] | -0.076 [-0.241, +0.023] | +0.070 [-0.178, +0.241] | -0.104 [-0.286, -0.009] |
 
-*Evidence check:* LOACO D2: leading novelty family is representation (as claimed); XGBoost is higher still (0.998 vs 0.977). Natural novelty D5: leading novelty family is representation (as claimed); XGBoost is higher still (0.968 vs 0.940). Natural novelty D3: leading novelty family is benign-only (as claimed); XGBoost is higher still (0.923 vs 0.898). Natural novelty D3 benign-only − representation = +0.376 [+0.247, +0.500] (matches the quoted value). Natural novelty D1: family means range 0.505–0.623. More than 0.1 above chance: representation 0.623 [0.562, 0.692], with a CI that excludes 0.5; 'near chance for all families' holds for the other families and should be softened for this one.
+*Evidence check:* **holds** (7/7 sub-claims verified against the JSON):
+
+- ✓ no single novelty family leads everywhere — leading families across evaluations: benign-only, representation
+- ✓ representation leads under LOACO D2 — 0.977
+- ✓ representation leads under natural novelty D5 — 0.940
+- ✓ benign-only leads under natural novelty D3 by +0.376 [+0.25, +0.50] over representation — +0.376 [+0.247, +0.500]
+- ✓ natural novelty D1: best family is representation 0.623 [0.562, 0.692] — 0.623 [0.562, 0.692]
+- ✓ XGBoost exceeds the leading novelty family in LOACO D2, natural novelty D3 and natural novelty D5 — LOACO D2 0.998 vs 0.977; Natural novelty D3 0.923 vs 0.898; Natural novelty D5 0.968 vs 0.940
+- ✓ novelty scores do not reliably beat XGBoost — XGBoost ≥ leading novelty family in 4 of 7 evaluations (LOACO D2, LOACO D5 purged_block, Natural novelty D3, Natural novelty D5)
 
 ## C3. Natural novelty exposes instability that LOACO hides
 
@@ -81,26 +106,39 @@ Wilkie et al. CLAD vs each family (CLAD − family, paired bootstrap):
 | CLAD | CLAD | 0.0198 | 0.0578 | 2.9 |
 | XGBoost | XGBoost | 0.0000 | 0.0000 | n/a (deterministic) |
 
-*Evidence check:* 6 of 6 supervised scores have higher seed std under natural novelty (as claimed); CLAD too (0.0198 → 0.0578). Benign-only seed std is at most 0.0172. OCSVM, PCA are deterministic (seed std 0 by construction), so their stability is not evidence; the seeded benign-only detectors (IF, AE) carry the claim.
+*Evidence check:* **holds** (2/2 sub-claims verified against the JSON):
 
-## C4. Classifier-confidence scores as novelty scores
+- ✓ every supervised score has higher seed std under natural novelty — 6/6
+- ✓ benign-only detectors stay stable (seed std below every supervised score's natural-novelty std) — benign-only max 0.0172 vs supervised min 0.0739
 
-*Claim (authors):* Classifier-confidence scores (MSP, Energy, P(attack)) are invalid novelty scores for binary NIDS: below 0.5 under LOACO D2/D3 and natural novelty D3/D5, because confidently detected attacks read as "normal".
+Note: CLAD also rises (0.0198 → 0.0578). OCSVM, PCA are deterministic (seed std 0 by construction); the seeded benign-only detectors (IF, AE) carry the stability claim.
+
+## C4. Confidence-magnitude scores are invalid novelty scores
+
+*Claim (authors, revised):* Confidence-magnitude scores (MSP, Energy) are invalid novelty scores for binary NIDS: below 0.5 in LOACO D2/D3 and natural novelty D3/D5, because confidently detected attacks read as "normal". The classifier's own attack probability P(attack) is not affected in the mean (0.999, 0.752, 0.853, 0.575 in the same evaluations) and falls below 0.5 only on individual classes (D3 LOACO ddos 0.35, scanning 0.46; D5 natural-novelty portscan 0.16). Novelty scoring for binary NIDS should use P(attack) or representation distance, not max-softmax or energy.
 
 *Evidence* (R1, R2; `T_families.tex`, `T_auc_*.tex`; A6.2). Mean AUC over classes:
 
-| Evaluation | confidence family | MSP | Energy | P(attack)† | P(attack)† classes < 0.5 |
+| Evaluation | MSP | Energy | P(attack)† | representation family | P(attack)† classes < 0.5 |
 |---|---|---|---|---|---|
-| LOACO D2 | 0.439 [0.395, 0.488] | 0.163 | 0.155 | 0.999 | none |
-| LOACO D3 | 0.426 [0.370, 0.478] | 0.269 | 0.258 | 0.752 | ddos 0.35, scanning 0.46 |
-| Natural novelty D3 | 0.467 [0.395, 0.545] | 0.262 | 0.287 | 0.853 | none |
-| Natural novelty D5 | 0.256 [0.049, 0.366] | 0.103 | 0.090 | 0.575 | portscan 0.16 |
+| LOACO D2 | 0.163 | 0.155 | 0.999 | 0.977 [0.970, 0.984] | none |
+| LOACO D3 | 0.269 | 0.258 | 0.752 | 0.881 [0.741, 0.984] | ddos 0.35, scanning 0.46 |
+| Natural novelty D3 | 0.262 | 0.287 | 0.853 | 0.522 [0.402, 0.647] | none |
+| Natural novelty D5 | 0.103 | 0.090 | 0.575 | 0.940 [0.872, 0.991] | portscan 0.16 |
 
-*Evidence check:* the confidence-family mean is below 0.5 in 4 of 4 evaluations. MSP is below 0.5 in 4 of 4 and Energy in 4 of 4. **P(attack) is below 0.5 in 0 of 4** — the claim as worded is not supported for P(attack). Its mean AUC is LOACO D2 0.999, LOACO D3 0.752, Natural novelty D3 0.853, Natural novelty D5 0.575. The supported statement: MSP and Energy (confidence magnitude) fall below 0.5, because a confidently detected attack has high max-softmax confidence; P(attack), the directional attack probability, does not invert on average and falls below 0.5 only on the classes listed. The family mean is below 0.5 because of MSP and Energy. The wording is an author decision (DECISIONS_PENDING item 10).
+*Evidence check:* **holds** (5/5 sub-claims verified against the JSON):
 
-## C5. Temporal splits break neural backbones more than trees
+- ✓ MSP below 0.5 in all four evaluations — 0.163, 0.269, 0.262, 0.103
+- ✓ Energy below 0.5 in all four evaluations — 0.155, 0.258, 0.287, 0.090
+- ✓ P(attack) mean AUC 0.999, 0.752, 0.853, 0.575 (none below 0.5) — 0.999, 0.752, 0.853, 0.575
+- ✓ P(attack) below 0.5 only on D3 LOACO ddos 0.35, scanning 0.46 and D5 natural-novelty portscan 0.16 — LOACO D2: none; LOACO D3: ddos 0.35, scanning 0.46; Natural novelty D3: none; Natural novelty D5: portscan 0.16
+- ✓ the recommended alternatives (P(attack), representation distance) have mean AUC above 0.5 in all four — representation 0.977, 0.881, 0.522, 0.940
 
-*Claim (authors):* Grouped-random in-distribution AUC is ~0.98–1.0 for both AHSD P(attack) and XGBoost on D2/D3; under temporal_gap D1 both drop to ~0.52–0.55, and on D3 P(attack) falls to 0.66 (seed std 0.20) while XGBoost keeps 0.98. Zero-shot cross-dataset transfer mostly falls to 0.3–0.6.
+Note: on natural novelty D3 the representation family is 0.522 [0.402, 0.647]; its CI includes 0.5, so there it is only marginally above chance.
+
+## C5. Temporal and cross-dataset generalization
+
+*Claim (authors, revised):* Temporal-split effects are dataset-specific. Relative to grouped_random: D1 — both AHSD P(attack) and XGBoost drop similarly (0.29, 0.27); D2 — neither drops; D5 — both rise; D3 — only the neural backbone degrades (P(attack) 0.66, seed std 0.20) while XGBoost holds 0.98. This is one backbone (stated as a limitation). Zero-shot cross-dataset transfer: 67% of 108 off-diagonal cells fall in 0.3–0.6 AUC.
 
 *Evidence* (R5 Temporal-split degradation, R4; `T_saturation.tex`, `T_transfer.tex`; F5). Limitation: a single neural backbone (AHSD).
 
@@ -113,7 +151,13 @@ Wilkie et al. CLAD vs each family (CLAD − family, paired bootstrap):
 
 Zero-shot transfer, all 108 off-diagonal (detector × source × target) mean AUCs: 67% in [0.3, 0.6], 12% below 0.3, 21% above 0.6; median 0.500.
 
-*Evidence check:* the neural drop exceeds the tree drop by more than 0.05 AUC on D3 only. D1: both drop (+0.291 / +0.267). D2: neither drops (+0.002 / +0.014). D5: temporal_gap scores higher than grouped_random for both (-0.118 / -0.285), and grouped_random P(attack) 0.831 vs XGBoost 0.705. "Break neural backbones more than trees" is therefore supported on D3, with one backbone; grouped_random D1 is 0.812 / 0.815, not ~0.98 (the claim names D2/D3 only).
+*Evidence check:* **holds** (5/5 sub-claims verified against the JSON):
+
+- ✓ D1: both drop similarly (0.29, 0.27) — +0.291 / +0.267
+- ✓ D2: neither drops (change ≤ 0.05) — +0.002 / +0.014
+- ✓ D5: both rise under temporal_gap — -0.118 / -0.285
+- ✓ D3: only the neural backbone degrades — P(attack) 0.66 (seed std 0.20), XGBoost 0.98 — P(attack) 0.664 (sd 0.202), XGBoost 0.978
+- ✓ transfer: 67% of 108 off-diagonal cells in 0.3–0.6 AUC — 66.7% of 108
 
 ## C6. Pre-registered negative results and release
 
@@ -127,7 +171,13 @@ Zero-shot transfer, all 108 off-diagonal (detector × source × target) mean AUC
 - G3 (STOP): D5 natural novelty B − S = 0.191; D3 LOACO B − S = 0.269 (needs ≤ 0.05); criterion (b) on D3_loaco (A5.2).
 - Release: 6 dated, hashed amendments (`docs/AMENDMENTS.json`); splits, file hashes and checklist in `release/`; every final-run number from one code commit.
 
-*Evidence check:* gate outcomes as recorded; the G3 verdict stands although A6.2 records a flaw in its S definition.
+*Evidence check:* **holds** (3/3 sub-claims verified against the JSON):
+
+- ✓ P1, G1, G2, G3 are all negative (STOP) as recorded — STOP ×4
+- ✓ G1: adaptive-equilibrium collapse not reproduced (criterion (a) fails on every dataset) — criterion (a) 0/3
+- ✓ release package present (splits manifest, checklist) and amendments dated and hashed — 6 amendments
+
+Note: the G3 verdict stands as recorded although A6.2 records a flaw in its S definition.
 
 # Appendix: results by evaluation (R1–R7)
 
