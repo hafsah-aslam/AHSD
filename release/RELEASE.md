@@ -24,4 +24,4 @@ python scripts/report_final.py      # tables, figures, summaries from JSON
 python scripts/make_release.py
 ```
 
-Release commit: `74d2876a69efa5e8b034ee4d1c3512dd5dca1fbf`. Final-run code commit: `e6421ea9c81ee7c9e238205eb913905dc67163a1`.
+Release commit: `dfc3fb8a4a014d6db83a548fadc6b313c03f3bea`. Final-run code commit: `e6421ea9c81ee7c9e238205eb913905dc67163a1`.
