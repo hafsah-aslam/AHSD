@@ -140,7 +140,7 @@ def fig_pipeline():
             ("Purged block LOACO", f"D5: {len(F['d5_purged_block']['feasible'])} feasible fold"),
             ("In-distribution & transfer", "4 datasets × 2 splits; 9 zero-shot pairs"),
             ("Metrics", "AUC · seed std · t-CI · class×seed bootstrap"),
-            ("Outputs (C1–C6)", "feasibility · family ranking · stability ·\nscore validity · shift · negative results")]
+            ("Findings (C1–C5)", "seed instability · score inversion ·\nranking flips · supervised ref. · prereg.")]
     y = 31.6
     for i, (h, b) in enumerate(outs):
         hh = 6.0 if i == len(outs) - 1 else 4.3

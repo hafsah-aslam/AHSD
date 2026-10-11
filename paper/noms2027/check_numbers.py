@@ -37,11 +37,21 @@ checks = {
     "D2 LOACO ben-repr gap 0.17": round(CS["loaco_D2"]["families"]["representation"]["mean"] - CS["loaco_D2"]["families"]["benign-only"]["mean"], 2) == 0.17,
     "160 runs 4.27 h 96 s": (len(w), round(sum(w) / 3600, 2), round(sum(w) / len(w))) == (160, 4.27, 96),
     "contribution checks hold": all(S["contribution_checks"].values()),
+    "C2: LOACO D2 MSP 0.163 / P(attack) 0.999": (round(np.mean([v["mean"] for v in CS["loaco_D2"]["cells"]["MSP"].values()]), 3),
+        round(np.mean([v["mean"] for v in CS["loaco_D2"]["cells"]["P_attack"].values()]), 3)) == (0.163, 0.999),
+    "C2: in-dist MSP 0.075-0.394, P(attack) 0.812-0.999": (round(min(au(d, "grouped_random", "MSP")["mean"] for d in ("D1", "D2", "D3")), 3),
+        round(max(au(d, "grouped_random", "MSP")["mean"] for d in ("D1", "D2", "D3")), 3),
+        round(min(au(d, "grouped_random", "P_attack")["mean"] for d in ("D1", "D2", "D3")), 3),
+        round(max(au(d, "grouped_random", "P_attack")["mean"] for d in ("D1", "D2", "D3")), 3)) == (0.075, 0.394, 0.812, 0.999),
+    "C1: repr LOACO <=0.019, NN 0.074-0.215": (round(max(pooled(lo, d) for d in ("AHSD_stress", "Mahalanobis", "kNN")), 3) <= 0.019
+        and (round(min(pooled(nn, d) for d in ("AHSD_stress", "Mahalanobis", "kNN")), 3), round(max(pooled(nn, d) for d in ("AHSD_stress", "Mahalanobis", "kNN")), 3)) == (0.074, 0.215)),
+    "C1: kNN D3 NN std 0.33-0.40 on 4 of 5": sum(0.325 <= v["std"] <= 0.405 for v in CS["nn_D3"]["cells"]["kNN"].values()) == 4,
+    "C4: CLAD > benign on loaco_D2, D5pb, nn_D1 only (CI>0)": sorted(e for e in CS if CS[e]["clad_vs"]["benign-only"]["ci95"][0] > 0) == ["loaco_D2", "loaco_D5pb", "nn_D1"],
 }
 for k, v in checks.items():
     print(("OK  " if v else "FAIL"), k)
 for q in ["1.7", "17$\\times$", "0.018", "0.074", "four of seven", "five of seven", "0.27--0.29", "0.014", "0.664", "0.202", "0.978", "0.876",
-          "0.832", "0.073", "0.205", "4.27", "96\\,s", "+0.376", "0.522 [0.402, 0.647]", "0.623 [0.562, 0.692]", "0.372", "0.997--1.000"]:
+          "0.832", "0.073", "0.205", "4.27", "96\\,s", "0.163", "0.075", "0.394", "0.812--0.999", "0.33--0.40", "0.074--0.215", "+0.376", "0.522 [0.402, 0.647]", "0.623 [0.562, 0.692]", "0.372", "0.997--1.000"]:
     if q not in tex:
         print("NOT IN TEXT:", q)
 sys.exit(0 if all(checks.values()) else 1)
