@@ -865,3 +865,93 @@ the report.
 - `NEGATIVE_RESULTS.md` reports P1, G1, G2 and G3 with their own recorded JSON
   numbers and code commits, as historical records.
 - No number from those runs enters the final-run tables.
+
+## AMENDMENT_07 (2026-10-11, after AMENDMENT_06's final run and external review, before any count or run it governs)
+
+- **Supersedes:** RESEARCH_QUESTIONS.md with SHA-256
+  `d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc`
+  (AMENDMENT_06, commit e6421ea).
+- **New SHA-256:** recorded in `docs/AMENDMENTS.json`.
+- **Context:** review of the AMENDMENT_06 paper draft raised four weaknesses that data can address:
+  - few natural-novelty classes, with D3 carrying most of the evidence;
+  - one neural backbone;
+  - AUC-only reporting for zero-day evaluations;
+  - a deterministic XGBoost, which makes the stability comparison asymmetric.
+- A per-dataset breakdown of AMENDMENT_06's seed-variability result has already been seen (the
+  increase holds on D3, partly on D5, not on D1). It is reported as such and is not re-tested
+  as a hypothesis.
+
+### A7.1 Status
+- Descriptive extension of the AMENDMENT_06 benchmark. No new hypotheses, no gates.
+- Every result is reported whatever it shows.
+- The final run is repeated in full, so that every number in the paper again comes from one
+  code commit.
+
+### A7.2 Rolling temporal cut-points (more natural-novelty classes)
+- **Datasets:** D1, D2, D3, D5. D4 is excluded: too few benign windows.
+- **Cut fractions:** f ∈ {0.30, 0.45, 0.60, 0.75}, fixed here.
+- **Split for each cut**, using the dataset's 1-hour groups in time order:
+  - TRAIN = groups whose cumulative window count before the group is < f × total windows (the
+    temporal_gap mechanics);
+  - GAP = the next group, discarded;
+  - TEST = every later group.
+- **Natural-novelty classes:** the frozen A4.3 rule, unchanged.
+  - A class qualifies if it is the majority class of ≥ 20 TEST windows and of no TRAIN window.
+  - Train and validation exclude every window holding any flow of those classes.
+- **Sets:** train-tail validation (A3.2) and the P1c/P1d package mechanics, with no re-anchoring
+  pool.
+  - train: 1:1, cap 14,000, from the first 80% of the TRAIN period;
+  - val: 5:1, cap 3,000, from the last 20%;
+  - test: 2,500 benign plus up to 500 windows per class.
+- **Cleaner:** refitted on each cut's TRAIN rows only, then restricted to the dataset's frozen
+  feature list. The run fails closed if a frozen feature is dropped.
+- **Feasibility:** a cut is feasible if it has ≥ 1 natural-novelty class and its train-tail
+  validation holds attack windows. Feasibility is counted from data only, before any model
+  run, and recorded.
+- **Unit of analysis:** one (dataset, cut, class) triple.
+  - A class may recur at several cuts. Results are reported per cut, pooled over cuts, and per
+    unique (dataset, class), the last as the mean over that class's cuts.
+- The AMENDMENT_06 natural-novelty evaluations (nn_D1, nn_D3, nn_D5) are kept unchanged as the
+  primary natural-novelty results.
+
+### A7.3 Second backbone
+- **GRU backbone:**
+  - embedding Linear → LayerNorm (D = 128);
+  - a single-layer GRU (hidden 128);
+  - MLP head (Linear(2D, D) – GELU – Linear(D, 2)) on [last state, mean state].
+- **Training:** identical to AHSD (AMENDMENT_06): same seeds, epochs and optimiser;
+  checkpoints best by validation macro-F1, plus final epoch.
+- **Detectors from it (labelled GRU-):**
+  - classifier-confidence: MSP, energy, P(attack);
+  - representation-distance: Mahalanobis and kNN on the penultimate layer, same settings as AHSD.
+- **Scope:** every evaluation of the final run.
+
+### A7.4 Seeded XGBoost variant
+- **XGBoost-s:** the AMENDMENT_06 parameters with subsample = 0.8 and colsample_bytree = 0.8,
+  random_state = seed.
+- Reported as a sensitivity analysis for the stability comparison. The deterministic XGBoost
+  stays the supervised reference.
+
+### A7.5 Operational metrics
+- For every detector × class × evaluation we report, alongside AUC:
+  - TPR at 1% FPR;
+  - TPR at 0.1% FPR;
+  - PR-AUC (average precision on the 5:1 test sets).
+- The FPR thresholds are computed on each test set's benign windows; this is descriptive, not
+  deployment calibration.
+- **Caveat:** 0.1% of 2,500 benign windows is 2.5 windows, so TPR at 0.1% FPR is coarse. It is
+  reported with that caveat.
+
+### Operational choices added by the implementer
+- **Code:**
+  - `scripts/rolling_build.py` builds the rolling packages and the feasibility count;
+  - `scripts/final_run.py`, extended (GRU, XGBoost-s, per-class metrics, rolling evaluations),
+    writes to `results/final_v2/`;
+  - `scripts/report_final.py` reads `results/final_v2/`.
+- **Families:**
+  - The AMENDMENT_06 families are unchanged and computed from the AHSD backbone.
+  - GRU scores form two parallel families, GRU-confidence and GRU-representation, reported side
+    by side as a backbone replication and never pooled with AHSD's.
+- **Statistics:** as AMENDMENT_06.
+  - Pooled rolling results use the class × seed bootstrap over (dataset, cut, class) units.
+  - Per-dataset results are always shown next to pooled ones.
