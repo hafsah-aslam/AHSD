@@ -264,8 +264,42 @@ def numbers():
     (OUT / "numbers.json").write_text(json.dumps(out, indent=1))
 
 
+# ---------------------------------------------------------------- compact transfer (main text)
+def t_transfer_compact():
+    rows = []
+    for d in DETS:
+        diag = [T[d][s][s]["mean"] for s in TRANSFER_TARGETS]
+        off = [(T[d][s][t]["mean"], s, t) for s in TRANSFER_TARGETS for t in T[d][s] if t != s]
+        best = max(off)
+        rows.append(f"{DETN[d]} & {np.mean(diag):.3f} & {np.mean([o[0] for o in off]):.3f} & {min(off)[0]:.3f} & "
+                    f"{best[0]:.3f} ({best[1]}$\\rightarrow${best[2]}) \\\\")
+    write("transfer_compact", "\\begin{table}[t]\n\\centering\\scriptsize\\setlength{\\tabcolsep}{3pt}\n"
+          "\\caption{Zero-shot transfer AUC. In-domain: mean over the three source test sets. Cross: the nine "
+          "source$\\rightarrow$target pairs (D1--D3 to every other NetFlow-v3 dataset incl.\\ D4).}\\label{tab:transfer}\n"
+          "\\begin{tabular}{lcccc}\n\\toprule\nDetector & In-domain & Cross mean & Cross min & Cross max (pair) \\\\\n\\midrule\n"
+          + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+
+# ---------------------------------------------------------------- compact negative results (main text)
+def t_negative_compact():
+    g = json.loads((ROOT / "results/p1/gate.json").read_text())
+    b = json.loads((ROOT / "results/p1b/summary.json").read_text())
+    c = json.loads((ROOT / "results/p1c/summary.json").read_text())
+    d = json.loads((ROOT / "results/p1d/summary.json").read_text())
+    G, dp = d["gate"]["stats"], c["gate"]["detectors_passing"]
+    rho = " / ".join(f"{v['rho_gamma_dprime']:.2f}" for v in b["g1"]["datasets"].values())
+    rows = [f"P1 & Spectral model predicts per-class detectability & $\\rho\\geq0.6$ & $\\rho={g['primary_oriented']['rho_S2']:.3f}$ \\\\",
+            f"G1 & Adaptive equilibrium absorbs persistent attacks & $\\rho(\\gamma,d')\\leq-0.8$ & {rho} \\\\",
+            f"G2 & Benign drift inverts scores; re-anchoring fixes it & $\\geq$5/9 detectors & {dp['a']}, {dp['b']}, {dp['c']} of 9 \\\\",
+            f"G3 & Benign-only beat supervised only under NN & $B-S\\geq0.15$ / $\\leq0.05$ & {G['D5_nn']['B_minus_S']:+.3f} / {G['D3_loaco']['B_minus_S']:+.3f} \\\\"]
+    write("negative_compact", "\\begin{table}[t]\n\\centering\\scriptsize\\setlength{\\tabcolsep}{2pt}\n"
+          "\\caption{Pre-registered confirmatory gates, evaluated as frozen. All four returned STOP.}\\label{tab:negative}\n"
+          "\\begin{tabular}{lp{3.3cm}p{1.75cm}p{1.75cm}}\n\\toprule\nGate & Hypothesis & Frozen rule & Observed \\\\\n\\midrule\n"
+          + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+
 if __name__ == "__main__":
     for f in (t_datasets, t_feasibility, t_families, t_seedstd, t_confidence, t_temporal, t_transfer, t_perclass,
-              t_checkpoint, t_negative, numbers):
+              t_checkpoint, t_negative, t_transfer_compact, t_negative_compact, numbers):
         f()
     print("tables:", sorted(p.name for p in OUT.glob("*")))
