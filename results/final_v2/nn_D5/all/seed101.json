@@ -1,0 +1,739 @@
+{
+  "eval_id": "nn_D5",
+  "kind": "natural_novelty",
+  "dataset": "D5",
+  "seed": 101,
+  "unit": "all",
+  "classes": [
+    "ddos",
+    "portscan"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "ddos": 0.0625812,
+        "portscan": 0.07883799999999999
+      },
+      "Energy": {
+        "ddos": 0.0517784,
+        "portscan": 0.04894080000000002
+      },
+      "P_attack": {
+        "ddos": 0.995936,
+        "portscan": 0.076628
+      },
+      "Mahalanobis": {
+        "ddos": 0.9922512,
+        "portscan": 0.9781255999999999
+      },
+      "kNN": {
+        "ddos": 0.9913768,
+        "portscan": 0.9531183999999999
+      },
+      "AHSD_stress": {
+        "ddos": 0.9879743999999999,
+        "portscan": 0.9744143999999999
+      },
+      "GRU_MSP": {
+        "ddos": 0.2479932,
+        "portscan": 0.9926143999999999
+      },
+      "GRU_Energy": {
+        "ddos": 0.3618968,
+        "portscan": 0.9927096000000001
+      },
+      "GRU_P_attack": {
+        "ddos": 0.999788,
+        "portscan": 0.9911032000000001
+      },
+      "GRU_Mahalanobis": {
+        "ddos": 0.9992159999999999,
+        "portscan": 0.989356
+      },
+      "GRU_kNN": {
+        "ddos": 0.9907416,
+        "portscan": 0.9926672000000001
+      },
+      "IF": {
+        "ddos": 0.82064,
+        "portscan": 0.9872512000000001
+      },
+      "OCSVM": {
+        "ddos": 0.49241759999999996,
+        "portscan": 0.9761944
+      },
+      "PCA": {
+        "ddos": 0.8636495999999999,
+        "portscan": 0.810948
+      },
+      "AE": {
+        "ddos": 0.8312535999999998,
+        "portscan": 0.597612
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.9854664,
+        "portscan": 0.9017540000000001
+      },
+      "XGBoost": {
+        "ddos": 0.9963056,
+        "portscan": 0.9392543999999999
+      },
+      "XGBoost_s": {
+        "ddos": 0.997824,
+        "portscan": 0.8749935999999998
+      }
+    },
+    "final": {
+      "MSP": {
+        "ddos": 0.03440120000000002,
+        "portscan": 0.9708619999999999
+      },
+      "Energy": {
+        "ddos": 0.026576799999999998,
+        "portscan": 0.8980296
+      },
+      "P_attack": {
+        "ddos": 0.9988416,
+        "portscan": 0.9844111999999999
+      },
+      "Mahalanobis": {
+        "ddos": 0.9963536,
+        "portscan": 0.989552
+      },
+      "kNN": {
+        "ddos": 0.9977264,
+        "portscan": 0.9912864000000001
+      },
+      "AHSD_stress": {
+        "ddos": 0.9951824,
+        "portscan": 0.9863895999999999
+      },
+      "GRU_MSP": {
+        "ddos": 0.47292,
+        "portscan": 0.9848144000000001
+      },
+      "GRU_Energy": {
+        "ddos": 0.5806399999999999,
+        "portscan": 0.9854456
+      },
+      "GRU_P_attack": {
+        "ddos": 0.999772,
+        "portscan": 0.9861712000000001
+      },
+      "GRU_Mahalanobis": {
+        "ddos": 0.9995824,
+        "portscan": 0.9812936
+      },
+      "GRU_kNN": {
+        "ddos": 0.9985767999999999,
+        "portscan": 0.9813064
+      },
+      "Wilkie_CLAD": {
+        "ddos": 0.9915784,
+        "portscan": 0.5057024
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "ddos": {
+          "pr_auc": 0.13009580604263526,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.0924811598771616,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "ddos": {
+          "pr_auc": 0.09485149821362139,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.09029964691568368,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "ddos": {
+          "pr_auc": 0.9885047548360721,
+          "tpr_at_1pct_fpr": 0.958,
+          "tpr_at_0.1pct_fpr": 0.878
+        },
+        "portscan": {
+          "pr_auc": 0.09219714314794464,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Mahalanobis": {
+        "ddos": {
+          "pr_auc": 0.9836761109415803,
+          "tpr_at_1pct_fpr": 0.942,
+          "tpr_at_0.1pct_fpr": 0.914
+        },
+        "portscan": {
+          "pr_auc": 0.8328014505834351,
+          "tpr_at_1pct_fpr": 0.894,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "kNN": {
+        "ddos": {
+          "pr_auc": 0.9716958341651654,
+          "tpr_at_1pct_fpr": 0.96,
+          "tpr_at_0.1pct_fpr": 0.77
+        },
+        "portscan": {
+          "pr_auc": 0.6399585187379203,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AHSD_stress": {
+        "ddos": {
+          "pr_auc": 0.9723355444080792,
+          "tpr_at_1pct_fpr": 0.922,
+          "tpr_at_0.1pct_fpr": 0.892
+        },
+        "portscan": {
+          "pr_auc": 0.8653395344937397,
+          "tpr_at_1pct_fpr": 0.92,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_MSP": {
+        "ddos": {
+          "pr_auc": 0.11207256883771331,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.9687403099141816,
+          "tpr_at_1pct_fpr": 0.95,
+          "tpr_at_0.1pct_fpr": 0.122
+        }
+      },
+      "GRU_Energy": {
+        "ddos": {
+          "pr_auc": 0.13090248000287955,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.9470011324632932,
+          "tpr_at_1pct_fpr": 0.954,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "ddos": {
+          "pr_auc": 0.9990974044480494,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.974
+        },
+        "portscan": {
+          "pr_auc": 0.9240860014802208,
+          "tpr_at_1pct_fpr": 0.978,
+          "tpr_at_0.1pct_fpr": 0.02
+        }
+      },
+      "GRU_Mahalanobis": {
+        "ddos": {
+          "pr_auc": 0.9979444438933993,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.984
+        },
+        "portscan": {
+          "pr_auc": 0.9001641940418692,
+          "tpr_at_1pct_fpr": 0.952,
+          "tpr_at_0.1pct_fpr": 0.03
+        }
+      },
+      "GRU_kNN": {
+        "ddos": {
+          "pr_auc": 0.8666530656317802,
+          "tpr_at_1pct_fpr": 0.948,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "portscan": {
+          "pr_auc": 0.9370267173147369,
+          "tpr_at_1pct_fpr": 0.966,
+          "tpr_at_0.1pct_fpr": 0.014
+        }
+      },
+      "IF": {
+        "ddos": {
+          "pr_auc": 0.34083128187405465,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.9107987477773183,
+          "tpr_at_1pct_fpr": 0.928,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "OCSVM": {
+        "ddos": {
+          "pr_auc": 0.1497044985015902,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.7751244842918187,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "ddos": {
+          "pr_auc": 0.3866729026462081,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.3097524257488181,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "ddos": {
+          "pr_auc": 0.34468883639579495,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.17979315676988145,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "ddos": {
+          "pr_auc": 0.9760226188270683,
+          "tpr_at_1pct_fpr": 0.944,
+          "tpr_at_0.1pct_fpr": 0.936
+        },
+        "portscan": {
+          "pr_auc": 0.46177922396614585,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "XGBoost": {
+        "ddos": {
+          "pr_auc": 0.9918164953728357,
+          "tpr_at_1pct_fpr": 0.97,
+          "tpr_at_0.1pct_fpr": 0.928
+        },
+        "portscan": {
+          "pr_auc": 0.5912353276456063,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "XGBoost_s": {
+        "ddos": {
+          "pr_auc": 0.9936615730910685,
+          "tpr_at_1pct_fpr": 0.976,
+          "tpr_at_0.1pct_fpr": 0.95
+        },
+        "portscan": {
+          "pr_auc": 0.40971408734150544,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "ddos": {
+          "pr_auc": 0.15679373042181977,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.8068395986459826,
+          "tpr_at_1pct_fpr": 0.136,
+          "tpr_at_0.1pct_fpr": 0.018
+        }
+      },
+      "Energy": {
+        "ddos": {
+          "pr_auc": 0.09008127808060024,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.4814181736161569,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "ddos": {
+          "pr_auc": 0.9964839272632541,
+          "tpr_at_1pct_fpr": 0.99,
+          "tpr_at_0.1pct_fpr": 0.98
+        },
+        "portscan": {
+          "pr_auc": 0.9387383426647654,
+          "tpr_at_1pct_fpr": 0.936,
+          "tpr_at_0.1pct_fpr": 0.034
+        }
+      },
+      "Mahalanobis": {
+        "ddos": {
+          "pr_auc": 0.9924759642533383,
+          "tpr_at_1pct_fpr": 0.98,
+          "tpr_at_0.1pct_fpr": 0.958
+        },
+        "portscan": {
+          "pr_auc": 0.9708375880306155,
+          "tpr_at_1pct_fpr": 0.952,
+          "tpr_at_0.1pct_fpr": 0.892
+        }
+      },
+      "kNN": {
+        "ddos": {
+          "pr_auc": 0.995128298460738,
+          "tpr_at_1pct_fpr": 0.986,
+          "tpr_at_0.1pct_fpr": 0.952
+        },
+        "portscan": {
+          "pr_auc": 0.9487383135279726,
+          "tpr_at_1pct_fpr": 0.954,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AHSD_stress": {
+        "ddos": {
+          "pr_auc": 0.9884251941264679,
+          "tpr_at_1pct_fpr": 0.968,
+          "tpr_at_0.1pct_fpr": 0.946
+        },
+        "portscan": {
+          "pr_auc": 0.9632945991303683,
+          "tpr_at_1pct_fpr": 0.948,
+          "tpr_at_0.1pct_fpr": 0.908
+        }
+      },
+      "GRU_MSP": {
+        "ddos": {
+          "pr_auc": 0.15344365038116592,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.8556579270368714,
+          "tpr_at_1pct_fpr": 0.926,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "ddos": {
+          "pr_auc": 0.1888659189276809,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.8600867385011537,
+          "tpr_at_1pct_fpr": 0.928,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "GRU_P_attack": {
+        "ddos": {
+          "pr_auc": 0.998664726046185,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.952
+        },
+        "portscan": {
+          "pr_auc": 0.8671673182393569,
+          "tpr_at_1pct_fpr": 0.934,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "GRU_Mahalanobis": {
+        "ddos": {
+          "pr_auc": 0.9974969688224178,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.982
+        },
+        "portscan": {
+          "pr_auc": 0.8248462839495115,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.016
+        }
+      },
+      "GRU_kNN": {
+        "ddos": {
+          "pr_auc": 0.9711641266195971,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.03
+        },
+        "portscan": {
+          "pr_auc": 0.82561461814104,
+          "tpr_at_1pct_fpr": 0.078,
+          "tpr_at_0.1pct_fpr": 0.012
+        }
+      },
+      "Wilkie_CLAD": {
+        "ddos": {
+          "pr_auc": 0.9786995403181327,
+          "tpr_at_1pct_fpr": 0.948,
+          "tpr_at_0.1pct_fpr": 0.604
+        },
+        "portscan": {
+          "pr_auc": 0.1550650059392175,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.5205673758865248,
+      "final_val_macro_f1": 0.45454545454545453,
+      "best_epoch": 1,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.2549111620358058,
+          "val_macro_f1": 0.5205673758865248,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.09661276747499194,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.05506442334396498,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.0396219418581043,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.03094790616312197,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.024496219451938358,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.020698372270379746,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.015959195090191704,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.013789616487920285,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011231299815433367,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009411855438990252,
+          "val_macro_f1": 0.4507042253521127,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008593036719730923,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.007448178479181868,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.006878583996423653,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.006667531432317836,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 48.20543909072876
+    },
+    "gru": {
+      "best_val_macro_f1": 0.48993963782696176,
+      "final_val_macro_f1": 0.48993963782696176,
+      "best_epoch": 5,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.2836912920475006,
+          "val_macro_f1": 0.45263157894736844
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.07633975351708276,
+          "val_macro_f1": 0.45454545454545453
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.03825716197064945,
+          "val_macro_f1": 0.45263157894736844
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.025579006989087376,
+          "val_macro_f1": 0.48677957840867553
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.019911852114966936,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.01701575592160225,
+          "val_macro_f1": 0.45454545454545453
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01662943623108523,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.012936878802520889,
+          "val_macro_f1": 0.45454545454545453
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.01176424834690988,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.01069931754044124,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009827274891946998,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008865964227489063,
+          "val_macro_f1": 0.45263157894736844
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.008632430658808777,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.00819710489748312,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.008032468230197471,
+          "val_macro_f1": 0.48993963782696176
+        }
+      ],
+      "seconds": 37.709694623947144
+    },
+    "benign_only_seconds": 27.540690183639526,
+    "clad": {
+      "best_val_auroc": 0.7698224852071005,
+      "final_val_auroc": 0.7405325443786983,
+      "best_epoch": 1
+    },
+    "clad_seconds": 6.10476279258728,
+    "xgb_seconds": 40.78312587738037,
+    "xgbs_seconds": 37.87028694152832
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/ddos": 500,
+    "test/portscan": 500
+  },
+  "wall_seconds": 201.56388521194458,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "f33564f1fef04bfeccc02ee2739803c5608db6daf9051b14cb2cca264ebc2140",
+      "row_id.npy": "1b066b6b005326782a0f911b17a66e00f30b1cb137333cadd961a387f984303f",
+      "windows.npz": "5fc6521f4af2bcdaef7c32346de46bd598015418db228078329bd3f72c7bd8a5",
+      "sets.npz": "52c44b0ac63aa3875348b71a28cc9888caf3e730f7fa7459b1868dedf04326b4",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "d7e9e48a4344a3e8a2b5e94cf3948b5d69ae4b7179f11acebd1d732b4a106953"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "nn_D5",
+        "kind": "natural_novelty",
+        "dataset": "D5",
+        "package": "temporal_gap/p1d"
+      }
+    },
+    "timestamp_utc": "2026-10-11T22:10:30+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
