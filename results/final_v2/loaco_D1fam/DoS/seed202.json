@@ -1,0 +1,560 @@
+{
+  "eval_id": "loaco_D1fam",
+  "kind": "loaco",
+  "dataset": "D1",
+  "seed": 202,
+  "unit": "DoS",
+  "classes": [
+    "DoS"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "DoS": 0.3425996
+      },
+      "Energy": {
+        "DoS": 0.22208519999999998
+      },
+      "P_attack": {
+        "DoS": 0.6601144
+      },
+      "Mahalanobis": {
+        "DoS": 0.9638608
+      },
+      "kNN": {
+        "DoS": 0.9167255999999999
+      },
+      "AHSD_stress": {
+        "DoS": 0.9480455999999999
+      },
+      "GRU_MSP": {
+        "DoS": 0.14987040000000001
+      },
+      "GRU_Energy": {
+        "DoS": 0.15750560000000005
+      },
+      "GRU_P_attack": {
+        "DoS": 0.9030824
+      },
+      "GRU_Mahalanobis": {
+        "DoS": 0.9621120000000001
+      },
+      "GRU_kNN": {
+        "DoS": 0.9243751999999998
+      },
+      "IF": {
+        "DoS": 0.860928
+      },
+      "OCSVM": {
+        "DoS": 0.7970576
+      },
+      "PCA": {
+        "DoS": 0.9048191999999999
+      },
+      "AE": {
+        "DoS": 0.8587728000000001
+      },
+      "Wilkie_CLAD": {
+        "DoS": 0.9391240000000001
+      },
+      "XGBoost": {
+        "DoS": 0.8335191999999999
+      },
+      "XGBoost_s": {
+        "DoS": 0.8986879999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "DoS": 0.1340684
+      },
+      "Energy": {
+        "DoS": 0.10239680000000001
+      },
+      "P_attack": {
+        "DoS": 0.9171543999999998
+      },
+      "Mahalanobis": {
+        "DoS": 0.9530480000000001
+      },
+      "kNN": {
+        "DoS": 0.915836
+      },
+      "AHSD_stress": {
+        "DoS": 0.9381784
+      },
+      "GRU_MSP": {
+        "DoS": 0.16486679999999998
+      },
+      "GRU_Energy": {
+        "DoS": 0.1932424
+      },
+      "GRU_P_attack": {
+        "DoS": 0.9086647999999999
+      },
+      "GRU_Mahalanobis": {
+        "DoS": 0.9488000000000001
+      },
+      "GRU_kNN": {
+        "DoS": 0.906624
+      },
+      "Wilkie_CLAD": {
+        "DoS": 0.9389344000000001
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "DoS": {
+          "pr_auc": 0.17958896032472707,
+          "tpr_at_1pct_fpr": 0.038,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "Energy": {
+        "DoS": {
+          "pr_auc": 0.10483987563686144,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "P_attack": {
+        "DoS": {
+          "pr_auc": 0.5761911944209175,
+          "tpr_at_1pct_fpr": 0.424,
+          "tpr_at_0.1pct_fpr": 0.09
+        }
+      },
+      "Mahalanobis": {
+        "DoS": {
+          "pr_auc": 0.9377227844135316,
+          "tpr_at_1pct_fpr": 0.88,
+          "tpr_at_0.1pct_fpr": 0.59
+        }
+      },
+      "kNN": {
+        "DoS": {
+          "pr_auc": 0.873596880381164,
+          "tpr_at_1pct_fpr": 0.794,
+          "tpr_at_0.1pct_fpr": 0.172
+        }
+      },
+      "AHSD_stress": {
+        "DoS": {
+          "pr_auc": 0.8884481793724271,
+          "tpr_at_1pct_fpr": 0.83,
+          "tpr_at_0.1pct_fpr": 0.018
+        }
+      },
+      "GRU_MSP": {
+        "DoS": {
+          "pr_auc": 0.11070494535868611,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "GRU_Energy": {
+        "DoS": {
+          "pr_auc": 0.10940023521129842,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "GRU_P_attack": {
+        "DoS": {
+          "pr_auc": 0.84191476531437,
+          "tpr_at_1pct_fpr": 0.808,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Mahalanobis": {
+        "DoS": {
+          "pr_auc": 0.9386361492663168,
+          "tpr_at_1pct_fpr": 0.878,
+          "tpr_at_0.1pct_fpr": 0.56
+        }
+      },
+      "GRU_kNN": {
+        "DoS": {
+          "pr_auc": 0.8448202890583119,
+          "tpr_at_1pct_fpr": 0.818,
+          "tpr_at_0.1pct_fpr": 0.012
+        }
+      },
+      "IF": {
+        "DoS": {
+          "pr_auc": 0.7806296687498648,
+          "tpr_at_1pct_fpr": 0.604,
+          "tpr_at_0.1pct_fpr": 0.542
+        }
+      },
+      "OCSVM": {
+        "DoS": {
+          "pr_auc": 0.7451420042734536,
+          "tpr_at_1pct_fpr": 0.608,
+          "tpr_at_0.1pct_fpr": 0.542
+        }
+      },
+      "PCA": {
+        "DoS": {
+          "pr_auc": 0.8234090626995547,
+          "tpr_at_1pct_fpr": 0.61,
+          "tpr_at_0.1pct_fpr": 0.496
+        }
+      },
+      "AE": {
+        "DoS": {
+          "pr_auc": 0.7665239488273707,
+          "tpr_at_1pct_fpr": 0.59,
+          "tpr_at_0.1pct_fpr": 0.444
+        }
+      },
+      "Wilkie_CLAD": {
+        "DoS": {
+          "pr_auc": 0.8912958106140018,
+          "tpr_at_1pct_fpr": 0.854,
+          "tpr_at_0.1pct_fpr": 0.03
+        }
+      },
+      "XGBoost": {
+        "DoS": {
+          "pr_auc": 0.6464966641664242,
+          "tpr_at_1pct_fpr": 0.348,
+          "tpr_at_0.1pct_fpr": 0.024
+        }
+      },
+      "XGBoost_s": {
+        "DoS": {
+          "pr_auc": 0.7924821468606469,
+          "tpr_at_1pct_fpr": 0.586,
+          "tpr_at_0.1pct_fpr": 0.028
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "DoS": {
+          "pr_auc": 0.10611949158478802,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "DoS": {
+          "pr_auc": 0.09181690399088996,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "DoS": {
+          "pr_auc": 0.8911563158044559,
+          "tpr_at_1pct_fpr": 0.816,
+          "tpr_at_0.1pct_fpr": 0.724
+        }
+      },
+      "Mahalanobis": {
+        "DoS": {
+          "pr_auc": 0.9329323479581954,
+          "tpr_at_1pct_fpr": 0.886,
+          "tpr_at_0.1pct_fpr": 0.76
+        }
+      },
+      "kNN": {
+        "DoS": {
+          "pr_auc": 0.8614497196210148,
+          "tpr_at_1pct_fpr": 0.844,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AHSD_stress": {
+        "DoS": {
+          "pr_auc": 0.876120871317859,
+          "tpr_at_1pct_fpr": 0.83,
+          "tpr_at_0.1pct_fpr": 0.012
+        }
+      },
+      "GRU_MSP": {
+        "DoS": {
+          "pr_auc": 0.09819010323264907,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "DoS": {
+          "pr_auc": 0.10900056894190635,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "GRU_P_attack": {
+        "DoS": {
+          "pr_auc": 0.8589607868534815,
+          "tpr_at_1pct_fpr": 0.8,
+          "tpr_at_0.1pct_fpr": 0.048
+        }
+      },
+      "GRU_Mahalanobis": {
+        "DoS": {
+          "pr_auc": 0.9042877208905544,
+          "tpr_at_1pct_fpr": 0.832,
+          "tpr_at_0.1pct_fpr": 0.054
+        }
+      },
+      "GRU_kNN": {
+        "DoS": {
+          "pr_auc": 0.8112276795659852,
+          "tpr_at_1pct_fpr": 0.746,
+          "tpr_at_0.1pct_fpr": 0.02
+        }
+      },
+      "Wilkie_CLAD": {
+        "DoS": {
+          "pr_auc": 0.8912460898333607,
+          "tpr_at_1pct_fpr": 0.854,
+          "tpr_at_0.1pct_fpr": 0.03
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9645079104810631,
+      "final_val_macro_f1": 0.8981048418559606,
+      "best_epoch": 3,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.3886558325631278,
+          "val_macro_f1": 0.9335593379956189,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.27634401980468204,
+          "val_macro_f1": 0.9485223041416666,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.25880075808933806,
+          "val_macro_f1": 0.9645079104810631,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.24469397180421013,
+          "val_macro_f1": 0.9443099809153069,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.23164870657239642,
+          "val_macro_f1": 0.9591094319079478,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.2222805872644697,
+          "val_macro_f1": 0.9463427197802198,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.21231307681969233,
+          "val_macro_f1": 0.9365600286663308,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.2001736968415124,
+          "val_macro_f1": 0.9301062712003757,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.1892728067125593,
+          "val_macro_f1": 0.920496947082768,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.1775943991797311,
+          "val_macro_f1": 0.9187339776649146,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.16688811157430922,
+          "val_macro_f1": 0.8995484463493035,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.15931479913847787,
+          "val_macro_f1": 0.8995484463493035,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.1514074475680079,
+          "val_macro_f1": 0.8947583058718287,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.14733663575989858,
+          "val_macro_f1": 0.9018298291265905,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.1457087335416249,
+          "val_macro_f1": 0.8981048418559606,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 92.65805244445801
+    },
+    "gru": {
+      "best_val_macro_f1": 0.9638130866189993,
+      "final_val_macro_f1": 0.9114333227451934,
+      "best_epoch": 4,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.3922984890597207,
+          "val_macro_f1": 0.946727898966705
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.27379217067786626,
+          "val_macro_f1": 0.9606381124287972
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.2534834110736847,
+          "val_macro_f1": 0.9623991480427729
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.2442767047711781,
+          "val_macro_f1": 0.9638130866189993
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.23628048937661308,
+          "val_macro_f1": 0.9478417161953869
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.22557724867548262,
+          "val_macro_f1": 0.9611000894697942
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.2186671496289117,
+          "val_macro_f1": 0.9416671527737268
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.2104159485271999,
+          "val_macro_f1": 0.9497606052969866
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.20239621249267034,
+          "val_macro_f1": 0.9065882505172607
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.19516134778090885,
+          "val_macro_f1": 0.9413017377254917
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.18795450053896223,
+          "val_macro_f1": 0.9025890645893538
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.1838050535406385,
+          "val_macro_f1": 0.9168249538717983
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.17854908306258066,
+          "val_macro_f1": 0.9003079804104264
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.17651748226370131,
+          "val_macro_f1": 0.9145616873104867
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.17520781808240074,
+          "val_macro_f1": 0.9114333227451934
+        }
+      ],
+      "seconds": 45.526222705841064
+    },
+    "benign_only_seconds": 16.600406408309937,
+    "clad": {
+      "best_val_auroc": 0.9333776,
+      "final_val_auroc": 0.9333471999999999,
+      "best_epoch": 14
+    },
+    "clad_seconds": 4.7304463386535645,
+    "xgb_seconds": 20.61047387123108,
+    "xgbs_seconds": 19.27094602584839
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/DoS": 500
+  },
+  "wall_seconds": 202.6050808429718,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-11T17:25:13+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "classes": [
+    "Benign",
+    "Bot",
+    "BruteForce",
+    "DDoS",
+    "DoS",
+    "Infiltration",
+    "Web Attacks"
+  ],
+  "feasible": [
+    "Bot",
+    "BruteForce",
+    "DDoS",
+    "DoS",
+    "Infiltration",
+    "Web Attacks"
+  ],
+  "fold_info": {
+    "Bot": {
+      "class_index": 1,
+      "train_windows_majority": 53828,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 177902,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 65530,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 8377,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    },
+    "BruteForce": {
+      "class_index": 2,
+      "train_windows_majority": 64958,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 166772,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 78661,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 1372,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    },
+    "DDoS": {
+      "class_index": 3,
+      "train_windows_majority": 56915,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 174815,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 29742,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 912,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    },
+    "DoS": {
+      "class_index": 4,
+      "train_windows_majority": 12273,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 219457,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 67220,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 13260,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    },
+    "Infiltration": {
+      "class_index": 5,
+      "train_windows_majority": 42012,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 189718,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 74788,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 19647,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    },
+    "Web Attacks": {
+      "class_index": 6,
+      "train_windows_majority": 1744,
+      "train": {
+        "benign": 7000,
+        "attack": 7000,
+        "available_benign": 528671,
+        "available_attack": 229986,
+        "target_ratio": 1,
+        "cap": 14000
+      },
+      "val": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 175020,
+        "available_attack": 77364,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "test": {
+        "benign": 2500,
+        "attack": 500,
+        "available_benign": 196792,
+        "available_attack": 738,
+        "target_ratio": 5,
+        "cap": 3000
+      },
+      "eligible": true,
+      "feasible": true
+    }
+  },
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {},
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-11T16:09:16+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

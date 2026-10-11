@@ -1,0 +1,560 @@
+{
+  "eval_id": "loaco_D1fam",
+  "kind": "loaco",
+  "dataset": "D1",
+  "seed": 17,
+  "unit": "Infiltration",
+  "classes": [
+    "Infiltration"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Infiltration": 0.4900492
+      },
+      "Energy": {
+        "Infiltration": 0.5048632000000001
+      },
+      "P_attack": {
+        "Infiltration": 0.5289132
+      },
+      "Mahalanobis": {
+        "Infiltration": 0.5453064
+      },
+      "kNN": {
+        "Infiltration": 0.575908
+      },
+      "AHSD_stress": {
+        "Infiltration": 0.6128836
+      },
+      "GRU_MSP": {
+        "Infiltration": 0.5387836
+      },
+      "GRU_Energy": {
+        "Infiltration": 0.535564
+      },
+      "GRU_P_attack": {
+        "Infiltration": 0.5695312
+      },
+      "GRU_Mahalanobis": {
+        "Infiltration": 0.552968
+      },
+      "GRU_kNN": {
+        "Infiltration": 0.5827112
+      },
+      "IF": {
+        "Infiltration": 0.5154472
+      },
+      "OCSVM": {
+        "Infiltration": 0.46673280000000006
+      },
+      "PCA": {
+        "Infiltration": 0.5193608
+      },
+      "AE": {
+        "Infiltration": 0.4843328
+      },
+      "Wilkie_CLAD": {
+        "Infiltration": 0.5193996
+      },
+      "XGBoost": {
+        "Infiltration": 0.54288
+      },
+      "XGBoost_s": {
+        "Infiltration": 0.5392744
+      }
+    },
+    "final": {
+      "MSP": {
+        "Infiltration": 0.47028839999999994
+      },
+      "Energy": {
+        "Infiltration": 0.4815496
+      },
+      "P_attack": {
+        "Infiltration": 0.5105824
+      },
+      "Mahalanobis": {
+        "Infiltration": 0.5606351999999999
+      },
+      "kNN": {
+        "Infiltration": 0.5735248
+      },
+      "AHSD_stress": {
+        "Infiltration": 0.6006816
+      },
+      "GRU_MSP": {
+        "Infiltration": 0.5404868
+      },
+      "GRU_Energy": {
+        "Infiltration": 0.5376984
+      },
+      "GRU_P_attack": {
+        "Infiltration": 0.568244
+      },
+      "GRU_Mahalanobis": {
+        "Infiltration": 0.5564648
+      },
+      "GRU_kNN": {
+        "Infiltration": 0.5809216
+      },
+      "Wilkie_CLAD": {
+        "Infiltration": 0.5195792
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "Infiltration": {
+          "pr_auc": 0.17307233780851625,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "Energy": {
+        "Infiltration": {
+          "pr_auc": 0.17566734617607166,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "P_attack": {
+        "Infiltration": {
+          "pr_auc": 0.23393747515489816,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.05
+        }
+      },
+      "Mahalanobis": {
+        "Infiltration": {
+          "pr_auc": 0.24664337437798195,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.036
+        }
+      },
+      "kNN": {
+        "Infiltration": {
+          "pr_auc": 0.2467610072385279,
+          "tpr_at_1pct_fpr": 0.058,
+          "tpr_at_0.1pct_fpr": 0.048
+        }
+      },
+      "AHSD_stress": {
+        "Infiltration": {
+          "pr_auc": 0.26986037344016217,
+          "tpr_at_1pct_fpr": 0.058,
+          "tpr_at_0.1pct_fpr": 0.036
+        }
+      },
+      "GRU_MSP": {
+        "Infiltration": {
+          "pr_auc": 0.20723467295372372,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.012
+        }
+      },
+      "GRU_Energy": {
+        "Infiltration": {
+          "pr_auc": 0.20448342935789654,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "GRU_P_attack": {
+        "Infiltration": {
+          "pr_auc": 0.26303224772294836,
+          "tpr_at_1pct_fpr": 0.068,
+          "tpr_at_0.1pct_fpr": 0.046
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Infiltration": {
+          "pr_auc": 0.2403383642755072,
+          "tpr_at_1pct_fpr": 0.056,
+          "tpr_at_0.1pct_fpr": 0.044
+        }
+      },
+      "GRU_kNN": {
+        "Infiltration": {
+          "pr_auc": 0.25859019742331374,
+          "tpr_at_1pct_fpr": 0.07,
+          "tpr_at_0.1pct_fpr": 0.056
+        }
+      },
+      "IF": {
+        "Infiltration": {
+          "pr_auc": 0.17235271805582514,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "OCSVM": {
+        "Infiltration": {
+          "pr_auc": 0.15418405037238408,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "Infiltration": {
+          "pr_auc": 0.18421488141243156,
+          "tpr_at_1pct_fpr": 0.024,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "AE": {
+        "Infiltration": {
+          "pr_auc": 0.1620513898551987,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "Infiltration": {
+          "pr_auc": 0.22328963104120814,
+          "tpr_at_1pct_fpr": 0.048,
+          "tpr_at_0.1pct_fpr": 0.038
+        }
+      },
+      "XGBoost": {
+        "Infiltration": {
+          "pr_auc": 0.2267175584885127,
+          "tpr_at_1pct_fpr": 0.048,
+          "tpr_at_0.1pct_fpr": 0.042
+        }
+      },
+      "XGBoost_s": {
+        "Infiltration": {
+          "pr_auc": 0.22538200929673574,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.04
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "Infiltration": {
+          "pr_auc": 0.1684251818946953,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "Energy": {
+        "Infiltration": {
+          "pr_auc": 0.1698388947031157,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "P_attack": {
+        "Infiltration": {
+          "pr_auc": 0.23027370316604723,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.042
+        }
+      },
+      "Mahalanobis": {
+        "Infiltration": {
+          "pr_auc": 0.25860884849294324,
+          "tpr_at_1pct_fpr": 0.068,
+          "tpr_at_0.1pct_fpr": 0.036
+        }
+      },
+      "kNN": {
+        "Infiltration": {
+          "pr_auc": 0.24613220773370942,
+          "tpr_at_1pct_fpr": 0.064,
+          "tpr_at_0.1pct_fpr": 0.044
+        }
+      },
+      "AHSD_stress": {
+        "Infiltration": {
+          "pr_auc": 0.2674638857764152,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.036
+        }
+      },
+      "GRU_MSP": {
+        "Infiltration": {
+          "pr_auc": 0.20415624149927028,
+          "tpr_at_1pct_fpr": 0.024,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "GRU_Energy": {
+        "Infiltration": {
+          "pr_auc": 0.19973583952176027,
+          "tpr_at_1pct_fpr": 0.022,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "GRU_P_attack": {
+        "Infiltration": {
+          "pr_auc": 0.2678882878607207,
+          "tpr_at_1pct_fpr": 0.072,
+          "tpr_at_0.1pct_fpr": 0.058
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Infiltration": {
+          "pr_auc": 0.24782584880844294,
+          "tpr_at_1pct_fpr": 0.068,
+          "tpr_at_0.1pct_fpr": 0.054
+        }
+      },
+      "GRU_kNN": {
+        "Infiltration": {
+          "pr_auc": 0.26384201712358896,
+          "tpr_at_1pct_fpr": 0.072,
+          "tpr_at_0.1pct_fpr": 0.058
+        }
+      },
+      "Wilkie_CLAD": {
+        "Infiltration": {
+          "pr_auc": 0.2232678121920217,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.038
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9933947144505033,
+      "final_val_macro_f1": 0.9916,
+      "best_epoch": 7,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.2609200922165598,
+          "val_macro_f1": 0.9715489421755454,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.08075136897819382,
+          "val_macro_f1": 0.988535687499736,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.048504747424806864,
+          "val_macro_f1": 0.9915730066549171,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.03534250785623278,
+          "val_macro_f1": 0.9898244031164461,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.028177119731903077,
+          "val_macro_f1": 0.9898244031164461,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.022492553131920952,
+          "val_macro_f1": 0.986320052483416,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.020029506696122034,
+          "val_macro_f1": 0.9933947144505033,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.015380844306466836,
+          "val_macro_f1": 0.9916134118317985,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.010912038062832185,
+          "val_macro_f1": 0.9904,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.009756980007248265,
+          "val_macro_f1": 0.9928,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.006947701277477401,
+          "val_macro_f1": 0.9933841099552907,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.005466543627636773,
+          "val_macro_f1": 0.9904153278077699,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.004346486371276634,
+          "val_macro_f1": 0.9904153278077699,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.0039142853106771194,
+          "val_macro_f1": 0.9916,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.003704652624736939,
+          "val_macro_f1": 0.9916,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 136.53246808052063
+    },
+    "gru": {
+      "best_val_macro_f1": 0.9957966364685021,
+      "final_val_macro_f1": 0.9910500321104959,
+      "best_epoch": 9,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.26956031586442675,
+          "val_macro_f1": 0.9800882993416469
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.06474945750832557,
+          "val_macro_f1": 0.9845721867382518
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.03579379266340818,
+          "val_macro_f1": 0.9945869990543287
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.026333715619785446,
+          "val_macro_f1": 0.9910641930499677
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.022929558119603566,
+          "val_macro_f1": 0.9863630299766295
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.020590221924441203,
+          "val_macro_f1": 0.99164006748456
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01881294936793191,
+          "val_macro_f1": 0.994009579879856
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.015335294170305132,
+          "val_macro_f1": 0.9928229436138553
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.01321177356397467,
+          "val_macro_f1": 0.9957966364685021
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011441551864147186,
+          "val_macro_f1": 0.9934157902518181
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.01002961267637355,
+          "val_macro_f1": 0.9916267675494977
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.00904920496259417,
+          "val_macro_f1": 0.9934157902518181
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.008166881958288805,
+          "val_macro_f1": 0.9898727521232966
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.007839057132069553,
+          "val_macro_f1": 0.99164006748456
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.00765018948353827,
+          "val_macro_f1": 0.9910500321104959
+        }
+      ],
+      "seconds": 43.83109402656555
+    },
+    "benign_only_seconds": 16.556060075759888,
+    "clad": {
+      "best_val_auroc": 0.9657416,
+      "final_val_auroc": 0.96568,
+      "best_epoch": 14
+    },
+    "clad_seconds": 5.342926502227783,
+    "xgb_seconds": 22.019784450531006,
+    "xgbs_seconds": 19.6728732585907
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Infiltration": 500
+  },
+  "wall_seconds": 247.79037261009216,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "7ae5564901f68e3aacc5256f1250d1804b0ca6985b4fbb4429f8a17b41d2893e",
+      "row_id.npy": "e788a0cb401fc49daeee2710be123757fd31cd05c6922aa75f1a2402c60c8174",
+      "windows.npz": "d728f2b47258e29ca1e405875e42bdca064e4cdd2ff3ec926f9ab0668b2ed9a9",
+      "sets.npz": "a3b913264fc997b21644f05574fae58ffd67e83cd424937ddeaa3104e4d146fe",
+      "loaco.npz": "1181b7c206a6a83463d055f22c4cd7165cd789819f36f005bc1ec4722a7130c5",
+      "cleaner.json": "5637e9b50d4e8f279085c40a73c2b847716000a61edd4b2b191534cdcc065ab4",
+      "loaco_family.npz": "3b0a6306fd8b5205ab443f957c79f0279d7beeead317776492da5bd5587e57b5",
+      "windows_family.npz": "98e0d9d5ec36f0b1c0b86faaadb885a76a6dc0fc54d5f4d76669576e41e34763"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D1fam",
+        "kind": "loaco",
+        "dataset": "D1",
+        "scheme": "grouped_random",
+        "labelling": "family"
+      }
+    },
+    "timestamp_utc": "2026-10-11T17:29:21+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
