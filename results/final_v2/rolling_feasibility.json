@@ -1,0 +1,1458 @@
+{
+  "rule": {
+    "cuts": [
+      0.3,
+      0.45,
+      0.6,
+      0.75
+    ],
+    "min_test_windows": 20,
+    "train_windows": 0,
+    "validation": "train-tail (A3.2), must hold benign and attack windows"
+  },
+  "datasets": {
+    "D1": {
+      "f030": {
+        "cut": 0.3,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            37,
+            38,
+            39
+          ],
+          "gap_group": 40,
+          "test_groups": [
+            41,
+            144
+          ],
+          "windows": {
+            "train": 398820,
+            "gap": 10836,
+            "test": 845524
+          }
+        },
+        "natural_novelty": [
+          "Bot",
+          "Brute_Force_-Web",
+          "Brute_Force_-XSS",
+          "DDOS_attack-HOIC",
+          "DDOS_attack-LOIC-UDP",
+          "Infilteration",
+          "SQL_Injection"
+        ],
+        "test_windows": {
+          "Bot": 75336,
+          "Brute_Force_-Web": 2867,
+          "Brute_Force_-XSS": 589,
+          "DDOS_attack-HOIC": 74872,
+          "DDOS_attack-LOIC-UDP": 2342,
+          "Infilteration": 65532,
+          "SQL_Injection": 323
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 225034,
+          "attack": 103304
+        },
+        "tail": {
+          "benign": 41991,
+          "attack": 28491
+        },
+        "test_benign": 622626,
+        "feasible": true
+      },
+      "f045": {
+        "cut": 0.45,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55
+          ],
+          "gap_group": 56,
+          "test_groups": [
+            57,
+            144
+          ],
+          "windows": {
+            "train": 608508,
+            "gap": 11536,
+            "test": 635136
+          }
+        },
+        "natural_novelty": [
+          "Bot",
+          "Brute_Force_-Web",
+          "Brute_Force_-XSS",
+          "Infilteration",
+          "SQL_Injection"
+        ],
+        "test_windows": {
+          "Bot": 75336,
+          "Brute_Force_-Web": 2867,
+          "Brute_Force_-XSS": 589,
+          "Infilteration": 65532,
+          "SQL_Injection": 323
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 354102,
+          "attack": 134144
+        },
+        "tail": {
+          "benign": 44356,
+          "attack": 75906
+        },
+        "test_benign": 490489,
+        "feasible": true
+      },
+      "f060": {
+        "cut": 0.6,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71
+          ],
+          "gap_group": 72,
+          "test_groups": [
+            73,
+            144
+          ],
+          "windows": {
+            "train": 759179,
+            "gap": 604,
+            "test": 495397
+          }
+        },
+        "natural_novelty": [
+          "Bot",
+          "Infilteration"
+        ],
+        "test_windows": {
+          "Bot": 75336,
+          "Infilteration": 65532
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 398458,
+          "attack": 210050
+        },
+        "tail": {
+          "benign": 146904,
+          "attack": 3767
+        },
+        "test_benign": 354529,
+        "feasible": true
+      },
+      "f075": {
+        "cut": 0.75,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            91,
+            92,
+            93,
+            95,
+            97,
+            98,
+            99,
+            100,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            110,
+            111,
+            112,
+            113,
+            114
+          ],
+          "gap_group": 115,
+          "test_groups": [
+            116,
+            144
+          ],
+          "windows": {
+            "train": 941809,
+            "gap": 11048,
+            "test": 302323
+          }
+        },
+        "natural_novelty": [
+          "Bot"
+        ],
+        "test_windows": {
+          "Bot": 75336
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 545362,
+          "attack": 213817
+        },
+        "tail": {
+          "benign": 164133,
+          "attack": 18497
+        },
+        "test_benign": 181488,
+        "feasible": true
+      }
+    },
+    "D2": {
+      "f030": {
+        "cut": 0.3,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "gap_group": 8,
+          "test_groups": [
+            9,
+            25
+          ],
+          "windows": {
+            "train": 44481,
+            "gap": 5623,
+            "test": 97697
+          }
+        },
+        "natural_novelty": [],
+        "test_windows": {},
+        "below_threshold": {},
+        "head": {
+          "benign": 29076,
+          "attack": 11015
+        },
+        "tail": {
+          "benign": 4390,
+          "attack": 0
+        },
+        "test_benign": 25937,
+        "feasible": false
+      },
+      "f045": {
+        "cut": 0.45,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "gap_group": 12,
+          "test_groups": [
+            13,
+            25
+          ],
+          "windows": {
+            "train": 67138,
+            "gap": 3803,
+            "test": 76860
+          }
+        },
+        "natural_novelty": [],
+        "test_windows": {},
+        "below_threshold": {},
+        "head": {
+          "benign": 45054,
+          "attack": 11015
+        },
+        "tail": {
+          "benign": 11069,
+          "attack": 0
+        },
+        "test_benign": 5100,
+        "feasible": false
+      },
+      "f060": {
+        "cut": 0.6,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "gap_group": 17,
+          "test_groups": [
+            18,
+            25
+          ],
+          "windows": {
+            "train": 91678,
+            "gap": 6433,
+            "test": 49690
+          }
+        },
+        "natural_novelty": [],
+        "test_windows": {},
+        "below_threshold": {},
+        "head": {
+          "benign": 60487,
+          "attack": 18262
+        },
+        "tail": {
+          "benign": 776,
+          "attack": 12153
+        },
+        "test_benign": 3424,
+        "feasible": false
+      },
+      "f075": {
+        "cut": 0.75,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "gap_group": 21,
+          "test_groups": [
+            22,
+            25
+          ],
+          "windows": {
+            "train": 117395,
+            "gap": 6372,
+            "test": 24034
+          }
+        },
+        "natural_novelty": [],
+        "test_windows": {},
+        "below_threshold": {},
+        "head": {
+          "benign": 61602,
+          "attack": 36509
+        },
+        "tail": {
+          "benign": 1147,
+          "attack": 18137
+        },
+        "test_benign": 1763,
+        "feasible": false
+      }
+    },
+    "D3": {
+      "f030": {
+        "cut": 0.3,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "gap_group": 13,
+          "test_groups": [
+            14,
+            104
+          ],
+          "windows": {
+            "train": 489549,
+            "gap": 14408,
+            "test": 1049234
+          }
+        },
+        "natural_novelty": [
+          "Backdoor",
+          "ddos",
+          "dos",
+          "injection",
+          "mitm",
+          "password",
+          "ransomware",
+          "xss"
+        ],
+        "test_windows": {
+          "Backdoor": 25542,
+          "ddos": 444775,
+          "dos": 19759,
+          "injection": 29207,
+          "mitm": 3141,
+          "password": 109807,
+          "ransomware": 757,
+          "xss": 197682
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 303296,
+          "attack": 186253
+        },
+        "tail": {
+          "benign": 0,
+          "attack": 0
+        },
+        "test_benign": 183419,
+        "feasible": false
+      },
+      "f045": {
+        "cut": 0.45,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ],
+          "gap_group": 36,
+          "test_groups": [
+            37,
+            104
+          ],
+          "windows": {
+            "train": 713518,
+            "gap": 31719,
+            "test": 807954
+          }
+        },
+        "natural_novelty": [
+          "Backdoor",
+          "mitm",
+          "password",
+          "ransomware",
+          "xss"
+        ],
+        "test_windows": {
+          "Backdoor": 25542,
+          "mitm": 3141,
+          "password": 109807,
+          "ransomware": 757,
+          "xss": 197682
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 363953,
+          "attack": 228318
+        },
+        "tail": {
+          "benign": 6533,
+          "attack": 114714
+        },
+        "test_benign": 119284,
+        "feasible": true
+      },
+      "f060": {
+        "cut": 0.6,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "gap_group": 41,
+          "test_groups": [
+            42,
+            104
+          ],
+          "windows": {
+            "train": 935369,
+            "gap": 47354,
+            "test": 570468
+          }
+        },
+        "natural_novelty": [
+          "Backdoor",
+          "mitm",
+          "password",
+          "ransomware",
+          "xss"
+        ],
+        "test_windows": {
+          "Backdoor": 25542,
+          "mitm": 3141,
+          "password": 109807,
+          "ransomware": 757,
+          "xss": 197682
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 383087,
+          "attack": 405683
+        },
+        "tail": {
+          "benign": 26627,
+          "attack": 119972
+        },
+        "test_benign": 75817,
+        "feasible": true
+      },
+      "f075": {
+        "cut": 0.75,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46
+          ],
+          "gap_group": 47,
+          "test_groups": [
+            48,
+            104
+          ],
+          "windows": {
+            "train": 1172920,
+            "gap": 2204,
+            "test": 378067
+          }
+        },
+        "natural_novelty": [
+          "Backdoor",
+          "mitm",
+          "password",
+          "ransomware",
+          "xss"
+        ],
+        "test_windows": {
+          "Backdoor": 25542,
+          "mitm": 3141,
+          "password": 107718,
+          "ransomware": 757,
+          "xss": 197682
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 418386,
+          "attack": 564337
+        },
+        "tail": {
+          "benign": 32475,
+          "attack": 157722
+        },
+        "test_benign": 43227,
+        "feasible": true
+      }
+    },
+    "D5": {
+      "f030": {
+        "cut": 0.3,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "gap_group": 15,
+          "test_groups": [
+            16,
+            41
+          ],
+          "windows": {
+            "train": 34671,
+            "gap": 3057,
+            "test": 77055
+          }
+        },
+        "natural_novelty": [
+          "bot",
+          "ddos",
+          "dos_goldeneye",
+          "dos_hulk",
+          "dos_slowhttptest",
+          "dos_slowloris",
+          "heartbleed",
+          "portscan",
+          "ssh_patator",
+          "webattack_bruteforce",
+          "webattack_sql_injection",
+          "webattack_xss"
+        ],
+        "test_windows": {
+          "bot": 628,
+          "ddos": 6639,
+          "dos_goldeneye": 565,
+          "dos_hulk": 10164,
+          "dos_slowhttptest": 681,
+          "dos_slowloris": 959,
+          "heartbleed": 22,
+          "portscan": 10279,
+          "ssh_patator": 266,
+          "webattack_bruteforce": 908,
+          "webattack_sql_injection": 23,
+          "webattack_xss": 330
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 27760,
+          "attack": 1902
+        },
+        "tail": {
+          "benign": 5009,
+          "attack": 0
+        },
+        "test_benign": 45591,
+        "feasible": false
+      },
+      "f045": {
+        "cut": 0.45,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "gap_group": 22,
+          "test_groups": [
+            23,
+            41
+          ],
+          "windows": {
+            "train": 57000,
+            "gap": 5308,
+            "test": 52475
+          }
+        },
+        "natural_novelty": [
+          "bot",
+          "ddos",
+          "heartbleed",
+          "portscan",
+          "webattack_bruteforce",
+          "webattack_sql_injection",
+          "webattack_xss"
+        ],
+        "test_windows": {
+          "bot": 628,
+          "ddos": 6639,
+          "heartbleed": 22,
+          "portscan": 10279,
+          "webattack_bruteforce": 908,
+          "webattack_sql_injection": 23,
+          "webattack_xss": 330
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 42190,
+          "attack": 3762
+        },
+        "tail": {
+          "benign": 2078,
+          "attack": 8970
+        },
+        "test_benign": 33642,
+        "feasible": true
+      },
+      "f060": {
+        "cut": 0.6,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26
+          ],
+          "gap_group": 27,
+          "test_groups": [
+            28,
+            41
+          ],
+          "windows": {
+            "train": 71516,
+            "gap": 2084,
+            "test": 41183
+          }
+        },
+        "natural_novelty": [
+          "bot",
+          "ddos",
+          "portscan",
+          "webattack_bruteforce",
+          "webattack_sql_injection",
+          "webattack_xss"
+        ],
+        "test_windows": {
+          "bot": 628,
+          "ddos": 6639,
+          "portscan": 10279,
+          "webattack_bruteforce": 908,
+          "webattack_sql_injection": 23,
+          "webattack_xss": 330
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 46545,
+          "attack": 15763
+        },
+        "tail": {
+          "benign": 9182,
+          "attack": 26
+        },
+        "test_benign": 22376,
+        "feasible": true
+      },
+      "f075": {
+        "cut": 0.75,
+        "split": {
+          "train_groups": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34
+          ],
+          "gap_group": 35,
+          "test_groups": [
+            36,
+            41
+          ],
+          "windows": {
+            "train": 86559,
+            "gap": 2449,
+            "test": 25775
+          }
+        },
+        "natural_novelty": [
+          "ddos",
+          "portscan"
+        ],
+        "test_windows": {
+          "ddos": 6639,
+          "portscan": 10279
+        },
+        "below_threshold": {},
+        "head": {
+          "benign": 55727,
+          "attack": 15789
+        },
+        "tail": {
+          "benign": 13174,
+          "attack": 1869
+        },
+        "test_benign": 8857,
+        "feasible": true
+      }
+    }
+  },
+  "units": [
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "Bot"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "Brute_Force_-Web"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "Brute_Force_-XSS"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "DDOS_attack-HOIC"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "DDOS_attack-LOIC-UDP"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "Infilteration"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f030",
+      "class": "SQL_Injection"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f045",
+      "class": "Bot"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f045",
+      "class": "Brute_Force_-Web"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f045",
+      "class": "Brute_Force_-XSS"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f045",
+      "class": "Infilteration"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f045",
+      "class": "SQL_Injection"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f060",
+      "class": "Bot"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f060",
+      "class": "Infilteration"
+    },
+    {
+      "dataset": "D1",
+      "cut": "f075",
+      "class": "Bot"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f045",
+      "class": "Backdoor"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f045",
+      "class": "mitm"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f045",
+      "class": "password"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f045",
+      "class": "ransomware"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f045",
+      "class": "xss"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f060",
+      "class": "Backdoor"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f060",
+      "class": "mitm"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f060",
+      "class": "password"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f060",
+      "class": "ransomware"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f060",
+      "class": "xss"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f075",
+      "class": "Backdoor"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f075",
+      "class": "mitm"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f075",
+      "class": "password"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f075",
+      "class": "ransomware"
+    },
+    {
+      "dataset": "D3",
+      "cut": "f075",
+      "class": "xss"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "bot"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "ddos"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "heartbleed"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "portscan"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "webattack_bruteforce"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "webattack_sql_injection"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f045",
+      "class": "webattack_xss"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "bot"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "ddos"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "portscan"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "webattack_bruteforce"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "webattack_sql_injection"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f060",
+      "class": "webattack_xss"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f075",
+      "class": "ddos"
+    },
+    {
+      "dataset": "D5",
+      "cut": "f075",
+      "class": "portscan"
+    }
+  ],
+  "n_units": 45,
+  "n_unique_classes": 19,
+  "provenance": {
+    "code_commit": "46d6f3b2cbf8cfd51669511008dceb76d42dd393",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:00:25+00:00",
+    "results_head": "46d6f3b2cbf8cfd51669511008dceb76d42dd393",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {},
+    "config": {
+      "cuts": [
+        0.3,
+        0.45,
+        0.6,
+        0.75
+      ],
+      "min_test_windows": 20,
+      "train_windows": 0,
+      "validation": "train-tail (A3.2), must hold benign and attack windows"
+    },
+    "timestamp_utc": "2026-10-11T16:00:34+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

@@ -114,15 +114,12 @@ def count(dcfg: dict) -> dict:
     return res
 
 
-def refit_cleaner(ds: str, dcfg: dict, base: Path, wi: WindowIndex, split: np.ndarray, frozen: list[str]) -> Cleaner:
-    ref = Cleaner.from_dict(json.loads((base / "temporal_gap" / "archive" / "cleaner.json").read_text()))
-    parquet = ROOT / dcfg["interim_dir"] / ds / "sorted.parquet"
-    df = pq.read_table(parquet, columns=ref.candidate_features + ["group"]).to_pandas()
+def refit_cleaner(ds: str, ref: Cleaner, df: pd.DataFrame, flow_group: np.ndarray, wi: WindowIndex,
+                  split: np.ndarray, frozen: list[str]) -> Cleaner:
+    """Same procedure as the original temporal_gap cleaner (same candidate columns), on this cut's TRAIN rows."""
     train_groups = np.unique(wi.group[split == splits.TRAIN])
-    rows = np.isin(df["group"].to_numpy(), train_groups)
-    df = df.drop(columns=["group"])
+    rows = np.isin(flow_group, train_groups)
     cl = Cleaner(keep_ttl=ref.keep_ttl).fit(df, ref.corr_sample_rows or 1_000_000, 0, rows=rows)
-    del df
     try:
         cl.restrict(frozen)  # fail closed: ValueError if a frozen feature was dropped on this cut's TRAIN rows
     except ValueError as e:
@@ -139,6 +136,10 @@ def build_all(dcfg: dict):
             frozen = json.loads((base / "own_features.json").read_text())["features"]
         else:
             frozen = json.loads((proc / "common_features.json").read_text())["features"]
+        ref = Cleaner.from_dict(json.loads((base / "temporal_gap" / "archive" / "cleaner.json").read_text()))
+        df = pq.read_table(ROOT / dcfg["interim_dir"] / ds / "sorted.parquet",
+                           columns=ref.candidate_features + ["group"]).to_pandas()
+        flow_group = df.pop("group").to_numpy()
         for f in CUTS:
             r = feas["datasets"][ds][cut_name(f)]
             if not r["feasible"]:
@@ -146,13 +147,14 @@ def build_all(dcfg: dict):
             r2, split = feasibility(ds, wi, classes, f)
             if r2["natural_novelty"] != r["natural_novelty"]:
                 raise SystemExit(f"{ds} {cut_name(f)}: natural-novelty classes differ from the recorded count")
-            cl = refit_cleaner(ds, dcfg, base, wi, split, frozen)
+            cl = refit_cleaner(ds, ref, df, flow_group, wi, split, frozen)
             out_dir = base / "rolling" / cut_name(f)
             out_dir.mkdir(parents=True, exist_ok=True)
             np.save(out_dir / "split.npy", split)
             build(ds, r["natural_novelty"], dcfg, anchors=[], split=split, cleaner=cl, out_dir=out_dir,
                   extra_meta={"rolling": {"cut": f, "split": r["split"], "cleaner_fit_rows": cl.fit_rows,
                                           "cleaner_dropped": cl.dropped}})
+        del df, flow_group
 
 
 def main():
