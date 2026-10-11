@@ -155,3 +155,31 @@ def test_penultimate_split_is_numerically_identical():
     with torch.no_grad():
         ref = m.head[2](out["penultimate"])
     assert torch.equal(ref, out["logits"]) and out["penultimate"].shape == (4, 16)
+
+
+def test_final_run_scores_depend_only_on_seed():
+    """AMENDMENT_07: every final-run score (AHSD, GRU, benign-only, CLAD, XGBoost, XGBoost_s) is a function
+    of the run's seed only, whatever the prior RNG state; XGBoost_s itself changes with the seed."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import final_run as F
+
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(96, 8, 5)).astype(np.float32)
+    y = np.r_[np.zeros(64), np.ones(32)].astype(np.int64)
+    X[y == 1] += 0.5
+    data = {"X": X, "y_bin": y}
+    cfg = {"D": 8, "epochs": 1, "threads": 1}
+    runs = []
+    for burn, seed in ((0, 17), (3, 17), (0, 23)):
+        torch.manual_seed(1234 + burn)
+        np.random.seed(burn)
+        torch.randn(burn * 10)
+        S, _ = F.score_all(5, data, data, {"t": X[:16]}, seed, cfg)
+        runs.append(S)
+    for ck in runs[0]:
+        for d in runs[0][ck]:
+            assert np.allclose(runs[0][ck][d]["t"], runs[1][ck][d]["t"]), (ck, d)
+    assert set(F.GRU_CONF + F.GRU_REPR + [F.XGBS]) <= set(runs[0]["best"])
+    assert not np.allclose(runs[0]["best"][F.XGBS]["t"], runs[2]["best"][F.XGBS]["t"])

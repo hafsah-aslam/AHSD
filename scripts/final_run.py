@@ -1,5 +1,12 @@
 #!/usr/bin/env python
-"""Final benchmark run (AMENDMENT_06). Descriptive only; no gate.
+"""Final benchmark run (AMENDMENT_06, extended by AMENDMENT_07). Descriptive only; no gate.
+
+AMENDMENT_07 additions (results/final_v2/):
+  GRU backbone (A7.3)       GRU_MSP, GRU_Energy, GRU_P_attack, GRU_Mahalanobis, GRU_kNN (best + final checkpoint)
+  XGBoost_s (A7.4)          seeded XGBoost (subsample = colsample_bytree = 0.8, random_state = seed)
+  operational metrics (A7.5) per class: AUC, PR-AUC, TPR at 1% and 0.1% FPR ("ops")
+  rolling cut-points (A7.2) roll_<ds>_f<pct>: natural-novelty packages from scripts/rolling_build.py,
+                             one evaluation per feasible (dataset, cut) in results/final_v2/rolling_feasibility.json
 
 One code commit for every number in the paper. Seeds 17/23/42/101/202. Detectors:
   classifier-confidence  MSP, Energy, P_attack (P_attack added post-G3, A6.2)
@@ -42,6 +49,7 @@ from nids import detectors as det  # noqa: E402
 from nids import metrics  # noqa: E402
 from nids.clad import CLAD  # noqa: E402
 from nids.models.ahsd import AHSD  # noqa: E402
+from nids.models.gru import GRUBackbone  # noqa: E402
 from nids.pipeline import Archive  # noqa: E402
 from nids.preflight import preflight  # noqa: E402
 from nids.provenance import ROOT, provenance, require_clean_tree, write_json  # noqa: E402
@@ -52,10 +60,14 @@ REPR = ["AHSD_stress", "Mahalanobis", "kNN"]
 BEN = ["IF", "OCSVM", "PCA", "AE"]
 CLAD_ = "Wilkie_CLAD"
 XGB = "XGBoost"
-ALL = CONF + REPR + BEN + [CLAD_, XGB]
-CK_DEP = CONF + REPR + [CLAD_]
+XGBS = "XGBoost_s"
+GRU_CONF = ["GRU_MSP", "GRU_Energy", "GRU_P_attack"]
+GRU_REPR = ["GRU_Mahalanobis", "GRU_kNN"]
+ALL = CONF + REPR + BEN + [CLAD_, XGB] + GRU_CONF + GRU_REPR + [XGBS]
+CK_DEP = CONF + REPR + [CLAD_] + GRU_CONF + GRU_REPR
 CFG = {"seeds": [17, 23, 42, 101, 202], "D": 128, "epochs": 15, "threads": 4, "processed_dir": "data/processed"}
 PROC = ROOT / CFG["processed_dir"]
+ROLLING_FEAS = ROOT / "results/final_v2/rolling_feasibility.json"
 TRANSFER_TARGETS = {"D1": ["D2", "D3", "D4"], "D2": ["D1", "D3", "D4"], "D3": ["D1", "D2", "D4"]}
 
 EVALS = (
@@ -70,6 +82,31 @@ EVALS = (
         "transfer_to": TRANSFER_TARGETS.get(ds, []) if sch == "temporal_gap" else []}
        for ds in ("D1", "D2", "D3", "D5") for sch in ("temporal_gap", "grouped_random")]
 )
+
+
+def rolling_evals() -> list[dict]:
+    """One natural-novelty evaluation per feasible (dataset, cut), from the data-only feasibility count."""
+    if not ROLLING_FEAS.exists():
+        return []
+    feas = json.loads(ROLLING_FEAS.read_text())
+    return [{"id": f"roll_{ds}_{cut}", "kind": "natural_novelty", "dataset": ds, "package": f"rolling/{cut}",
+             "cut": r["cut"]}
+            for ds, cuts in feas["datasets"].items() for cut, r in cuts.items() if r["feasible"]]
+
+
+def _backbone_scores(m, Xtrb, eval_sets, prefix=""):
+    """Confidence and representation scores of one trained backbone state."""
+    out = {k: backbone_outputs(m, X) for k, X in eval_sets.items()}
+    pen_tr = backbone_outputs(m, Xtrb)["pen"]
+    maha, knn = det.BenignMahalanobis().fit(pen_tr), det.BenignKNN().fit(pen_tr)
+    S = {f"{prefix}MSP": {k: det.msp_score(v["logits"]) for k, v in out.items()},
+         f"{prefix}Energy": {k: det.energy_score(v["logits"]) for k, v in out.items()},
+         f"{prefix}P_attack": {k: det.p_attack_score(v["logits"]) for k, v in out.items()},
+         f"{prefix}Mahalanobis": {k: maha.score(v["pen"]) for k, v in out.items()},
+         f"{prefix}kNN": {k: knn.score(v["pen"]) for k, v in out.items()}}
+    if not prefix:
+        S["AHSD_stress"] = {k: v["stress"] for k, v in out.items()}
+    return S
 
 
 def score_all(n_features: int, tr: dict, va: dict, eval_sets: dict, seed: int, cfg: dict) -> tuple[dict, dict]:
@@ -87,15 +124,16 @@ def score_all(n_features: int, tr: dict, va: dict, eval_sets: dict, seed: int, c
     for ck in ("best", "final"):
         m.load_state_dict(tinfo["states"][ck])
         m.set_E0(benign_embedding_mean(m, Xtrb))
-        out = {k: backbone_outputs(m, X) for k, X in eval_sets.items()}
-        pen_tr = backbone_outputs(m, Xtrb)["pen"]
-        maha, knn = det.BenignMahalanobis().fit(pen_tr), det.BenignKNN().fit(pen_tr)
-        S[ck]["MSP"] = {k: det.msp_score(v["logits"]) for k, v in out.items()}
-        S[ck]["Energy"] = {k: det.energy_score(v["logits"]) for k, v in out.items()}
-        S[ck]["P_attack"] = {k: det.p_attack_score(v["logits"]) for k, v in out.items()}
-        S[ck]["AHSD_stress"] = {k: v["stress"] for k, v in out.items()}
-        S[ck]["Mahalanobis"] = {k: maha.score(v["pen"]) for k, v in out.items()}
-        S[ck]["kNN"] = {k: knn.score(v["pen"]) for k, v in out.items()}
+        S[ck].update(_backbone_scores(m, Xtrb, eval_sets))
+    set_seed(seed)  # GRU initial weights depend on this seed only
+    g = GRUBackbone(n_features, D=cfg["D"])
+    ginfo = fit(g, tr, va, seed=seed, epochs=cfg["epochs"], log=lambda s: None, keep_states=True)
+    info["gru"] = {"best_val_macro_f1": ginfo["best_val_macro_f1"], "final_val_macro_f1": ginfo["final_val_macro_f1"],
+                   "best_epoch": int(np.argmax([h["val_macro_f1"] for h in ginfo["history"]]) + 1),
+                   "history": ginfo["history"], "seconds": ginfo["seconds"]}
+    for ck in ("best", "final"):
+        g.load_state_dict(ginfo["states"][ck])
+        S[ck].update(_backbone_scores(g, Xtrb, eval_sets, prefix="GRU_"))
     t0 = time.time()
     for name in BEN:
         d = det.BENIGN_ONLY[name](seed).fit(Xtrb)
@@ -113,18 +151,27 @@ def score_all(n_features: int, tr: dict, va: dict, eval_sets: dict, seed: int, c
     x = det.XGB(seed).fit(tr["X"], tr["y_bin"])
     S["best"][XGB] = {k: x.score(X) for k, X in eval_sets.items()}
     info["xgb_seconds"] = time.time() - t0
+    t0 = time.time()
+    x = det.XGBs(seed).fit(tr["X"], tr["y_bin"])
+    S["best"][XGBS] = {k: x.score(X) for k, X in eval_sets.items()}
+    info["xgbs_seconds"] = time.time() - t0
     return S, info
 
 
-def per_class_auc(S: dict, classes: list[str], benign_key: str) -> dict:
-    res = {}
+def per_class_metrics(S: dict, classes: list[str], benign_key: str) -> tuple[dict, dict]:
+    """auc[ck][det][class]; ops[ck][det][class] = PR-AUC and TPR at 1% / 0.1% FPR (A7.5)."""
+    auc, ops = {}, {}
     for ck, by_det in S.items():
-        res[ck] = {}
+        auc[ck], ops[ck] = {}, {}
         for d, sc in by_det.items():
             tb = sc[benign_key]
-            res[ck][d] = {c: metrics.auc(np.r_[np.zeros(len(tb)), np.ones(len(sc[f"test/{c}"]))], np.r_[tb, sc[f"test/{c}"]])
-                          for c in classes}
-    return res
+            auc[ck][d], ops[ck][d] = {}, {}
+            for c in classes:
+                y = np.r_[np.zeros(len(tb)), np.ones(len(sc[f"test/{c}"]))]
+                r = metrics.detection(y, np.r_[tb, sc[f"test/{c}"]])
+                auc[ck][d][c] = r["auc"]
+                ops[ck][d][c] = {k: r[k] for k in ("pr_auc", "tpr_at_1pct_fpr", "tpr_at_0.1pct_fpr")}
+    return auc, ops
 
 
 def binary_metrics(S: dict, y_by_set: dict) -> dict:
@@ -136,7 +183,7 @@ def binary_metrics(S: dict, y_by_set: dict) -> dict:
             res[ck][d] = {}
             for k, y in y_by_set.items():
                 r = metrics.detection(y, sc[k])
-                if d in ("P_attack", XGB):
+                if d in ("P_attack", "GRU_P_attack", XGB, XGBS):
                     r.update(metrics.classification(y, (sc[k] >= 0.5).astype(int)))
                 res[ck][d][k] = r
     return res
@@ -148,7 +195,8 @@ def run_nn(ev, seed, cfg):
     W = {k: arc.windows(v) for k, v in arc.sets.items() if not k.startswith("anchor_")}
     eval_sets = {"test_benign": W["test_benign"]["X"], **{f"test/{c}": W[f"test/{c}"]["X"] for c in classes}}
     S, info = score_all(arc.n_features, W["train"], W["val"], eval_sets, seed, cfg)
-    return {"unit": "all", "classes": classes, "auc": per_class_auc(S, classes, "test_benign"), "info": info,
+    auc, ops = per_class_metrics(S, classes, "test_benign")
+    return {"unit": "all", "classes": classes, "auc": auc, "ops": ops, "info": info,
             "n": {k: int(len(v)) for k, v in eval_sets.items()}}
 
 
@@ -178,7 +226,8 @@ def run_loaco(ev, arc, classes, folds, cls, seed, cfg):
         raise SystemExit(f"{ev['id']}/{cls}: test holds other classes")
     eval_sets = {"test_benign": te["X"][te["y_cls"] == 0], f"test/{cls}": te["X"][te["y_cls"] == c]}
     S, info = score_all(arc.n_features, tr, va, eval_sets, seed, cfg)
-    return {"unit": cls, "classes": [cls], "auc": per_class_auc(S, [cls], "test_benign"), "info": info,
+    auc, ops = per_class_metrics(S, [cls], "test_benign")
+    return {"unit": cls, "classes": [cls], "auc": auc, "ops": ops, "info": info,
             "n": {k: int(len(v)) for k, v in eval_sets.items()}}
 
 
@@ -212,10 +261,10 @@ def main():
     ap.add_argument("--smoke", action="store_true", help="1 seed, 1 epoch, first fold; under smoke_out/")
     a = ap.parse_args()
     cfg = dict(CFG)
-    out_root = ROOT / "results/final"
+    out_root = ROOT / "results/final_v2"
     if a.smoke:
         cfg.update(seeds=[17], epochs=1)
-        out_root = ROOT / "smoke_out/results/final"
+        out_root = ROOT / "smoke_out/results/final_v2"
     else:
         require_clean_tree("final run")
         print(f"preflight: {preflight('final')['summary']}", flush=True)
@@ -225,7 +274,7 @@ def main():
                           "wall_seconds": time.time() - t0, "smoke": a.smoke,
                           "provenance": provenance(config={**cfg, "evaluation": ev}, data_sha256=data_sha)})
 
-    for ev in EVALS:
+    for ev in EVALS + rolling_evals():
         if a.only and ev["id"] not in a.only:
             continue
         if ev["kind"] == "loaco":

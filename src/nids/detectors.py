@@ -153,6 +153,12 @@ class XGB:
         return self.m.predict_proba(_flat(X))[:, 1]
 
 
+class XGBs(XGB):
+    """Seeded XGBoost variant (AMENDMENT_07 A7.4): row and column subsampling, random_state = seed.
+    Sensitivity analysis for the stability comparison; XGB stays the supervised reference."""
+    PARAMS = {**XGB.PARAMS, "subsample": 0.8, "colsample_bytree": 0.8}
+
+
 BENIGN_ONLY = {"IF": IF, "OCSVM": OCSVM, "PCA": PCARecon, "AE": AE}
 DETECTORS = ["AHSD_stress", "MSP", "Energy", "Mahalanobis", "kNN", "IF", "OCSVM", "PCA", "AE"]
 NO_REFERENCE = {"MSP", "Energy"}  # re-anchoring does not apply (A3 operational choices)

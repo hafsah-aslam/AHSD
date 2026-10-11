@@ -34,13 +34,17 @@ CFG = {"head_frac": 0.8, "train_cap": 14000, "val_cap": 3000, "val_ratio": 5, "a
 
 
 def build(ds: str, nn_classes: list[str], dcfg: dict, anchors: list[int] | None = None,
-          out_name: str = "p1c") -> dict:
-    """anchors=None -> CFG anchors (P1c). anchors=[] -> no re-anchoring pool; test pool = whole test period."""
+          out_name: str = "p1c", split: np.ndarray | None = None, cleaner: Cleaner | None = None,
+          out_dir: Path | None = None, extra_meta: dict | None = None) -> dict:
+    """anchors=None -> CFG anchors (P1c). anchors=[] -> no re-anchoring pool; test pool = whole test period.
+    split / cleaner / out_dir (AMENDMENT_07 rolling cut-points): an explicit TRAIN/GAP/TEST split, a cleaner
+    fitted on that split's TRAIN rows (restricted to the frozen feature list), and the package directory.
+    Defaults: the dataset's temporal_gap split, its archive cleaner, <ds>/temporal_gap/<out_name>."""
     anchors = CFG["anchors"] if anchors is None else anchors
     proc = ROOT / dcfg["processed_dir"]
     base = proc / ds
     wi = WindowIndex.from_npz(np.load(base / "windows.npz"))
-    split = np.load(base / "temporal_gap" / "split.npy")
+    split = np.load(base / "temporal_gap" / "split.npy") if split is None else split
     meta = json.loads((base / "index_meta.json").read_text())
     classes = meta["classes"]
     rng = np.random.default_rng(CFG["data_seed"])
@@ -101,7 +105,10 @@ def build(ds: str, nn_classes: list[str], dcfg: dict, anchors: list[int] | None 
         verify._check(k not in set(np.unique(wi.y_cls[np.r_[sets['train'], sets['val']]]).tolist()),
                       f"{ds}: {c} absent from train and val", log)
 
-    cl = Cleaner.from_dict(json.loads((base / "temporal_gap" / "archive" / "cleaner.json").read_text()))
+    if cleaner is None:
+        cl = Cleaner.from_dict(json.loads((base / "temporal_gap" / "archive" / "cleaner.json").read_text()))
+    else:
+        cl = cleaner
     if dcfg["datasets"][ds].get("own_feature_space"):
         common = json.loads((base / "own_features.json").read_text())["features"]
     else:
@@ -109,15 +116,16 @@ def build(ds: str, nn_classes: list[str], dcfg: dict, anchors: list[int] | None 
     if cl.features != common:
         raise SystemExit(f"{ds}: cleaner features differ from its frozen feature list")
     n_rows = meta["flows"]
-    arch = pipeline._write_archive(base / "temporal_gap" / out_name, ROOT / dcfg["interim_dir"] / ds / "sorted.parquet",
+    out_dir = base / "temporal_gap" / out_name if out_dir is None else out_dir
+    arch = pipeline._write_archive(out_dir, ROOT / dcfg["interim_dir"] / ds / "sorted.parquet",
                                    n_rows, cl, wi, split, sets, {}, {})
     info = {"dataset": ds, "classes": classes, "natural_novelty": nn_classes, "cfg": {**CFG, "anchors": anchors},
             "head_groups": [int(x) for x in head_groups], "tail_groups": sorted(int(x) for x in grp(sets["val"])),
             "anchor_groups": anchor_groups.tolist(), "sets": {"train": i_tr, "val": i_va,
                                                               "anchor": {k: int(len(sets[f'anchor_{k}'])) for k in anchors},
                                                               "test_benign": int(len(sets["test_benign"])), "test": test_info},
-            "verification": log, "archive": arch, "provenance": provenance(config=CFG)}
-    write_json(base / "temporal_gap" / out_name / "p1c_meta.json", info)
+            "verification": log, "archive": arch, "provenance": provenance(config=CFG), **(extra_meta or {})}
+    write_json(out_dir / "p1c_meta.json", info)
     print(f"[{ds}] P1c package: {len(log)} checks passed; train {i_tr['benign']}+{i_tr['attack']}, "
           f"val {i_va['benign']}+{i_va['attack']}, test benign {len(sets['test_benign'])}, {test_info}")
     return info

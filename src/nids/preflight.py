@@ -14,6 +14,8 @@ from .provenance import ROOT
 REGRESSION_TESTS = [
     # Model initialisation must depend on the run's own seed only (P1 seeding bug, fixed in ad61131).
     "tests/test_models_theory_metrics.py::test_train_model_initialisation_depends_only_on_seed",
+    # AMENDMENT_07: every final-run score (incl. GRU and XGBoost_s) depends on the run's seed only.
+    "tests/test_models_theory_metrics.py::test_final_run_scores_depend_only_on_seed",
 ]
 
 
