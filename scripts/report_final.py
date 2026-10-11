@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""Final benchmark report (AMENDMENT_06), from results JSON only. Descriptive; no gate.
+"""Final benchmark report (AMENDMENT_06 + AMENDMENT_07), from results JSON only. Descriptive; no gate.
 
-Inputs: results/final/** (one code commit), results/p1d/d5_purged_block_meta.json,
+Inputs: results/final_v2/** (one code commit), results/p1d/d5_purged_block_meta.json,
 data/processed/*/index_meta.json (feasibility), the P1/P1b/P1c/P1d summaries (NEGATIVE_RESULTS.md).
 Outputs:
   report/final/tables/*.tex, report/final/figures/F1..F6 *.pdf
-  results/final/summary.json, RESULTS_SUMMARY.md, NEGATIVE_RESULTS.md
+  results/final_v2/summary.json (AMENDMENT_07 additions under "a7"), RESULTS_SUMMARY.md, NEGATIVE_RESULTS.md
 Fails closed on mixed code commits, a dirty run, smoke runs, a missing seed or class, or an RQ hash
-other than the AMENDMENT_06 hash.
+other than the AMENDMENT_07 hash.
 """
 
 from __future__ import annotations
@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from final_run import BEN, CK_DEP, CLAD_, CONF, EVALS, REPR, TRANSFER_TARGETS, XGB  # noqa: E402
 from nids import metrics  # noqa: E402
 from nids.provenance import ROOT, provenance, write_json  # noqa: E402
+from report_a7 import a7_stats, indist_a7  # noqa: E402
 
 SEEDS = [17, 23, 42, 101, 202]
 DETS = CONF + REPR + BEN + [CLAD_, XGB]
@@ -45,7 +46,8 @@ IND_EVALS = [e["id"] for e in EVALS if e["kind"] == "indist"]
 EVAL_NAME = {"loaco_D1fam": "LOACO D1 (families)", "loaco_D2": "LOACO D2", "loaco_D3": "LOACO D3",
              "loaco_D5pb": "LOACO D5 purged\\_block", "nn_D1": "Natural novelty D1", "nn_D3": "Natural novelty D3",
              "nn_D5": "Natural novelty D5"}
-RES = ROOT / "results/final"
+RES = ROOT / "results/final_v2"
+AMENDMENT = "AMENDMENT_07"
 SHORT = {"loaco_D1fam": "LOACO\nD1 fam", "loaco_D2": "LOACO\nD2", "loaco_D3": "LOACO\nD3", "loaco_D5pb": "D5\npb",
          "nn_D1": "NN\nD1", "nn_D3": "NN\nD3", "nn_D5": "NN\nD5"}
 OUT = ROOT / "report/final"
@@ -76,14 +78,14 @@ def load():
     if not runs:
         raise SystemExit("no final-run results")
     commits = {r["provenance"]["code_commit"] for r in runs}
-    a6 = [a for a in json.loads((ROOT / "docs/AMENDMENTS.json").read_text())["amendments"] if a["id"] == "AMENDMENT_06"][0]
+    a6 = [a for a in json.loads((ROOT / "docs/AMENDMENTS.json").read_text())["amendments"] if a["id"] == AMENDMENT][0]
     if not CHECK_PROVENANCE:
         return runs, sorted(commits)[0], a6
     if len(commits) != 1 or any(r["provenance"]["code_dirty"] for r in runs) or any(r.get("smoke") for r in runs):
         raise SystemExit(f"final run: commits {sorted(commits)}, dirty or smoke runs present")
     rq = {r["provenance"]["rq_sha256"] for r in runs}
     if rq != {a6["new_sha256"]}:
-        raise SystemExit(f"RQ hash in runs {rq} != AMENDMENT_06 {a6['new_sha256']}")
+        raise SystemExit(f"RQ hash in runs {rq} != {AMENDMENT} {a6['new_sha256']}")
     return runs, commits.pop(), a6
 
 
@@ -990,6 +992,8 @@ def main():
          "class_evals": CS, "indist": I, "indist_info": iinfo, "transfer": T, "feasibility": F,
          "caveats": None, "provenance": provenance()}
     S["caveats"] = caveats(F, CS)
+    S["a7"] = a7_stats(runs)
+    S["a7_indist"] = indist_a7(I)
     MD_SUMMARY.write_text(results_summary(S, CS, I, T, F, commit))  # also records S["contribution_checks"]
     write_json(RES / "summary.json", S)
     MD_NEG.write_text(negative_results())
