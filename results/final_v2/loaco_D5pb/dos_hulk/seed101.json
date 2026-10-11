@@ -1,0 +1,558 @@
+{
+  "eval_id": "loaco_D5pb",
+  "kind": "loaco",
+  "dataset": "D5",
+  "seed": 101,
+  "unit": "dos_hulk",
+  "classes": [
+    "dos_hulk"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "dos_hulk": 0.647788
+      },
+      "Energy": {
+        "dos_hulk": 0.2909288
+      },
+      "P_attack": {
+        "dos_hulk": 0.998304
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9994040000000001
+      },
+      "kNN": {
+        "dos_hulk": 0.9922736000000001
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.9991336
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.9032632
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.9192896
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.9994432000000001
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.9997536
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.98666
+      },
+      "IF": {
+        "dos_hulk": 0.9762232
+      },
+      "OCSVM": {
+        "dos_hulk": 0.5063871999999999
+      },
+      "PCA": {
+        "dos_hulk": 0.8913407999999998
+      },
+      "AE": {
+        "dos_hulk": 0.9735368
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.9804239999999999
+      },
+      "XGBoost": {
+        "dos_hulk": 1.0
+      },
+      "XGBoost_s": {
+        "dos_hulk": 0.9999944
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": 0.12136119999999997
+      },
+      "Energy": {
+        "dos_hulk": 0.0425312
+      },
+      "P_attack": {
+        "dos_hulk": 0.9991760000000001
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9999399999999999
+      },
+      "kNN": {
+        "dos_hulk": 0.9998064
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.9993336
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.8996471999999999
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.916
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.999416
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.9997456
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.9864223999999999
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.9752496
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.377684851155899,
+          "tpr_at_1pct_fpr": 0.022,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.11230638144367233,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9902107582173285,
+          "tpr_at_1pct_fpr": 0.984,
+          "tpr_at_0.1pct_fpr": 0.522
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9958361750038585,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.938
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.9682846201162826,
+          "tpr_at_1pct_fpr": 0.844,
+          "tpr_at_0.1pct_fpr": 0.6
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.9967774426150874,
+          "tpr_at_1pct_fpr": 0.986,
+          "tpr_at_0.1pct_fpr": 0.974
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.5344914634342421,
+          "tpr_at_1pct_fpr": 0.032,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.5738244413041221,
+          "tpr_at_1pct_fpr": 0.036,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9959064468060442,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.878
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9984929966729188,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.98
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.861525186917321,
+          "tpr_at_1pct_fpr": 0.204,
+          "tpr_at_0.1pct_fpr": 0.028
+        }
+      },
+      "IF": {
+        "dos_hulk": {
+          "pr_auc": 0.7822644716317165,
+          "tpr_at_1pct_fpr": 0.09,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "OCSVM": {
+        "dos_hulk": {
+          "pr_auc": 0.15239465702385058,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "dos_hulk": {
+          "pr_auc": 0.42946332486424765,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "dos_hulk": {
+          "pr_auc": 0.7621474944324828,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.8499811406225103,
+          "tpr_at_1pct_fpr": 0.626,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "XGBoost": {
+        "dos_hulk": {
+          "pr_auc": 1.0,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 1.0
+        }
+      },
+      "XGBoost_s": {
+        "dos_hulk": {
+          "pr_auc": 0.9999723865877712,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.998
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.13113068794741561,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.08942811803030283,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9975770023597762,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.944
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9996895107877461,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.9989979827400725,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.946
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.9980178350035838,
+          "tpr_at_1pct_fpr": 0.992,
+          "tpr_at_0.1pct_fpr": 0.986
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.5260295364065234,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.563461950093141,
+          "tpr_at_1pct_fpr": 0.036,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9957002555170069,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.876
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9984161918091987,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.98
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.8593064855250481,
+          "tpr_at_1pct_fpr": 0.206,
+          "tpr_at_0.1pct_fpr": 0.028
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.7894874960884986,
+          "tpr_at_1pct_fpr": 0.096,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.8299846364456984,
+      "final_val_macro_f1": 0.7991662631536032,
+      "best_epoch": 6,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.21602181494235992,
+          "val_macro_f1": 0.7162516847556217,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.10677366650956018,
+          "val_macro_f1": 0.7592014477879174,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.08320394196680614,
+          "val_macro_f1": 0.7549625323051533,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.06334846493601799,
+          "val_macro_f1": 0.773787695154091,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.048994648895093376,
+          "val_macro_f1": 0.798415997706422,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.03353976683957236,
+          "val_macro_f1": 0.8299846364456984,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.026432151771017483,
+          "val_macro_f1": 0.7946361788638348,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.0219886606708169,
+          "val_macro_f1": 0.7887477025036969,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.017937586545944215,
+          "val_macro_f1": 0.7753993704400007,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.014541944508041655,
+          "val_macro_f1": 0.8031488293522363,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.011998315843088286,
+          "val_macro_f1": 0.7981834494807318,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.009836553384549916,
+          "val_macro_f1": 0.7999887634136749,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.00894615707493254,
+          "val_macro_f1": 0.7971983097841222,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.008444615787693432,
+          "val_macro_f1": 0.7991662631536032,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.008294713670920049,
+          "val_macro_f1": 0.7991662631536032,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 66.45244669914246
+    },
+    "gru": {
+      "best_val_macro_f1": 0.8077924279297277,
+      "final_val_macro_f1": 0.8077924279297277,
+      "best_epoch": 14,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.212784455537796,
+          "val_macro_f1": 0.6864200893861119
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.08560542094281741,
+          "val_macro_f1": 0.777015317601024
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.05944242944036211,
+          "val_macro_f1": 0.7753993704400007
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.04379874890191215,
+          "val_macro_f1": 0.7764340578525903
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.030161829350250108,
+          "val_macro_f1": 0.7908462422554157
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.022380310556718283,
+          "val_macro_f1": 0.8003032656870137
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.018357754551938603,
+          "val_macro_f1": 0.7986309362382931
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.016350090067301478,
+          "val_macro_f1": 0.8063776910653555
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.014096497767737933,
+          "val_macro_f1": 0.790440137802426
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.01338485543004104,
+          "val_macro_f1": 0.7995366557337764
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.011985077493957112,
+          "val_macro_f1": 0.8071514664523904
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.011268986821839851,
+          "val_macro_f1": 0.8072538562456427
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.010560137055814265,
+          "val_macro_f1": 0.8034285714285714
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.010189932970064026,
+          "val_macro_f1": 0.8077924279297277
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.010072309011061277,
+          "val_macro_f1": 0.8077924279297277
+        }
+      ],
+      "seconds": 39.78026533126831
+    },
+    "benign_only_seconds": 28.17072582244873,
+    "clad": {
+      "best_val_auroc": 0.751992,
+      "final_val_auroc": 0.7412616,
+      "best_epoch": 10
+    },
+    "clad_seconds": 6.347201585769653,
+    "xgb_seconds": 33.538066148757935,
+    "xgbs_seconds": 31.609008312225342
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/dos_hulk": 500
+  },
+  "wall_seconds": 209.04494071006775,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "536b24486958c9a4824cd5d7ea317e4d67888184509bb5c163cacceef2a43db7",
+      "row_id.npy": "cbe1e6bed4466e95c805f0bf91760669c18264b8f326d56d22285c33b340ccbf",
+      "windows.npz": "6b7aa995c52515334e214092425be760201694804a327e175707e3f91df15af3",
+      "sets.npz": "548a64a5c0212f585903caf6cfbdc682d9710801494ab35cb28d91c0bb798600",
+      "loaco.npz": "52893b5a050d670ef779fe0f29075fb050e0c3ef1da01e84b2d5fe994eada2ac",
+      "cleaner.json": "056a6b1824f51b35d3c419eb67bbd11718420ba2f123c9343019b812b3c1286c"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D5pb",
+        "kind": "loaco",
+        "dataset": "D5",
+        "scheme": "purged_block",
+        "labelling": "file"
+      }
+    },
+    "timestamp_utc": "2026-10-11T21:22:05+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

@@ -1,0 +1,558 @@
+{
+  "eval_id": "loaco_D5pb",
+  "kind": "loaco",
+  "dataset": "D5",
+  "seed": 17,
+  "unit": "dos_hulk",
+  "classes": [
+    "dos_hulk"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "dos_hulk": 0.0381776
+      },
+      "Energy": {
+        "dos_hulk": 0.0365336
+      },
+      "P_attack": {
+        "dos_hulk": 0.9999352
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9997952
+      },
+      "kNN": {
+        "dos_hulk": 0.9998520000000001
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.99912
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.8123344
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.7127479999999999
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.9994984
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.9999328000000001
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.9778864
+      },
+      "IF": {
+        "dos_hulk": 0.9604632
+      },
+      "OCSVM": {
+        "dos_hulk": 0.5063871999999999
+      },
+      "PCA": {
+        "dos_hulk": 0.8913407999999998
+      },
+      "AE": {
+        "dos_hulk": 0.9791568
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.9499512000000001
+      },
+      "XGBoost": {
+        "dos_hulk": 1.0
+      },
+      "XGBoost_s": {
+        "dos_hulk": 0.9999975999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": 0.0386428
+      },
+      "Energy": {
+        "dos_hulk": 0.0370968
+      },
+      "P_attack": {
+        "dos_hulk": 0.9999359999999999
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9997959999999999
+      },
+      "kNN": {
+        "dos_hulk": 0.9998656
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.99912
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.8808288
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.8063343999999999
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.9996400000000001
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.9999528000000001
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.9907232
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.9669392
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.143015458193505,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.0891820031418972,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.999679034108993,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.982
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9991006983431392,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.988
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.999220301910158,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.97
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.996949899162254,
+          "tpr_at_1pct_fpr": 0.99,
+          "tpr_at_0.1pct_fpr": 0.968
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.3348113994528959,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.2488251332254562,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9959483993012194,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.91
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9996534079575312,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.974
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.7708324121252427,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "IF": {
+        "dos_hulk": {
+          "pr_auc": 0.6815178913134445,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "OCSVM": {
+        "dos_hulk": {
+          "pr_auc": 0.15239465702385058,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "dos_hulk": {
+          "pr_auc": 0.42946332486424765,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "dos_hulk": {
+          "pr_auc": 0.7890516114441081,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.6639528694930101,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "XGBoost": {
+        "dos_hulk": {
+          "pr_auc": 1.0,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 1.0
+        }
+      },
+      "XGBoost_s": {
+        "dos_hulk": {
+          "pr_auc": 0.99998803187251,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 1.0
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.14302047525616826,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.08919711266255587,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9996831751054807,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.982
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9991032956108136,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.988
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.9993025861045732,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.97
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.996949899162254,
+          "tpr_at_1pct_fpr": 0.99,
+          "tpr_at_0.1pct_fpr": 0.968
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.4530982643101674,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.346805673891648,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9971350225413466,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.984
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9997601511599152,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.984
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.873334246209944,
+          "tpr_at_1pct_fpr": 0.552,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.7132382076371571,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.8239887352790578,
+      "final_val_macro_f1": 0.8226915423865718,
+      "best_epoch": 14,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.20773056781291963,
+          "val_macro_f1": 0.7174673492055772,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.1046114342893873,
+          "val_macro_f1": 0.7722960151802656,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.07912515934876033,
+          "val_macro_f1": 0.7917139660093409,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.05959345391392708,
+          "val_macro_f1": 0.8008883891577872,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.04801073948826109,
+          "val_macro_f1": 0.800793653939925,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.03775979672372341,
+          "val_macro_f1": 0.770560565262552,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.03155230462551117,
+          "val_macro_f1": 0.8075890813217348,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.0232577114126512,
+          "val_macro_f1": 0.8100176158763177,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.018470332599111967,
+          "val_macro_f1": 0.8003809523809524,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.0176650324405304,
+          "val_macro_f1": 0.8236108748997789,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.012390499523707799,
+          "val_macro_f1": 0.8217701438694773,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.010500862637002553,
+          "val_macro_f1": 0.820309243409391,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.009256866280521666,
+          "val_macro_f1": 0.8199211166647634,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.00878002363975559,
+          "val_macro_f1": 0.8239887352790578,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.008447557884135417,
+          "val_macro_f1": 0.8226915423865718,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 139.02894282341003
+    },
+    "gru": {
+      "best_val_macro_f1": 0.8144288549162885,
+      "final_val_macro_f1": 0.8087655907064613,
+      "best_epoch": 10,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.21889460319280624,
+          "val_macro_f1": 0.7080014067556537
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.07758567105020796,
+          "val_macro_f1": 0.7769748641834109
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.054259406864643096,
+          "val_macro_f1": 0.7903607029082313
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.03799558438999312,
+          "val_macro_f1": 0.7922373902175013
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.030096380984144553,
+          "val_macro_f1": 0.8039530644680144
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.021730135894247465,
+          "val_macro_f1": 0.8122718581609595
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.015814694338611195,
+          "val_macro_f1": 0.8064761904761905
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.014796459768233555,
+          "val_macro_f1": 0.8140141349257457
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.011361607530287334,
+          "val_macro_f1": 0.7934944832605494
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011226230209161128,
+          "val_macro_f1": 0.8144288549162885
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009479325587728194,
+          "val_macro_f1": 0.8057421217848242
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008377857257878141,
+          "val_macro_f1": 0.8097364598297292
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.007975473881832191,
+          "val_macro_f1": 0.8107050445220227
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.007695814809628896,
+          "val_macro_f1": 0.8087655907064613
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.007568531614861318,
+          "val_macro_f1": 0.8087655907064613
+        }
+      ],
+      "seconds": 41.32380294799805
+    },
+    "benign_only_seconds": 27.523643970489502,
+    "clad": {
+      "best_val_auroc": 0.7519244,
+      "final_val_auroc": 0.7424692,
+      "best_epoch": 8
+    },
+    "clad_seconds": 6.979533910751343,
+    "xgb_seconds": 37.332457542419434,
+    "xgbs_seconds": 31.800241470336914
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/dos_hulk": 500
+  },
+  "wall_seconds": 297.5897798538208,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "536b24486958c9a4824cd5d7ea317e4d67888184509bb5c163cacceef2a43db7",
+      "row_id.npy": "cbe1e6bed4466e95c805f0bf91760669c18264b8f326d56d22285c33b340ccbf",
+      "windows.npz": "6b7aa995c52515334e214092425be760201694804a327e175707e3f91df15af3",
+      "sets.npz": "548a64a5c0212f585903caf6cfbdc682d9710801494ab35cb28d91c0bb798600",
+      "loaco.npz": "52893b5a050d670ef779fe0f29075fb050e0c3ef1da01e84b2d5fe994eada2ac",
+      "cleaner.json": "056a6b1824f51b35d3c419eb67bbd11718420ba2f123c9343019b812b3c1286c"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D5pb",
+        "kind": "loaco",
+        "dataset": "D5",
+        "scheme": "purged_block",
+        "labelling": "file"
+      }
+    },
+    "timestamp_utc": "2026-10-11T21:10:39+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

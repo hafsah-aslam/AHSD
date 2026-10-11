@@ -1,0 +1,558 @@
+{
+  "eval_id": "loaco_D5pb",
+  "kind": "loaco",
+  "dataset": "D5",
+  "seed": 42,
+  "unit": "dos_hulk",
+  "classes": [
+    "dos_hulk"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "dos_hulk": 0.026374000000000005
+      },
+      "Energy": {
+        "dos_hulk": 0.0646312
+      },
+      "P_attack": {
+        "dos_hulk": 0.9999672000000001
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9999408000000001
+      },
+      "kNN": {
+        "dos_hulk": 0.9999912000000001
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.9992792
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.9603908
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.9671856000000001
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.9984040000000001
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.9990752
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.9496840000000001
+      },
+      "IF": {
+        "dos_hulk": 0.948488
+      },
+      "OCSVM": {
+        "dos_hulk": 0.5063871999999999
+      },
+      "PCA": {
+        "dos_hulk": 0.8913407999999998
+      },
+      "AE": {
+        "dos_hulk": 0.9778512000000001
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.967024
+      },
+      "XGBoost": {
+        "dos_hulk": 1.0
+      },
+      "XGBoost_s": {
+        "dos_hulk": 0.9999975999999999
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": 0.029078799999999978
+      },
+      "Energy": {
+        "dos_hulk": 0.06952639999999999
+      },
+      "P_attack": {
+        "dos_hulk": 0.99996
+      },
+      "Mahalanobis": {
+        "dos_hulk": 0.9999408000000001
+      },
+      "kNN": {
+        "dos_hulk": 0.9999888
+      },
+      "AHSD_stress": {
+        "dos_hulk": 0.9992648
+      },
+      "GRU_MSP": {
+        "dos_hulk": 0.9727712
+      },
+      "GRU_Energy": {
+        "dos_hulk": 0.9787032
+      },
+      "GRU_P_attack": {
+        "dos_hulk": 0.999076
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": 0.999424
+      },
+      "GRU_kNN": {
+        "dos_hulk": 0.9684544
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": 0.9759855999999999
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.14094418636336792,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.09153111718591227,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9998375561649664,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9997206197759063,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.999956308313456,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.9976054816831146,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.982
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.6831479411165378,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.7267674812427777,
+          "tpr_at_1pct_fpr": 0.024,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.985567679353584,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.198
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9930990840727482,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.652
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.6297316763345484,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "IF": {
+        "dos_hulk": {
+          "pr_auc": 0.6183789898430702,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "OCSVM": {
+        "dos_hulk": {
+          "pr_auc": 0.15239465702385058,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "dos_hulk": {
+          "pr_auc": 0.42946332486424765,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "dos_hulk": {
+          "pr_auc": 0.7832127089093557,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.7509909183467399,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "XGBoost": {
+        "dos_hulk": {
+          "pr_auc": 1.0,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 1.0
+        }
+      },
+      "XGBoost_s": {
+        "dos_hulk": {
+          "pr_auc": 0.99998803187251,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 1.0
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.13932529868164886,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.09321731766650469,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9998014165984754,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.992
+        }
+      },
+      "Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9997206197759063,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.9999443539133133,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.996
+        }
+      },
+      "AHSD_stress": {
+        "dos_hulk": {
+          "pr_auc": 0.9975474045466123,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.982
+        }
+      },
+      "GRU_MSP": {
+        "dos_hulk": {
+          "pr_auc": 0.772667011442826,
+          "tpr_at_1pct_fpr": 0.124,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "GRU_Energy": {
+        "dos_hulk": {
+          "pr_auc": 0.8195009484221633,
+          "tpr_at_1pct_fpr": 0.256,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "GRU_P_attack": {
+        "dos_hulk": {
+          "pr_auc": 0.9930951702961444,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.672
+        }
+      },
+      "GRU_Mahalanobis": {
+        "dos_hulk": {
+          "pr_auc": 0.9960293583783091,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.744
+        }
+      },
+      "GRU_kNN": {
+        "dos_hulk": {
+          "pr_auc": 0.7321894208368037,
+          "tpr_at_1pct_fpr": 0.066,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "Wilkie_CLAD": {
+        "dos_hulk": {
+          "pr_auc": 0.7782302616809768,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.808868501529052,
+      "final_val_macro_f1": 0.8073752866972477,
+      "best_epoch": 13,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.20504012684311185,
+          "val_macro_f1": 0.7313262092437641,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.11214739279236112,
+          "val_macro_f1": 0.7674342566703125,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.08161548862286977,
+          "val_macro_f1": 0.7500652964458643,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.061650287232228686,
+          "val_macro_f1": 0.7754672894800787,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.04308261788742883,
+          "val_macro_f1": 0.7886271262775626,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.03320014612483127,
+          "val_macro_f1": 0.793360581325743,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.026564658394881657,
+          "val_macro_f1": 0.7901501903421108,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.021516547394650323,
+          "val_macro_f1": 0.7711489898989898,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.019516711592674256,
+          "val_macro_f1": 0.8074798209637246,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.015037660551922662,
+          "val_macro_f1": 0.80307444387321,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.013137124800788505,
+          "val_macro_f1": 0.7968688271542086,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.011378991480384555,
+          "val_macro_f1": 0.7983961292056807,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.009991549402209265,
+          "val_macro_f1": 0.808868501529052,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.009378904314179506,
+          "val_macro_f1": 0.8083347772444904,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.009077404915621238,
+          "val_macro_f1": 0.8073752866972477,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 71.65932607650757
+    },
+    "gru": {
+      "best_val_macro_f1": 0.8206649090339494,
+      "final_val_macro_f1": 0.8137216971989626,
+      "best_epoch": 10,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.21939631299461637,
+          "val_macro_f1": 0.7234953399692606
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.08697271502017975,
+          "val_macro_f1": 0.7667388005755316
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.05496434501664979,
+          "val_macro_f1": 0.762621484475789
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.04290597385593823,
+          "val_macro_f1": 0.7940549527528991
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.026983559265732766,
+          "val_macro_f1": 0.7690293267692841
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.031433292221810134,
+          "val_macro_f1": 0.808120587557335
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01754272995889187,
+          "val_macro_f1": 0.8112464879263187
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.014159400123570646,
+          "val_macro_f1": 0.8064761904761905
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.013205421213592802,
+          "val_macro_f1": 0.8130551567371093
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.010975379120026316,
+          "val_macro_f1": 0.8206649090339494
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009999386346499835,
+          "val_macro_f1": 0.8156452703982238
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.009506355549607957,
+          "val_macro_f1": 0.8175598517554922
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.008943865806130427,
+          "val_macro_f1": 0.8156452703982238
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.008697359935779657,
+          "val_macro_f1": 0.8137216971989626
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.008579111840575934,
+          "val_macro_f1": 0.8137216971989626
+        }
+      ],
+      "seconds": 36.892581939697266
+    },
+    "benign_only_seconds": 26.31291389465332,
+    "clad": {
+      "best_val_auroc": 0.7430555999999999,
+      "final_val_auroc": 0.7345740000000001,
+      "best_epoch": 8
+    },
+    "clad_seconds": 7.031943321228027,
+    "xgb_seconds": 33.961875677108765,
+    "xgbs_seconds": 31.010777473449707
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/dos_hulk": 500
+  },
+  "wall_seconds": 210.46582126617432,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "536b24486958c9a4824cd5d7ea317e4d67888184509bb5c163cacceef2a43db7",
+      "row_id.npy": "cbe1e6bed4466e95c805f0bf91760669c18264b8f326d56d22285c33b340ccbf",
+      "windows.npz": "6b7aa995c52515334e214092425be760201694804a327e175707e3f91df15af3",
+      "sets.npz": "548a64a5c0212f585903caf6cfbdc682d9710801494ab35cb28d91c0bb798600",
+      "loaco.npz": "52893b5a050d670ef779fe0f29075fb050e0c3ef1da01e84b2d5fe994eada2ac",
+      "cleaner.json": "056a6b1824f51b35d3c419eb67bbd11718420ba2f123c9343019b812b3c1286c"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D5pb",
+        "kind": "loaco",
+        "dataset": "D5",
+        "scheme": "purged_block",
+        "labelling": "file"
+      }
+    },
+    "timestamp_utc": "2026-10-11T21:18:36+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
