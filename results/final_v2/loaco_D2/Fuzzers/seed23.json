@@ -1,0 +1,558 @@
+{
+  "eval_id": "loaco_D2",
+  "kind": "loaco",
+  "dataset": "D2",
+  "seed": 23,
+  "unit": "Fuzzers",
+  "classes": [
+    "Fuzzers"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Fuzzers": 0.08265480000000003
+      },
+      "Energy": {
+        "Fuzzers": 0.055116799999999994
+      },
+      "P_attack": {
+        "Fuzzers": 0.999524
+      },
+      "Mahalanobis": {
+        "Fuzzers": 0.9997056
+      },
+      "kNN": {
+        "Fuzzers": 0.9996495999999999
+      },
+      "AHSD_stress": {
+        "Fuzzers": 0.9535168
+      },
+      "GRU_MSP": {
+        "Fuzzers": 0.08229039999999999
+      },
+      "GRU_Energy": {
+        "Fuzzers": 0.0827232
+      },
+      "GRU_P_attack": {
+        "Fuzzers": 0.9998284
+      },
+      "GRU_Mahalanobis": {
+        "Fuzzers": 0.9998312
+      },
+      "GRU_kNN": {
+        "Fuzzers": 0.9997512000000001
+      },
+      "IF": {
+        "Fuzzers": 0.7118128
+      },
+      "OCSVM": {
+        "Fuzzers": 0.8184064
+      },
+      "PCA": {
+        "Fuzzers": 0.9177824
+      },
+      "AE": {
+        "Fuzzers": 0.8964672
+      },
+      "Wilkie_CLAD": {
+        "Fuzzers": 0.9549559999999999
+      },
+      "XGBoost": {
+        "Fuzzers": 0.9996503999999999
+      },
+      "XGBoost_s": {
+        "Fuzzers": 0.9995512
+      }
+    },
+    "final": {
+      "MSP": {
+        "Fuzzers": 0.086244
+      },
+      "Energy": {
+        "Fuzzers": 0.055970400000000003
+      },
+      "P_attack": {
+        "Fuzzers": 0.999524
+      },
+      "Mahalanobis": {
+        "Fuzzers": 0.9996952
+      },
+      "kNN": {
+        "Fuzzers": 0.9996424
+      },
+      "AHSD_stress": {
+        "Fuzzers": 0.9523520000000001
+      },
+      "GRU_MSP": {
+        "Fuzzers": 0.03319879999999998
+      },
+      "GRU_Energy": {
+        "Fuzzers": 0.03647519999999999
+      },
+      "GRU_P_attack": {
+        "Fuzzers": 0.9997316
+      },
+      "GRU_Mahalanobis": {
+        "Fuzzers": 0.9998592
+      },
+      "GRU_kNN": {
+        "Fuzzers": 0.9998047999999999
+      },
+      "Wilkie_CLAD": {
+        "Fuzzers": 0.9548512
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "Fuzzers": {
+          "pr_auc": 0.15135238524867062,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "Energy": {
+        "Fuzzers": {
+          "pr_auc": 0.09033877310043846,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "Fuzzers": {
+          "pr_auc": 0.9953908325445564,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.962
+        }
+      },
+      "Mahalanobis": {
+        "Fuzzers": {
+          "pr_auc": 0.998492972108645,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.912
+        }
+      },
+      "kNN": {
+        "Fuzzers": {
+          "pr_auc": 0.9979047111440679,
+          "tpr_at_1pct_fpr": 0.998,
+          "tpr_at_0.1pct_fpr": 0.968
+        }
+      },
+      "AHSD_stress": {
+        "Fuzzers": {
+          "pr_auc": 0.9081041896066463,
+          "tpr_at_1pct_fpr": 0.78,
+          "tpr_at_0.1pct_fpr": 0.662
+        }
+      },
+      "GRU_MSP": {
+        "Fuzzers": {
+          "pr_auc": 0.10958096610123944,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "Fuzzers": {
+          "pr_auc": 0.09502352532718705,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "Fuzzers": {
+          "pr_auc": 0.9989764307511294,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.978
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Fuzzers": {
+          "pr_auc": 0.9989738719437999,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.988
+        }
+      },
+      "GRU_kNN": {
+        "Fuzzers": {
+          "pr_auc": 0.9984802571769834,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.98
+        }
+      },
+      "IF": {
+        "Fuzzers": {
+          "pr_auc": 0.37813615600597633,
+          "tpr_at_1pct_fpr": 0.098,
+          "tpr_at_0.1pct_fpr": 0.016
+        }
+      },
+      "OCSVM": {
+        "Fuzzers": {
+          "pr_auc": 0.52758886942065,
+          "tpr_at_1pct_fpr": 0.028,
+          "tpr_at_0.1pct_fpr": 0.01
+        }
+      },
+      "PCA": {
+        "Fuzzers": {
+          "pr_auc": 0.7247117506313999,
+          "tpr_at_1pct_fpr": 0.248,
+          "tpr_at_0.1pct_fpr": 0.032
+        }
+      },
+      "AE": {
+        "Fuzzers": {
+          "pr_auc": 0.6420914551461545,
+          "tpr_at_1pct_fpr": 0.034,
+          "tpr_at_0.1pct_fpr": 0.008
+        }
+      },
+      "Wilkie_CLAD": {
+        "Fuzzers": {
+          "pr_auc": 0.8105756285151089,
+          "tpr_at_1pct_fpr": 0.328,
+          "tpr_at_0.1pct_fpr": 0.05
+        }
+      },
+      "XGBoost": {
+        "Fuzzers": {
+          "pr_auc": 0.9982474752710375,
+          "tpr_at_1pct_fpr": 0.99,
+          "tpr_at_0.1pct_fpr": 0.916
+        }
+      },
+      "XGBoost_s": {
+        "Fuzzers": {
+          "pr_auc": 0.9977450907651043,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.916
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "Fuzzers": {
+          "pr_auc": 0.15175501715724818,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "Energy": {
+        "Fuzzers": {
+          "pr_auc": 0.09043719866417063,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "Fuzzers": {
+          "pr_auc": 0.9953909900137425,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.962
+        }
+      },
+      "Mahalanobis": {
+        "Fuzzers": {
+          "pr_auc": 0.9984427636055747,
+          "tpr_at_1pct_fpr": 0.996,
+          "tpr_at_0.1pct_fpr": 0.912
+        }
+      },
+      "kNN": {
+        "Fuzzers": {
+          "pr_auc": 0.9976986688969278,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.972
+        }
+      },
+      "AHSD_stress": {
+        "Fuzzers": {
+          "pr_auc": 0.9056708750677307,
+          "tpr_at_1pct_fpr": 0.778,
+          "tpr_at_0.1pct_fpr": 0.652
+        }
+      },
+      "GRU_MSP": {
+        "Fuzzers": {
+          "pr_auc": 0.13320672452678894,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "Fuzzers": {
+          "pr_auc": 0.08960232711591734,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "Fuzzers": {
+          "pr_auc": 0.9973571259644642,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.982
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Fuzzers": {
+          "pr_auc": 0.9991639781818857,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.994
+        }
+      },
+      "GRU_kNN": {
+        "Fuzzers": {
+          "pr_auc": 0.9987828024413576,
+          "tpr_at_1pct_fpr": 1.0,
+          "tpr_at_0.1pct_fpr": 0.986
+        }
+      },
+      "Wilkie_CLAD": {
+        "Fuzzers": {
+          "pr_auc": 0.8112545559283612,
+          "tpr_at_1pct_fpr": 0.33,
+          "tpr_at_0.1pct_fpr": 0.068
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9898887344442641,
+      "final_val_macro_f1": 0.9898887344442641,
+      "best_epoch": 13,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.4624479834011623,
+          "val_macro_f1": 0.8593520015990987,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.15879266327619554,
+          "val_macro_f1": 0.9285523204710895,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.07831543259109769,
+          "val_macro_f1": 0.9540989275214415,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.05277844756415912,
+          "val_macro_f1": 0.9724772737431825,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.03517200296691486,
+          "val_macro_f1": 0.9869251420801227,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.02290549692937306,
+          "val_macro_f1": 0.9817341589493489,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.016035727916019305,
+          "val_macro_f1": 0.987509613137032,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.011147085572992052,
+          "val_macro_f1": 0.9886091104334753,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.009872430601024202,
+          "val_macro_f1": 0.9886991737906481,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.006245501779552017,
+          "val_macro_f1": 0.9898727521232966,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.003833225662420903,
+          "val_macro_f1": 0.9898727521232966,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.002651300712555115,
+          "val_macro_f1": 0.9898727521232966,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.002294161407609603,
+          "val_macro_f1": 0.9898887344442641,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.0020147858715083983,
+          "val_macro_f1": 0.9887169622261711,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.0018767716099641152,
+          "val_macro_f1": 0.9898887344442641,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 54.22546744346619
+    },
+    "gru": {
+      "best_val_macro_f1": 0.9916665013194705,
+      "final_val_macro_f1": 0.99107829509788,
+      "best_epoch": 7,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.42143484502179285,
+          "val_macro_f1": 0.9098667831054298
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.1088777151618685,
+          "val_macro_f1": 0.9585657933000887
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.053275313249656134,
+          "val_macro_f1": 0.9603808870508852
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.0390101081803441,
+          "val_macro_f1": 0.9639332180595728
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.03242598355667932,
+          "val_macro_f1": 0.9800130268037067
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.025672822017754827,
+          "val_macro_f1": 0.9835401397206998
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01921781381538936,
+          "val_macro_f1": 0.9916665013194705
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.016207460563097683,
+          "val_macro_f1": 0.9916665013194705
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.013648382443402494,
+          "val_macro_f1": 0.9899046504128899
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011512571857443877,
+          "val_macro_f1": 0.9875683518653688
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.0096164036616683,
+          "val_macro_f1": 0.9916665013194705
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008776717312367899,
+          "val_macro_f1": 0.99107829509788
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.007779128564255578,
+          "val_macro_f1": 0.99107829509788
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.0073745729300592625,
+          "val_macro_f1": 0.99107829509788
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.007148425388016871,
+          "val_macro_f1": 0.99107829509788
+        }
+      ],
+      "seconds": 43.07630276679993
+    },
+    "benign_only_seconds": 14.705336570739746,
+    "clad": {
+      "best_val_auroc": 0.9394424,
+      "final_val_auroc": 0.9392264,
+      "best_epoch": 13
+    },
+    "clad_seconds": 4.94114875793457,
+    "xgb_seconds": 13.093188285827637,
+    "xgbs_seconds": 12.209800004959106
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Fuzzers": 500
+  },
+  "wall_seconds": 146.0013828277588,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "937514d658ca4c3a61a12b402649f3550ee5b46ba936043170f02d00fdcc1533",
+      "row_id.npy": "22aedb4358a70e0e7d533df268ea16d34588e81fcc4f417764654c68e9a5fc70",
+      "windows.npz": "fb48964ba59ca9802e1430b6eb2f3af88e18a179da725b280ce733e19f9382f7",
+      "sets.npz": "f0102dd4fe75c53933af17d25177ebadab1f030fed5f6c5bf049fac67d3e576d",
+      "loaco.npz": "95a0ecc860db40b0e3da6580cb025570211b2919e07867b3dbf5b922af4b9d65",
+      "cleaner.json": "501cb95462a12eecf544e62d7046d03e3a32e277f32fbb80209624786bed3db5"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "loaco_D2",
+        "kind": "loaco",
+        "dataset": "D2",
+        "scheme": "grouped_random",
+        "labelling": "file"
+      }
+    },
+    "timestamp_utc": "2026-10-11T19:08:24+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
