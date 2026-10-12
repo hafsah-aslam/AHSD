@@ -8,7 +8,7 @@ Pre-registered benchmark of novelty detection protocols for sequence NIDS (AMEND
 - Configs: `configs/` (`data.yaml`, class maps).
 - Pre-registration and amendments: `RESEARCH_QUESTIONS.md`, `docs/AMENDMENTS.json` (dated SHA-256 chain).
 - Splits: `release/splits/*.npz` + `release/splits/MANIFEST.json`.
-- Results: `results/final/**` (one JSON per evaluation × unit × seed), `results/final/summary.json`.
+- Results: `results/final_v2/**` (one JSON per evaluation × unit × seed), `results/final_v2/summary.json`.
 - Report: `RESULTS_SUMMARY.md`, `NEGATIVE_RESULTS.md`, `report/final/tables/*.tex`, `report/final/figures/*.pdf`.
 - Checklist: `release/CHECKLIST.md`; file hashes: `release/FILES.json`.
 
@@ -24,4 +24,4 @@ python scripts/report_final.py      # tables, figures, summaries from JSON
 python scripts/make_release.py
 ```
 
-Release commit: `dfc3fb8a4a014d6db83a548fadc6b313c03f3bea`. Final-run code commit: `e6421ea9c81ee7c9e238205eb913905dc67163a1`.
+Release commit: `4f8ff4cbf89268146e5edec5961a311aba9027e8`. Final-run code commit: `94fbf3215e716874937ef5863b0734a91b93f258`.

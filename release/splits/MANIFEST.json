@@ -334,6 +334,231 @@
       }
     },
     {
+      "file": "splits/D1_rolling_f030.npz",
+      "sha256": "5d2b08768a1970d8e2ab4b8e46a2a22aa77df8ac9767a2b76fbafc85408e05dc",
+      "bytes": 143316,
+      "windows": 22823,
+      "sets": [
+        "test/Bot",
+        "test/Brute_Force_-Web",
+        "test/Brute_Force_-XSS",
+        "test/DDOS_attack-HOIC",
+        "test/DDOS_attack-LOIC-UDP",
+        "test/Infilteration",
+        "test/SQL_Injection",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D1/rolling/f030",
+      "source_sha256": {
+        "windows.npz": "3036261aa424058ea2ab9b280326ba0ff25b5b54740120b528329764b74b54b4",
+        "row_id.npy": "642fed9fed4f7b37e0b16c053757313295dbf80bc2bf1ed2e2b8d26e3a6c1e34",
+        "sets.npz": "25701a1e6a11acdb2695e1b731eda1590ab89f5bb0f7f98d84c502bec6f0d77e"
+      }
+    },
+    {
+      "file": "splits/D1_rolling_f045.npz",
+      "sha256": "42e5a6f9e36001eb7209f63a2167b615871f32461611909e2259cbcedf5ea26f",
+      "bytes": 139164,
+      "windows": 21823,
+      "sets": [
+        "test/Bot",
+        "test/Brute_Force_-Web",
+        "test/Brute_Force_-XSS",
+        "test/Infilteration",
+        "test/SQL_Injection",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D1/rolling/f045",
+      "source_sha256": {
+        "windows.npz": "4df6beaab47f0894a115246058a51b687b9a5fad7923b12ce1efa7663f884143",
+        "row_id.npy": "4734d0f0fd4b6e6bd7a7f8eea54b76c61b6d5564ad68bfbdf76aa6a082856fe8",
+        "sets.npz": "06a092c41f7e2d14d1b3c5f9a5db6a9acd48f499667db2bfc031d4806ade3f31"
+      }
+    },
+    {
+      "file": "splits/D1_rolling_f060.npz",
+      "sha256": "545aa8ce896b7561702b8d37b77daa113a673a8494fb0fa227f4bc3fadfa86d2",
+      "bytes": 133211,
+      "windows": 20500,
+      "sets": [
+        "test/Bot",
+        "test/Infilteration",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D1/rolling/f060",
+      "source_sha256": {
+        "windows.npz": "7038f704171fd5cb4e994414d361fa17fb19ac4bc7c4173c96f290c337e4ba29",
+        "row_id.npy": "7a4231dbbf0061fd9b795fa37aeb467693afdd5f68073e26ec9c69144ce5cf6e",
+        "sets.npz": "0db190979ff644f1e23f62ead0068f6998fe0be442f0e55869d84c3385c607c8"
+      }
+    },
+    {
+      "file": "splits/D1_rolling_f075.npz",
+      "sha256": "4a8848b4851d1799cd2a698d1f3ef1408749aa90c86131d2775d2d36e6927479",
+      "bytes": 129332,
+      "windows": 20000,
+      "sets": [
+        "test/Bot",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D1/rolling/f075",
+      "source_sha256": {
+        "windows.npz": "657c4754faef1bdac91aa1059eede8aea32c8f7795de63ab42490b0b254108a4",
+        "row_id.npy": "9870edc17381020c10daf33421ec3f01f61129b335a0b52e35b782f14a2ed6fb",
+        "sets.npz": "2ca4ec86d830af07fe0ece9f39b01761b8a58fc16e4f1b1811bb5f9c3bcf4ade"
+      }
+    },
+    {
+      "file": "splits/D3_rolling_f045.npz",
+      "sha256": "a42bdcbcd6311f677b8c0a5a5f703c4732e009b2b3b7e62433ed38a17e64f471",
+      "bytes": 141305,
+      "windows": 22000,
+      "sets": [
+        "test/Backdoor",
+        "test/mitm",
+        "test/password",
+        "test/ransomware",
+        "test/xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D3/rolling/f045",
+      "source_sha256": {
+        "windows.npz": "93024391b6f2b1d82502671d11bd35cd2d1a232bf82be9cd0c0425cf36231853",
+        "row_id.npy": "f0b92af4a8383efe5b92d5624659c04bcb570750f08d2cbbad517f154b567fdb",
+        "sets.npz": "78988395604e2172bbb63a0cfec777fccb5a98a2fb309977721f0dc45847720c"
+      }
+    },
+    {
+      "file": "splits/D3_rolling_f060.npz",
+      "sha256": "26fc96a2e863d5858c255cb2fb236fdee81d90090a5e66c9aee96ea90c2db509",
+      "bytes": 143884,
+      "windows": 22000,
+      "sets": [
+        "test/Backdoor",
+        "test/mitm",
+        "test/password",
+        "test/ransomware",
+        "test/xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D3/rolling/f060",
+      "source_sha256": {
+        "windows.npz": "83b70d65a334b116347c10ececf33ecb645d18ca1f8e676022e6be3e5ee1b2d9",
+        "row_id.npy": "cc6dc2c72405afbf3f623ec645c9e6ceee4ba75115a5ef49f2222a1c3b1946cc",
+        "sets.npz": "759195fbeaa33d7b7bb101bb6d352006ca7b20f429e5558c8e044fb8777001d4"
+      }
+    },
+    {
+      "file": "splits/D3_rolling_f075.npz",
+      "sha256": "452a5792257de65db6e3da3e28a973f4771b12fa41d5e209a757aea79f9b948c",
+      "bytes": 144315,
+      "windows": 22000,
+      "sets": [
+        "test/Backdoor",
+        "test/mitm",
+        "test/password",
+        "test/ransomware",
+        "test/xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D3/rolling/f075",
+      "source_sha256": {
+        "windows.npz": "53100ffb7a67f0d6f78f40b2cb070d446a4f02b66f8c765c60f4ce820a405ccf",
+        "row_id.npy": "abdeb9246f9600e13205e7b152922da897fa166a43385e631e554e0cb99d8716",
+        "sets.npz": "e80a546a997c7b8dd219b552f2bce1148cd46db2bd228dbe299ead4f8155e35c"
+      }
+    },
+    {
+      "file": "splits/D5_rolling_f045.npz",
+      "sha256": "4796da07b185123a0c882f8d289e59272e8e3cb845a1d51f015434b2186ea05f",
+      "bytes": 81005,
+      "windows": 14889,
+      "sets": [
+        "test/bot",
+        "test/ddos",
+        "test/heartbleed",
+        "test/portscan",
+        "test/webattack_bruteforce",
+        "test/webattack_sql_injection",
+        "test/webattack_xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D5/rolling/f045",
+      "source_sha256": {
+        "windows.npz": "6a7fadcdff55a0cb8cd409ba4a6d8af33048f7aa1da3817d350555b22cb5c45f",
+        "row_id.npy": "4e48b46a8369f67d74a55b3b8f525565e5e2117b1fdda53541efa051a2076f27",
+        "sets.npz": "10f111e8c85ff31c775cf09d680765de2c56789ff06038dddccefeaf4abf9311"
+      }
+    },
+    {
+      "file": "splits/D5_rolling_f060.npz",
+      "sha256": "6780be58e62e91c62149a3c32238ebfe120b4d983dec4b86961ca22879cda6c6",
+      "bytes": 99469,
+      "windows": 19009,
+      "sets": [
+        "test/bot",
+        "test/ddos",
+        "test/portscan",
+        "test/webattack_bruteforce",
+        "test/webattack_sql_injection",
+        "test/webattack_xss",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D5/rolling/f060",
+      "source_sha256": {
+        "windows.npz": "0089c2030063247afee84bcf79b619da8c362e2d0ca8dca46f1fdeb6ff8cc9b3",
+        "row_id.npy": "290ebe36ff38cba86c4bb91a0d190009c13427d8cc9f84eeabfe5f6ec85a9666",
+        "sets.npz": "6f8d513469fa83a7a8c6d0a54bae1d735c9f28122727a65fd59af15d233af5e7"
+      }
+    },
+    {
+      "file": "splits/D5_rolling_f075.npz",
+      "sha256": "20575d91371472c07cd69514d7eb07346bdea1e565d8b594a5b4c805acaa0a47",
+      "bytes": 105681,
+      "windows": 20500,
+      "sets": [
+        "test/ddos",
+        "test/portscan",
+        "test_benign",
+        "train",
+        "val"
+      ],
+      "folds": {},
+      "source_dir": "data/processed/D5/rolling/f075",
+      "source_sha256": {
+        "windows.npz": "42ca02be13fb454e86265f3b33a023d26e305cde360b1101c9f7389e187d9bce",
+        "row_id.npy": "e05dd1bec57cb8fd8a6278bf85f9fdf6335e6add152e04786e270ee7a8b8819c",
+        "sets.npz": "91f8f32689d7b3cf651d882224e86723da90c80a6ba4c9f20ae21210d454d015"
+      }
+    },
+    {
       "file": "splits/D5_purged_block.npz",
       "sha256": "ce4df83449e5a7ca7762affb6099eb8ff25fc5a71f7260fb39acc48b21094199",
       "bytes": 230812,
@@ -531,14 +756,14 @@
   ],
   "reconstruction": "Rebuild data/interim/<ds>/sorted.parquet with scripts/download.py + scripts/prepare.py from the raw files listed in data/MANIFEST.json (SHA-256 checked). Flows are stably sorted by FLOW_START_MILLISECONDS (ties keep raw row order; row_id = raw row number). A window is the T = 32 consecutive sorted flows starting at window_start; window_first_row_id checks the alignment. Sets and folds are int32 indices into the window table. group_split: 0 train, 1 gap, 2 val, 3 test.",
   "provenance": {
-    "code_commit": "dfc3fb8a4a014d6db83a548fadc6b313c03f3bea",
+    "code_commit": "4f8ff4cbf89268146e5edec5961a311aba9027e8",
     "code_dirty": false,
-    "code_commit_captured_utc": "2026-10-10T00:55:41+00:00",
-    "results_head": "dfc3fb8a4a014d6db83a548fadc6b313c03f3bea",
-    "rq_sha256": "d8eaf3399c18a26d815d8df0df3e8a33e6c7ecbdfd94b9b0ef8a82d2b8c18ddc",
+    "code_commit_captured_utc": "2026-10-12T03:08:14+00:00",
+    "results_head": "4f8ff4cbf89268146e5edec5961a311aba9027e8",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
     "data_sha256": {},
     "config": {},
-    "timestamp_utc": "2026-10-10T00:56:46+00:00",
+    "timestamp_utc": "2026-10-12T03:08:34+00:00",
     "python": "3.11.15",
     "host": "vm"
   }
