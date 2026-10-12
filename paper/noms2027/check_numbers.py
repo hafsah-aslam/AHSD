@@ -103,6 +103,8 @@ quotes = {
                                                round(100 * ops(R["evals"]["nn_D3"], "XGBoost"))) == ("0.90", 12, 38), "only 12\\% at 1\\% FPR, and XGBoost 38\\%"),
     "rolling benign 0.09 at AUC 0.75, PR-AUC <= 0.41": ((f"{ops(RP, 'benign-only'):.2f}", f"{RP['families']['benign-only']['mean']:.2f}",
                                                         f"{max(RP['ops'][f]['pr_auc']['mean'] for f in FAM7):.2f}") == ("0.09", "0.75", "0.41"), "benign-only 0.09 at AUC 0.75"),
+    "illusion: 184 of 333, median 0.15": ((lambda j: (j["n_trap"], j["n_auc_ge_075"], round(j["median_tpr_auc_ge_075"], 2)))(
+        json.loads((Path(__file__).parent / "figures/illusion.json").read_text())) == (184, 333, 0.15), "Of the 333 detector--class points"),
     # ablations
     "nn D3 repr 0.522 / GRU 0.869 / benign 0.898": (tuple(f3(R["evals"]["nn_D3"]["families"][f]["mean"]) for f in ("representation", "GRU-representation", "benign-only")) == ("0.522", "0.869", "0.898"), "(0.522) while the GRU's reach 0.869"),
     "ckpt 0.073 / 0.205": ((round(max(abs(R["evals"][e]["checkpoint"][f]["mean"]) for e in EV for f in ("representation", "CLAD")), 3),

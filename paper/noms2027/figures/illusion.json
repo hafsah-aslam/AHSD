@@ -1,0 +1,6 @@
+{
+ "n_points": 972,
+ "median_tpr_auc_ge_075": 0.15,
+ "n_auc_ge_075": 333,
+ "n_trap": 184
+}
