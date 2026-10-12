@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the two submission packages and test-compile the Overleaf one in a clean directory.
 #   dist/noms2027_overleaf.zip : LaTeX sources only (main.tex, figures, tables) - upload to Overleaf as-is
-#   dist/noms2027_full.zip     : sources + compiled PDF + the generators that rebuild every table/figure from JSON
+#   dist/noms2027_full.zip     : sources + compiled PDF + the generators that rebuild every table/figure from JSON (results/final_v2)
 set -euo pipefail
 cd "$(dirname "$0")"
 OUT=dist
@@ -31,11 +31,11 @@ cp -r "$OUT/overleaf/." "$OUT/full/"
 cp "$TMP/main.pdf" "$OUT/full/main.pdf"
 mkdir -p "$OUT/full/generators"
 cp make_tables.py make_figures.py check_numbers.py "$OUT/full/generators/"
-cp ../../results/final/summary.json "$OUT/full/generators/summary.json"
+cp ../../results/final_v2/summary.json "$OUT/full/generators/summary.json"
 cat >> "$OUT/full/README.txt" <<'EOF'
 
 generators/: make_tables.py, make_figures.py and check_numbers.py rebuild every table and figure and re-check
-the numbers quoted in the text. They run inside the project repository (they read results/final/summary.json,
+the numbers quoted in the text. They run inside the project repository (they read results/final_v2/summary.json,
 the gate JSON of earlier phases and data/processed/*/index_meta.json); summary.json is included for reference.
 EOF
 ( cd "$OUT/full" && zip -qr ../noms2027_full.zip . )

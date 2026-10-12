@@ -368,7 +368,7 @@ def t_ablation():
         f"{n['ck_ahsd_conf']:.3f}; GRU-r {n['ck_gru_repr']:.3f}, GRU-c {n['ck_gru_conf']:.3f} \\\\",
         f"XGBoost seeding (fixed$\\rightarrow$s) & $\\geq$ leader in {n['xgb_ge']} vs {n['xgbs_ge']} of 7; rolling AUC "
         f"{n['xgb_roll']:.3f} vs {n['xgbs_roll']:.3f}; seed std 0 vs {n['xgbs_std_roll']:.3f} \\\\",
-        f"Split (grouped$\\rightarrow$temporal) & P(attack) D3 AHSD {d3['P_attack']['test']['auc']['mean']:.3f}$\\rightarrow$"
+        f"Split (grp.$\\rightarrow$temp.) & P(attack) D3 AHSD {d3['P_attack']['test']['auc']['mean']:.3f}$\\rightarrow$"
         f"{t3['P_attack']['test']['auc']['mean']:.3f}, GRU {d3['GRU_P_attack']['test']['auc']['mean']:.3f}$\\rightarrow$"
         f"{t3['GRU_P_attack']['test']['auc']['mean']:.3f}, XGB {d3['XGBoost']['test']['auc']['mean']:.3f}$\\rightarrow$"
         f"{t3['XGBoost']['test']['auc']['mean']:.3f} \\\\",

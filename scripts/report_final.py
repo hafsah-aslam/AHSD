@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from final_run import BEN, CLAD_, CONF, EVALS, REPR, TRANSFER_TARGETS, XGB  # noqa: E402
 from nids import metrics  # noqa: E402
 from nids.provenance import ROOT, provenance, write_json  # noqa: E402
-from report_a7 import a7_stats, indist_a7  # noqa: E402
+from report_a7 import a7_markdown, a7_stats, indist_a7  # noqa: E402
 
 SEEDS = [17, 23, 42, 101, 202]
 DETS = CONF + REPR + BEN + [CLAD_, XGB]
@@ -995,7 +995,8 @@ def main():
     S["caveats"] = caveats(F, CS)
     S["a7"] = a7_stats(runs)
     S["a7_indist"] = indist_a7(I)
-    MD_SUMMARY.write_text(results_summary(S, CS, I, T, F, commit))  # also records S["contribution_checks"]
+    MD_SUMMARY.write_text(results_summary(S, CS, I, T, F, commit)  # also records S["contribution_checks"]
+                          + a7_markdown(S["a7"], S["a7_indist"]))
     write_json(RES / "summary.json", S)
     MD_NEG.write_text(negative_results())
     print(f"final report: {len(runs)} runs, commit {commit}; tables {len(list(TAB.glob('*.tex')))}, "

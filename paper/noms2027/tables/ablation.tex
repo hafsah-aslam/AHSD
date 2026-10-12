@@ -9,7 +9,7 @@ Factor & Effect \\
 Backbone (AHSD$\rightarrow$GRU) & Same leading family in 7/7 evaluations; Repr.$-$GRU-r NN D3 $-$0.347 [$-$0.504, $-$0.163], rolling $-$0.079 [$-$0.121, $-$0.038] \\
 Checkpoint (best$\rightarrow$final) & max $|\Delta|$ family AUC: Repr./CLAD 0.073, Conf.\ 0.205; GRU-r 0.022, GRU-c 0.189 \\
 XGBoost seeding (fixed$\rightarrow$s) & $\geq$ leader in 4 vs 3 of 7; rolling AUC 0.672 vs 0.686; seed std 0 vs 0.019 \\
-Split (grouped$\rightarrow$temporal) & P(attack) D3 AHSD 0.975$\rightarrow$0.664, GRU 0.981$\rightarrow$0.857, XGB 0.977$\rightarrow$0.978 \\
+Split (grp.$\rightarrow$temp.) & P(attack) D3 AHSD 0.975$\rightarrow$0.664, GRU 0.981$\rightarrow$0.857, XGB 0.977$\rightarrow$0.978 \\
 Cut fraction $f$ & Leading family per cut: 0.30: Repr., 0.45: Benign, 0.60: CLAD, 0.75: Benign \\
 Dataset (rolling) & Leading family: D1: Repr., D3: Benign, D5: Repr.; Benign$-$Repr.\ pooled +0.125 [+0.048, +0.204] \\
 \bottomrule

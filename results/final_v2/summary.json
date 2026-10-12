@@ -37833,14 +37833,14 @@
     "XGBoost uses subsample = colsample = 1 (fixed parameters, AMENDMENT_06), so its fit is deterministic: its seed std is 0 by construction and its interval reflects no training randomness."
   ],
   "provenance": {
-    "code_commit": "72c5b98bf1220bdd5e7220cc22e9fb66ec313ea0",
+    "code_commit": "fd78eec34f60c7160ef8dee01c9c7537fa49e8dd",
     "code_dirty": true,
-    "code_commit_captured_utc": "2026-10-12T02:57:11+00:00",
-    "results_head": "72c5b98bf1220bdd5e7220cc22e9fb66ec313ea0-dirty",
+    "code_commit_captured_utc": "2026-10-12T03:06:55+00:00",
+    "results_head": "fd78eec34f60c7160ef8dee01c9c7537fa49e8dd-dirty",
     "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
     "data_sha256": {},
     "config": {},
-    "timestamp_utc": "2026-10-12T02:57:20+00:00",
+    "timestamp_utc": "2026-10-12T03:07:05+00:00",
     "python": "3.11.15",
     "host": "vm"
   },

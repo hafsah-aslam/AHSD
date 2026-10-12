@@ -42,6 +42,8 @@ def archives():
     A.append(("D1_natural_novelty_p1c", PROC / "D1/temporal_gap/p1c", PROC / "D1/temporal_gap/p1c/sets.npz", {}))
     A.append(("D3_natural_novelty_p1c", PROC / "D3/temporal_gap/p1c", PROC / "D3/temporal_gap/p1c/sets.npz", {}))
     A.append(("D5_natural_novelty_p1d", PROC / "D5/temporal_gap/p1d", PROC / "D5/temporal_gap/p1d/sets.npz", {}))
+    for d in sorted(PROC.glob("D*/rolling/f*")):  # AMENDMENT_07 rolling cut-point packages
+        A.append((f"{d.parts[-3]}_rolling_{d.name}", d, d / "sets.npz", {}))
     d = PROC / "D5/purged_block/archive"
     A.append(("D5_purged_block", d, d / "sets.npz", {"loaco": d / "loaco.npz"}))
     for p in sorted((PROC / "transfer").glob("*__to__*")):
@@ -105,7 +107,7 @@ def checklist(summary, amend, manifest, files_commit):
         "; ".join(f"{a['id']} ({a['date']}) `{a['new_sha256'][:12]}…`" for a in am) + " — `docs/AMENDMENTS.json`")
     row("Gate verdicts kept as recorded", "yes (P1, G1, G2, G3 = STOP)", "`NEGATIVE_RESULTS.md`, `GATE_*.md`")
     row("Negative results reported", "yes", "`NEGATIVE_RESULTS.md`")
-    row("Single code commit for every paper number", f"`{summary['code_commit']}`", "`results/final/summary.json` (fails closed otherwise)")
+    row("Single code commit for every paper number", f"`{summary['code_commit']}`", "`results/final_v2/summary.json` (fails closed otherwise)")
     row("Clean tree + preflight seeding test before runs", "yes", "`nids/provenance.require_clean_tree`, `nids/preflight.py`")
     row("Seeds", "17, 23, 42, 101, 202 (n = 5)", "every result JSON")
     row("Confidence intervals", "Student-t, t = 2.776 (n = 5); never 1.96", "`nids/metrics.mean_ci`")
@@ -151,7 +153,7 @@ def main():
                    "RESEARCH_QUESTIONS.md", "DECISIONS_PENDING.md", "RESULTS_SUMMARY.md", "NEGATIVE_RESULTS.md",
                    "PREPROCESS_LOG.md", "README.md", "pyproject.toml", "requirements.txt", "data/MANIFEST.json")]
     write_json(OUT / "FILES.json", {"commit": head, "files": {p: sha256_file(ROOT / p) for p in sorted(tracked)}})
-    summary = json.loads((ROOT / "results/final/summary.json").read_text())
+    summary = json.loads((ROOT / "results/final_v2/summary.json").read_text())
     amend = json.loads((ROOT / "docs/AMENDMENTS.json").read_text())
     manifest = json.loads((ROOT / "data/MANIFEST.json").read_text())
     (OUT / "CHECKLIST.md").write_text(checklist(summary, amend, manifest, head))
@@ -164,7 +166,7 @@ def main():
         "- Configs: `configs/` (`data.yaml`, class maps).",
         "- Pre-registration and amendments: `RESEARCH_QUESTIONS.md`, `docs/AMENDMENTS.json` (dated SHA-256 chain).",
         "- Splits: `release/splits/*.npz` + `release/splits/MANIFEST.json`.",
-        "- Results: `results/final/**` (one JSON per evaluation × unit × seed), `results/final/summary.json`.",
+        "- Results: `results/final_v2/**` (one JSON per evaluation × unit × seed), `results/final_v2/summary.json`.",
         "- Report: `RESULTS_SUMMARY.md`, `NEGATIVE_RESULTS.md`, `report/final/tables/*.tex`, `report/final/figures/*.pdf`.",
         "- Checklist: `release/CHECKLIST.md`; file hashes: `release/FILES.json`.", "",
         "## Reproduce", "",

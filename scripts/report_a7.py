@@ -183,3 +183,41 @@ def indist_a7(I) -> dict:
         out[e] = {d: {"auc": b[d]["test"]["auc"]["mean"], "std": b[d]["test"]["auc"]["std"]}
                   for d in ("MSP", "P_attack", "GRU_MSP", "GRU_P_attack", "XGBoost", "XGBoost_s") if d in b}
     return out
+
+
+def a7_markdown(R: dict, AI: dict) -> str:
+    """RESULTS_SUMMARY.md section for AMENDMENT_07 (generated; no hand-typed numbers)."""
+    fams = list(FAM7)
+
+    def c(v, sign=False):
+        f = "+.3f" if sign else ".3f"
+        return f"{v['mean']:{f}} [{v['ci95'][0]:{f}}, {v['ci95'][1]:{f}}]"
+    L = ["", "## AMENDMENT_07 additions (descriptive)", "",
+         f"Rolling cut-points: {R['feasibility']['n_units']} (dataset, cut, class) units over "
+         f"{R['feasibility']['n_unique']} unique classes. GRU families are reported beside AHSD's, never pooled.", "",
+         "### Family mean AUC [95% class×seed bootstrap]", "",
+         "| Evaluation | " + " | ".join(fams) + " | leader (AHSD / GRU) |", "|---" * (len(fams) + 2) + "|"]
+    rows = [(e, st) for e, st in R["evals"].items()] + [("rolling pooled", R["rolling"]["pooled"])] + \
+        [(f"rolling {k}", v) for k, v in R["rolling"]["by_dataset"].items()] + \
+        [(f"rolling f={k}", v) for k, v in R["rolling"]["by_cut"].items()]
+    for e, st in rows:
+        L.append(f"| {e} | " + " | ".join(c(st["families"][f]) for f in fams) + f" | {st['leader_ahsd']} / {st['leader_gru']} |")
+    L += ["", "### TPR at 1% FPR (family mean)", "", "| Evaluation | " + " | ".join(fams) + " |", "|---" * (len(fams) + 1) + "|"]
+    for e, st in rows:
+        L.append(f"| {e} | " + " | ".join(f"{st['ops'][f]['tpr_at_1pct_fpr']['mean']:.3f}" for f in fams) + " |")
+    L += ["", "### Seed std of AUC (mean over classes): LOACO / natural novelty / rolling", "",
+          "| Detector | LOACO | NN | rolling | NN ratio | rolling ratio |", "|---|---|---|---|---|---|"]
+    for d, v in R["seed_std_ratio"].items():
+        L.append(f"| {d} | {v['loaco']:.3f} | {v['nn']:.3f} | {v['rolling']:.3f} | {v['nn_ratio']:.1f} | {v['rolling_ratio']:.1f} |")
+    p = R["rolling"]["pooled"]
+    L += ["", "### Key contrasts (rolling pooled)", ""]
+    L += [f"- {k}: {c(v, True)}" for k, v in p["contrasts"].items()]
+    L += [f"- XGBoost − leading AHSD novelty family: {c(p['XGBoost_minus_leader_ahsd'], True)}",
+          f"- XGBoost-s − leading AHSD novelty family: {c(p['XGBoost-s_minus_leader_ahsd'], True)}",
+          f"- XGBoost ≥ leading novelty family (7 fixed evaluations): {R['xgb_ge_leader']['XGBoost']}; "
+          f"XGBoost-s: {R['xgb_ge_leader']['XGBoost-s']}", ""]
+    L += ["### In-distribution AUC: MSP vs P(attack), both backbones", "", "| Evaluation | " + " | ".join(next(iter(AI.values()))) + " |",
+          "|---" * (len(next(iter(AI.values()))) + 1) + "|"]
+    for e, v in AI.items():
+        L.append(f"| {e} | " + " | ".join(f"{x['auc']:.3f}" for x in v.values()) + " |")
+    return "\n".join(L) + "\n"
