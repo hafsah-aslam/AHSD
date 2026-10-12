@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Generate every LaTeX table of the NOMS 2027 paper from results JSON only.
 
-Inputs: results/final/summary.json (final run, one code commit), the recorded gate JSON of
+Inputs: results/final_v2/summary.json (final run incl. AMENDMENT_07, one code commit), the recorded gate JSON of
 P1/P1b/P1c/P1d, data/processed/*/index_meta.json (dataset table).
 Output: paper/noms2027/tables/*.tex (included by main.tex). No number is typed by hand.
 
@@ -21,8 +21,10 @@ OUT = Path(__file__).resolve().parent / "tables"
 sys.path.insert(0, str(ROOT / "scripts"))
 from final_run import BEN, CLAD_, CONF, REPR, TRANSFER_TARGETS, XGB  # noqa: E402
 
-S = json.loads((ROOT / "results/final/summary.json").read_text())
+S = json.loads((ROOT / "results/final_v2/summary.json").read_text())
 CS, I, T, F = S["class_evals"], S["indist"], S["transfer"], S["feasibility"]
+A7, A7I = S["a7"], S["a7_indist"]
+RP = A7["rolling"]["pooled"]
 FAMS = ["confidence", "representation", "benign-only", "CLAD", "XGBoost"]
 NOV = ["confidence", "representation", "benign-only", "CLAD"]
 EV = ["loaco_D1fam", "loaco_D2", "loaco_D3", "loaco_D5pb", "nn_D1", "nn_D3", "nn_D5"]
@@ -82,13 +84,17 @@ def t_feasibility():
         r = D[ds]
         nn = F["natural_novelty"].get(f"nn_{ds}", {}).get("classes", [])
         gr = f"{r['loaco_family_grouped_random']} (fam.)" if "loaco_family_grouped_random" in r else str(r["loaco_grouped_random"])
-        rows.append(f"{ds} & {gr} & {r['loaco_temporal_gap']} & {len(nn)} \\\\")
+        fc = A7["feasibility"]["by_cut"].get(ds, {})
+        roll = sum(len(v["classes"]) for v in fc.values() if v["feasible"])
+        ncut = sum(v["feasible"] for v in fc.values())
+        rows.append(f"{ds} & {gr} & {r['loaco_temporal_gap']} & {len(nn)} & {roll} ({ncut}) \\\\")
     pb = F["d5_purged_block"]
     write("feasibility", "\\begin{table}[t]\n\\centering\\scriptsize\n"
-          "\\caption{Protocol feasibility: feasible LOACO folds per split and natural-novelty (NN) classes.}"
-          "\\label{tab:feasibility}\n\\begin{tabular}{lccc}\n\\toprule\n"
-          "Dataset & LOACO, grouped & LOACO, temporal & NN classes \\\\\n\\midrule\n" + "\n".join(rows)
-          + f"\n\\midrule\nD5 purged block & \\multicolumn{{2}}{{c}}{{{len(pb['feasible'])} ({esc(', '.join(pb['feasible']))})}} & -- \\\\\n"
+          "\\caption{Protocol feasibility: feasible LOACO folds per split, natural-novelty (NN) classes of the primary "
+          "temporal split, and rolling-cut units (feasible cuts of 4).}"
+          "\\label{tab:feasibility}\n\\setlength{\\tabcolsep}{2.5pt}\\begin{tabular}{lcccc}\n\\toprule\n"
+          "Dataset & LOACO grouped & LOACO temporal & NN & Rolling \\\\\n\\midrule\n" + "\n".join(rows)
+          + f"\n\\midrule\nD5 purged block & \\multicolumn{{2}}{{c}}{{{len(pb['feasible'])} ({esc(', '.join(pb['feasible']))})}} & -- & -- \\\\\n"
           "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 
@@ -298,8 +304,127 @@ def t_negative_compact():
           + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 
+# ---------------------------------------------------------------- AMENDMENT_07: operational metrics
+OPN = {"tpr_at_1pct_fpr": "TPR@1\\%", "pr_auc": "PR-AUC"}
+FAM7 = ["confidence", "representation", "benign-only", "CLAD", "XGBoost", "GRU-confidence", "GRU-representation"]
+F7N = {"confidence": "Conf.", "representation": "Repr.", "benign-only": "Benign", "CLAD": "CLAD", "XGBoost": "XGB",
+       "GRU-confidence": "GRU-c", "GRU-representation": "GRU-r", "XGBoost-s": "XGB-s"}
+
+
+def t_ops():
+    rows = []
+    for e, name in (("loaco_D2", "LOACO D2"), ("loaco_D3", "LOACO D3"), ("nn_D3", "Nat.\\ nov.\\ D3"),
+                    ("nn_D5", "Nat.\\ nov.\\ D5"), ("pooled", "Rolling (45)")):
+        st = RP if e == "pooled" else A7["evals"][e]
+        cells = [f"{st['families'][f]['mean']:.2f}/{st['ops'][f]['tpr_at_1pct_fpr']['mean']:.2f}" for f in FAM7]
+        rows.append(f"{name} & " + " & ".join(cells) + " \\\\")
+    write("ops", "\\begin{table}[t]\n\\centering\\scriptsize\\setlength{\\tabcolsep}{1.6pt}\n"
+          "\\caption{AUC vs operational detection: family mean AUC / TPR at 1\\% FPR (FPR threshold set on each test "
+          "set's benign windows). GRU-c/GRU-r: GRU confidence and representation families.}\\label{tab:ops}\n"
+          "\\begin{tabular}{lccccccc}\n\\toprule\nEvaluation & " + " & ".join(F7N[f] for f in FAM7)
+          + " \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+
+# ---------------------------------------------------------------- ablations
+def _maxck(fams):
+    return max(abs(A7["evals"][e]["checkpoint"][f]["mean"]) for e in EV for f in fams)
+
+
+def ablation_numbers():
+    ev = A7["evals"]
+    same = sum(A7["leaders"][e]["ahsd"].replace("representation", "R").replace("confidence", "C")
+               == A7["leaders"][e]["gru"].replace("GRU-", "").replace("representation", "R").replace("confidence", "C")
+               for e in EV)
+    cut_lead = {k: v["leader_ahsd"] for k, v in A7["rolling"]["by_cut"].items()}
+    ds_lead = {k: v["leader_ahsd"] for k, v in A7["rolling"]["by_dataset"].items()}
+    xs = A7["seed_std_ratio"]
+    return {
+        "gru_same_leader": same,
+        "repr_minus_grurepr_nnD3": ci(ev["nn_D3"]["contrasts"]["representation − GRU-representation"], True),
+        "repr_minus_grurepr_roll": ci(RP["contrasts"]["representation − GRU-representation"], True),
+        "conf_minus_gruconf_roll": ci(RP["contrasts"]["confidence − GRU-confidence"], True),
+        "ben_minus_grurepr_roll": ci(RP["contrasts"]["benign-only − GRU-representation"], True),
+        "ben_minus_repr_roll": ci(RP["contrasts"]["benign-only − representation"], True),
+        "ck_ahsd_repr_clad": round(_maxck(["representation", "CLAD"]), 3), "ck_ahsd_conf": round(_maxck(["confidence"]), 3),
+        "ck_gru_repr": round(_maxck(["GRU-representation"]), 3), "ck_gru_conf": round(_maxck(["GRU-confidence"]), 3),
+        "xgb_roll": round(RP["families"]["XGBoost"]["mean"], 3), "xgbs_roll": round(RP["families"]["XGBoost-s"]["mean"], 3),
+        "xgbs_std_roll": round(xs["XGBoost_s"]["rolling"], 3), "xgbs_std_nn": round(xs["XGBoost_s"]["nn"], 3),
+        "xgb_ge": len(A7["xgb_ge_leader"]["XGBoost"]), "xgbs_ge": len(A7["xgb_ge_leader"]["XGBoost-s"]),
+        "cut_leaders": cut_lead, "ds_leaders": ds_lead,
+    }
+
+
+def t_ablation():
+    n = ablation_numbers()
+    nm = {"representation": "Repr.", "benign-only": "Benign", "CLAD": "CLAD", "confidence": "Conf."}
+    cuts = ", ".join(f"{float(k):.2f}: {nm[v]}" for k, v in n["cut_leaders"].items())
+    dsl = ", ".join(f"{k}: {nm[v]}" for k, v in n["ds_leaders"].items())
+    d1, d3 = I["indist_D1_grouped_random"]["best"], I["indist_D3_grouped_random"]["best"]
+    t1, t3 = I["indist_D1_temporal_gap"]["best"], I["indist_D3_temporal_gap"]["best"]
+    rows = [
+        f"Backbone (AHSD$\\rightarrow$GRU) & Same leading family in {n['gru_same_leader']}/7 evaluations; Repr.$-$GRU-r "
+        f"NN D3 {n['repr_minus_grurepr_nnD3']}, rolling {n['repr_minus_grurepr_roll']} \\\\",
+        f"Checkpoint (best$\\rightarrow$final) & max $|\\Delta|$ family AUC: Repr./CLAD {n['ck_ahsd_repr_clad']:.3f}, Conf.\\ "
+        f"{n['ck_ahsd_conf']:.3f}; GRU-r {n['ck_gru_repr']:.3f}, GRU-c {n['ck_gru_conf']:.3f} \\\\",
+        f"XGBoost seeding (fixed$\\rightarrow$s) & $\\geq$ leader in {n['xgb_ge']} vs {n['xgbs_ge']} of 7; rolling AUC "
+        f"{n['xgb_roll']:.3f} vs {n['xgbs_roll']:.3f}; seed std 0 vs {n['xgbs_std_roll']:.3f} \\\\",
+        f"Split (grouped$\\rightarrow$temporal) & P(attack) D3 AHSD {d3['P_attack']['test']['auc']['mean']:.3f}$\\rightarrow$"
+        f"{t3['P_attack']['test']['auc']['mean']:.3f}, GRU {d3['GRU_P_attack']['test']['auc']['mean']:.3f}$\\rightarrow$"
+        f"{t3['GRU_P_attack']['test']['auc']['mean']:.3f}, XGB {d3['XGBoost']['test']['auc']['mean']:.3f}$\\rightarrow$"
+        f"{t3['XGBoost']['test']['auc']['mean']:.3f} \\\\",
+        f"Cut fraction $f$ & Leading family per cut: {cuts} \\\\",
+        f"Dataset (rolling) & Leading family: {dsl}; Benign$-$Repr.\\ pooled {n['ben_minus_repr_roll']} \\\\"]
+    rows = [r.replace(" -0.", " $-$0.").replace("[-0.", "[$-$0.").replace(" -", " $-$") for r in rows]
+    write("ablation", "\\begin{table}[t]\n\\centering\\scriptsize\\setlength{\\tabcolsep}{2pt}\n"
+          "\\caption{Ablations: one factor varied at a time, all else fixed (family mean AUC; 95\\% bootstrap intervals).}"
+          "\\label{tab:ablation}\n\\begin{tabular}{p{2.0cm}p{6.3cm}}\n\\toprule\nFactor & Effect \\\\\n\\midrule\n"
+          + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+    return n
+
+
+# ---------------------------------------------------------------- comparison with prior work
+def _fam(e, f):
+    return A7["evals"][e]["families"][f]["mean"]
+
+
+def _det(e, d):
+    return float(np.mean(list(A7["evals"][e]["cells"][d].values())))
+
+
+def t_prior():
+    """Prior values are quoted from the sources (docs/PRIOR_WORK_NUMBERS.md); ours come from the JSON."""
+    rd = A7["rolling"]["by_dataset"]
+    off = np.array([T[d][s][t]["mean"] for d in T for s in T[d] for t in T[d][s] if s != t])
+    au = lambda e, d: I[e]["best"][d]["test"]["auc"]["mean"]  # noqa: E731
+    rows = [
+        ("Zero-day hold-out, UNSW-NB15", "\\cite{sarhan2023zeroday}", "Z-DR 87--92\\% (NF-v2)",
+         f"LOACO D2: XGB {_fam('loaco_D2', 'XGBoost'):.3f}, Repr.\\ {_fam('loaco_D2', 'representation'):.3f} AUC"),
+        ("CLAD, LYCOS-IDS2017", "\\cite{wilkie2026}", "AUROC 0.997",
+         f"purged {_fam('loaco_D5pb', 'CLAD'):.3f}; NN {_fam('nn_D5', 'CLAD'):.3f}; rolling {rd['D5']['families']['CLAD']['mean']:.3f}"),
+        ("Held-out families, ToN-IoT", "\\cite{nayak2026}", "AUROC 0.971",
+         f"best: LOACO {max(_fam('loaco_D3', f) for f in FAMS):.3f}; rolling {max(rd['D3']['families'][f]['mean'] for f in FAMS):.3f}"),
+        ("Softmax entropy/energy, NF-ToN-IoT", "\\cite{talpini2024}", "AUROC 0.76 / 0.80",
+         f"LOACO D3 MSP {_det('loaco_D3', 'MSP'):.3f}, energy {_det('loaco_D3', 'Energy'):.3f}"),
+        ("Random$\\rightarrow$temporal, TON-IoT", "\\cite{abdessamad2026}", "macro-F1 0.87$\\rightarrow$0.58",
+         f"AUC: XGB {au('indist_D3_grouped_random', 'XGBoost'):.3f}$\\rightarrow${au('indist_D3_temporal_gap', 'XGBoost'):.3f}, "
+         f"AHSD {au('indist_D3_grouped_random', 'P_attack'):.3f}$\\rightarrow${au('indist_D3_temporal_gap', 'P_attack'):.3f}"),
+        ("Chronological, CIC-IDS", "\\cite{moczkodan2026}", "macro-F1 $\\approx$0.50",
+         f"temporal D1 AUC: XGB {au('indist_D1_temporal_gap', 'XGBoost'):.3f}"),
+        ("Cross-dataset", "\\cite{cantone2024}", "AUROC 0.59--0.82",
+         f"median {np.median(off):.3f} over {len(off)} pairs$\\times$detectors"),
+        ("Unknown-attack recall", "\\cite{zoppi2023}", "XGB Rec-Unk 0.38",
+         f"rolling XGB TPR@1\\% FPR {RP['ops']['XGBoost']['tpr_at_1pct_fpr']['mean']:.2f}"),
+    ]
+    body = "\n".join(f"{a} & {b} & {c} & {d} \\\\" for a, b, c, d in rows)
+    write("prior", "\\begin{table*}[t]\n\\centering\\scriptsize\\setlength{\\tabcolsep}{3pt}\n"
+          "\\caption{Previously reported results vs ours on the same datasets or questions. Metrics, splits and dataset "
+          "versions differ (stated in each cell), so the comparison shows direction, not a like-for-like ranking.}"
+          "\\label{tab:prior}\n\\begin{tabular}{llll}\n\\toprule\nSetting & Source & Reported & Ours (this benchmark) \\\\\n"
+          "\\midrule\n" + body + "\n\\bottomrule\n\\end{tabular}\n\\end{table*}\n")
+
+
 if __name__ == "__main__":
     for f in (t_datasets, t_feasibility, t_families, t_seedstd, t_confidence, t_temporal, t_transfer, t_perclass,
-              t_checkpoint, t_negative, t_transfer_compact, t_negative_compact, numbers):
+              t_checkpoint, t_negative, t_transfer_compact, t_negative_compact, t_ops, t_ablation, t_prior, numbers):
         f()
     print("tables:", sorted(p.name for p in OUT.glob("*")))

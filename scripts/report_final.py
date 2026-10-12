@@ -26,13 +26,14 @@ from matplotlib.patches import Rectangle  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from final_run import BEN, CK_DEP, CLAD_, CONF, EVALS, REPR, TRANSFER_TARGETS, XGB  # noqa: E402
+from final_run import BEN, CLAD_, CONF, EVALS, REPR, TRANSFER_TARGETS, XGB  # noqa: E402
 from nids import metrics  # noqa: E402
 from nids.provenance import ROOT, provenance, write_json  # noqa: E402
 from report_a7 import a7_stats, indist_a7  # noqa: E402
 
 SEEDS = [17, 23, 42, 101, 202]
 DETS = CONF + REPR + BEN + [CLAD_, XGB]
+CK_DEP = CONF + REPR + [CLAD_]  # AMENDMENT_06 checkpoint-dependent detectors (GRU ones: report_a7)
 FAMILIES = {"confidence": CONF, "representation": REPR, "benign-only": BEN, "CLAD": [CLAD_], "XGBoost": [XGB]}
 FAM_CK = ["confidence", "representation", "CLAD"]
 CONTRASTS = [("benign-only", "confidence"), ("benign-only", "representation"), ("representation", "confidence"),
