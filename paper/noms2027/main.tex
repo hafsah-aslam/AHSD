@@ -27,11 +27,11 @@ Operators deploy learned network intrusion detection systems (NIDS) to catch att
 \end{abstract}
 
 \begin{IEEEkeywords}
-network security management, intrusion detection, zero-day attacks, service assurance, evaluation methodology, NetFlow
+security management, service assurance, machine learning, NetFlow monitoring, intrusion detection, zero-day attacks
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{A}{network} operator who deploys a learned network intrusion detection system (NIDS) is buying protection against attacks that are not in its training data. Before trusting the detector, the operator needs evidence that it raises an alarm when a new attack class first appears, at a false-alarm rate the security team can absorb, and that this behaviour survives the routine retraining of an operational service. A detector that misses novel attacks creates false assurance; one whose zero-day coverage changes from one retraining to the next cannot be operated predictably.
+\IEEEPARstart{A}{network} operator who deploys a learned network intrusion detection system (NIDS) is buying protection against attacks that are not in its training data. Before trusting the detector, the operator needs evidence that it raises an alarm when a new attack class first appears, at a false-alarm rate the security team can absorb, and that this behaviour survives the routine retraining of an operational service. A detector that misses novel attacks creates false assurance; one whose zero-day coverage changes from one retraining to the next cannot be operated predictably. The management task is therefore twofold: acceptance testing of a detection service before deployment, and re-validation after every retraining.
 
 \emph{The problem.} The evidence operators receive is usually a single training run evaluated by leave-one-attack-class-out (LOACO): one attack class is removed from a randomly split benchmark and the detector must flag it at test time~\cite{wilkie2026,jodayree2026,sarhan2023zeroday}. Novelty is often scored with confidence scores designed for multi-class image recognition, such as maximum softmax probability (MSP)~\cite{hendrycks2017} and energy~\cite{liu2020energy}, and summarised by ROC AUC. In deployment, however, a new class arrives later in time, together with drifting benign traffic; the detector is retrained repeatedly; and only the detection rate at a low false-alarm rate matters. Security-ML research has shown that evaluation shortcuts inflate results~\cite{sommer2010,arp2022,pendlebury2019,apruzzese2023}, and recent work has begun to study time-aware NIDS splits~\cite{andresini2021,abdessamad2026,moczkodan2026}.
 
