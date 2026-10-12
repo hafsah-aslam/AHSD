@@ -1,4 +1,4 @@
-% IEEE/IFIP NOMS 2027 full paper: 8 pages main text + references (page 9).
+% IEEE/IFIP NOMS 2027 full paper.
 % Every table is generated from results JSON by make_tables.py; check_numbers.py verifies the numbers quoted in the prose.
 \documentclass[conference]{IEEEtran}
 \usepackage[T1]{fontenc}
@@ -242,9 +242,7 @@ We explain why the protocols disagree, turn the findings into a checklist for op
 \section{Conclusion}
 Evaluating learned NIDS on natural zero-day traffic, rather than on one class hold-out run scored by AUC, changes what an operator should believe. On two backbones, max-softmax and energy inverted because confident detection reads as normality; detector-family rankings moved with protocol, dataset and cut-point, and a supervised XGBoost that matched the best novelty family on fixed evaluations trailed benign-only detectors over rolling cuts; representation scores became seed-dependent under natural novelty; and AUCs up to 0.75 meant at most 18\% detection at 1\% false-positive rate. Four pre-registered hypotheses failed and are reported in full. Code, splits and amendments are at [artifact URL].
 
-\clearpage
 \begin{thebibliography}{99}
-\scriptsize
 \bibitem{sommer2010} R. Sommer and V. Paxson, ``Outside the closed world: On using machine learning for network intrusion detection,'' in \emph{Proc. IEEE S\&P}, 2010, pp. 305--316.
 \bibitem{arp2022} D. Arp \emph{et al.}, ``Dos and don'ts of machine learning in computer security,'' in \emph{Proc. USENIX Security}, 2022, pp. 3971--3988.
 \bibitem{pendlebury2019} F. Pendlebury, F. Pierazzi, R. Jordaney, J. Kinder, and L. Cavallaro, ``TESSERACT: Eliminating experimental bias in malware classification across space and time,'' in \emph{Proc. USENIX Security}, 2019, pp. 729--746.

@@ -24,7 +24,7 @@ EOF
 TMP=$(mktemp -d) && unzip -q "$OUT/noms2027_overleaf.zip" -d "$TMP"
 ( cd "$TMP" && pdflatex -interaction=nonstopmode main.tex >/dev/null && pdflatex -interaction=nonstopmode main.tex > build.log )
 grep -E "Overfull|undefined|Error" "$TMP/build.log" && { echo "clean-room compile has warnings"; exit 1; } || true
-echo "clean-room compile OK: $(pdfinfo "$TMP/main.pdf" | grep Pages)"
+echo "clean-room compile OK ($(pdfinfo "$TMP/main.pdf" | grep Pages | tr -s " "))"
 # full package
 mkdir -p "$OUT/full"
 cp -r "$OUT/overleaf/." "$OUT/full/"
