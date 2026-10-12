@@ -575,9 +575,217 @@ def fig_seedstd():
     plt.close(fig)
 
 
+# ------------------------------------------------------------------ simplified, one-message figures
+plt.rcParams.update({"font.size": 7.5, "axes.labelsize": 7.5, "axes.titlesize": 8, "xtick.labelsize": 7,
+                     "ytick.labelsize": 7, "legend.fontsize": 7})
+FAM5 = [("confidence", "Confidence", CONF_D := ["MSP", "Energy", "P_attack"]),
+        ("representation", "Representation", ["AHSD_stress", "Mahalanobis", "kNN"]),
+        ("benign-only", "Benign-only", ["IF", "OCSVM", "PCA", "AE"]),
+        ("CLAD", "CLAD", ["Wilkie_CLAD"]), ("XGBoost", "XGBoost", ["XGBoost"])]
+PROTO = [("LOACO\n(hold-out)", ["loaco_D1fam", "loaco_D2", "loaco_D3", "loaco_D5pb"]),
+         ("Natural\nnovelty", ["nn_D1", "nn_D3", "nn_D5"]),
+         ("Rolling\ncut-points", None)]
+
+
+def pooled_family(evs):
+    """Unit-weighted family mean AUC over every (evaluation, class) unit of the given evaluations."""
+    out = {}
+    for f, _, ds in FAM5:
+        v = [np.mean([A7["evals"][e]["cells"][d][u] for d in ds]) for e in evs for u in A7["evals"][e]["cells"][ds[0]]]
+        out[f] = (float(np.mean(v)), len(v))
+    return out
+
+
+def protocol_winners():
+    roll = [e for e in A7["evals"] if e.startswith("roll_")]
+    return [(lab, pooled_family(evs if evs else roll)) for lab, evs in PROTO]
+
+
+def title(ax, t):
+    ax.set_title(t, loc="left", fontsize=8, weight="bold", color=INK, pad=4)
+
+
+def fig_heatmap():  # kept name for the build; now "who wins under each protocol"
+    W = protocol_winners()
+    fig, axs = plt.subplots(1, 3, figsize=(COL_W, 2.15), sharey=True)
+    for ax, (lab, P) in zip(axs, W):
+        win = max(P, key=lambda f: P[f][0])
+        ys = np.arange(len(FAM5))[::-1]
+        for y, (f, name, _) in zip(ys, FAM5):
+            v = P[f][0]
+            ax.barh(y, v, height=0.62, color=C[f], alpha=1.0 if f == win else 0.28, zorder=2)
+            ax.text(v + 0.02, y, f"{v:.2f}", va="center", fontsize=6.8, color=INK, weight="bold" if f == win else "normal")
+        n = next(iter(P.values()))[1]
+        ax.set_title(f"{lab}\n{n} attack classes" if n < 45 else f"{lab}\n{n} class-cut units", fontsize=7.2, color=INK, pad=3)
+        ax.axvline(0.5, color=MUTED, lw=0.7, ls=(0, (3, 2)), zorder=1)
+        ax.set_xlim(0, 1.18)
+        ax.set_xticks([0, 0.5, 1])
+        ax.set_xticklabels(["0", ".5", "1"])
+        style(ax)
+    axs[0].set_yticks(np.arange(len(FAM5))[::-1])
+    axs[0].set_yticklabels([n for _, n, _ in FAM5])
+    axs[1].set_xlabel("Mean AUC (bold bar = winner)")
+    fig.suptitle("Each protocol crowns a different winner", x=0.02, ha="left", fontsize=8.2, weight="bold", color=INK)
+    fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.94), w_pad=0.4)
+    fig.savefig(OUT / "fig_heatmap.pdf")
+    plt.close(fig)
+    return {lab.replace("\n", " "): {f: round(v[0], 3) for f, v in P.items()} for lab, P in W}
+
+
+def fig_confidence():
+    rows = [("LOACO D2", "loaco_D2"), ("LOACO D3", "loaco_D3"), ("Natural nov. D3", "nn_D3"),
+            ("Natural nov. D5", "nn_D5"), ("Rolling (45 units)", "rolling")]
+    cells = lambda e: A7["rolling"]["pooled"]["cells"] if e == "rolling" else A7["evals"][e]["cells"]  # noqa: E731
+    cM, cP = "#eb6834", "#2a78d6"
+    fig, ax = plt.subplots(figsize=(COL_W, 2.1))
+    ax.axvspan(0, 0.5, color="#fbeae7", zorder=0)
+    ax.text(0.25, -0.45, "worse than chance", ha="center", fontsize=6.6, color="#9b2c2c")
+    ys = np.arange(len(rows))[::-1]
+    for y, (lab, e) in zip(ys, rows):
+        for dy, pre, fs in ((0.16, "", "full"), (-0.16, "GRU_", "none")):
+            m = float(np.mean(list(cells(e)[pre + "MSP"].values())))
+            p = float(np.mean(list(cells(e)[pre + "P_attack"].values())))
+            ax.plot([m, p], [y + dy, y + dy], color=GRID if abs(p - m) < 0.02 else "#c9c8c3", lw=1.6, zorder=1)
+            ax.scatter([m], [y + dy], s=26, marker="o", facecolor=cM if fs == "full" else "white", edgecolor=cM, lw=1, zorder=3)
+            ax.scatter([p], [y + dy], s=26, marker="o", facecolor=cP if fs == "full" else "white", edgecolor=cP, lw=1, zorder=3)
+    ax.set_yticks(ys)
+    ax.set_yticklabels([r for r, _ in rows])
+    ax.set_xlim(0, 1.02)
+    ax.set_ylim(-0.6, 4.85)
+    ax.set_xlabel("Mean AUC on the same trained models")
+    for lab_, col in (("MSP", cM), ("P(attack)", cP)):
+        ax.scatter([], [], s=26, color=col, label=lab_)
+    ax.scatter([], [], s=26, facecolor=INK2, edgecolor=INK2, label="AHSD")
+    ax.scatter([], [], s=26, facecolor="white", edgecolor=INK2, label="GRU")
+    ax.legend(loc="lower center", bbox_to_anchor=(0.45, 1.0), ncol=4, frameon=False, handletextpad=0.1, columnspacing=0.9)
+    style(ax)
+    fig.suptitle("MSP drops below chance where P(attack) detects", x=0.02, ha="left", fontsize=8, weight="bold", color=INK)
+    fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.95))
+    fig.savefig(OUT / "fig_confidence.pdf")
+    plt.close(fig)
+
+
+def _illusion_stats():
+    acc = {}
+    for r in _runs():
+        if r["kind"] != "natural_novelty":
+            continue
+        for d, bc in r["ops"]["best"].items():
+            for c, mm in bc.items():
+                acc.setdefault((r["eval_id"], d, c), []).append((r["auc"]["best"][d][c], mm["tpr_at_1pct_fpr"]))
+    P = []
+    for k, v in acc.items():
+        if len(v) != 5:
+            raise SystemExit(f"{k}: {len(v)} seeds")
+        P.append((np.mean([x for x, _ in v]), np.mean([y for _, y in v])))
+    P = np.array(P)
+    hi = P[P[:, 0] >= 0.75]
+    return {"n_points": int(len(P)), "median_tpr_auc_ge_075": float(np.median(hi[:, 1])), "n_auc_ge_075": int(len(hi)),
+            "n_trap": int(np.sum(hi[:, 1] < 0.2))}
+
+
+def fig_illusion():
+    RPf = A7["rolling"]["pooled"]
+    fig, ax = plt.subplots(figsize=(COL_W, 2.0))
+    ys = np.arange(len(FAM5))[::-1]
+    for y, (f, name, _) in zip(ys, FAM5):
+        a = RPf["families"][f]["mean"]
+        t = RPf["ops"][f]["tpr_at_1pct_fpr"]["mean"]
+        ax.barh(y + 0.19, a, height=0.34, color=C[f], alpha=0.3, zorder=2)
+        ax.barh(y - 0.19, t, height=0.34, color=C[f], zorder=2)
+        ax.text(a + 0.015, y + 0.19, f"AUC {a:.2f}", va="center", fontsize=6.4, color=INK2)
+        ax.text(t + 0.015, y - 0.19, f"{t:.0%} caught", va="center", fontsize=6.6, color=INK, weight="bold")
+    ax.set_yticks(ys)
+    ax.set_yticklabels([n for _, n, _ in FAM5])
+    ax.set_xlim(0, 1.0)
+    ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+    ax.set_xlabel("light: AUC   ·   dark: share of attacks caught at 1% false alarms")
+    style(ax)
+    title(ax, "A good AUC still misses most new attacks")
+    fig.tight_layout(pad=0.3)
+    fig.savefig(OUT / "fig_illusion.pdf")
+    plt.close(fig)
+    return _illusion_stats()
+
+
+def fig_seedstd():
+    vals = {}
+    for r in _runs():
+        if r["eval_id"] in ("loaco_D3", "nn_D3"):
+            for d in ("kNN", "IF"):
+                for c, v in r["auc"]["best"][d].items():
+                    vals.setdefault((r["eval_id"], c, d), []).append(v)
+    blocks = [("loaco_D3", "LOACO (hold-out)"), ("nn_D3", "Natural novelty")]
+    dets = [("kNN", "kNN distance (learned)", C["representation"], "s"), ("IF", "Isolation Forest (benign-only)", C["benign-only"], "D")]
+    fig, axs = plt.subplots(1, 2, figsize=(COL_W, 2.2), sharey=False)
+    for ax, (e, lab) in zip(axs, blocks):
+        cls = A7["evals"][e]["classes"]
+        ys = np.arange(len(cls))[::-1]
+        for y, c in zip(ys, cls):
+            for k, (d, _, col, mk) in enumerate(dets):
+                v = np.array(vals[(e, c, d)])
+                if len(v) != 5:
+                    raise SystemExit(f"{e}/{c}/{d}: {len(v)} seeds")
+                yy = y + (0.14 if k == 0 else -0.14)
+                ax.hlines(yy, v.min(), v.max(), color=col, lw=3, alpha=0.3, zorder=1)
+                ax.scatter(v, np.full(5, yy), s=12, marker=mk, color=col, edgecolor="white", lw=0.4, zorder=2)
+        ax.axvline(0.5, color=MUTED, lw=0.7, ls=(0, (3, 2)))
+        ax.set_yticks(ys)
+        ax.set_yticklabels(cls)
+        ax.set_xlim(0, 1.02)
+        ax.set_xticks([0, 0.5, 1])
+        ax.set_title(lab, fontsize=7.4, color=INK, pad=3)
+        style(ax)
+    fig.supxlabel("AUC of each of 5 training seeds, ToN-IoT", fontsize=7, color=INK2, y=0.02)
+    for d, lab_, col, mk in dets:
+        axs[0].scatter([], [], s=14, marker=mk, color=col, label=lab_)
+    fig.legend(*axs[0].get_legend_handles_labels(), loc="upper center", bbox_to_anchor=(0.5, 0.995), ncol=2, frameon=False,
+               handletextpad=0.1, fontsize=6.6)
+    fig.tight_layout(pad=0.3, rect=(0, 0.04, 1, 0.9), w_pad=0.6)
+    fig.savefig(OUT / "fig_seedstd.pdf")
+    plt.close(fig)
+
+
+def fig_shift():
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 1.95), gridspec_kw={"width_ratios": [1.2, 1]})
+    models = [("P_attack", "Neural (AHSD)", C["confidence"], "o"), ("XGBoost", "XGBoost", C["XGBoost"], "v")]
+    y, yt = 0, []
+    for ds in ("D1", "D2", "D3", "D5"):
+        for d, _, col, mk in models:
+            g = I[f"indist_{ds}_grouped_random"]["best"][d]["test"]["auc"]["mean"]
+            t = I[f"indist_{ds}_temporal_gap"]["best"][d]["test"]["auc"]["mean"]
+            a1.annotate("", xy=(t, -y), xytext=(g, -y), arrowprops=dict(arrowstyle="-|>", color=col, lw=1.3, mutation_scale=7,
+                                                                        shrinkA=0, shrinkB=0))
+            a1.scatter([g], [-y], s=14, marker=mk, facecolor="white", edgecolor=col, lw=1, zorder=3)
+            y += 1
+        yt.append(-(y - 1.5))
+        y += 0.7
+    a1.set_yticks(yt)
+    a1.set_yticklabels(["D1", "D2", "D3", "D5"])
+    a1.set_xlim(0.45, 1.02)
+    a1.set_xlabel("AUC, random → time split")
+    for _, lab_, col, mk in models:
+        a1.plot([], [], color=col, marker=mk, ms=3.5, lw=1.2, mfc="white", label=lab_)
+    a1.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, frameon=False, handlelength=1.3, columnspacing=0.8)
+    style(a1)
+    off = np.array([T[d][s][t]["mean"] for d in T for s in T[d] for t in T[d][s] if s != t])
+    a2.hist(off, bins=np.arange(0, 1.0001, 0.1), color=C["confidence"], edgecolor="white", lw=1.0, zorder=2)
+    a2.axvline(0.5, color=INK2, lw=0.9, ls=(0, (3, 2)))
+    a2.text(0.47, a2.get_ylim()[1] * 0.95, f"median {np.median(off):.2f}", fontsize=6.6, color=INK, va="top", ha="right")
+    a2.set_xlabel(f"Cross-dataset AUC ({len(off)} results)")
+    a2.set_ylabel("Count")
+    a2.set_xlim(0, 1)
+    a2.set_title("Transfer ≈ chance", fontsize=7.4, color=INK, pad=3)
+    style(a2, "y")
+    fig.tight_layout(pad=0.3, w_pad=0.8)
+    fig.savefig(OUT / "fig_shift.pdf")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig_pipeline, fig_heatmap, fig_seedstd, fig_confidence, fig_shift):
+    for f in (fig_pipeline, fig_seedstd, fig_confidence, fig_shift):
         f()
     (OUT / "illusion.json").write_text(json.dumps(fig_illusion(), indent=1))
+    (OUT / "winners.json").write_text(json.dumps(fig_heatmap(), indent=1))
     print("figures:", sorted(p.name for p in OUT.glob("fig_*.pdf")))

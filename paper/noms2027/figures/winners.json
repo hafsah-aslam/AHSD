@@ -1,0 +1,23 @@
+{
+ "LOACO (hold-out)": {
+  "confidence": 0.475,
+  "representation": 0.879,
+  "benign-only": 0.794,
+  "CLAD": 0.818,
+  "XGBoost": 0.869
+ },
+ "Natural novelty": {
+  "confidence": 0.434,
+  "representation": 0.637,
+  "benign-only": 0.787,
+  "CLAD": 0.776,
+  "XGBoost": 0.844
+ },
+ "Rolling cut-points": {
+  "confidence": 0.532,
+  "representation": 0.623,
+  "benign-only": 0.748,
+  "CLAD": 0.652,
+  "XGBoost": 0.672
+ }
+}
