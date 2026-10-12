@@ -301,32 +301,39 @@ def fig_confidence():
 
 # ------------------------------------------------------------------ C5 temporal + transfer
 def fig_shift():
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 1.95), gridspec_kw={"width_ratios": [1.15, 1]})
-    dsc = {"D1": "#2a78d6", "D2": "#eb6834", "D3": "#1baf7a", "D5": "#6250d6"}
-    for ds, col in dsc.items():
-        for d, ls, mk in (("P_attack", "-", "o"), ("GRU_P_attack", (0, (0.8, 1.2)), "s"), ("XGBoost", (0, (2, 1.5)), "v")):
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 2.0), gridspec_kw={"width_ratios": [1.25, 1]})
+    models = [("P_attack", "AHSD", C["confidence"], "o", "full"), ("GRU_P_attack", "GRU", C["confidence"], "s", "none"),
+              ("XGBoost", "XGBoost", C["XGBoost"], "v", "full")]
+    dss = ["D1", "D2", "D3", "D5"]
+    y = 0
+    yt, yl = [], []
+    for ds in dss:
+        for d, lab_, col, mk, fs in models:
             g = I[f"indist_{ds}_grouped_random"]["best"][d]["test"]["auc"]["mean"]
             t = I[f"indist_{ds}_temporal_gap"]["best"][d]["test"]["auc"]["mean"]
-            a1.plot([0, 1], [g, t], color=col, ls=ls, lw=1.1, marker=mk, ms=3.2, mec="white", mew=0.4)
-        a1.text(1.07, I[f"indist_{ds}_temporal_gap"]["best"]["P_attack"]["test"]["auc"]["mean"], ds, fontsize=6,
-                color=INK2, va="center")
-    a1.plot([], [], color=INK2, lw=1.1, marker="o", ms=3, label="AHSD P(attack)$^\\dagger$")
-    a1.plot([], [], color=INK2, lw=1.1, ls=(0, (0.8, 1.2)), marker="s", ms=3, label="GRU P(attack)")
-    a1.plot([], [], color=INK2, lw=1.1, ls=(0, (2, 1.5)), marker="v", ms=3, label="XGBoost")
-    a1.set_xticks([0, 1])
-    a1.set_xticklabels(["grouped", "temporal"])
-    a1.set_xlim(-0.15, 1.3)
-    a1.set_ylim(0.45, 1.02)
-    a1.set_ylabel("In-distribution AUC")
-    a1.legend(loc="lower left", frameon=False, fontsize=5.6, handlelength=1.8)
-    style(a1, "y")
+            a1.annotate("", xy=(t, -y), xytext=(g, -y), arrowprops=dict(arrowstyle="-|>", color=col, lw=1.0,
+                                                                        mutation_scale=6, shrinkA=0, shrinkB=0))
+            a1.scatter([g], [-y], s=10, marker=mk, facecolor="white", edgecolor=col, lw=0.8, zorder=3)
+            y += 1
+        yt.append(-(y - 2))
+        yl.append(ds)
+        y += 0.8
+    a1.set_yticks(yt)
+    a1.set_yticklabels(yl)
+    a1.set_xlim(0.45, 1.02)
+    a1.set_xlabel("AUC: grouped → temporal split")
+    for d, lab_, col, mk, fs in models:
+        a1.plot([], [], color=col, marker=mk, ms=3.2, lw=1, mfc=col if fs == "full" else "white", label=lab_)
+    a1.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False, fontsize=5.5, handlelength=1.3,
+              columnspacing=0.8, borderaxespad=0.1)
+    style(a1)
     off = np.array([T[d][s][t]["mean"] for d in T for s in T[d] for t in T[d][s] if s != t])
     a2.hist(off, bins=np.arange(0, 1.0001, 0.05), color=C["confidence"], edgecolor="white", lw=0.6, zorder=2)
     a2.axvspan(0.3, 0.6, color=GRID, alpha=0.6, zorder=1)
     chance(a2)
-    a2.set_ylim(0, a2.get_ylim()[1] * 1.45)
-    a2.text(0.98, 0.97, f"{np.mean((off >= .3) & (off <= .6)):.0%} in shaded\nband [0.3, 0.6]", fontsize=6,
-            color=INK, ha="right", va="top", transform=a2.transAxes)
+    a2.set_ylim(0, a2.get_ylim()[1] * 1.3)
+    a2.text(0.02, 0.97, f"{np.mean((off >= .3) & (off <= .6)):.0%} in\n[0.3, 0.6]", fontsize=6,
+            color=INK, ha="left", va="top", transform=a2.transAxes)
     a2.set_xlabel(f"Zero-shot transfer AUC (n = {len(off)})")
     a2.set_ylabel("Count")
     a2.set_xlim(0, 1)
@@ -496,7 +503,7 @@ def fig_illusion():
     fig, ax = plt.subplots(figsize=(COL_W, 2.4))
     a = np.linspace(0.5, 0.9999, 300)
     ax.plot(a, norm.cdf(np.sqrt(2) * norm.ppf(a) - norm.ppf(0.99)), color=INK2, lw=0.9, ls=(0, (3, 1.5)), zorder=4)
-    ax.text(0.9, 0.36, "equal-variance\nbinormal", fontsize=5.4, color=INK2, ha="right")
+    ax.plot([], [], color=INK2, lw=0.9, ls=(0, (3, 1.5)), label="binormal reference")
     ax.axhspan(0, 0.2, xmin=0.75, xmax=1.0, color="#f9dedb", zorder=0)
     pts = {f: [] for f in FAMS}
     for (e, d, c), v in acc.items():
@@ -511,9 +518,8 @@ def fig_illusion():
     all_ = np.array([p for f in pts for p in pts[f]])
     hi = all_[all_[:, 0] >= 0.75]
     trap = int(np.sum((all_[:, 0] >= 0.75) & (all_[:, 1] < 0.2)))
-    ax.text(0.02, 0.97, f"{len(all_)} detector × class points\nAUC ≥ 0.75: median TPR {np.median(hi[:, 1]):.2f}\n"
-            f"shaded: AUC ≥ 0.75 yet TPR < 0.2 ({trap} of {len(hi)})", transform=ax.transAxes, fontsize=5.6, color=INK,
-            va="top", linespacing=1.25)
+    ax.text(0.02, 0.97, f"{trap} of {len(hi)} points with AUC ≥ 0.75\ncatch < 20% of attacks (shaded)",
+            transform=ax.transAxes, fontsize=6.4, color="#7d1d1d", va="top", weight="bold", linespacing=1.25)
     chance(ax)
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)

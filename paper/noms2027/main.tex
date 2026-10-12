@@ -207,7 +207,7 @@ Table~\ref{tab:prior} sets our numbers beside published ones on the same dataset
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_shift}
-\caption{Left: in-distribution AUC under grouped vs temporal splits (solid: AHSD P(attack); dotted: GRU P(attack); dashed: XGBoost). Right: the 108 zero-shot transfer AUCs cluster around chance.}
+\caption{Left: each arrow runs from the in-distribution AUC under a grouped split (open marker) to that under a temporal split (arrowhead), for both backbones' P(attack) and XGBoost. Right: the 108 zero-shot transfer AUCs cluster around chance.}
 \label{fig:shift}
 \end{figure}
 Temporal-split effects are dataset-specific (Fig.~\ref{fig:shift}, left): on D1 both the first backbone and XGBoost lose 0.27--0.29 AUC, on D2 neither changes by more than 0.014, and on D5 both improve. Zero-shot transfer collapses towards chance, as reported before~\cite{layeghy2023xdomain,cantone2024}: the median of 108 transfer results (12 detectors $\times$ 9 pairs) is 0.500, with 67\% in [0.3, 0.6]; the highest come from D1$\rightarrow$D3 (CLAD 0.876, XGBoost 0.832).
