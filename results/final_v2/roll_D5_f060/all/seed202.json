@@ -1,0 +1,1468 @@
+{
+  "eval_id": "roll_D5_f060",
+  "kind": "natural_novelty",
+  "dataset": "D5",
+  "seed": 202,
+  "unit": "all",
+  "classes": [
+    "bot",
+    "ddos",
+    "portscan",
+    "webattack_bruteforce",
+    "webattack_sql_injection",
+    "webattack_xss"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "bot": 0.47118920000000003,
+        "ddos": 0.03994160000000001,
+        "portscan": 0.043919599999999996,
+        "webattack_bruteforce": 0.7089519999999999,
+        "webattack_sql_injection": 0.537686956521739,
+        "webattack_xss": 0.7229678787878787
+      },
+      "Energy": {
+        "bot": 0.50653,
+        "ddos": 0.036879999999999996,
+        "portscan": 0.028879200000000018,
+        "webattack_bruteforce": 0.6582527999999999,
+        "webattack_sql_injection": 0.5685739130434783,
+        "webattack_xss": 0.6534703030303031
+      },
+      "P_attack": {
+        "bot": 0.4705456,
+        "ddos": 0.9949472,
+        "portscan": 0.04267359999999999,
+        "webattack_bruteforce": 0.7327024,
+        "webattack_sql_injection": 0.530904347826087,
+        "webattack_xss": 0.757680606060606
+      },
+      "Mahalanobis": {
+        "bot": 0.5558247999999999,
+        "ddos": 0.9908776,
+        "portscan": 0.9886248,
+        "webattack_bruteforce": 0.6165311999999998,
+        "webattack_sql_injection": 0.5512,
+        "webattack_xss": 0.6149490909090909
+      },
+      "kNN": {
+        "bot": 0.5543600000000001,
+        "ddos": 0.9890416,
+        "portscan": 0.697024,
+        "webattack_bruteforce": 0.6852632000000001,
+        "webattack_sql_injection": 0.6184869565217391,
+        "webattack_xss": 0.6995830303030303
+      },
+      "AHSD_stress": {
+        "bot": 0.42344800000000005,
+        "ddos": 0.9864872,
+        "portscan": 0.9855496,
+        "webattack_bruteforce": 0.5191912,
+        "webattack_sql_injection": 0.40662608695652175,
+        "webattack_xss": 0.5396357575757575
+      },
+      "GRU_MSP": {
+        "bot": 0.47881679999999993,
+        "ddos": 0.0258216,
+        "portscan": 0.9808183999999999,
+        "webattack_bruteforce": 0.6861659999999999,
+        "webattack_sql_injection": 0.613791304347826,
+        "webattack_xss": 0.7241430303030303
+      },
+      "GRU_Energy": {
+        "bot": 0.4817712,
+        "ddos": 0.020512,
+        "portscan": 0.9607159999999999,
+        "webattack_bruteforce": 0.6817255999999999,
+        "webattack_sql_injection": 0.6209217391304348,
+        "webattack_xss": 0.717230303030303
+      },
+      "GRU_P_attack": {
+        "bot": 0.47683720000000007,
+        "ddos": 0.9959984000000001,
+        "portscan": 0.9800016,
+        "webattack_bruteforce": 0.6959168,
+        "webattack_sql_injection": 0.6094434782608695,
+        "webattack_xss": 0.7376763636363637
+      },
+      "GRU_Mahalanobis": {
+        "bot": 0.5918167999999999,
+        "ddos": 0.994704,
+        "portscan": 0.9805752,
+        "webattack_bruteforce": 0.6557143999999999,
+        "webattack_sql_injection": 0.6363652173913044,
+        "webattack_xss": 0.6602399999999999
+      },
+      "GRU_kNN": {
+        "bot": 0.5664895999999999,
+        "ddos": 0.9684031999999999,
+        "portscan": 0.9796752,
+        "webattack_bruteforce": 0.6926512,
+        "webattack_sql_injection": 0.6388869565217391,
+        "webattack_xss": 0.7207878787878789
+      },
+      "IF": {
+        "bot": 0.4495072,
+        "ddos": 0.8173712000000001,
+        "portscan": 0.9916416,
+        "webattack_bruteforce": 0.6714224000000001,
+        "webattack_sql_injection": 0.5661565217391304,
+        "webattack_xss": 0.6955127272727273
+      },
+      "OCSVM": {
+        "bot": 0.4868024,
+        "ddos": 0.5102184,
+        "portscan": 0.9792503999999999,
+        "webattack_bruteforce": 0.7155375999999999,
+        "webattack_sql_injection": 0.5700173913043478,
+        "webattack_xss": 0.7199963636363635
+      },
+      "PCA": {
+        "bot": 0.6302544,
+        "ddos": 0.8880528,
+        "portscan": 0.8453056,
+        "webattack_bruteforce": 0.6648832,
+        "webattack_sql_injection": 0.6258434782608695,
+        "webattack_xss": 0.6545418181818181
+      },
+      "AE": {
+        "bot": 0.5936612,
+        "ddos": 0.8918176,
+        "portscan": 0.7846136,
+        "webattack_bruteforce": 0.748748,
+        "webattack_sql_injection": 0.6498608695652173,
+        "webattack_xss": 0.7325127272727273
+      },
+      "Wilkie_CLAD": {
+        "bot": 0.543504,
+        "ddos": 0.983456,
+        "portscan": 0.9347624,
+        "webattack_bruteforce": 0.7071660000000001,
+        "webattack_sql_injection": 0.6423130434782609,
+        "webattack_xss": 0.7045333333333333
+      },
+      "XGBoost": {
+        "bot": 0.5502496,
+        "ddos": 0.9959479999999999,
+        "portscan": 0.9726959999999998,
+        "webattack_bruteforce": 0.7289568000000002,
+        "webattack_sql_injection": 0.5902434782608695,
+        "webattack_xss": 0.7474860606060605
+      },
+      "XGBoost_s": {
+        "bot": 0.5336976,
+        "ddos": 0.9960832,
+        "portscan": 0.9765,
+        "webattack_bruteforce": 0.733656,
+        "webattack_sql_injection": 0.6288869565217391,
+        "webattack_xss": 0.7721018181818182
+      }
+    },
+    "final": {
+      "MSP": {
+        "bot": 0.3767012,
+        "ddos": 0.09687600000000002,
+        "portscan": 0.63135,
+        "webattack_bruteforce": 0.7366716,
+        "webattack_sql_injection": 0.5339217391304347,
+        "webattack_xss": 0.7811139393939395
+      },
+      "Energy": {
+        "bot": 0.38506799999999997,
+        "ddos": 0.070724,
+        "portscan": 0.5566944,
+        "webattack_bruteforce": 0.729824,
+        "webattack_sql_injection": 0.5548347826086957,
+        "webattack_xss": 0.7717478787878786
+      },
+      "P_attack": {
+        "bot": 0.3764148,
+        "ddos": 0.9973752,
+        "portscan": 0.6309488000000001,
+        "webattack_bruteforce": 0.7473596,
+        "webattack_sql_injection": 0.5334434782608695,
+        "webattack_xss": 0.7810830303030303
+      },
+      "Mahalanobis": {
+        "bot": 0.5606004000000001,
+        "ddos": 0.9943215999999999,
+        "portscan": 0.9893376,
+        "webattack_bruteforce": 0.6448432,
+        "webattack_sql_injection": 0.6068521739130435,
+        "webattack_xss": 0.6565454545454545
+      },
+      "kNN": {
+        "bot": 0.5575568000000001,
+        "ddos": 0.9947047999999998,
+        "portscan": 0.9882888,
+        "webattack_bruteforce": 0.7274928,
+        "webattack_sql_injection": 0.6463478260869565,
+        "webattack_xss": 0.7510375757575758
+      },
+      "AHSD_stress": {
+        "bot": 0.4554472,
+        "ddos": 0.9914336,
+        "portscan": 0.9852255999999999,
+        "webattack_bruteforce": 0.5342004,
+        "webattack_sql_injection": 0.5462434782608696,
+        "webattack_xss": 0.6041854545454545
+      },
+      "GRU_MSP": {
+        "bot": 0.43859760000000003,
+        "ddos": 0.8273451999999999,
+        "portscan": 0.964942,
+        "webattack_bruteforce": 0.7512276,
+        "webattack_sql_injection": 0.5674173913043479,
+        "webattack_xss": 0.8097345454545455
+      },
+      "GRU_Energy": {
+        "bot": 0.4496232,
+        "ddos": 0.5805428,
+        "portscan": 0.9493727999999999,
+        "webattack_bruteforce": 0.7560728000000001,
+        "webattack_sql_injection": 0.5842434782608696,
+        "webattack_xss": 0.8145818181818183
+      },
+      "GRU_P_attack": {
+        "bot": 0.43866000000000005,
+        "ddos": 0.9974424000000001,
+        "portscan": 0.9638367999999999,
+        "webattack_bruteforce": 0.7517512,
+        "webattack_sql_injection": 0.5673565217391304,
+        "webattack_xss": 0.8093163636363637
+      },
+      "GRU_Mahalanobis": {
+        "bot": 0.5716919999999999,
+        "ddos": 0.9954928,
+        "portscan": 0.9836391999999999,
+        "webattack_bruteforce": 0.6693992,
+        "webattack_sql_injection": 0.5881739130434783,
+        "webattack_xss": 0.7161854545454546
+      },
+      "GRU_kNN": {
+        "bot": 0.5376164,
+        "ddos": 0.9946632,
+        "portscan": 0.8992944,
+        "webattack_bruteforce": 0.7451184,
+        "webattack_sql_injection": 0.579095652173913,
+        "webattack_xss": 0.7997163636363636
+      },
+      "Wilkie_CLAD": {
+        "bot": 0.47437080000000004,
+        "ddos": 0.9883768,
+        "portscan": 0.6615444,
+        "webattack_bruteforce": 0.6915152,
+        "webattack_sql_injection": 0.5925739130434783,
+        "webattack_xss": 0.7198024242424244
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "bot": {
+          "pr_auc": 0.15847303448671127,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ddos": {
+          "pr_auc": 0.14617008520034774,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.0900367614112054,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.33441680061891055,
+          "tpr_at_1pct_fpr": 0.032,
+          "tpr_at_0.1pct_fpr": 0.01
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011728921844253237,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.2532334092607499,
+          "tpr_at_1pct_fpr": 0.024242424242424242,
+          "tpr_at_0.1pct_fpr": 0.006060606060606061
+        }
+      },
+      "Energy": {
+        "bot": {
+          "pr_auc": 0.16276791562454881,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.0899909705315356,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.0892302327029374,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.24788181745465232,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011626939621528953,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.1812182517924247,
+          "tpr_at_1pct_fpr": 0.006060606060606061,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "bot": {
+          "pr_auc": 0.15313793949916188,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9886808476568947,
+          "tpr_at_1pct_fpr": 0.962,
+          "tpr_at_0.1pct_fpr": 0.944
+        },
+        "portscan": {
+          "pr_auc": 0.08984152604105669,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3688518041571525,
+          "tpr_at_1pct_fpr": 0.048,
+          "tpr_at_0.1pct_fpr": 0.008
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.010803523580446568,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.31664474166909773,
+          "tpr_at_1pct_fpr": 0.0696969696969697,
+          "tpr_at_0.1pct_fpr": 0.00909090909090909
+        }
+      },
+      "Mahalanobis": {
+        "bot": {
+          "pr_auc": 0.18083521994838644,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9859007920617626,
+          "tpr_at_1pct_fpr": 0.968,
+          "tpr_at_0.1pct_fpr": 0.948
+        },
+        "portscan": {
+          "pr_auc": 0.9498438982191822,
+          "tpr_at_1pct_fpr": 0.962,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.24569698051537384,
+          "tpr_at_1pct_fpr": 0.028,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013348809552935992,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.18288261164911473,
+          "tpr_at_1pct_fpr": 0.03333333333333333,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "kNN": {
+        "bot": {
+          "pr_auc": 0.1774386366165531,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9830871431636683,
+          "tpr_at_1pct_fpr": 0.966,
+          "tpr_at_0.1pct_fpr": 0.89
+        },
+        "portscan": {
+          "pr_auc": 0.2269656094032173,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3111298132132172,
+          "tpr_at_1pct_fpr": 0.028,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.012707207107289044,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.26382125155494757,
+          "tpr_at_1pct_fpr": 0.05757575757575758,
+          "tpr_at_0.1pct_fpr": 0.00909090909090909
+        }
+      },
+      "AHSD_stress": {
+        "bot": {
+          "pr_auc": 0.1372226924297649,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9796228381668038,
+          "tpr_at_1pct_fpr": 0.95,
+          "tpr_at_0.1pct_fpr": 0.944
+        },
+        "portscan": {
+          "pr_auc": 0.9578372298247877,
+          "tpr_at_1pct_fpr": 0.954,
+          "tpr_at_0.1pct_fpr": 0.95
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.18014698567755064,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.007787564567480695,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.1275964529129731,
+          "tpr_at_1pct_fpr": 0.0030303030303030303,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_MSP": {
+        "bot": {
+          "pr_auc": 0.15874389855450255,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.09077277358751848,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.8949428433702366,
+          "tpr_at_1pct_fpr": 0.464,
+          "tpr_at_0.1pct_fpr": 0.284
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3422083491692614,
+          "tpr_at_1pct_fpr": 0.068,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.012654815922653833,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.28997921760202044,
+          "tpr_at_1pct_fpr": 0.06363636363636363,
+          "tpr_at_0.1pct_fpr": 0.021212121212121213
+        }
+      },
+      "GRU_Energy": {
+        "bot": {
+          "pr_auc": 0.1641996229806922,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ddos": {
+          "pr_auc": 0.08973064357956645,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.6811951716701963,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.31524212349479624,
+          "tpr_at_1pct_fpr": 0.034,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013134347281229912,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.25262487237568076,
+          "tpr_at_1pct_fpr": 0.03333333333333333,
+          "tpr_at_0.1pct_fpr": 0.0030303030303030303
+        }
+      },
+      "GRU_P_attack": {
+        "bot": {
+          "pr_auc": 0.15578854840049078,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9929284383978946,
+          "tpr_at_1pct_fpr": 0.982,
+          "tpr_at_0.1pct_fpr": 0.962
+        },
+        "portscan": {
+          "pr_auc": 0.8101916793119842,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3359753813830443,
+          "tpr_at_1pct_fpr": 0.042,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.012410415655648415,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.3000670291787388,
+          "tpr_at_1pct_fpr": 0.08484848484848485,
+          "tpr_at_0.1pct_fpr": 0.0030303030303030303
+        }
+      },
+      "GRU_Mahalanobis": {
+        "bot": {
+          "pr_auc": 0.20366802431102457,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9929149983604045,
+          "tpr_at_1pct_fpr": 0.984,
+          "tpr_at_0.1pct_fpr": 0.966
+        },
+        "portscan": {
+          "pr_auc": 0.8190222366708327,
+          "tpr_at_1pct_fpr": 0.45,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.2929756864500252,
+          "tpr_at_1pct_fpr": 0.038,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.014310463420516265,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.2423229193080351,
+          "tpr_at_1pct_fpr": 0.06060606060606061,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_kNN": {
+        "bot": {
+          "pr_auc": 0.19032216378981906,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ddos": {
+          "pr_auc": 0.7115266684662915,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.8156039293171905,
+          "tpr_at_1pct_fpr": 0.492,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3468076429562146,
+          "tpr_at_1pct_fpr": 0.062,
+          "tpr_at_0.1pct_fpr": 0.01
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013840300716440178,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.3113531792248387,
+          "tpr_at_1pct_fpr": 0.10303030303030303,
+          "tpr_at_0.1pct_fpr": 0.00909090909090909
+        }
+      },
+      "IF": {
+        "bot": {
+          "pr_auc": 0.14517076545127394,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ddos": {
+          "pr_auc": 0.33592120783730733,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.9620958564633948,
+          "tpr_at_1pct_fpr": 0.962,
+          "tpr_at_0.1pct_fpr": 0.49
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.2689191881655571,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011551032776907704,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.22127365833238669,
+          "tpr_at_1pct_fpr": 0.03636363636363636,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "OCSVM": {
+        "bot": {
+          "pr_auc": 0.16652391435173539,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.15364977706588595,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.7841852589537488,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.303409583715899,
+          "tpr_at_1pct_fpr": 0.028,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011244258782911505,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.2198746192056827,
+          "tpr_at_1pct_fpr": 0.012121212121212121,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "bot": {
+          "pr_auc": 0.23751735963930132,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.4328380834167478,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.3510906090289868,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.26607025802176165,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013600450627136693,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.18164450378244537,
+          "tpr_at_1pct_fpr": 0.006060606060606061,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "bot": {
+          "pr_auc": 0.21360452460976442,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.4581885231059393,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.28398472328148827,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.32862307598786344,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013764774995274504,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.22847392189865853,
+          "tpr_at_1pct_fpr": 0.012121212121212121,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "bot": {
+          "pr_auc": 0.19912417024544407,
+          "tpr_at_1pct_fpr": 0.022,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9737728971498764,
+          "tpr_at_1pct_fpr": 0.938,
+          "tpr_at_0.1pct_fpr": 0.924
+        },
+        "portscan": {
+          "pr_auc": 0.5600272779540625,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3784552526952914,
+          "tpr_at_1pct_fpr": 0.094,
+          "tpr_at_0.1pct_fpr": 0.01
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.014500500654304896,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.3611707011340166,
+          "tpr_at_1pct_fpr": 0.18181818181818182,
+          "tpr_at_0.1pct_fpr": 0.015151515151515152
+        }
+      },
+      "XGBoost": {
+        "bot": {
+          "pr_auc": 0.1984083294330455,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.991746330987127,
+          "tpr_at_1pct_fpr": 0.978,
+          "tpr_at_0.1pct_fpr": 0.924
+        },
+        "portscan": {
+          "pr_auc": 0.8163463051756443,
+          "tpr_at_1pct_fpr": 0.504,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.4013279405405661,
+          "tpr_at_1pct_fpr": 0.102,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.014847019896581123,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.324903438977537,
+          "tpr_at_1pct_fpr": 0.12424242424242424,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "XGBoost_s": {
+        "bot": {
+          "pr_auc": 0.18335642611100628,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9921240962353546,
+          "tpr_at_1pct_fpr": 0.982,
+          "tpr_at_0.1pct_fpr": 0.944
+        },
+        "portscan": {
+          "pr_auc": 0.8235593570375589,
+          "tpr_at_1pct_fpr": 0.508,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.39993027684279087,
+          "tpr_at_1pct_fpr": 0.078,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.01622813191010664,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.34104578542040104,
+          "tpr_at_1pct_fpr": 0.09393939393939393,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "bot": {
+          "pr_auc": 0.1292011777537813,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.15131036393502426,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "portscan": {
+          "pr_auc": 0.2046265303014589,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.42930345297372025,
+          "tpr_at_1pct_fpr": 0.126,
+          "tpr_at_0.1pct_fpr": 0.024
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.05380747293469486,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.043478260869565216
+        },
+        "webattack_xss": {
+          "pr_auc": 0.3789746920213652,
+          "tpr_at_1pct_fpr": 0.11212121212121212,
+          "tpr_at_0.1pct_fpr": 0.012121212121212121
+        }
+      },
+      "Energy": {
+        "bot": {
+          "pr_auc": 0.13180448677982143,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.09439436390506731,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.17007451553959185,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.4103420558227142,
+          "tpr_at_1pct_fpr": 0.114,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.021822315527569053,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.36402646801776506,
+          "tpr_at_1pct_fpr": 0.11212121212121212,
+          "tpr_at_0.1pct_fpr": 0.0030303030303030303
+        }
+      },
+      "P_attack": {
+        "bot": {
+          "pr_auc": 0.12888537130942668,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9956679311510328,
+          "tpr_at_1pct_fpr": 0.992,
+          "tpr_at_0.1pct_fpr": 0.984
+        },
+        "portscan": {
+          "pr_auc": 0.20432751414118555,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.44520500020208287,
+          "tpr_at_1pct_fpr": 0.136,
+          "tpr_at_0.1pct_fpr": 0.024
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.01652351035476236,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.37255049264707657,
+          "tpr_at_1pct_fpr": 0.10606060606060606,
+          "tpr_at_0.1pct_fpr": 0.00909090909090909
+        }
+      },
+      "Mahalanobis": {
+        "bot": {
+          "pr_auc": 0.19474560382421618,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9928088236343625,
+          "tpr_at_1pct_fpr": 0.986,
+          "tpr_at_0.1pct_fpr": 0.978
+        },
+        "portscan": {
+          "pr_auc": 0.9729972561050231,
+          "tpr_at_1pct_fpr": 0.97,
+          "tpr_at_0.1pct_fpr": 0.494
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.2813173761819164,
+          "tpr_at_1pct_fpr": 0.044,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.01843045554269273,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.20897285425378825,
+          "tpr_at_1pct_fpr": 0.01818181818181818,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "kNN": {
+        "bot": {
+          "pr_auc": 0.18351943541417337,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9937875910229584,
+          "tpr_at_1pct_fpr": 0.99,
+          "tpr_at_0.1pct_fpr": 0.98
+        },
+        "portscan": {
+          "pr_auc": 0.9281329546275489,
+          "tpr_at_1pct_fpr": 0.958,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.41649932220110253,
+          "tpr_at_1pct_fpr": 0.14,
+          "tpr_at_0.1pct_fpr": 0.024
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.02275948042208179,
+          "tpr_at_1pct_fpr": 0.043478260869565216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.37842056601789353,
+          "tpr_at_1pct_fpr": 0.1696969696969697,
+          "tpr_at_0.1pct_fpr": 0.006060606060606061
+        }
+      },
+      "AHSD_stress": {
+        "bot": {
+          "pr_auc": 0.150199083929558,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9884461779902246,
+          "tpr_at_1pct_fpr": 0.978,
+          "tpr_at_0.1pct_fpr": 0.972
+        },
+        "portscan": {
+          "pr_auc": 0.9787672134849124,
+          "tpr_at_1pct_fpr": 0.964,
+          "tpr_at_0.1pct_fpr": 0.946
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.20361010475956604,
+          "tpr_at_1pct_fpr": 0.032,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.010843786190998184,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.1632617529775844,
+          "tpr_at_1pct_fpr": 0.015151515151515152,
+          "tpr_at_0.1pct_fpr": 0.0030303030303030303
+        }
+      },
+      "GRU_MSP": {
+        "bot": {
+          "pr_auc": 0.15531241879644017,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ddos": {
+          "pr_auc": 0.37488185656289447,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.7806804856080242,
+          "tpr_at_1pct_fpr": 0.482,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.4017592088976815,
+          "tpr_at_1pct_fpr": 0.08,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011581501168453233,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.4449897436362311,
+          "tpr_at_1pct_fpr": 0.15454545454545454,
+          "tpr_at_0.1pct_fpr": 0.045454545454545456
+        }
+      },
+      "GRU_Energy": {
+        "bot": {
+          "pr_auc": 0.1631900390274446,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "ddos": {
+          "pr_auc": 0.1860764239754918,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "portscan": {
+          "pr_auc": 0.686802987960828,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.400750459875293,
+          "tpr_at_1pct_fpr": 0.066,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.012704093685873392,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.44538256940342524,
+          "tpr_at_1pct_fpr": 0.15757575757575756,
+          "tpr_at_0.1pct_fpr": 0.045454545454545456
+        }
+      },
+      "GRU_P_attack": {
+        "bot": {
+          "pr_auc": 0.15364921030829193,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ddos": {
+          "pr_auc": 0.9936791925488334,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.944
+        },
+        "portscan": {
+          "pr_auc": 0.7667645153517053,
+          "tpr_at_1pct_fpr": 0.35,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.41077547228906547,
+          "tpr_at_1pct_fpr": 0.096,
+          "tpr_at_0.1pct_fpr": 0.008
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.011506064871704191,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.42449794404339125,
+          "tpr_at_1pct_fpr": 0.15454545454545454,
+          "tpr_at_0.1pct_fpr": 0.0030303030303030303
+        }
+      },
+      "GRU_Mahalanobis": {
+        "bot": {
+          "pr_auc": 0.20484932452602977,
+          "tpr_at_1pct_fpr": 0.024,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ddos": {
+          "pr_auc": 0.9901815118177113,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.918
+        },
+        "portscan": {
+          "pr_auc": 0.8747911837224579,
+          "tpr_at_1pct_fpr": 0.504,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3056225487019904,
+          "tpr_at_1pct_fpr": 0.05,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.01539580330777121,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.2885559263644001,
+          "tpr_at_1pct_fpr": 0.08181818181818182,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_kNN": {
+        "bot": {
+          "pr_auc": 0.1874316276953281,
+          "tpr_at_1pct_fpr": 0.022,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ddos": {
+          "pr_auc": 0.9474523431293816,
+          "tpr_at_1pct_fpr": 0.994,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "portscan": {
+          "pr_auc": 0.5935487094689829,
+          "tpr_at_1pct_fpr": 0.054,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.4081842066400478,
+          "tpr_at_1pct_fpr": 0.086,
+          "tpr_at_0.1pct_fpr": 0.018
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.013220293549451905,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.43825387920083037,
+          "tpr_at_1pct_fpr": 0.17575757575757575,
+          "tpr_at_0.1pct_fpr": 0.05454545454545454
+        }
+      },
+      "Wilkie_CLAD": {
+        "bot": {
+          "pr_auc": 0.15753735687346387,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ddos": {
+          "pr_auc": 0.9764482430189039,
+          "tpr_at_1pct_fpr": 0.942,
+          "tpr_at_0.1pct_fpr": 0.596
+        },
+        "portscan": {
+          "pr_auc": 0.21214756942648952,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_bruteforce": {
+          "pr_auc": 0.3633579729444306,
+          "tpr_at_1pct_fpr": 0.102,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "webattack_sql_injection": {
+          "pr_auc": 0.01609905797881842,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "webattack_xss": {
+          "pr_auc": 0.32984762929469336,
+          "tpr_at_1pct_fpr": 0.13333333333333333,
+          "tpr_at_0.1pct_fpr": 0.015151515151515152
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.5764092538286087,
+      "final_val_macro_f1": 0.48993963782696176,
+      "best_epoch": 1,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.27744424411228724,
+          "val_macro_f1": 0.5764092538286087,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.10953100797108241,
+          "val_macro_f1": 0.45263157894736844,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.05261235082575253,
+          "val_macro_f1": 0.5522902077832625,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.0410097176858357,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.027529375412634442,
+          "val_macro_f1": 0.49317738791423,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.02251858887927873,
+          "val_macro_f1": 0.45454545454545453,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.01844159926420876,
+          "val_macro_f1": 0.49317738791423,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.015185972704419067,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.013750102266669274,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011022260489740542,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.009020808662687028,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.008419351798083102,
+          "val_macro_f1": 0.48677957840867553,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.007400585767946073,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.006808829906795706,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.006577529157378844,
+          "val_macro_f1": 0.48993963782696176,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 47.751513957977295
+    },
+    "gru": {
+      "best_val_macro_f1": 0.5205673758865248,
+      "final_val_macro_f1": 0.48993963782696176,
+      "best_epoch": 1,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.29285677410023553,
+          "val_macro_f1": 0.5205673758865248
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.06433824743543352,
+          "val_macro_f1": 0.4507042253521127
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.03601113413912909,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.025557651985968863,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.021615512828741756,
+          "val_macro_f1": 0.48677957840867553
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.017156432079417364,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.017372277054403508,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.013434043045554843,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.012653172603675298,
+          "val_macro_f1": 0.45454545454545453
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.011362429405163441,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.010250898651778698,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.009617011181211898,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.009131864294143659,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.008819510258734226,
+          "val_macro_f1": 0.48993963782696176
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.008665384996150221,
+          "val_macro_f1": 0.48993963782696176
+        }
+      ],
+      "seconds": 36.56797504425049
+    },
+    "benign_only_seconds": 28.25645351409912,
+    "clad": {
+      "best_val_auroc": 0.7745562130177515,
+      "final_val_auroc": 0.7011834319526626,
+      "best_epoch": 1
+    },
+    "clad_seconds": 6.0465545654296875,
+    "xgb_seconds": 40.82908272743225,
+    "xgbs_seconds": 36.537567377090454
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/bot": 500,
+    "test/ddos": 500,
+    "test/portscan": 500,
+    "test/webattack_bruteforce": 500,
+    "test/webattack_sql_injection": 23,
+    "test/webattack_xss": 330
+  },
+  "wall_seconds": 200.2904188632965,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "1f8c6b59b31bccf8fb7f1be3060d770844913fae102499c462821c7a1aab84de",
+      "row_id.npy": "290ebe36ff38cba86c4bb91a0d190009c13427d8cc9f84eeabfe5f6ec85a9666",
+      "windows.npz": "0089c2030063247afee84bcf79b619da8c362e2d0ca8dca46f1fdeb6ff8cc9b3",
+      "sets.npz": "6f8d513469fa83a7a8c6d0a54bae1d735c9f28122727a65fd59af15d233af5e7",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "f4886ec6ee22b33055443c48ed201ebc595c2d9e8986018d1f704f2ed8aee217"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "roll_D5_f060",
+        "kind": "natural_novelty",
+        "dataset": "D5",
+        "package": "rolling/f060",
+        "cut": 0.6
+      }
+    },
+    "timestamp_utc": "2026-10-12T02:37:07+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}

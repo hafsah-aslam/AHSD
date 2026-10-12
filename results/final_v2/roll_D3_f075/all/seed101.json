@@ -1,0 +1,1286 @@
+{
+  "eval_id": "roll_D3_f075",
+  "kind": "natural_novelty",
+  "dataset": "D3",
+  "seed": 101,
+  "unit": "all",
+  "classes": [
+    "Backdoor",
+    "mitm",
+    "password",
+    "ransomware",
+    "xss"
+  ],
+  "auc": {
+    "best": {
+      "MSP": {
+        "Backdoor": 0.275022,
+        "mitm": 0.650242,
+        "password": 0.3177972,
+        "ransomware": 0.3892272,
+        "xss": 0.33068200000000003
+      },
+      "Energy": {
+        "Backdoor": 0.5101384000000001,
+        "mitm": 0.7189248,
+        "password": 0.3876864,
+        "ransomware": 0.6688215999999999,
+        "xss": 0.5760095999999999
+      },
+      "P_attack": {
+        "Backdoor": 0.8739544,
+        "mitm": 0.5252964,
+        "password": 0.7742092,
+        "ransomware": 0.766284,
+        "xss": 0.8520195999999999
+      },
+      "Mahalanobis": {
+        "Backdoor": 0.2181768,
+        "mitm": 0.4136376,
+        "password": 0.330256,
+        "ransomware": 0.1581784,
+        "xss": 0.2243768
+      },
+      "kNN": {
+        "Backdoor": 0.602514,
+        "mitm": 0.6626980000000001,
+        "password": 0.3824096,
+        "ransomware": 0.36138159999999997,
+        "xss": 0.5837192
+      },
+      "AHSD_stress": {
+        "Backdoor": 0.1913992,
+        "mitm": 0.39568159999999997,
+        "password": 0.3439448,
+        "ransomware": 0.1471232,
+        "xss": 0.1757472
+      },
+      "GRU_MSP": {
+        "Backdoor": 0.11076559999999999,
+        "mitm": 0.460548,
+        "password": 0.1455116,
+        "ransomware": 0.16965039999999998,
+        "xss": 0.1675208
+      },
+      "GRU_Energy": {
+        "Backdoor": 0.1432848,
+        "mitm": 0.5425352,
+        "password": 0.181712,
+        "ransomware": 0.1885328,
+        "xss": 0.2189028
+      },
+      "GRU_P_attack": {
+        "Backdoor": 0.9176815999999999,
+        "mitm": 0.8108904,
+        "password": 0.9029476,
+        "ransomware": 0.8756607999999999,
+        "xss": 0.8960096000000001
+      },
+      "GRU_Mahalanobis": {
+        "Backdoor": 0.8304552,
+        "mitm": 0.6731744,
+        "password": 0.6438839999999999,
+        "ransomware": 0.6620104,
+        "xss": 0.6481792
+      },
+      "GRU_kNN": {
+        "Backdoor": 0.6404128,
+        "mitm": 0.5854016,
+        "password": 0.5699407999999999,
+        "ransomware": 0.7143136,
+        "xss": 0.7315395999999998
+      },
+      "IF": {
+        "Backdoor": 0.9784111999999999,
+        "mitm": 0.6829807999999999,
+        "password": 0.9796104,
+        "ransomware": 0.9401632000000001,
+        "xss": 0.9447472
+      },
+      "OCSVM": {
+        "Backdoor": 0.9746184,
+        "mitm": 0.7825068,
+        "password": 0.8857760000000001,
+        "ransomware": 0.9160528,
+        "xss": 0.8765752
+      },
+      "PCA": {
+        "Backdoor": 0.9315016,
+        "mitm": 0.829248,
+        "password": 0.8731672,
+        "ransomware": 0.9013631999999999,
+        "xss": 0.8534648
+      },
+      "AE": {
+        "Backdoor": 0.9619144,
+        "mitm": 0.8062736,
+        "password": 0.8711671999999999,
+        "ransomware": 0.9108879999999998,
+        "xss": 0.8683248
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": 0.9068684,
+        "mitm": 0.7897968,
+        "password": 0.9116207999999999,
+        "ransomware": 0.8867412000000001,
+        "xss": 0.8949552000000001
+      },
+      "XGBoost": {
+        "Backdoor": 0.9108744,
+        "mitm": 0.6970171999999999,
+        "password": 0.9824644,
+        "ransomware": 0.8591564,
+        "xss": 0.9853495999999999
+      },
+      "XGBoost_s": {
+        "Backdoor": 0.9470032,
+        "mitm": 0.7164424,
+        "password": 0.9756556000000001,
+        "ransomware": 0.887586,
+        "xss": 0.9869496
+      }
+    },
+    "final": {
+      "MSP": {
+        "Backdoor": 0.16211199999999998,
+        "mitm": 0.49640839999999997,
+        "password": 0.31791719999999996,
+        "ransomware": 0.5036604,
+        "xss": 0.2665304
+      },
+      "Energy": {
+        "Backdoor": 0.23547999999999997,
+        "mitm": 0.48309919999999995,
+        "password": 0.32464400000000004,
+        "ransomware": 0.5756456,
+        "xss": 0.3973824
+      },
+      "P_attack": {
+        "Backdoor": 0.9426036,
+        "mitm": 0.5493488,
+        "password": 0.9272939999999998,
+        "ransomware": 0.8901392,
+        "xss": 0.9309624000000002
+      },
+      "Mahalanobis": {
+        "Backdoor": 0.48799519999999996,
+        "mitm": 0.42288079999999995,
+        "password": 0.42915159999999997,
+        "ransomware": 0.270924,
+        "xss": 0.29856
+      },
+      "kNN": {
+        "Backdoor": 0.8026903999999999,
+        "mitm": 0.6597008,
+        "password": 0.5050584,
+        "ransomware": 0.446792,
+        "xss": 0.8583944000000001
+      },
+      "AHSD_stress": {
+        "Backdoor": 0.3722784,
+        "mitm": 0.398696,
+        "password": 0.4705448,
+        "ransomware": 0.24997119999999995,
+        "xss": 0.23615999999999998
+      },
+      "GRU_MSP": {
+        "Backdoor": 0.22289839999999997,
+        "mitm": 0.32816280000000003,
+        "password": 0.18497560000000002,
+        "ransomware": 0.4026424,
+        "xss": 0.10352040000000001
+      },
+      "GRU_Energy": {
+        "Backdoor": 0.1943104,
+        "mitm": 0.32705880000000004,
+        "password": 0.16194399999999998,
+        "ransomware": 0.3441944,
+        "xss": 0.1121616
+      },
+      "GRU_P_attack": {
+        "Backdoor": 0.7953856,
+        "mitm": 0.6997268000000001,
+        "password": 0.8348284,
+        "ransomware": 0.6101352,
+        "xss": 0.9055692000000001
+      },
+      "GRU_Mahalanobis": {
+        "Backdoor": 0.8169112000000001,
+        "mitm": 0.6999367999999999,
+        "password": 0.8645824,
+        "ransomware": 0.6470672,
+        "xss": 0.9191912000000001
+      },
+      "GRU_kNN": {
+        "Backdoor": 0.9071879999999999,
+        "mitm": 0.6687359999999999,
+        "password": 0.9188791999999999,
+        "ransomware": 0.8502504,
+        "xss": 0.9622063999999999
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": 0.45166839999999997,
+        "mitm": 0.47302,
+        "password": 0.3252912,
+        "ransomware": 0.42105080000000006,
+        "xss": 0.32062599999999997
+      }
+    }
+  },
+  "ops": {
+    "best": {
+      "MSP": {
+        "Backdoor": {
+          "pr_auc": 0.11325546025994465,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.27942509296267304,
+          "tpr_at_1pct_fpr": 0.026,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "password": {
+          "pr_auc": 0.1380100239847291,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.14044086653139545,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.1347152251185974,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Energy": {
+        "Backdoor": {
+          "pr_auc": 0.2552998996108098,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "mitm": {
+          "pr_auc": 0.29600079659406414,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "password": {
+          "pr_auc": 0.19133362444526186,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.38080984974056853,
+          "tpr_at_1pct_fpr": 0.028,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.28318104560723684,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "Backdoor": {
+          "pr_auc": 0.46110113911862216,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.16573311718432474,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.38645738025457965,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.35615593269234,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.44715674158988994,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Mahalanobis": {
+        "Backdoor": {
+          "pr_auc": 0.10505501564624956,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.13551857575421886,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.13063979999333436,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.09775786671600985,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.11427099416972039,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "kNN": {
+        "Backdoor": {
+          "pr_auc": 0.3215652466926304,
+          "tpr_at_1pct_fpr": 0.108,
+          "tpr_at_0.1pct_fpr": 0.008
+        },
+        "mitm": {
+          "pr_auc": 0.26297202852522383,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.20410674315725444,
+          "tpr_at_1pct_fpr": 0.078,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ransomware": {
+          "pr_auc": 0.16699657216053543,
+          "tpr_at_1pct_fpr": 0.052,
+          "tpr_at_0.1pct_fpr": 0.01
+        },
+        "xss": {
+          "pr_auc": 0.3619587817774086,
+          "tpr_at_1pct_fpr": 0.18,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "AHSD_stress": {
+        "Backdoor": {
+          "pr_auc": 0.10180898766899812,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.13043570275343538,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.1349037289567218,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ransomware": {
+          "pr_auc": 0.09648116047088337,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.1035093350666416,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_MSP": {
+        "Backdoor": {
+          "pr_auc": 0.09530965278546812,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.26198338245356045,
+          "tpr_at_1pct_fpr": 0.124,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "password": {
+          "pr_auc": 0.0978913307244288,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.10624472839685649,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "xss": {
+          "pr_auc": 0.0997382312392714,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "Backdoor": {
+          "pr_auc": 0.09933552377547142,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.27534500328771555,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "password": {
+          "pr_auc": 0.10434152530610842,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ransomware": {
+          "pr_auc": 0.10470714952664273,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "xss": {
+          "pr_auc": 0.10704071491650943,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_P_attack": {
+        "Backdoor": {
+          "pr_auc": 0.5168378431135114,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.3376856878173392,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "password": {
+          "pr_auc": 0.46192226524250435,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.45309225227891775,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.44329366310808527,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Backdoor": {
+          "pr_auc": 0.4301568554063191,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.2908482401787032,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "password": {
+          "pr_auc": 0.26551857553457636,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.27689088708705034,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.259752874946771,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_kNN": {
+        "Backdoor": {
+          "pr_auc": 0.22789616118912254,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "mitm": {
+          "pr_auc": 0.20797110964191753,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "password": {
+          "pr_auc": 0.18584595987336316,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.3318886214395157,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.3124035712032409,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "IF": {
+        "Backdoor": {
+          "pr_auc": 0.838521604965575,
+          "tpr_at_1pct_fpr": 0.4,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "mitm": {
+          "pr_auc": 0.27842187015284187,
+          "tpr_at_1pct_fpr": 0.038,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.8661264418018898,
+          "tpr_at_1pct_fpr": 0.514,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "ransomware": {
+          "pr_auc": 0.6698073343745718,
+          "tpr_at_1pct_fpr": 0.172,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.6936488686019942,
+          "tpr_at_1pct_fpr": 0.224,
+          "tpr_at_0.1pct_fpr": 0.018
+        }
+      },
+      "OCSVM": {
+        "Backdoor": {
+          "pr_auc": 0.7962358684809027,
+          "tpr_at_1pct_fpr": 0.216,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.32380775187784294,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.4219438109384329,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.527911314213135,
+          "tpr_at_1pct_fpr": 0.048,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.40141282865545647,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "PCA": {
+        "Backdoor": {
+          "pr_auc": 0.5346459692226111,
+          "tpr_at_1pct_fpr": 0.012,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.3564953071807683,
+          "tpr_at_1pct_fpr": 0.026,
+          "tpr_at_0.1pct_fpr": 0.008
+        },
+        "password": {
+          "pr_auc": 0.3976725709119927,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.4691361623235243,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "xss": {
+          "pr_auc": 0.36394921875410025,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "AE": {
+        "Backdoor": {
+          "pr_auc": 0.7194196169324262,
+          "tpr_at_1pct_fpr": 0.084,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.3411013203280347,
+          "tpr_at_1pct_fpr": 0.034,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "password": {
+          "pr_auc": 0.3935604329032053,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.5100791534280433,
+          "tpr_at_1pct_fpr": 0.05,
+          "tpr_at_0.1pct_fpr": 0.01
+        },
+        "xss": {
+          "pr_auc": 0.3866958446014771,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": {
+          "pr_auc": 0.478058656237041,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "mitm": {
+          "pr_auc": 0.3217740081197971,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "password": {
+          "pr_auc": 0.48379077298884177,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.4933785082956195,
+          "tpr_at_1pct_fpr": 0.044,
+          "tpr_at_0.1pct_fpr": 0.016
+        },
+        "xss": {
+          "pr_auc": 0.4480748018851417,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.006
+        }
+      },
+      "XGBoost": {
+        "Backdoor": {
+          "pr_auc": 0.5697465720144553,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.3059876995015006,
+          "tpr_at_1pct_fpr": 0.024,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.8494081799079467,
+          "tpr_at_1pct_fpr": 0.354,
+          "tpr_at_0.1pct_fpr": 0.018
+        },
+        "ransomware": {
+          "pr_auc": 0.6369444745028467,
+          "tpr_at_1pct_fpr": 0.128,
+          "tpr_at_0.1pct_fpr": 0.024
+        },
+        "xss": {
+          "pr_auc": 0.8967441290580687,
+          "tpr_at_1pct_fpr": 0.48,
+          "tpr_at_0.1pct_fpr": 0.112
+        }
+      },
+      "XGBoost_s": {
+        "Backdoor": {
+          "pr_auc": 0.6619728270228662,
+          "tpr_at_1pct_fpr": 0.052,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "mitm": {
+          "pr_auc": 0.3153225791853719,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.8175872355322469,
+          "tpr_at_1pct_fpr": 0.254,
+          "tpr_at_0.1pct_fpr": 0.034
+        },
+        "ransomware": {
+          "pr_auc": 0.6357829480736241,
+          "tpr_at_1pct_fpr": 0.102,
+          "tpr_at_0.1pct_fpr": 0.022
+        },
+        "xss": {
+          "pr_auc": 0.9061111200347265,
+          "tpr_at_1pct_fpr": 0.518,
+          "tpr_at_0.1pct_fpr": 0.14
+        }
+      }
+    },
+    "final": {
+      "MSP": {
+        "Backdoor": {
+          "pr_auc": 0.12812519539081768,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.17198683235916026,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.23130037677905324,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.02
+        },
+        "ransomware": {
+          "pr_auc": 0.30468273078991714,
+          "tpr_at_1pct_fpr": 0.042,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "xss": {
+          "pr_auc": 0.13554051979005222,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "Energy": {
+        "Backdoor": {
+          "pr_auc": 0.12768132968935525,
+          "tpr_at_1pct_fpr": 0.016,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.17621569612398677,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.16181516012882166,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.3536335695887526,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "xss": {
+          "pr_auc": 0.1728837007298225,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "P_attack": {
+        "Backdoor": {
+          "pr_auc": 0.6330533333302353,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.1894207824860457,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.5733717154654444,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.4918681783611463,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.5613409928502361,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "Mahalanobis": {
+        "Backdoor": {
+          "pr_auc": 0.21474343728897888,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.13891963470115729,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.1812836623371843,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ransomware": {
+          "pr_auc": 0.12925741568547527,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.1323025628396227,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "kNN": {
+        "Backdoor": {
+          "pr_auc": 0.563264168699047,
+          "tpr_at_1pct_fpr": 0.176,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "mitm": {
+          "pr_auc": 0.2632628921836255,
+          "tpr_at_1pct_fpr": 0.026,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.24304707656129035,
+          "tpr_at_1pct_fpr": 0.034,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.20036608012195392,
+          "tpr_at_1pct_fpr": 0.034,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "xss": {
+          "pr_auc": 0.5852039099176519,
+          "tpr_at_1pct_fpr": 0.126,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "AHSD_stress": {
+        "Backdoor": {
+          "pr_auc": 0.15071015144474453,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.1311110875241041,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.20782974648694483,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ransomware": {
+          "pr_auc": 0.129561055502389,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.12141866593917858,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.002
+        }
+      },
+      "GRU_MSP": {
+        "Backdoor": {
+          "pr_auc": 0.10480565731979216,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.12050796375170626,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "password": {
+          "pr_auc": 0.09899630441116307,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.14123155474230237,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.09359376521261314,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        }
+      },
+      "GRU_Energy": {
+        "Backdoor": {
+          "pr_auc": 0.10119867790510245,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.12468969947416517,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.1010292825875855,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ransomware": {
+          "pr_auc": 0.12730703671506405,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.09740720982693385,
+          "tpr_at_1pct_fpr": 0.004,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "GRU_P_attack": {
+        "Backdoor": {
+          "pr_auc": 0.38803206663497325,
+          "tpr_at_1pct_fpr": 0.006,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.295807738210854,
+          "tpr_at_1pct_fpr": 0.022,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.43546748212229097,
+          "tpr_at_1pct_fpr": 0.014,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "ransomware": {
+          "pr_auc": 0.24658355497027054,
+          "tpr_at_1pct_fpr": 0.01,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.5647872440532161,
+          "tpr_at_1pct_fpr": 0.09,
+          "tpr_at_0.1pct_fpr": 0.014
+        }
+      },
+      "GRU_Mahalanobis": {
+        "Backdoor": {
+          "pr_auc": 0.4149446344310931,
+          "tpr_at_1pct_fpr": 0.002,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.29700810921959836,
+          "tpr_at_1pct_fpr": 0.018,
+          "tpr_at_0.1pct_fpr": 0.006
+        },
+        "password": {
+          "pr_auc": 0.4604243620464532,
+          "tpr_at_1pct_fpr": 0.008,
+          "tpr_at_0.1pct_fpr": 0.002
+        },
+        "ransomware": {
+          "pr_auc": 0.2785689484452272,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "xss": {
+          "pr_auc": 0.5405899583673077,
+          "tpr_at_1pct_fpr": 0.03,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      },
+      "GRU_kNN": {
+        "Backdoor": {
+          "pr_auc": 0.5299233968772841,
+          "tpr_at_1pct_fpr": 0.044,
+          "tpr_at_0.1pct_fpr": 0.008
+        },
+        "mitm": {
+          "pr_auc": 0.2926155867262413,
+          "tpr_at_1pct_fpr": 0.046,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "password": {
+          "pr_auc": 0.5573220012129203,
+          "tpr_at_1pct_fpr": 0.074,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.48152923019809646,
+          "tpr_at_1pct_fpr": 0.074,
+          "tpr_at_0.1pct_fpr": 0.014
+        },
+        "xss": {
+          "pr_auc": 0.790634482966647,
+          "tpr_at_1pct_fpr": 0.332,
+          "tpr_at_0.1pct_fpr": 0.116
+        }
+      },
+      "Wilkie_CLAD": {
+        "Backdoor": {
+          "pr_auc": 0.22659914320686075,
+          "tpr_at_1pct_fpr": 0.064,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "mitm": {
+          "pr_auc": 0.20652613136121398,
+          "tpr_at_1pct_fpr": 0.02,
+          "tpr_at_0.1pct_fpr": 0.004
+        },
+        "password": {
+          "pr_auc": 0.1452343250538914,
+          "tpr_at_1pct_fpr": 0.026,
+          "tpr_at_0.1pct_fpr": 0.0
+        },
+        "ransomware": {
+          "pr_auc": 0.24331485996205904,
+          "tpr_at_1pct_fpr": 0.094,
+          "tpr_at_0.1pct_fpr": 0.012
+        },
+        "xss": {
+          "pr_auc": 0.17930363318611447,
+          "tpr_at_1pct_fpr": 0.076,
+          "tpr_at_0.1pct_fpr": 0.004
+        }
+      }
+    }
+  },
+  "info": {
+    "ahsd": {
+      "best_val_macro_f1": 0.9043162585481623,
+      "final_val_macro_f1": 0.8631297393881286,
+      "best_epoch": 8,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.44562699753897533,
+          "val_macro_f1": 0.8772739964991187,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.38601877556528363,
+          "val_macro_f1": 0.8076923076923077,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.3666958109310695,
+          "val_macro_f1": 0.839578599379027,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.3565904611860003,
+          "val_macro_f1": 0.9005061145886357,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.345013160943985,
+          "val_macro_f1": 0.845486581729466,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.33527382894924707,
+          "val_macro_f1": 0.8987257051773181,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.3264704381397792,
+          "val_macro_f1": 0.8297001613607283,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.32181032538414,
+          "val_macro_f1": 0.9043162585481623,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.31323573320252557,
+          "val_macro_f1": 0.8710361083358842,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.30574766019412447,
+          "val_macro_f1": 0.829245465464572,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.29935015068735393,
+          "val_macro_f1": 0.871195326338797,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.29455874361310685,
+          "val_macro_f1": 0.865813425135459,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.2909248653139387,
+          "val_macro_f1": 0.8753113752046972,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.2882918645313808,
+          "val_macro_f1": 0.8670037730190879,
+          "gamma": 0.0
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.2871513992718288,
+          "val_macro_f1": 0.8631297393881286,
+          "gamma": 0.0
+        }
+      ],
+      "seconds": 74.42370700836182
+    },
+    "gru": {
+      "best_val_macro_f1": 0.9342976845120816,
+      "final_val_macro_f1": 0.8868818195214998,
+      "best_epoch": 3,
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.46698697989327564,
+          "val_macro_f1": 0.8286147335043366
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.3787873830795288,
+          "val_macro_f1": 0.9079952497467099
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.35399137776238576,
+          "val_macro_f1": 0.9342976845120816
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.3353698038373675,
+          "val_macro_f1": 0.8799124764698635
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.3226473004988262,
+          "val_macro_f1": 0.856838800489351
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.3163206782681601,
+          "val_macro_f1": 0.8482649989391687
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.3089870315960475,
+          "val_macro_f1": 0.9036924321513184
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.2995186310495649,
+          "val_macro_f1": 0.9272325066946094
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.29282539408547537,
+          "val_macro_f1": 0.908802914873422
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.28669548174313136,
+          "val_macro_f1": 0.8777128396037759
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.2819711648396083,
+          "val_macro_f1": 0.888262011311644
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.2788373365402222,
+          "val_macro_f1": 0.8755365361477946
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.27553817626408167,
+          "val_macro_f1": 0.8958286567298195
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.2734797353744507,
+          "val_macro_f1": 0.8877802376842274
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.2726051506655557,
+          "val_macro_f1": 0.8868818195214998
+        }
+      ],
+      "seconds": 38.33269500732422
+    },
+    "benign_only_seconds": 16.296502590179443,
+    "clad": {
+      "best_val_auroc": 0.9541432,
+      "final_val_auroc": 0.9499408,
+      "best_epoch": 3
+    },
+    "clad_seconds": 4.410890579223633,
+    "xgb_seconds": 9.234985113143921,
+    "xgbs_seconds": 8.897824048995972
+  },
+  "n": {
+    "test_benign": 2500,
+    "test/Backdoor": 500,
+    "test/mitm": 500,
+    "test/password": 500,
+    "test/ransomware": 500,
+    "test/xss": 500
+  },
+  "wall_seconds": 156.11850476264954,
+  "smoke": false,
+  "provenance": {
+    "code_commit": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "code_dirty": false,
+    "code_commit_captured_utc": "2026-10-11T16:09:00+00:00",
+    "results_head": "94fbf3215e716874937ef5863b0734a91b93f258",
+    "rq_sha256": "9547523f6ec04f6f1755fc17a9c407deb717ecb0c850dbcc858650059a622dd9",
+    "data_sha256": {
+      "flows.npy": "b0be9bf0390a222fd924f5e6eb4f8643006680b0f33c3bdb179bc8ae94240cfd",
+      "row_id.npy": "abdeb9246f9600e13205e7b152922da897fa166a43385e631e554e0cb99d8716",
+      "windows.npz": "53100ffb7a67f0d6f78f40b2cb070d446a4f02b66f8c765c60f4ce820a405ccf",
+      "sets.npz": "e80a546a997c7b8dd219b552f2bce1148cd46db2bd228dbe299ead4f8155e35c",
+      "loaco.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "cleaner.json": "6061ab73fddff10b77d23ab647043d64f35ba367127db60b311583d5a7eae15d"
+    },
+    "config": {
+      "seeds": [
+        17,
+        23,
+        42,
+        101,
+        202
+      ],
+      "D": 128,
+      "epochs": 15,
+      "threads": 4,
+      "processed_dir": "data/processed",
+      "evaluation": {
+        "id": "roll_D3_f075",
+        "kind": "natural_novelty",
+        "dataset": "D3",
+        "package": "rolling/f075",
+        "cut": 0.75
+      }
+    },
+    "timestamp_utc": "2026-10-12T02:04:06+00:00",
+    "python": "3.11.15",
+    "host": "vm"
+  }
+}
