@@ -1,3 +1,4 @@
+# sd.json is generated from results/final_v2/summary.json (see check_numbers / gen_appendix); figure 2 = fig_d3.pdf
 import json, matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

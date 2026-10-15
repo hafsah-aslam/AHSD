@@ -1,0 +1,146 @@
+{
+ "LOACO D3|AHSD stress|Backdoor": [
+  0.97943616,
+  0.005919264019115923
+ ],
+ "LOACO D3|AHSD stress|password": [
+  0.9933534399999999,
+  0.002226545837839435
+ ],
+ "LOACO D3|AHSD stress|xss": [
+  0.9744929600000001,
+  0.0093957766580523
+ ],
+ "LOACO D3|Mahalanobis|Backdoor": [
+  0.9842928000000001,
+  0.0027211799205492295
+ ],
+ "LOACO D3|Mahalanobis|password": [
+  0.9926176,
+  0.0033217880967936625
+ ],
+ "LOACO D3|Mahalanobis|xss": [
+  0.9832449600000001,
+  0.006532905201210259
+ ],
+ "LOACO D3|kNN|Backdoor": [
+  0.98994432,
+  0.0009697448076685291
+ ],
+ "LOACO D3|kNN|password": [
+  0.96921952,
+  0.012127201564746842
+ ],
+ "LOACO D3|kNN|xss": [
+  0.9728784000000001,
+  0.028793521543569445
+ ],
+ "LOACO D3|IF|Backdoor": [
+  0.996596,
+  0.0005322324304286053
+ ],
+ "LOACO D3|IF|password": [
+  0.9958383999999999,
+  7.455682396666283e-05
+ ],
+ "LOACO D3|IF|xss": [
+  0.9903009599999999,
+  0.0004088545560465402
+ ],
+ "LOACO D3|AE|Backdoor": [
+  0.99932464,
+  4.3917741289799536e-05
+ ],
+ "LOACO D3|AE|password": [
+  0.97650848,
+  0.0009686322893646983
+ ],
+ "LOACO D3|AE|xss": [
+  0.978404,
+  0.0007476822854662493
+ ],
+ "LOACO D3|CLAD|Backdoor": [
+  0.9708110399999998,
+  0.0031195241893596476
+ ],
+ "LOACO D3|CLAD|password": [
+  0.9398891199999999,
+  0.03265925454311536
+ ],
+ "LOACO D3|CLAD|xss": [
+  0.94671104,
+  0.015448186020630451
+ ],
+ "Natural novelty D3|AHSD stress|Backdoor": [
+  0.6699742399999999,
+  0.2666998531511557
+ ],
+ "Natural novelty D3|AHSD stress|password": [
+  0.6739256,
+  0.24832353896640572
+ ],
+ "Natural novelty D3|AHSD stress|xss": [
+  0.44286104000000004,
+  0.1514511993422568
+ ],
+ "Natural novelty D3|Mahalanobis|Backdoor": [
+  0.6684199200000001,
+  0.17234933646809317
+ ],
+ "Natural novelty D3|Mahalanobis|password": [
+  0.5876964800000001,
+  0.09927276046223357
+ ],
+ "Natural novelty D3|Mahalanobis|xss": [
+  0.45707664000000003,
+  0.12008461229936165
+ ],
+ "Natural novelty D3|kNN|Backdoor": [
+  0.5100724799999999,
+  0.38382419450924654
+ ],
+ "Natural novelty D3|kNN|password": [
+  0.46242864000000006,
+  0.36586350422654623
+ ],
+ "Natural novelty D3|kNN|xss": [
+  0.49342223999999996,
+  0.3976914326022726
+ ],
+ "Natural novelty D3|IF|Backdoor": [
+  0.9826856000000002,
+  0.002424942852934927
+ ],
+ "Natural novelty D3|IF|password": [
+  0.9883020799999999,
+  0.00048816803664310997
+ ],
+ "Natural novelty D3|IF|xss": [
+  0.9576580800000001,
+  0.004195369355849354
+ ],
+ "Natural novelty D3|AE|Backdoor": [
+  0.9678118399999999,
+  0.0010533122462024638
+ ],
+ "Natural novelty D3|AE|password": [
+  0.8855852800000001,
+  0.0013125962791353631
+ ],
+ "Natural novelty D3|AE|xss": [
+  0.8770385600000001,
+  0.00022257719559740175
+ ],
+ "Natural novelty D3|CLAD|Backdoor": [
+  0.8902657599999999,
+  0.027611636768000457
+ ],
+ "Natural novelty D3|CLAD|password": [
+  0.91364424,
+  0.05425003948503632
+ ],
+ "Natural novelty D3|CLAD|xss": [
+  0.8250435200000001,
+  0.08160866595522803
+ ]
+}
