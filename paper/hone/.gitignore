@@ -1,0 +1,4 @@
+dist/
+*.aux
+*.log
+*.out
