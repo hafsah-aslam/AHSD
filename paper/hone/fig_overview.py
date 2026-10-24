@@ -8,7 +8,7 @@ W=[0.235,0.27,0.235,0.235]; gap=0.008; x0=0.0
 axes=[]
 for w in W:
     ax=fig.add_axes([x0,0.0,w,0.9]); ax.set_xlim(0,1); ax.set_ylim(0,1); ax.axis('off'); axes.append(ax); x0+=w+gap
-titles=['(a) Leakage-controlled data','(b) Paired zero-day protocols','(c) Detector panel (12 + 6)','(d) Evaluation and acceptance']
+titles=['(a) Leakage-controlled data','(b) Paired zero-day protocols','(c) 12 detectors, 5 families','(d) Evaluation and acceptance']
 for ax,t in zip(axes,titles):
     ax.add_patch(FancyBboxPatch((0.01,0.01),0.98,0.98,boxstyle='round,pad=0,rounding_size=0.03',fc='#F7F7F7',ec='#888888',lw=0.6))
     ax.text(0.5,1.04,t,ha='center',va='bottom',fontsize=7,fontweight='bold')
