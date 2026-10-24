@@ -13,7 +13,7 @@
 \newif\ifanonymous
 \anonymoustrue   % set \anonymousfalse for the camera-ready / single-blind version
 \newif\ifappendix
-\appendixtrue    % set \appendixfalse if the venue counts appendices toward the page limit
+\appendixfalse   % set \appendixfalse if the venue counts appendices toward the page limit
 \newcommand{\confirm}[1]{\textcolor{red}{[#1]}}
 \newcommand{\artifact}{\ifanonymous\url{https://anonymous.4open.science/r/XXXXXXXX}\else\confirm{public repository URL}\fi}
 
@@ -90,13 +90,19 @@ HoNE is a four-stage pipeline (Fig.~\ref{fig:overview}). Raw flow records enter 
     \label{fig:overview}
 \end{figure*}
 
+
+
+
 \subsection{Input data}
 \textbf{Input data.} HoNE takes public flow-level datasets with per-flow timestamps as input~\cite{sarhan2021netflow,luay2025}. D1--D4 are the NetFlow-v3 versions of CSE-CIC-IDS2018~\cite{sharafaldin2018}, UNSW-NB15~\cite{moustafa2015}, ToN-IoT~\cite{moustafa2021} and BoT-IoT~\cite{koroniotis2019}, which share 53 features~\cite{luay2025}; D5 is Lycos2017, a corrected re-extraction of CIC-IDS2017~\cite{sharafaldin2018} that fixes documented flow-construction and labelling errors~\cite{engelen2021,rosay2021}, processed in its own feature space (Table~\ref{tab:data}). Every flow carries a binary label and an attack-class label~\cite{sarhan2021netflow,sarhan2022standard}. For D1--D4 the dataset maintainers re-extracted each testbed's packet captures into this common NetFlow schema with millisecond start and end timestamps~\cite{sarhan2021netflow}, which makes strictly time-ordered splits possible; for D5 we run the authors' labelling script unmodified and map its timestamps and labels to the same fields. All files come from the official sources, are registered with their SHA-256 and row count, and are audited for schema conformity, missing and infinite values, label consistency and timestamp range before use; they are never modified. D4, whose capture is dominated by attack traffic~\cite{koroniotis2019}, contains only 1,315 benign windows and serves only as a transfer target, and D1's 14 file labels are grouped into six attack families matching the attack scenarios of the original capture~\cite{sharafaldin2018}, so that a held-out class has no near-identical sibling in training.
 
-\begin{table}[H]
-\centering\scriptsize\setlength{\tabcolsep}{3pt}
-\caption{Datasets. Windows are counted before deduplication.}
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+
+\captionof{table}{Datasets. Windows are counted before deduplication.}
 \label{tab:data}
+
 \begin{tabular}{llrrrl}
 \toprule
 ID & Dataset & Flows & Windows & Dupl. & Classes\\
@@ -109,7 +115,7 @@ D5 & Lycos2017 & 1.84\,M & 114,783 & 0 & 13\\
 \bottomrule
 \multicolumn{6}{l}{$^{a}$Windows retained; D4 has no split of its own (transfer target only).}
 \end{tabular}
-\end{table}
+\end{center}
 
 \subsection{Stage 1: Leakage control}
 Stage~1 turns raw flows into windows that cannot leak information between training and test sets. Addresses, ports and DNS query IDs are dropped, and TTL fields are dropped as a known UNSW-NB15 label-leakage artifact; flow timestamps are kept only for ordering and splitting. Infinite values are imputed with the training median, heavy-tailed counts are $\log(1{+}x)$-transformed, and features are standardized with training statistics, leaving 41 common features over D1--D3. Flows are then sorted by start time and grouped into 1-hour blocks (10-minute blocks for D5's purged split) \emph{before} windowing into $T{=}32$ flows with stride 16, so that no window crosses a block. A window is an attack if any flow is, and its class is the majority attack class. Windows are hashed and exact duplicates removed globally, which removed 9.7\% of D3's windows.
@@ -129,10 +135,15 @@ Training sets are balanced 1:1 (7,000 windows per class), and validation and tes
 \subsection{Stage 3: Detector panel and multi-seed runs}
 Stage~3 trains and scores every detector on every split from Stage~2. HoNE groups 12 scores into five families by what they read from a model, adapted from the taxonomy of~\cite{yang2024ood} (Table~\ref{tab:det}). \emph{Confidence} scores read the classifier output; \emph{representation-distance} scores read hidden features~\cite{lee2018,sun2022knn}; \emph{benign-only} detectors never see attacks~\cite{liu2008,scholkopf2001}; the \emph{contrastive} detector CLAD~\cite{wilkie2026} is trained on benign and known attacks; and XGBoost~\cite{chen2016} on flattened windows is a supervised reference. Higher scores always mean more anomalous, and orientation was fixed before any run.
 
-\begin{table}[H]
-\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
+\makeatletter
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+
+\def\@captype{table}
 \caption{Twelve detectors in five families, plus a seeded XGBoost-s; confidence and representation scores are also computed on a GRU backbone.}
 \label{tab:det}
+
 \begin{tabular}{lll}
 \toprule
 Family & Detectors & Fitted on\\
@@ -144,7 +155,8 @@ Contrastive & CLAD~\cite{wilkie2026} & Benign + attacks\\
 Reference & XGBoost~\cite{chen2016}, XGBoost-s & Labelled windows\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
+\makeatother
 
 Confidence and representation scores come from a recurrent backbone (AHSD) built around a fixed benign reference $E$. Each flow vector is embedded as $z_t=\mathrm{LayerNorm}(Wx_t)\in\mathbb{R}^{128}$, and a state $h_t$, initialised at $E$, tracks the input relative to it with per-step, per-channel gates:
 \begin{equation}
@@ -207,18 +219,26 @@ Given that both protocols can be run on some datasets, the next question is whet
 Pooling every class of each protocol shows the effect at a glance (Fig.~\ref{fig:winners}): representation scores win under LOACO, XGBoost under natural novelty, and benign-only detectors over the rolling cut-points. Over the 45 rolling units, benign-only detectors lead (0.748 [0.699, 0.796]) ahead of representation scores (0.623 [0.566, 0.683]; difference $+0.125$ [$+0.048$, $+0.204$]), and XGBoost trails the leading family by $-0.076$ [$-0.154$, $-0.009$]; at a 45\% cut on D3 it scores 0.263, below chance. The leader also moves with the dataset (representation on D1 and D5, benign-only on D3) and with the cut fraction (representation, benign-only, CLAD, benign-only from 30\% to 75\%). A detector chosen on one protocol, dataset or cut-point can therefore be the wrong choice on another.
 
 \textbf{Answer to RQ2.} Yes: the leading detector family changes with protocol, dataset and cut-point, and identically on both backbones.
+\makeatletter
+\begin{center}
 
-\begin{figure}[!t]
-\centering
+\def\@captype{figure}
 \includegraphics[width=\columnwidth]{fig_winners.pdf}
 \caption{Mean AUC per detector family pooled over all classes of each protocol (rolling: all 45 class--cut units). The winner (solid bar) differs in each protocol; XGBoost is included as a supervised reference.}
 \label{fig:winners}
-\end{figure}
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{2.4pt}
+\end{center}
+\makeatother
+
+\makeatletter
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+
+\def\@captype{table}
 \caption{Family mean AUC (five seeds). Bold: leading novelty family. Conf.\ = confidence, Repr.\ = representation, Benign = benign-only. Classes per evaluation in parentheses.}
 \label{tab:fam}
+
 \begin{tabular}{lccccc}
 \toprule
 Evaluation & Conf. & Repr. & Benign & CLAD & XGB\\
@@ -232,7 +252,8 @@ Natural D3 (5) & .467 & .522 & \textbf{.898} & .823 & .923\\
 Natural D5 (2) & .256 & \textbf{.940} & .794 & .864 & .968\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
+\makeatother
 
 \subsection{RQ3: Is one training run enough evidence?}
 \label{sec:c3}
@@ -240,10 +261,15 @@ A change of winner could still be a matter of noise, so the third question is ho
 
 \textbf{Answer to RQ3.} No: natural novelty raises the seed variability of every stochastic supervised score, by up to 17$\times$ on AHSD and 2.6$\times$ for the GRU's representation scores.
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\makeatletter
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+
+\def\@captype{table}
 \caption{Mean seed standard deviation of AUC. LOACO pools D1--D3; natural novelty pools D1, D3, D5. GRU rows: second backbone; XGBoost-s: seeded XGBoost.}
 \label{tab:sd}
+
 \begin{tabular}{llccc}
 \toprule
 Detector & Family & LOACO & Natural & Ratio\\
@@ -264,14 +290,19 @@ Isolation Forest & Benign & 0.007 & 0.008 & 1.1$\times$\\
 Autoencoder & Benign & 0.002 & 0.017 & 9.2$\times$\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
+\makeatother
 
-\begin{figure}[!t]
-\centering
+\makeatletter
+\begin{center}
+
+\def\@captype{figure}
 \includegraphics[width=\columnwidth]{fig_d3.pdf}
 \caption{D3 (ToN-IoT) classes evaluated under both protocols: mean AUC $\pm$ seed standard deviation over five seeds. Supervised-backbone scores are tight under LOACO and spread widely under natural novelty; benign-only detectors stay tight. Dashed line: chance.}
 \label{fig:d3}
-\end{figure}
+
+\end{center}
+\makeatother
 
 \subsection{RQ4: Which novelty scores are valid?}
 \label{sec:c4}
@@ -279,10 +310,15 @@ The confidence family scored worst in Table~\ref{tab:fam}, and Sec.~\ref{sec:met
 
 \textbf{Answer to RQ4.} The attack probability and representation distance are valid on average; maximum-softmax and energy invert in binary detectors on both backbones.
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\makeatletter
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+
+\def\@captype{table}
 \caption{Mean AUC of confidence scores and the representation family.}
 \label{tab:conf}
+
 \begin{tabular}{lcccc}
 \toprule
 Evaluation & MSP & Energy & $P(\text{attack})^\dagger$ & Repr.\\
@@ -293,11 +329,12 @@ Natural D3 & 0.262 & 0.287 & 0.853 & 0.522\\
 Natural D5 & 0.103 & 0.090 & 0.575 & 0.940\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
+\makeatother
 
 \subsection{RQ5: How do temporal and cross-network shifts behave?}
 \label{sec:c5}
-Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself. Its effects are dataset-specific (Table~\ref{tab:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]\ifappendix\ (Table~\ref{tab:a_transfer})\fi. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
+Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself. Its effects are dataset-specific (Table~\ref{tab:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
 
 \textbf{Answer to RQ5.} The effect of a time split depends on the dataset and the backbone, and zero-shot transfer to a new network is near chance.
 
@@ -325,12 +362,16 @@ An operator does not experience AUC but the share of attacks caught at a false-a
 
 \textbf{Answer to RQ6.} No: over the rolling cuts, family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-positive rate.
 
-\begin{figure}[!t]
-\centering
+\makeatletter
+\begin{center}
+
+\def\@captype{figure}
 \includegraphics[width=\columnwidth]{fig_operating.pdf}
 \caption{Rolling cut-points (45 units): each family's AUC (light bar) against the share of novel attack windows it catches at 1\% false-positive rate (dark bar).}
 \label{fig:operating}
-\end{figure}
+
+\end{center}
+\makeatother
 
 \subsection{How do these results compare with published ones?}
 \label{sec:prior}
@@ -357,7 +398,7 @@ Unknown-attack recall & \cite{zoppi2023} & XGBoost Rec-Unk 0.38 & rolling XGBoos
 \end{table*}
 
 \subsection{Pre-registered negative results}
-Before the benchmark became descriptive, four confirmatory hypotheses were tested against frozen gates, and all four failed\ifappendix\ (Appendix~\ref{app:neg})\fi: a spectral model of per-class detectability (pooled $\rho{=}0.326$, below 0.6); attack absorption by an adaptive equilibrium under supervised training (not reproduced; detectability peaks at a small adaptation rate); benign-drift re-anchoring (0 of 9 detectors met the improvement criterion); and benign-only superiority confined to natural novelty. The last gate's supervised family included MSP and energy, which Sec.~\ref{sec:c4} shows are invalid; the verdict stands as recorded.
+Before the benchmark became descriptive, four confirmatory hypotheses were tested against frozen gates, and all four failed: a spectral model of per-class detectability (pooled $\rho{=}0.326$, below 0.6); attack absorption by an adaptive equilibrium under supervised training (not reproduced; detectability peaks at a small adaptation rate); benign-drift re-anchoring (0 of 9 detectors met the improvement criterion); and benign-only superiority confined to natural novelty. The last gate's supervised family included MSP and energy, which Sec.~\ref{sec:c4} shows are invalid; the verdict stands as recorded.
 
 \section{Discussion}
 \label{sec:disc}
@@ -393,66 +434,5 @@ All code, splits, amendment logs and the result files behind every number in thi
 \clearpage
 \bibliographystyle{IEEEtran}
 \input{refs.tex}
-
-\ifappendix
-\clearpage
-\appendices
-
-\section{Extended Related Work}
-\label{app:related}
-\textbf{Evaluation pitfalls.} Arp et~al.\ identified ten pitfalls in security ML, including data snooping and spurious correlations~\cite{arp2022}. Apruzzese et~al.\ argued that ML-NIDS research rarely supports operational assessment~\cite{apruzzese2023sok}. Sommer and Paxson explained why anomaly detection is harder outside a closed world~\cite{sommer2010}.
-
-\textbf{Zero-day and open-set detection.} Kitsune detects anomalies with an ensemble of autoencoders trained on benign traffic~\cite{mirsky2018}. Wilkie et~al.\ (2026) learn benign structure from benign and known-malicious samples with a contrastive loss~\cite{wilkie2026}. Jodayree et~al.\ (2026) combine a protocol-aware transformer with energy scoring and extreme-value calibration~\cite{jodayree2026}. Both use class hold-out.
-
-\textbf{Cross-domain generalization.} Beyond~\cite{layeghy2023xdomain,layeghy2023dinids,martinez2026}, a 2026 systematic review surveys deep IoT intrusion detection and its evaluation practice~\cite{fernandez2026}.
-
-\textbf{Sequence and neuromorphic NIDS.} FlowTransformer provides a framework for transformer-based flow NIDS~\cite{manocchio2024}. Wang et~al.\ built a convolutional spiking detector~\cite{wang2024snn}, and Knapp et~al.\ evaluated bare spiking networks against conventional and recurrent networks~\cite{knapp2025}; both report in-distribution accuracy.
-
-\textbf{Drift and adversaries.} At NDSS 2026, a reinforcement-learning attacker evaded six ML traffic detectors with only hard-label query access~\cite{liu2026netmasq}, and Entente addressed cross-silo detection on log graphs with federated learning~\cite{xu2026entente}. HOIDS combines online learning with drift awareness~\cite{depaola2026}, and CADE detects and explains drifting samples~\cite{yang2021cade}.
-
-\begin{table}[!t]
-\centering\scriptsize\setlength{\tabcolsep}{2pt}
-\caption{Positioning. -- = not assessed in this comparison.}
-\label{tab:pos}
-\begin{tabular}{lllll}
-\toprule
-Work & Zero-day protocol & Cross-dataset & Seed var. & Pre-reg.\\
-\midrule
-\cite{sarhan2023zeroshot} & Zero-shot hold-out & No & -- & No\\
-\cite{zoppi2023} & Simulated unknowns & No & -- & No\\
-\cite{layeghy2023xdomain} & No & Yes & -- & No\\
-\cite{wilkie2026} & LOACO & No & -- & No\\
-\cite{nayak2026} & Time split + held-out families & No & 5 seeds (agg.) & No\\
-\cite{alhalangy2026} & Chronological + LOAFO & No & 5 seeds (agg.) & No\\
-\cite{mesca2026} & Random / held-out / LOO & No & -- & No\\
-\cite{jodayree2026} & Leave-one-type-out & 1 pair & 5 seeds & No\\
-HoNE & LOACO, natural, rolling, purged & 9 pairs & 5 seeds $\times$ 2 backb. & Yes\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\section{Pre-Registered Gates and Amendments}
-\label{app:neg}
-\begin{table}[!t]
-\centering\scriptsize\setlength{\tabcolsep}{2pt}
-\caption{Pre-registered gates. All four returned STOP.}
-\label{tab:gates}
-\begin{tabular}{p{0.06\columnwidth}p{0.30\columnwidth}p{0.27\columnwidth}p{0.27\columnwidth}}
-\toprule
-Gate & Hypothesis & Frozen criterion & Observed\\
-\midrule
-P1 & Spectral filter model predicts per-class detectability & Pooled $\rho\ge0.6$ and better than Wasserstein & $\rho{=}0.326$; difference CI [$-0.578$, 1.286]\\
-G1 & Adaptive equilibrium absorbs attacks under supervised training & $\rho(\gamma,d')\le-0.8$ on $\ge$2 of 3 datasets & $-0.143$, $-0.143$, 0.000\\
-G2 & Benign drift causes inversion; re-anchoring fixes it & $\ge$5 of 9 detectors pass each criterion & 4/9, 5/9, 0/9\\
-G3 & Benign-only beats supervised only under natural novelty & $B{-}S\ge0.15$ natural; $\le0.05$ LOACO & $+0.191$ (D5); $+0.269$ (D3 LOACO)\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Amendment log.} A1: LOACO moved to grouped\_random; D1 classes defined as families; D4 made a transfer target. A2: spectral predictor demoted to secondary; D1 natural novelty dropped (validation empty); new gate G1. A3: G1 negative; train-tail validation introduced, which restored D1 natural novelty; new gate G2. A4: G2 negative; Lycos2017 and CLAD added; new gate G3. A5: purged-block protocol for D5 with a pre-declared fallback; checkpoint sensitivity. A6: descriptive benchmark; gate flaw recorded; $P(\text{attack})$ added. A7 (after an independent read of the draft, before any run it governs): GRU backbone, seeded XGBoost-s, rolling cut-points and operating-point metrics; full rerun of 210 runs at one code commit.
-
-\section{Per-Class and Transfer Results}
-\input{appendix_tables.tex}
-\fi
 
 \end{document}
