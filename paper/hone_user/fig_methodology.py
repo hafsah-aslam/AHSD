@@ -75,7 +75,9 @@ for i, (k, name) in enumerate([("D1", "CSE-CIC-IDS2018"), ("D2", "UNSW-NB15"), (
     t(13.5, y, name, size=7)
 box(4.5, 4, 33, 26, ec=eb)
 t(6.5, 26, "Flow timestamps", size=7.6, weight="bold")
-t(6.5, 17, "Used only for ordering\nand splitting", size=6.6, color=SUB)
+t(6.5, 20.5, "Used only for ordering\nand splitting", size=6.6, color=SUB)
+box(6.5, 6, 29, 8, fc=hb, ec=hb, r=0.6)
+t(21, 10, "Output: leakage-controlled\nwindows per dataset", size=6.2, weight="bold", color="white", ha="center")
 
 box(40, 4, 35, 85, ec=eb)
 t(42, 85.5, "Leakage control", size=7.6, weight="bold")
@@ -100,10 +102,9 @@ between(78.5)
 # ---------------------------------------------------------------- panel 2
 panel(80, 79, "orange", "2. PAIRED ZERO-DAY PROTOCOLS")
 ho, lo, eo = C["orange"]
-box(82, 82, 45, 7.5, ec=eo)
-t(104.5, 85.75, "Same data, detectors, seeds", size=7.6, weight="bold", ha="center")
-box(129.5, 82, 27.5, 7.5, fc="#fff0dc", ec=ho)
-t(143.25, 85.75, "Report infeasible\nLOACO folds", size=6.4, weight="bold", color="#9a4b00", ha="center")
+box(82, 82, 75, 7.5, ec=eo)
+t(84, 87.3, "Primary: (1) LOACO vs (2) natural novelty, same data, detectors, seeds", size=5.9, weight="bold")
+t(84, 84.0, "Stress tests: (3) purged blocks · (4) rolling cuts · (5) time split · (6) transfer", size=5.8, color=SUB)
 
 # toy capture: grey = benign, A-C = attack classes; C occurs only late
 TOY = {"N": "#d0d5dd", "A": "#3b82d6", "B": "#2e9e57", "C": "#d92d20"}
@@ -137,7 +138,7 @@ def taxis(y):
 
 # LOACO
 box(82, 49, 75, 31, ec=TRAIN, lw=1)
-t(84, 77, "LOACO (hold-out), grouped_random split", size=7.4, weight="bold")
+t(84, 77, "(1) LOACO, grouped_random split", size=7.4, weight="bold")
 t(155.5, 77, "grey = benign; A–C = attack classes", size=5.2, color=SUB, ha="right")
 t(84, 70.6, "capture", size=5.8, color=SUB)
 for k, c in enumerate(SEQ):
@@ -159,7 +160,7 @@ t(84, 51.2, "✕ class C removed from training and validation; test-period benig
 
 # Natural novelty
 box(82, 21, 75, 25.5, ec="#2e9e57", lw=1)
-t(84, 43.5, "Natural novelty, temporal split", size=7.4, weight="bold")
+t(84, 43.5, "(2) Natural novelty, temporal split", size=7.4, weight="bold")
 CUT = 12
 for k, c in enumerate(SEQ):
     tblock(XS + k * BW, 31.6, c, faded=(k > CUT and c not in "NC"), hatch=(k == CUT))
@@ -172,14 +173,14 @@ taxis(30.0)
 for f in (0.30, 0.45, 0.60, 0.75):
     xx = XS + f * 20 * BW
     ax.plot([xx, xx], [29.0, 31.0], color=ho, lw=1.1)
-t(84, 30.0, "rolling\ncuts", size=5.0, color=ho, va="center")
+t(84, 30.0, "(4) rolling\ncuts", size=5.0, color=ho, va="center")
 t(84, 26.2, "C first seen after the cut (orange) → novel, scored vs benign", size=5.6, color=TOY["C"])
 t(84, 23.2, "B also in training → not scored (faded); val. = last 20% of training period",
   size=5.2, color=SUB)
 
 # Purged-block fallback
 box(82, 3.5, 75, 15.5, ec=ho, ls=(0, (3, 2)))
-t(84, 16.2, "Purged-block fallback (short captures)", size=6.9, weight="bold")
+t(84, 16.2, "(3) Purged-block LOACO (short captures, D5)", size=6.9, weight="bold")
 psteps = [(84, "10-min blocks"), (103, None), (122, "Purge adjacent\nblocks"), (140.5, "Min. test\nwindows")]
 for x, s in psteps:
     box(x, 5, 15, 8.5, ec=eo)
@@ -222,7 +223,7 @@ for i, (a, b) in enumerate(ms):
     t(x + 5.6, 13, b, size=5.5, ha="center")
     if i:
         arrow(x - 2.3, 16.5, x - 0.1, 16.5, color=hp)
-t(207.4, 6.5, "hypotheses, metrics, gates", size=5.0, color=SUB, ha="center")
+t(192.5, 6.3, "7 hashed amendments; 4 failed gates reported", size=5.0, color=SUB, ha="center")
 between(223.5)
 
 # ---------------------------------------------------------------- panel 4
