@@ -10,7 +10,7 @@ from matplotlib.patches import FancyBboxPatch, Polygon
 plt.rcParams.update({"font.family": "DejaVu Sans", "pdf.fonttype": 42})
 
 W, H = 300, 100
-fig = plt.figure(figsize=(14, 14 * H / W))
+fig = plt.figure(figsize=(14, 5.6))
 ax = fig.add_axes([0, 0, 1, 1])
 ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
 
@@ -100,55 +100,95 @@ between(78.5)
 # ---------------------------------------------------------------- panel 2
 panel(80, 79, "orange", "2. PAIRED ZERO-DAY PROTOCOLS")
 ho, lo, eo = C["orange"]
-box(82, 80, 45, 9, ec=eo)
-t(104.5, 84.5, "Same data, detectors, seeds", size=7.6, weight="bold", ha="center")
-box(129.5, 80, 27.5, 9, fc="#fff0dc", ec=ho)
-t(143.25, 84.5, "Report infeasible\nLOACO folds", size=6.6, weight="bold", color="#9a4b00", ha="center")
+box(82, 82, 45, 7.5, ec=eo)
+t(104.5, 85.75, "Same data, detectors, seeds", size=7.6, weight="bold", ha="center")
+box(129.5, 82, 27.5, 7.5, fc="#fff0dc", ec=ho)
+t(143.25, 85.75, "Report infeasible\nLOACO folds", size=6.4, weight="bold", color="#9a4b00", ha="center")
 
-box(82, 41, 12, 25, ec=eo)
-t(88, 53.5, "Leakage-\ncontrolled\nwindows", size=6.4, weight="bold", ha="center")
-ax.plot([94, 95.5, 95.5], [53.5, 53.5, 68.5], color=ho, lw=0.8)
-ax.plot([95.5, 95.5], [53.5, 39], color=ho, lw=0.8)
-arrow(95.5, 68.5, 97.4, 68.5, color=ho)
-arrow(95.5, 39, 97.4, 39, color=ho)
+# toy capture: grey = benign, A-C = attack classes; C occurs only late
+TOY = {"N": "#d0d5dd", "A": "#3b82d6", "B": "#2e9e57", "C": "#d92d20"}
+SEQ = "NANBANBNANBNNCBNCNCN"
+BW, BH, XS = 2.75, 4.2, 93.5
+
+
+def tblock(x, y, c, removed=False, faded=False, hatch=False):
+    if hatch:
+        ax.add_patch(plt.Rectangle((x, y), BW, BH, fc="white", ec=SUB, lw=0.5, hatch="////"))
+        return
+    ax.add_patch(plt.Rectangle((x, y), BW, BH, fc=TOY[c], ec="white", lw=0.5,
+                               alpha=0.3 if faded else 1))
+    if c != "N" and not removed:
+        t(x + BW / 2, y + BH / 2, c, size=4.6, weight="bold", color="white", ha="center")
+    if removed:
+        ax.plot([x + 0.4, x + BW - 0.4], [y + 0.4, y + BH - 0.4], color=DARK, lw=0.8)
+        ax.plot([x + 0.4, x + BW - 0.4], [y + BH - 0.4, y + 0.4], color=DARK, lw=0.8)
+
+
+def tbrace(x0, x1, y, label, color=SUB):
+    ax.plot([x0, x0, x1, x1], [y - 0.8, y, y, y - 0.8], color=color, lw=0.6)
+    t((x0 + x1) / 2, y + 1.7, label, size=5.6, color=color, ha="center")
+
+
+def taxis(y):
+    ax.annotate("", xy=(XS + 20 * BW + 2, y), xytext=(XS, y),
+                arrowprops=dict(arrowstyle="-|>", color=SUB, lw=0.6, mutation_scale=5))
+    t(XS + 20 * BW + 2.6, y, "time", size=5.4, color=SUB)
+
 
 # LOACO
-box(97.5, 59.5, 59.5, 18.5, ec=TRAIN, lw=1)
-t(99.5, 75, "LOACO (hold-out)", size=7.6, weight="bold")
-t(99.5, 69.5, "Grouped random (60/20/20)", size=6.4)
-bar(99.5, 63.3, [(3.6, TRAIN)] * 6 + [(3.6, VAL)] * 2 + [(3.6, TEST)] * 2,
-    labels=[(10.8, "Train"), (25.2, "Val"), (32.4, "Test")])
-arrow(137, 64.6, 140, 64.6)
-t(148.5, 64.6, "Remove one\nattack class\nfrom all training", size=6.1, ha="center", color=DARK)
+box(82, 49, 75, 31, ec=TRAIN, lw=1)
+t(84, 77, "LOACO (hold-out), grouped_random split", size=7.4, weight="bold")
+t(155.5, 77, "grey = benign; A–C = attack classes", size=5.2, color=SUB, ha="right")
+t(84, 70.6, "capture", size=5.8, color=SUB)
+for k, c in enumerate(SEQ):
+    tblock(XS + k * BW, 68.5, c)
+taxis(67.2)
+arrow(118, 66, 118, 60.6)
+t(119.4, 63.6, "shuffle 1-h blocks, 60/20/20", size=5.6, color=SUB)
+order = [7, 0, 16, 3, 9, 1, 5, 12, 15, 2, 10, 6, 4, 17, 19, 8, 13, 11, 18, 14]
+for name, idx, x0 in (("training", order[:12], 84), ("val.", order[12:16], 119.5),
+                      ("test", order[16:], 132.5)):
+    for k, i in enumerate(idx):
+        c = SEQ[i]
+        tblock(x0 + k * BW, 54.3, c, removed=(c == "C" and name != "test"),
+               faded=(name == "test" and c not in "NC"))
+    tbrace(x0, x0 + len(idx) * BW, 59.6, name)
+t(150.2, 56.4, "score C\nvs benign", size=5.6, color=TOY["C"], ha="center", weight="bold")
+t(84, 51.2, "✕ class C removed from training and validation; test-period benign traffic stays in training",
+  size=5.2, color=DARK)
 
 # Natural novelty
-box(97.5, 27.5, 59.5, 29.5, ec="#2e9e57", lw=1)
-t(99.5, 54, "Natural novelty", size=7.6, weight="bold")
-t(99.5, 48.5, "Temporal ordering", size=6.4)
-bar(99.5, 42.3, [(3.6, TRAIN)] * 6 + [(2.4, GAP)] + [(3.6, VAL)] * 2 + [(3.6, TEST)] * 2,
-    labels=[(10.8, "Train"), (22.8, "Gap"), (27.6, "Val"), (34.8, "Test")])
-arrow(139, 43.6, 142, 43.6)
-t(149.5, 43.6, "New classes\nfirst seen\nafter training", size=6.1, ha="center")
-ax.plot([99.5, 154.5], [33.5, 33.5], color=SUB, lw=0.7)
+box(82, 21, 75, 25.5, ec="#2e9e57", lw=1)
+t(84, 43.5, "Natural novelty, temporal split", size=7.4, weight="bold")
+CUT = 12
+for k, c in enumerate(SEQ):
+    tblock(XS + k * BW, 31.6, c, faded=(k > CUT and c not in "NC"), hatch=(k == CUT))
+tbrace(XS, XS + 10 * BW, 37.0, "training")
+tbrace(XS + 10 * BW, XS + CUT * BW, 37.0, "val.")
+tbrace(XS + (CUT + 1) * BW, XS + 20 * BW, 37.0, "test (after the cut)")
+cx = XS + CUT * BW
+ax.plot([cx, cx], [29.4, 37.6], color=ho, lw=1.1, ls=(0, (2, 1.4)))
+taxis(30.0)
 for f in (0.30, 0.45, 0.60, 0.75):
-    xx = 99.5 + f * 55
-    ax.plot([xx, xx], [32.4, 34.6], color=ho, lw=1.2)
-t(127, 30, "4 rolling cut-offs (30 / 45 / 60 / 75%)", size=6.1, ha="center", color=SUB)
+    xx = XS + f * 20 * BW
+    ax.plot([xx, xx], [29.0, 31.0], color=ho, lw=1.1)
+t(84, 30.0, "rolling\ncuts", size=5.0, color=ho, va="center")
+t(84, 26.2, "C first seen after the cut (orange) → novel, scored vs benign", size=5.6, color=TOY["C"])
+t(84, 23.2, "B also in training → not scored (faded); val. = last 20% of training period",
+  size=5.2, color=SUB)
 
 # Purged-block fallback
-box(82, 3.5, 75, 21, ec=ho, ls=(0, (3, 2)))
-t(84, 21, "Purged-block fallback (short captures)", size=7.2, weight="bold")
+box(82, 3.5, 75, 15.5, ec=ho, ls=(0, (3, 2)))
+t(84, 16.2, "Purged-block fallback (short captures)", size=6.9, weight="bold")
 psteps = [(84, "10-min blocks"), (103, None), (122, "Purge adjacent\nblocks"), (140.5, "Min. test\nwindows")]
 for x, s in psteps:
-    box(x, 6, 15, 10.5, ec=eo)
+    box(x, 5, 15, 8.5, ec=eo)
     if s:
-        t(x + 7.5, 11.25, s, size=6.1, ha="center")
-t(110.5, 14.2, "60 / 20 / 20", size=6.1, weight="bold", ha="center")
-bar(104.2, 9.5, [(2.1, TRAIN)] * 3 + [(2.1, VAL), (2.1, TEST), (2.1, TRAIN)],
-    h=2.2, labels=[])
-t(110.5, 7.6, "train / val / test", size=5.4, color=SUB, ha="center")
+        t(x + 7.5, 9.25, s, size=5.9, ha="center")
+t(110.5, 11.6, "60 / 20 / 20", size=5.9, weight="bold", ha="center")
+bar(104.2, 7.0, [(2.1, TRAIN)] * 3 + [(2.1, VAL), (2.1, TEST), (2.1, TRAIN)], h=2.0, labels=[])
 for x in (99, 118, 137):
-    arrow(x, 11.25, x + 4, 11.25)
+    arrow(x, 9.25, x + 4, 9.25)
 between(160.5)
 
 # ---------------------------------------------------------------- panel 3

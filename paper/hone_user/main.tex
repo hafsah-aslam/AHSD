@@ -86,7 +86,7 @@ HoNE takes public flow datasets with per-flow timestamps and a panel of detector
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{fig_methodology.pdf}
-    \caption{HoNE methodology: (1) datasets and leakage control, (2) paired zero-day protocols, (3) detector panel and multi-seed evaluation, and (4) evidence and acceptance.}
+    \caption{HoNE methodology: (1) datasets and leakage control, (2) paired zero-day protocols, shown on a toy capture, (3) detector panel and multi-seed evaluation, and (4) evidence and acceptance.}
     \label{fig:overview}
 \end{figure*}
 
@@ -126,20 +126,13 @@ Because a silent leakage bug would invalidate every later result, each build end
 
 \subsection{Stage 2: Paired zero-day protocols}
 \label{sec:s2}
-Stage~2 derives every zero-day evaluation from two splits of the same windows. \emph{grouped\_random} shuffles blocks 60/20/20 into training, validation and test sets, and \emph{temporal\_gap} orders them in time, with the first 60\% for training, one discarded gap block, then 20\% each for validation and test (Fig.~\ref{fig:protocols}). The evaluations form two levels. The \emph{primary paired comparison} scores every detector under (1)~LOACO and (2)~natural novelty. Four \emph{additional validity and stress evaluations} test that comparison: (3)~purged-block LOACO for the short D5 capture, (4)~rolling natural novelty, (5)~in-distribution AUC on the grouped and temporal splits, which isolates temporal shift without novelty, and (6)~zero-shot transfer of D1--D3 models to the other datasets.
+Stage~2 derives every zero-day evaluation from two splits of the same windows. \emph{grouped\_random} shuffles blocks 60/20/20 into training, validation and test sets, and \emph{temporal\_gap} orders them in time, with the first 60\% for training, one discarded gap block, then 20\% each for validation and test (Fig.~\ref{fig:overview}, panel~2). The evaluations form two levels. The \emph{primary paired comparison} scores every detector under (1)~LOACO and (2)~natural novelty. Four \emph{additional validity and stress evaluations} test that comparison: (3)~purged-block LOACO for the short D5 capture, (4)~rolling natural novelty, (5)~in-distribution AUC on the grouped and temporal splits, which isolates temporal shift without novelty, and (6)~zero-shot transfer of D1--D3 models to the other datasets.
 \begin{itemize}
 \item (1)~\emph{LOACO} runs on grouped\_random: one attack class is removed from training and tested on. A class is eligible if its training pool holds at least 200 windows (by majority label), and it is evaluated only if it also occurs in the test split.
 \item (2)~\emph{Natural novelty} runs on temporal\_gap and scores the classes that occur in test but never in training; its validation set is the last 20\% of the training period.
 \item (4)~\emph{Rolling cut-points} (Amendment~7) re-apply the natural-novelty rule with the training period ending at 30, 45, 60 and 75\% of each dataset's windows, one discarded gap block, and testing on everything after; the cleaner is refitted on each cut's training rows, and each (dataset, cut, class) is one class--cut unit.
 \item (3)~\emph{Purged blocks}, for short captures, assign 10-minute blocks 60/20/20 within each capture day and remove blocks adjacent to test or validation blocks, following purged cross-validation~\cite{lopezdeprado2018}; folds additionally require 50 test windows.
 \end{itemize}
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{fig_protocols.pdf}
-\caption{The two primary protocols on one toy capture (grey = benign; A--C = attack classes). (a) LOACO removes class C from training and scores it in test. (b) Natural novelty scores only classes first seen after the cut; rolling cut-points repeat this at 30--75\%.}
-\label{fig:protocols}
-\end{figure}
-
 Training sets are balanced 1:1 (7,000 windows per class), and validation and test sets use a 5:1 benign-to-attack ratio. Protocols that cannot be run on a dataset are reported rather than skipped. The output of Stage~2 is one set of training, validation and test windows per dataset and protocol, shared by every detector.
 
 \subsection{Stage 3: Detector panel and multi-seed runs}
