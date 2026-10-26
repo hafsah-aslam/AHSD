@@ -81,7 +81,7 @@ Prior work on learned NIDS evaluation falls into five lines: evaluation pitfalls
 
 \section{Methodology}
 \label{sec:method}
-HoNE is a four-stage pipeline (Fig.~\ref{fig:overview}). Raw flow records enter Stage~1, which removes leakage and produces clean windows. Stage~2 splits these windows under paired zero-day protocols. Stage~3 trains and scores a panel of detectors on every split over several seeds. Stage~4 turns the scores into metrics, findings and an acceptance decision. This section describes each stage in the order the data passes through it.
+HoNE takes public flow datasets with per-flow timestamps and a panel of detectors, and determines whether zero-day evidence obtained under class hold-out agrees with detector behaviour under natural temporal novelty. As summarized in Fig.~\ref{fig:overview}, the methodology proceeds from these inputs through four stages. Section~\ref{sec:data} describes the input data; Section~\ref{sec:s1} (Stage~1) removes leakage and produces clean windows; Section~\ref{sec:s2} (Stage~2) splits them under paired zero-day protocols; Section~\ref{sec:s3} (Stage~3) trains and scores the detector panel over several seeds; and Section~\ref{sec:prereg} (Stage~4) turns the scores into metrics, findings and an acceptance decision. Together, these stages specify the complete path from raw flow records to an evidence-based decision on a zero-day claim.
 
 \begin{figure*}[!t]
     \centering
@@ -94,6 +94,7 @@ HoNE is a four-stage pipeline (Fig.~\ref{fig:overview}). Raw flow records enter 
 
 
 \subsection{Input data}
+\label{sec:data}
 \textbf{Input data.} HoNE takes public flow-level datasets with per-flow timestamps as input~\cite{sarhan2021netflow,luay2025}. D1--D4 are the NetFlow-v3 versions of CSE-CIC-IDS2018~\cite{sharafaldin2018}, UNSW-NB15~\cite{moustafa2015}, ToN-IoT~\cite{moustafa2021} and BoT-IoT~\cite{koroniotis2019}, which share 53 features~\cite{luay2025}; D5 is Lycos2017, a corrected re-extraction of CIC-IDS2017~\cite{sharafaldin2018} that fixes documented flow-construction and labelling errors~\cite{engelen2021,rosay2021}, processed in its own feature space (Table~\ref{tab:data}). Every flow carries a binary label and an attack-class label~\cite{sarhan2021netflow,sarhan2022standard}. For D1--D4 the dataset maintainers re-extracted each testbed's packet captures into this common NetFlow schema with millisecond start and end timestamps~\cite{sarhan2021netflow}, which makes strictly time-ordered splits possible; for D5 we run the authors' labelling script unmodified and map its timestamps and labels to the same fields. All files come from the official sources, are registered with their SHA-256 and row count, and are audited for schema conformity, missing and infinite values, label consistency and timestamp range before use; they are never modified. D4, whose capture is dominated by attack traffic~\cite{koroniotis2019}, contains only 1,315 benign windows and serves only as a transfer target, and D1's 14 file labels are grouped into six attack families matching the attack scenarios of the original capture~\cite{sharafaldin2018}, so that a held-out class has no near-identical sibling in training.
 
 \begin{center}
@@ -118,11 +119,13 @@ D5 & Lycos2017 & 1.84\,M & 114,783 & 0 & 13\\
 \end{center}
 
 \subsection{Stage 1: Leakage control}
+\label{sec:s1}
 Stage~1 turns raw flows into windows that cannot leak information between training and test sets. Addresses, ports and DNS query IDs are dropped, and TTL fields are dropped as a known UNSW-NB15 label-leakage artifact; flow timestamps are kept only for ordering and splitting. Infinite values are imputed with the training median, heavy-tailed counts are $\log(1{+}x)$-transformed, and features are standardized with training statistics, leaving 41 common features over D1--D3. Flows are then sorted by start time and grouped into 1-hour blocks (10-minute blocks for D5's purged split) \emph{before} windowing into $T{=}32$ flows with stride 16, so that no window crosses a block. A window is an attack if any flow is, and its class is the majority attack class. Windows are hashed and exact duplicates removed globally, which removed 9.7\% of D3's windows.
 
 Because a silent leakage bug would invalidate every later result, each build ends with fail-closed integrity checks covering hash- and block-level disjointness of splits, class ratios, the absence of held-out flows from LOACO training sets, and finite values. All passed, including 538 checks on the D1--D4 archives after Amendment~1 and 32 on the D5 purged-block build. The output of Stage~1 is a set of leakage-controlled windows per dataset.
 
 \subsection{Stage 2: Paired zero-day protocols}
+\label{sec:s2}
 Stage~2 derives every zero-day evaluation from two splits of the same windows. \emph{grouped\_random} shuffles blocks 60/20/20 into training, validation and test sets, and \emph{temporal\_gap} orders them in time, with the first 60\% for training, one discarded gap block, then 20\% each for validation and test. The evaluations form two levels. The \emph{primary paired comparison} scores every detector under (1)~LOACO and (2)~natural novelty. Four \emph{additional validity and stress evaluations} test that comparison: (3)~purged-block LOACO for the short D5 capture, (4)~rolling natural novelty, (5)~in-distribution AUC on the grouped and temporal splits, which isolates temporal shift without novelty, and (6)~zero-shot transfer of D1--D3 models to the other datasets.
 \begin{itemize}
 \item (1)~\emph{LOACO} runs on grouped\_random: one attack class is removed from training and tested on. A class is eligible if its training pool holds at least 200 windows (by majority label), and it is evaluated only if it also occurs in the test split.
@@ -133,6 +136,7 @@ Stage~2 derives every zero-day evaluation from two splits of the same windows. \
 Training sets are balanced 1:1 (7,000 windows per class), and validation and test sets use a 5:1 benign-to-attack ratio. Protocols that cannot be run on a dataset are reported rather than skipped. The output of Stage~2 is one set of training, validation and test windows per dataset and protocol, shared by every detector.
 
 \subsection{Stage 3: Detector panel and multi-seed runs}
+\label{sec:s3}
 Stage~3 trains and scores every detector on every split from Stage~2. HoNE groups 12 scores into five families by what they read from a model, adapted from the taxonomy of~\cite{yang2024ood} (Table~\ref{tab:det}). \emph{Confidence} scores read the classifier output; \emph{representation-distance} scores read hidden features~\cite{lee2018,sun2022knn}; \emph{benign-only} detectors never see attacks~\cite{liu2008,scholkopf2001}; the \emph{contrastive} detector CLAD~\cite{wilkie2026} is trained on benign and known attacks; and XGBoost~\cite{chen2016} on flattened windows is a supervised reference. Higher scores always mean more anomalous, and orientation was fixed before any run.
 
 \makeatletter
