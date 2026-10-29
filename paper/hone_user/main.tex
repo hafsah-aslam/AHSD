@@ -18,6 +18,9 @@
 \newcommand{\artifact}{\ifanonymous\url{https://anonymous.4open.science/r/XXXXXXXX}\else\confirm{public repository URL}\fi}
 
 \begin{document}
+\definecolor{obsframe}{HTML}{EB6834}\definecolor{obsfill}{HTML}{FFF8EC}
+\newcounter{obs}
+\newcommand{\obs}[1]{\refstepcounter{obs}\par\smallskip\noindent\fcolorbox{obsframe}{obsfill}{\parbox{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}{\textbf{Observation O\theobs.} #1}}\par\smallskip}
 
 \title{HoNE: Does Hold-out Evidence Predict Natural Novelty? Testing the Protocol Validity of Zero-Day NIDS Evaluation}
 
@@ -41,28 +44,27 @@ network intrusion detection, network security management, zero-day attacks, eval
 
 \section{Introduction}
 \label{sec:intro}
-Network operators increasingly deploy machine-learning network intrusion detection systems (NIDS) because signature rules cannot cover attacks that did not exist when the rules were written. Consider an operator choosing between two learned detectors for an enterprise or IoT network. Both report high zero-day scores on public benchmarks; the operator deploys the better one, and months later a new attack class appears amid benign traffic that has changed since training. Whether the detector catches it depends on whether the benchmark evidence predicted exactly this situation.
+\textbf{Zero-day claims.} Network operators increasingly deploy machine-learning network intrusion detection systems (NIDS) because signature rules cannot cover attacks that did not exist when the rules were written. Consider an operator choosing between two learned detectors for an enterprise or IoT network. Both report high zero-day scores on public benchmarks; the operator deploys the better one, and months later a new attack class appears amid benign traffic that has changed since training. Whether the detector catches it depends on whether the benchmark evidence predicted exactly this situation.
 
-The stakes are operational. An overstated detector misses the attacks it was bought to catch, and one whose performance varies between training runs gives no stable basis for alert thresholds or for staffing alert triage. Both surface only after deployment, so the validity of pre-deployment evidence is a network-management question, not only a machine-learning one.
+\textbf{Why it matters.} The stakes are operational. An overstated detector misses the attacks it was bought to catch, and one whose performance varies between training runs gives no stable basis for alert thresholds or for staffing alert triage. Both surface only after deployment, so the validity of pre-deployment evidence is a network-management question, not only a machine-learning one.
 
-The standard evidence for zero-day ability is \emph{leave-one-attack-class-out} (LOACO) evaluation: one attack class is withheld from training on a benchmark split at random, and the detector must flag it at test time~\cite{wilkie2026}. It is attractive because it runs on any labelled dataset and isolates a single unseen class, and it underlies the zero-day studies we review (Sec.~\ref{sec:related}).
+\textbf{Hold-out evidence.} The standard evidence for zero-day ability is \emph{leave-one-attack-class-out} (LOACO) evaluation: one attack class is withheld from training on a benchmark split at random, and the detector must flag it at test time~\cite{wilkie2026}. It is attractive because it runs on any labelled dataset and isolates a single unseen class, and it underlies the zero-day studies we review (Sec.~\ref{sec:related}).
 
-LOACO, however, rests on assumptions that naturally emerging attacks do not satisfy. Random splits let near-identical flows and whole attack episodes appear in both training and test sets~\cite{arp2022}. LOACO keeps the benign traffic of the test period in training, so the withheld class is the only thing that changes, whereas a real new attack arrives \emph{later in time} alongside drifting benign traffic, which we call \emph{natural temporal novelty}. Results usually come from one run, are summarized by AUC, and often score novelty with confidence measures designed for multi-class image recognition~\cite{hendrycks2017,liu2020energy}. Such benchmark scores are known to overstate field performance~\cite{sommer2010,apruzzese2023sok}, yet whether LOACO conclusions transfer to natural novelty, a property we call \emph{protocol validity}, has not been measured: recent studies combine time-ordered splits with held-out attack families~\cite{nayak2026,alhalangy2026} or compare several protocols~\cite{mesca2026,raj2026}, but to evaluate a proposed detector rather than to test the protocol itself.
+\textbf{Untested assumptions.} LOACO, however, rests on assumptions that naturally emerging attacks do not satisfy. Random splits let near-identical flows and whole attack episodes appear in both training and test sets~\cite{arp2022}. LOACO keeps the benign traffic of the test period in training, so the withheld class is the only thing that changes, whereas a real new attack arrives \emph{later in time} alongside drifting benign traffic, which we call \emph{natural temporal novelty}. Results usually come from one run, are summarized by AUC, and often score novelty with confidence measures designed for multi-class image recognition~\cite{hendrycks2017,liu2020energy}. Such benchmark scores are known to overstate field performance~\cite{sommer2010,apruzzese2023sok}, yet whether LOACO conclusions transfer to natural novelty, a property we call \emph{protocol validity}, has not been measured: recent studies combine time-ordered splits with held-out attack families~\cite{nayak2026,alhalangy2026} or compare several protocols~\cite{mesca2026,raj2026}, but to evaluate a proposed detector rather than to test the protocol itself.
 
-This paper therefore asks one question: \emph{can hold-out zero-day evidence predict natural novelty?} It has two parts. First, does LOACO evidence \emph{agree} with natural novelty: can it be produced on time-ordered captures, and does it select the same detectors, rankings and AUC levels? Second, what does hold-out evidence \emph{hide}, in run-to-run variability and in detection at the false-alarm rate an operator can absorb?
+\textbf{Research question.} This paper therefore asks one question: \emph{can hold-out zero-day evidence predict natural novelty?} It has two parts. First, does LOACO evidence \emph{agree} with natural novelty: can it be produced on time-ordered captures, and does it select the same detectors, rankings and AUC levels? Second, what does hold-out evidence \emph{hide}, in run-to-run variability and in detection at the false-alarm rate an operator can absorb?
 
-We answer it with \textbf{HoNE} (\textbf{Ho}ld-out and \textbf{N}atural-novelty \textbf{E}valuation), a paired methodology that treats the evaluation protocol, not the detector, as the object of study (Fig.~\ref{fig:overview}). HoNE builds leakage-controlled splits from flow timestamps and scores every detector under both protocols on the same data, backbones and five seeds. It then measures agreement (rank correlation, change of best detector, AUC and TPR differences), seed variability and operating-point detection, and checks them with stress and validity tests: purged-block LOACO, rolling training cut-offs, in-distribution temporal shift, cross-network transfer and a second backbone. All hypotheses were hashed before each experiment, and failed ones are reported (Sec.~\ref{sec:neg}).
+\textbf{Paired evaluation.} We answer it with \textbf{HoNE} (\textbf{Ho}ld-out and \textbf{N}atural-novelty \textbf{E}valuation), a paired methodology that treats the evaluation protocol, not the detector, as the object of study. HoNE builds leakage-controlled splits from flow timestamps and scores every detector under both protocols on the same data, backbones and five seeds. It then measures agreement (rank correlation, change of best detector, AUC and TPR differences), seed variability and operating-point detection, and checks them with stress and validity tests: purged-block LOACO, rolling training cut-offs, in-distribution temporal shift, cross-network transfer and a second backbone. All hypotheses were hashed before each experiment, and failed ones are reported (Sec.~\ref{sec:neg}).
 
-Applied to five public datasets and 12 detectors, HoNE shows that \emph{conventional hold-out evaluation is not a reliable proxy for natural attack emergence}. Temporal LOACO cannot be run on any day-scheduled capture (Sec.~\ref{sec:c1}). Where both protocols run, LOACO preserves the leading detector family within a dataset, but the best detector changes in 11 of 12 paired comparisons and rankings agree only moderately (median $\rho{=}0.55$; Sec.~\ref{sec:c2}). Natural novelty exposes instability that LOACO hides: seed variation rises up to 17$\times$ (2.6$\times$ on the second backbone; Sec.~\ref{sec:c3}). Neither inverted confidence scores nor temporal shift alone explains the disagreement (Secs.~\ref{sec:c4}--\ref{sec:c5}), and the gap matters at the operating point: family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-alarm rate (Sec.~\ref{sec:c6}).
+\textbf{Findings.} Applied to five public datasets and 12 detectors, HoNE shows that \emph{conventional hold-out evaluation is not a reliable proxy for natural attack emergence}. Temporal LOACO cannot be run on any day-scheduled capture (Sec.~\ref{sec:c1}). Where both protocols run, LOACO preserves the leading detector family within a dataset, but the best detector changes in 11 of 12 paired comparisons and rankings agree only moderately (median $\rho{=}0.55$; Sec.~\ref{sec:c2}). Natural novelty exposes instability that LOACO hides: seed variation rises up to 17$\times$ (2.6$\times$ on the second backbone; Sec.~\ref{sec:c3}). Neither inverted confidence scores nor temporal shift alone explains the disagreement (Secs.~\ref{sec:c4}--\ref{sec:c5}), and the gap matters at the operating point: family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-alarm rate (Sec.~\ref{sec:c6}).
 
-These findings define what credible zero-day evidence must contain: each exposes a failure mode, and each failure mode yields a check an operator can require. Because the best detector changes with the protocol, a LOACO-only result cannot select a detector, so natural-novelty results are required wherever timestamps allow. Because seed variation hides under LOACO, a single run can misrank detectors, so five or more seeds with per-class spread are required. Because AUC hides missed attacks, detection at the operator's false-positive rate is required. The resulting \emph{HoNE acceptance protocol} has eight such checks (Sec.~\ref{sec:disc}), each cheap: one of our runs takes about three CPU-minutes.
+\textbf{From findings to checks.} These findings define what credible zero-day evidence must contain: each exposes a failure mode, and each failure mode yields a check an operator can require. Because the best detector changes with the protocol, a LOACO-only result cannot select a detector, so natural-novelty results are required wherever timestamps allow. Because seed variation hides under LOACO, a single run can misrank detectors, so five or more seeds with per-class spread are required. Because AUC hides missed attacks, detection at the operator's false-positive rate is required. The resulting \emph{HoNE acceptance protocol} has eight such checks (Sec.~\ref{sec:disc}), each cheap: one of our runs takes about three CPU-minutes.
 
-Our key contributions are:
+\textbf{Contributions.} The following lists our contributions:
 \begin{itemize}
-\item a paired, pre-registered methodology that tests the protocol validity of zero-day NIDS evidence (Sec.~\ref{sec:method});
-\item a quantification of LOACO--natural-novelty disagreement in feasibility, detector choice, rankings and AUC (Secs.~\ref{sec:c1}, \ref{sec:c2}, \ref{sec:c5});
-\item evidence that hold-out evaluation hides seed instability and overstates operating-point detection (Secs.~\ref{sec:c3}, \ref{sec:c6}), and that MSP and energy invert in binary detectors (Sec.~\ref{sec:c4});
-\item an eight-check acceptance protocol derived from these findings (Sec.~\ref{sec:disc}).
+\item We introduce HoNE, a paired, pre-registered methodology that tests whether hold-out zero-day evidence holds under natural novelty, on the same detectors, data, backbones and seeds (Sec.~\ref{sec:method}).
+\item We show that it does not: LOACO is infeasible on day-scheduled captures, changes the best detector in 11 of 12 comparisons, hides up to 17$\times$ more seed variation, and its AUCs overstate detection at 1\% FPR (Sec.~\ref{sec:eval}).
+\item We derive an eight-check acceptance protocol that operators can require before trusting a zero-day claim (Sec.~\ref{sec:disc}).
 \end{itemize}
 
 \section{Related Work}
@@ -83,14 +85,9 @@ Prior work on learned NIDS evaluation falls into five lines, each leaving a diff
 
 \section{Methodology}
 \label{sec:method}
-HoNE takes public flow datasets with per-flow timestamps and a panel of detectors, and determines whether zero-day evidence obtained under class hold-out agrees with detector behaviour under natural temporal novelty. As summarized in Fig.~\ref{fig:overview}, the methodology proceeds from these inputs through four stages. Section~\ref{sec:data} describes the input data; Section~\ref{sec:s1} (Stage~1) removes leakage and produces clean windows; Section~\ref{sec:s2} (Stage~2) splits them under paired zero-day protocols; Section~\ref{sec:s3} (Stage~3) trains and scores the detector panel over several seeds; and Section~\ref{sec:prereg} (Stage~4) turns the scores into metrics, findings and an acceptance decision. Together, these stages specify the complete path from raw flow records to an evidence-based decision on a zero-day claim.
+HoNE takes public flow datasets with per-flow timestamps and a panel of detectors, and determines whether zero-day evidence obtained under class hold-out agrees with detector behaviour under natural temporal novelty. The methodology proceeds from these inputs through four stages. Section~\ref{sec:data} describes the input data; Section~\ref{sec:s1} (Stage~1) removes leakage and produces clean windows; Section~\ref{sec:s2} (Stage~2) splits them under paired zero-day protocols; Section~\ref{sec:s3} (Stage~3) trains and scores the detector panel over several seeds; and Section~\ref{sec:prereg} (Stage~4) turns the scores into metrics, findings and an acceptance decision. Together, these stages specify the complete path from raw flow records to an evidence-based decision on a zero-day claim.
 
-\begin{figure*}[!t]
-    \centering
-    \includegraphics[width=\textwidth]{fig_methodology.pdf}
-    \caption{HoNE methodology: (1) datasets and leakage control, (2) paired zero-day protocols on the same data, shown on a toy capture, (3) the same detector panel and five seeds under both protocols, and (4) paired evidence (agreement, seed variability, operating point) and acceptance.}
-    \label{fig:overview}
-\end{figure*}
+
 
 
 
@@ -128,7 +125,7 @@ Because a silent leakage bug would invalidate every later result, each build end
 
 \subsection{Stage 2: Paired zero-day protocols}
 \label{sec:s2}
-Stage~2 derives every zero-day evaluation from two splits of the same windows. \emph{grouped\_random} shuffles blocks 60/20/20 into training, validation and test sets, and \emph{temporal\_gap} orders them in time, with the first 60\% for training, one discarded gap block, then 20\% each for validation and test (Fig.~\ref{fig:overview}, panel~2). The evaluations form two levels. The \emph{primary paired comparison} scores every detector under (1)~LOACO and (2)~natural novelty. Four \emph{additional validity and stress evaluations} test that comparison: (3)~purged-block LOACO for the short D5 capture, (4)~rolling natural novelty, (5)~in-distribution AUC on the grouped and temporal splits, which isolates temporal shift without novelty, and (6)~zero-shot transfer of D1--D3 models to the other datasets.
+Stage~2 derives every zero-day evaluation from two splits of the same windows. \emph{grouped\_random} shuffles blocks 60/20/20 into training, validation and test sets, and \emph{temporal\_gap} orders them in time, with the first 60\% for training, one discarded gap block, then 20\% each for validation and test. The evaluations form two levels. The \emph{primary paired comparison} scores every detector under (1)~LOACO and (2)~natural novelty. Four \emph{additional validity and stress evaluations} test that comparison: (3)~purged-block LOACO for the short D5 capture, (4)~rolling natural novelty, (5)~in-distribution AUC on the grouped and temporal splits, which isolates temporal shift without novelty, and (6)~zero-shot transfer of D1--D3 models to the other datasets.
 \begin{itemize}
 \item (1)~\emph{LOACO} runs on grouped\_random: one attack class is removed from training and tested on. A class is eligible if its training pool holds at least 200 windows (by majority label), and it is evaluated only if it also occurs in the test split.
 \item (2)~\emph{Natural novelty} runs on temporal\_gap and scores the classes that occur in test but never in training; its validation set is the last 20\% of the training period.
@@ -198,7 +195,7 @@ Both backbones are trained with AdamW (learning rate $10^{-3}$, weight decay $10
 \label{sec:c1}
 The first question is whether the standard protocol can even be run once leakage is controlled. Temporal LOACO yields no feasible folds on any of the three day-scheduled captures (D1, D3, D5); only D2, which interleaves attacks in time, supports it (Table~\ref{tab:feas}). In D1 and D3 each attack class occupies its own days, so a time-ordered split places a class wholly in training or wholly in test. On D5 the purged split kept 125 of 219 blocks, and only one class (dos\_hulk) met both thresholds. Natural novelty, by contrast, offers two to five evaluable classes on every day-scheduled capture, and moving the cut-point multiplies this evidence to 45 class--cut units over 19 unique classes, 15 per dataset (D2 has no test-only class at any cut, and D3 no benign validation windows at a 30\% cut).
 
-\textbf{Answer to RQ1.} No: temporal LOACO cannot be run on any day-scheduled capture, whereas natural novelty provides 45 class--cut units.
+\obs{Temporal LOACO cannot be run on any day-scheduled capture, whereas natural novelty provides 45 class--cut units.}
 
 \begin{table}[!t]
 \centering\footnotesize\setlength{\tabcolsep}{3pt}
@@ -220,187 +217,93 @@ D5 Lycos2017 & 0$^{a}$ & 0 & 2 & 15 (3)\\
 
 \subsection{RQ2: Does conventional zero-day evidence agree with natural novelty?}
 \label{sec:c2}
-Where both protocols run (D1, D3, D5), we pair each detector's mean AUC under LOACO with its mean AUC under natural novelty, per dataset, backbone (AHSD: 12 detectors; GRU: its five scores plus the six backbone-free detectors) and natural-novelty view (fixed split; rolling cuts pooled), giving 12 paired comparisons (Table~\ref{tab:agree}).
+Where both protocols run (D1, D3, D5), we pair each detector's mean AUC under LOACO with its mean AUC under natural novelty, per dataset, backbone (AHSD: 12 detectors; GRU: its five scores plus the six backbone-free detectors) and natural-novelty view (fixed split; rolling cuts pooled), giving 12 paired comparisons (Fig.~\ref{fig:agree}).
 
 The protocols disagree at the level an operator acts on. The best single detector changes in 11 of 12 comparisons (D1: PCA under LOACO, Mahalanobis under natural novelty; D5: XGBoost, then a representation distance). Rank correlation between the protocols ranges from 0.26 to 0.92 (median 0.55), and 9--36\% of detector pairs reverse order. Natural novelty lowers mean AUC in 10 comparisons, by up to 0.197; single detectors move by up to 0.451, and 9 detector--comparison cells cross from one side of chance to the other. TPR@1\% differs by 0.10--0.32 on average. The three D3 classes evaluated under both protocols show the same pattern class by class ($\rho$ 0.55--0.85; the best detector changes in 3 of 6 class--backbone pairs; mean AUC lower in all six). What LOACO does preserve is the leading family within a dataset (no change in 12 comparisons): its signal is coarse, not detector-level.
 
-Margins between families are not preserved either (Table~\ref{tab:fam}). On D3, benign-only and representation scores are close under LOACO ($+0.022$ [$+0.004$, $+0.047$]), whereas under natural novelty benign-only detectors lead by $+0.376$ [$+0.247$, $+0.500$] and representation scores fall to chance. CLAD never leads; it trails benign-only detectors on both D3 evaluations ($-0.123$ and $-0.075$). XGBoost exceeds the leading novelty family on LOACO D2 and natural novelty D3 and D5, and ties it on purged D5. The GRU selects the same leading family as AHSD in all seven evaluations, though absolute values differ (natural novelty D3: GRU representation 0.869, AHSD 0.522). Pooled over all classes of each protocol, the family winner does change (Fig.~\ref{fig:winners}): representation under LOACO, XGBoost under natural novelty, and benign-only detectors over the 45 rolling units (0.748 [0.699, 0.796] vs.\ representation 0.623 [0.566, 0.683]), where XGBoost trails by $-0.076$ [$-0.154$, $-0.009$] and scores 0.263 at a 45\% cut on D3.
+Margins between families are not preserved either (Fig.~\ref{fig:family}). On D3, benign-only and representation scores are close under LOACO ($+0.022$ [$+0.004$, $+0.047$]), whereas under natural novelty benign-only detectors lead by $+0.376$ [$+0.247$, $+0.500$] and representation scores fall to chance. CLAD never leads; it trails benign-only detectors on both D3 evaluations ($-0.123$ and $-0.075$). XGBoost exceeds the leading novelty family on LOACO D2 and natural novelty D3 and D5, and ties it on purged D5. The GRU selects the same leading family as AHSD in all seven evaluations, though absolute values differ (natural novelty D3: GRU representation 0.869, AHSD 0.522). Pooled over all classes of each protocol, the family winner does change (Fig.~\ref{fig:winners}): representation under LOACO, XGBoost under natural novelty, and benign-only detectors over the 45 rolling units (0.748 [0.699, 0.796] vs.\ representation 0.623 [0.566, 0.683]), where XGBoost trails by $-0.076$ [$-0.154$, $-0.009$] and scores 0.263 at a 45\% cut on D3.
 
-\textbf{Answer to RQ2.} No. LOACO preserves the leading family within a dataset, but not the best detector (changed in 11 of 12 comparisons), the ranking (median $\rho{=}0.55$) or the absolute level (lower in 10 of 12), on both backbones.
+\obs{LOACO preserves the leading family within a dataset, but not the best detector (changed in 11 of 12 comparisons), the ranking (median $\rho{=}0.55$) or the absolute level (lower in 10 of 12), on both backbones.}
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{2.2pt}
-\caption{Agreement between LOACO and natural novelty on the same detectors, data and seeds (fixed split / rolling cuts). $\rho$: Spearman correlation of detector AUCs; Rev.: share of detector pairs whose order reverses; $\Delta$AUC: mean natural minus LOACO AUC; Best: top detector, LOACO$\rightarrow$natural (fixed split).}
-\label{tab:agree}
-\begin{tabular}{llcccl}
-\toprule
-Data & Backb. & $\rho$ & Rev. & $\Delta$AUC & Best\\
-\midrule
-D1 & AHSD & 0.79/0.92 & 0.20/0.09 & $-0.104$/$-0.038$ & PCA$\rightarrow$Mahal.\\
-D1 & GRU & 0.26/0.48 & 0.36/0.31 & $-0.087$/$+0.011$ & PCA$\rightarrow$GRU Mahal.\\
-D3 & AHSD & 0.55/0.41 & 0.32/0.36 & $-0.072$/$-0.109$ & AE$\rightarrow$XGB\\
-D3 & GRU & 0.45/0.65 & 0.33/0.25 & $+0.010$/$-0.064$ & AE$\rightarrow$XGB\\
-D5 & AHSD & 0.54/0.41 & 0.29/0.33 & $-0.121$/$-0.160$ & XGB$\rightarrow$Mahal.\\
-D5 & GRU & 0.84/0.64 & 0.16/0.27 & $-0.097$/$-0.197$ & XGB$\rightarrow$GRU Mahal.\\
-\bottomrule
-\end{tabular}
-\end{table}
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{fig_agree.pdf}
+\caption{Protocol agreement on the same detectors, data and seeds. Each point is one detector: its mean AUC under LOACO ($x$) and under natural novelty ($y$); filled circles AHSD backbone, open diamonds GRU backbone scores. Points below the dashed diagonal score lower under natural novelty. Top row: fixed split; bottom row: rolling cut-points pooled. $\rho$: Spearman rank correlation of detectors (AHSD / GRU).}
+\label{fig:agree}
+\end{figure*}
 
-\makeatletter
-\begin{center}
-
-\def\@captype{figure}
+\begin{figure}[!t]
+\centering
 \includegraphics[width=\columnwidth]{fig_winners.pdf}
 \caption{Mean AUC per detector family pooled over all classes of each protocol (rolling: all 45 class--cut units). The winner (solid bar) differs in each protocol; XGBoost is included as a supervised reference.}
 \label{fig:winners}
+\end{figure}
 
-\end{center}
-\makeatother
-
-\makeatletter
-\begin{center}
-\footnotesize
-\setlength{\tabcolsep}{2.4pt}
-
-\def\@captype{table}
-\caption{Family mean AUC (five seeds). Bold: leading novelty family. Conf.\ = confidence, Repr.\ = representation, Benign = benign-only. Classes per evaluation in parentheses.}
-\label{tab:fam}
-
-\begin{tabular}{lccccc}
-\toprule
-Evaluation & Conf. & Repr. & Benign & CLAD & XGB\\
-\midrule
-LOACO D1 (6) & .553 & \textbf{.729} & .660 & .653 & .682\\
-LOACO D2 (8) & .439 & \textbf{.977} & .807 & .949 & .998\\
-LOACO D3 (6) & .426 & .881 & \textbf{.903} & .780 & .862\\
-Purged D5 (1) & .580 & \textbf{.998} & .833 & .972 & 1.00\\
-Natural D1 (2) & .529 & \textbf{.623} & .505 & .574 & .523\\
-Natural D3 (5) & .467 & .522 & \textbf{.898} & .823 & .923\\
-Natural D5 (2) & .256 & \textbf{.940} & .794 & .864 & .968\\
-\bottomrule
-\end{tabular}
-\end{center}
-\makeatother
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_family.pdf}
+\caption{Family mean AUC per evaluation (five seeds; classes in parentheses). Boxed: leading novelty family. XGB: supervised reference.}
+\label{fig:family}
+\end{figure}
 
 \subsection{RQ3: Does natural novelty expose instability that hold-out evidence hides?}
 \label{sec:c3}
-A change of best detector could still be a matter of noise, so the third question is how much results vary across seeds, and whether LOACO reveals that variation. On the first backbone, every stochastic supervised score (the six backbone scores and CLAD) is less stable under natural novelty than under LOACO (Table~\ref{tab:sd}). The effect is smaller on the GRU: its representation scores become 2.6$\times$ less stable, its confidence scores 1.0--1.3$\times$. Seeding XGBoost (XGBoost-s) raises its seed standard deviation only to 0.014, so the instability belongs to learned representations under shift rather than to seeding as such, and its size depends on the backbone. The seeded benign-only detectors (Isolation Forest, autoencoder) stay below 0.018 seed standard deviation under natural novelty, below every supervised score's minimum of 0.074; On D3 natural novelty, $k$NN has a seed standard deviation of 0.33--0.40 AUC on four of five classes, so the same detector can rank first or last depending on the seed. Fig.~\ref{fig:d3} shows this on the three D3 classes evaluated under both protocols.
+A change of best detector could still be a matter of noise, so the third question is how much results vary across seeds, and whether LOACO reveals that variation. On the first backbone, every stochastic supervised score (the six backbone scores and CLAD) is less stable under natural novelty than under LOACO (Fig.~\ref{fig:sd}). The effect is smaller on the GRU: its representation scores become 2.6$\times$ less stable, its confidence scores 1.0--1.3$\times$. Seeding XGBoost (XGBoost-s) raises its seed standard deviation only to 0.014, so the instability belongs to learned representations under shift rather than to seeding as such, and its size depends on the backbone. The seeded benign-only detectors (Isolation Forest, autoencoder) stay below 0.018 seed standard deviation under natural novelty, below every supervised score's minimum of 0.074; On D3 natural novelty, $k$NN has a seed standard deviation of 0.33--0.40 AUC on four of five classes, so the same detector can rank first or last depending on the seed. Fig.~\ref{fig:d3} shows this on the three D3 classes evaluated under both protocols.
 
-\textbf{Answer to RQ3.} Yes: natural novelty raises the seed variability of every stochastic supervised score, by up to 17$\times$ on AHSD and 2.6$\times$ for the GRU's representation scores.
+\obs{Natural novelty raises the seed variability of every stochastic supervised score, by up to 17$\times$ on AHSD and 2.6$\times$ for the GRU's representation scores.}
 
-\makeatletter
-\begin{center}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_seedsd.pdf}
+\caption{Mean seed standard deviation of AUC under LOACO (pooled D1--D3) and natural novelty (pooled D1, D3, D5); right: ratio. Every stochastic supervised score spreads more under natural novelty.}
+\label{fig:sd}
+\end{figure}
 
-\def\@captype{table}
-\caption{Mean seed standard deviation of AUC. LOACO pools D1--D3; natural novelty pools D1, D3, D5. GRU rows: second backbone; XGBoost-s: seeded XGBoost.}
-\label{tab:sd}
-
-\begin{tabular}{llccc}
-\toprule
-Detector & Family & LOACO & Natural & Ratio\\
-\midrule
-MSP & Conf. & 0.061 & 0.103 & 1.7$\times$\\
-Energy & Conf. & 0.055 & 0.100 & 1.8$\times$\\
-$P(\text{attack})^\dagger$ & Conf. & 0.042 & 0.082 & 2.0$\times$\\
-Stress & Repr. & 0.019 & 0.110 & 5.8$\times$\\
-Mahalanobis & Repr. & 0.009 & 0.074 & 7.9$\times$\\
-$k$NN & Repr. & 0.013 & 0.215 & 17.0$\times$\\
-GRU Mahal. & Repr. & 0.008 & 0.022 & 2.6$\times$\\
-GRU $k$NN & Repr. & 0.019 & 0.051 & 2.6$\times$\\
-GRU MSP & Conf. & 0.049 & 0.062 & 1.3$\times$\\
-GRU $P(\text{attack})$ & Conf. & 0.027 & 0.027 & 1.0$\times$\\
-CLAD & Contr. & 0.020 & 0.058 & 2.9$\times$\\
-XGBoost-s & Ref. & 0.006 & 0.014 & 2.4$\times$\\
-Isolation Forest & Benign & 0.007 & 0.008 & 1.1$\times$\\
-Autoencoder & Benign & 0.002 & 0.017 & 9.2$\times$\\
-\bottomrule
-\end{tabular}
-\end{center}
-\makeatother
-
-\makeatletter
-\begin{center}
-
-\def\@captype{figure}
+\begin{figure}[!t]
+\centering
 \includegraphics[width=\columnwidth]{fig_d3.pdf}
 \caption{D3 (ToN-IoT) classes evaluated under both protocols: mean AUC $\pm$ seed standard deviation over five seeds. Supervised-backbone scores are tight under LOACO and spread widely under natural novelty; benign-only detectors stay tight. Dashed line: chance.}
 \label{fig:d3}
-
-\end{center}
-\makeatother
+\end{figure}
 
 \subsection{RQ4: Are confidence-based novelty scores valid in binary detectors?}
 \label{sec:c4}
-The confidence family scored worst in Table~\ref{tab:fam}, and Sec.~\ref{sec:method} (Stage~3) predicted why. MSP and energy fall below 0.5 wherever the classifier detects unseen attacks confidently (Table~\ref{tab:conf}). On LOACO D2, MSP is below 0.5 on every seed of all eight classes while $P(\text{attack})$ reaches 0.997--1.000 on the same models: the classifier detects the held-out attacks, and MSP reads that confidence as normality. The GRU repeats the pattern (LOACO D2: MSP 0.162 vs $P(\text{attack})$ 0.999; natural novelty D3: 0.245 vs 0.918). Across all 34 evaluation--backbone pairs, MSP exceeds $P(\text{attack})$ only in five rolling cuts where $P(\text{attack})$ is itself at or near chance (0.345--0.548), i.e.\ where the classifier misses the novel class. $P(\text{attack})$ falls below 0.5 only on individual classes (D3 LOACO ddos 0.35 and scanning 0.46; D5 portscan 0.16). Representation distance is valid on average, but on natural novelty D3 its interval [0.402, 0.647] includes 0.5.
+The confidence family scored worst in Fig.~\ref{fig:family}, and Sec.~\ref{sec:method} (Stage~3) predicted why. MSP and energy fall below 0.5 wherever the classifier detects unseen attacks confidently (Fig.~\ref{fig:conf}). On LOACO D2, MSP is below 0.5 on every seed of all eight classes while $P(\text{attack})$ reaches 0.997--1.000 on the same models: the classifier detects the held-out attacks, and MSP reads that confidence as normality. The GRU repeats the pattern (LOACO D2: MSP 0.162 vs $P(\text{attack})$ 0.999; natural novelty D3: 0.245 vs 0.918). Across all 34 evaluation--backbone pairs, MSP exceeds $P(\text{attack})$ only in five rolling cuts where $P(\text{attack})$ is itself at or near chance (0.345--0.548), i.e.\ where the classifier misses the novel class. $P(\text{attack})$ falls below 0.5 only on individual classes (D3 LOACO ddos 0.35 and scanning 0.46; D5 portscan 0.16). Representation distance is valid on average, but on natural novelty D3 its interval [0.402, 0.647] includes 0.5.
 
-\textbf{Answer to RQ4.} Not MSP and energy: the attack probability and representation distance are valid on average; maximum-softmax and energy invert in binary detectors on both backbones.
+\obs{In binary detectors, MSP and energy invert on both backbones; $P(\text{attack})$ and representation distance are valid on average.}
 
-\makeatletter
-\begin{center}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-
-\def\@captype{table}
-\caption{Mean AUC of confidence scores and the representation family.}
-\label{tab:conf}
-
-\begin{tabular}{lcccc}
-\toprule
-Evaluation & MSP & Energy & $P(\text{attack})^\dagger$ & Repr.\\
-\midrule
-LOACO D2 & 0.163 & 0.155 & 0.999 & 0.977\\
-LOACO D3 & 0.269 & 0.258 & 0.752 & 0.881\\
-Natural D3 & 0.262 & 0.287 & 0.853 & 0.522\\
-Natural D5 & 0.103 & 0.090 & 0.575 & 0.940\\
-\bottomrule
-\end{tabular}
-\end{center}
-\makeatother
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_conf.pdf}
+\caption{Mean AUC of confidence scores against $P(\text{attack})$ and the representation family. MSP and energy fall below chance where the classifier detects the unseen attacks.}
+\label{fig:conf}
+\end{figure}
 
 \subsection{RQ5: Does temporal shift alone explain the disagreement?}
 \label{sec:c5}
-Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself by comparing in-distribution AUC on the grouped and temporal splits. Its effects are dataset-specific (Table~\ref{tab:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
+Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself by comparing in-distribution AUC on the grouped and temporal splits. Its effects are dataset-specific (Fig.~\ref{fig:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
 
-\textbf{Answer to RQ5.} No: the effect of a time split depends on the dataset and the backbone, and on D5 in-distribution AUC rises under the time split while natural-novelty AUC falls (Table~\ref{tab:agree}); zero-shot transfer to a new network is near chance.
+\obs{Temporal shift alone does not explain the disagreement: its effect depends on dataset and backbone, and on D5 in-distribution AUC rises under the time split while natural-novelty AUC falls. Zero-shot transfer is near chance.}
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{4pt}
-\caption{In-distribution AUC, grouped vs.\ temporal split.}
-\label{tab:temp}
-\begin{tabular}{lcccc}
-\toprule
- & \multicolumn{2}{c}{$P(\text{attack})^\dagger$} & \multicolumn{2}{c}{XGBoost}\\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-Dataset & Grouped & Temporal & Grouped & Temporal\\
-\midrule
-D1 & 0.812 & 0.521 & 0.815 & 0.547\\
-D2 & 0.999 & 0.997 & 0.998 & 0.984\\
-D3 & 0.975 & 0.664 & 0.977 & 0.978\\
-D5 & 0.831 & 0.948 & 0.705 & 0.990\\
-\bottomrule
-\end{tabular}
-\end{table}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_temporal.pdf}
+\caption{In-distribution AUC on the grouped (random) and temporal splits. The effect of time ordering depends on the dataset.}
+\label{fig:temp}
+\end{figure}
 
 \subsection{RQ6: Does AUC overstate operational detection?}
 \label{sec:c6}
 An operator does not experience AUC but the share of attacks caught at a false-alarm rate the security team can absorb; base rates make this gap well known in principle~\cite{arp2022,apruzzese2023sok}, and some zero-day studies report recall at a fixed FPR~\cite{nayak2026,mesca2026}. Here we quantify it across protocols. The two disagree sharply (Fig.~\ref{fig:operating}). Under LOACO D2 the best families catch 87--99\% of held-out windows at 1\% false-positive rate. Under natural novelty D3, benign-only detectors reach an AUC of 0.90 but catch 12\%, and XGBoost 38\%. Over the 45 rolling class--cut units no family exceeds 18\% (XGBoost 0.18; benign-only 0.09 at AUC 0.75), and of the 333 detector--class points with AUC $\geq0.75$ under natural novelty, 184 catch fewer than 20\% of attack windows (median 0.15): novel attacks overlap the benign score tail.
 
-\textbf{Answer to RQ6.} Yes: over the rolling cuts, family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-positive rate.
+\obs{Over the rolling cuts, family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-positive rate.}
 
-\makeatletter
-\begin{center}
-
-\def\@captype{figure}
+\begin{figure}[!t]
+\centering
 \includegraphics[width=\columnwidth]{fig_operating.pdf}
 \caption{Rolling cut-points (45 class--cut units): each family's AUC (light bar) against the share of novel attack windows it catches at 1\% false-positive rate (dark bar).}
 \label{fig:operating}
-
-\end{center}
-\makeatother
-
-\textbf{Comparison with published results.} Class hold-out results in the literature (AUROC 0.971--0.997~\cite{wilkie2026,nayak2026}; 87--92\% zero-day detection~\cite{sarhan2023zeroshot}) are matched by HoNE's LOACO numbers on D2 and D5, but the same detectors drop under natural novelty and rolling cuts (CLAD: 0.972 on purged D5, 0.702 rolling; rolling TPR@1\% $\leq$0.18 against a published recall@1\%FPR of 0.783~\cite{nayak2026}); published softmax and energy AUROCs of 0.76--0.80 on multi-class NF-ToN-IoT~\cite{talpini2024} contrast with 0.269 and 0.258 in our binary detectors.
+\end{figure}
 
 \subsection{Pre-registered negative results}
 \label{sec:neg}
@@ -424,7 +327,7 @@ Four confirmatory hypotheses were tested against frozen gates, and all four fail
 \item \textbf{Checkpoint sensitivity.} Checkpoint choice moved confidence scores by up to 0.205 on D5's small validation set (Sec.~\ref{sec:c5}); require it when validation sets are small.
 \item \textbf{Pre-registration or a full amendment log}, including failed hypotheses (Sec.~\ref{sec:neg}), so that reported findings can be told apart from selected ones.
 \end{enumerate}
-If a check is unmet, the operator should request the missing evidence.
+
 
 \textbf{Remaining limitations.} Both backbones are recurrent, and effect sizes already differ between them, so the findings describe the evaluated detectors under these protocols, not learned NIDS in general; what they establish is that evaluation conclusions depend on the protocol. D1 and D5 contribute two natural-novelty classes each in the primary split; the rolling cuts add 45 class--cut units, but units of one class at several cuts share test windows and are not independent. Grouping, labelling and threshold choices were fixed in advance but are not the only reasonable ones; $P(\text{attack})$ was added post hoc; and CLAD was reimplemented from its paper (0.972 on purged D5 against the 0.997 its authors report on a random split~\cite{wilkie2026}). Natural novelty is novel \emph{behaviour}; many real zero-days exploit new vulnerabilities with familiar behaviour~\cite{jibunoh2026}, which no flow benchmark captures. Finally, all datasets come from testbeds: natural novelty follows the capture schedule, closer to deployment than LOACO but not live traffic.
 
