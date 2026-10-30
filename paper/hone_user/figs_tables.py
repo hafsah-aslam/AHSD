@@ -59,45 +59,76 @@ def save(fig, name):
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- agreement (replaces the agreement table)
+# ---------------------------------------------------------------- summary figure: does LOACO predict natural novelty?
+DS_C = {"D1": BLUE, "D3": ORANGE, "D5": AQUA}
+
+
 def fig_agree():
-    C = AG["configurations"]
-    fig, axes = plt.subplots(2, 3, figsize=(7.1, 3.15), sharex=True, sharey=True)
-    for r, view in enumerate(("fixed", "rolling")):
-        for c, ds in enumerate(("D1", "D3", "D5")):
-            ax = axes[r, c]
-            ax.plot([0, 1], [0, 1], color=MUTED, lw=0.6, ls="--", zorder=1)
-            ax.axhline(0.5, color=GRID, lw=0.5, zorder=0)
-            ax.axvline(0.5, color=GRID, lw=0.5, zorder=0)
-            rho = []
-            for bb, filled in (("AHSD", True), ("GRU", False)):
-                cf = C[f"{ds}|{bb}|{view}"]
-                rho.append(cf["spearman"])
-                for d, x in cf["auc_loaco"].items():
-                    if bb == "GRU" and not d.startswith("GRU_"):
-                        continue  # backbone-free detectors are drawn once (AHSD row)
-                    col = FAM_C[FAM_OF[d]]
-                    ax.scatter(x, cf["auc_natural"][d], s=16, marker="o" if filled else "D",
-                               facecolor=col if filled else "white", edgecolor=col if not filled else "white",
-                               linewidth=0.9 if not filled else 0.5, zorder=3)
-                if bb == "AHSD":
-                    wl, wn = cf["winner_loaco"], cf["winner_natural"]
-            ax.set_title(f"{ds}, {'fixed split' if view == 'fixed' else 'rolling cuts'}:  "
-                         f"$\\rho$ = {rho[0]:.2f} / {rho[1]:.2f}", fontsize=7)
-            ax.set_xlim(0, 1.02); ax.set_ylim(0, 1.02)
-            clean(ax, None)
-            if c == 0:
-                ax.set_ylabel("AUC, natural novelty")
-            if r == 1:
-                ax.set_xlabel("AUC, LOACO")
-            ax.text(0.97, 0.04, "below the line:\nlower under natural novelty", ha="right", va="bottom",
-                    fontsize=5.5, color=MUTED) if (r, c) == (0, 0) else None
-    h = [Line2D([], [], marker="o", ls="", ms=4, color=FAM_C[f], label=f) for f in FAM_C]
-    h += [Line2D([], [], marker="o", ls="", ms=4, color=MUTED, label="AHSD backbone"),
-          Line2D([], [], marker="D", ls="", ms=3.5, mfc="white", mec=MUTED, label="GRU backbone")]
-    fig.legend(handles=h, ncol=7, loc="lower center", bbox_to_anchor=(0.5, 1.0), frameon=False, fontsize=6.5,
-               handletextpad=0.3, columnspacing=1.0)
-    fig.tight_layout(pad=0.3, w_pad=0.8, h_pad=0.8)
+    C, G = AG["configurations"], AG["aggregate"]
+    keys = [f"{ds}|{bb}|{v}" for ds in DS_C for bb in ("AHSD", "GRU") for v in ("fixed", "rolling")]
+    fig, ax = plt.subplots(1, 4, figsize=(7.1, 1.95), gridspec_kw={"width_ratios": [1, 1, 1.25, 1.05]})
+    rng = np.random.default_rng(0)
+    # (a) AUC vs AUC
+    a = ax[0]
+    a.plot([0, 1], [0, 1], color=MUTED, lw=0.6, ls="--")
+    for k in keys:
+        cf = C[k]
+        a.scatter(list(cf["auc_loaco"].values()), [cf["auc_natural"][d] for d in cf["auc_loaco"]], s=6,
+                  color=DS_C[cf["dataset"]], alpha=0.75, linewidth=0)
+    a.set_xlim(0, 1.02); a.set_ylim(0, 1.02); a.set_xlabel("AUC, LOACO"); a.set_ylabel("AUC, natural novelty")
+    a.text(0.98, 0.03, f"{G['cells_frac_lower_natural'] * 100:.0f}% of {G['n_cells']}\nbelow diagonal",
+           ha="right", va="bottom", fontsize=5.8, color=INK)
+    a.set_title("(a) AUC per detector", fontsize=7)
+    # (b) rank vs rank
+    b = ax[1]
+    nmax = max(C[k]["n_detectors"] for k in keys)
+    b.plot([1, nmax], [1, nmax], color=MUTED, lw=0.6, ls="--")
+    for k in keys:
+        cf = C[k]
+        rl, rn = cf["rank_loaco"], cf["rank_natural"]
+        jit = rng.uniform(-0.22, 0.22, (2, len(rl)))
+        b.scatter(np.array([rl[d] for d in rl]) + jit[0], np.array([rn[d] for d in rl]) + jit[1], s=5,
+                  color=DS_C[cf["dataset"]], alpha=0.7, linewidth=0)
+    b.set_xlim(nmax + 0.7, 0.3); b.set_ylim(nmax + 0.7, 0.3)
+    b.set_xticks([1, 4, 8, 12]); b.set_yticks([1, 4, 8, 12])
+    b.set_xlabel("Rank, LOACO"); b.set_ylabel("Rank, natural novelty")
+    b.set_title(f"(b) Ranks: median $\\rho$ = {G['spearman_median']:.2f}", fontsize=7)
+    # (c) bootstrap probability that both protocols pick the same best detector
+    c = ax[2]
+    xs, lab = [], []
+    for i, k in enumerate(keys):
+        cf = C[k]
+        x = i + 0.6 * (i // 4)
+        xs.append(x)
+        c.bar(x, cf["p_same_winner"], width=0.8, color=DS_C[cf["dataset"]],
+              hatch=None if cf["view"] == "fixed" else "////", edgecolor="white", linewidth=0.4)
+        if not cf["winner_flip"]:
+            c.text(x, cf["p_same_winner"] + 0.02, "same", ha="center", fontsize=5, color=INK)
+    c.set_xticks([np.mean(xs[j:j + 4]) for j in (0, 4, 8)], list(DS_C))
+    c.set_ylim(0, 1); c.set_ylabel("P(same best detector)")
+    c.axhline(G["p_same_winner_mean"], color=INK, lw=0.6, ls=":")
+    c.text(xs[-1] + 0.5, G["p_same_winner_mean"] + 0.02, f"mean {G['p_same_winner_mean']:.2f}", ha="right",
+           fontsize=5.8)
+    c.set_title(f"(c) Best detector kept in {G['loaco_winner_retained']} of {G['n_configurations']}", fontsize=7)
+    clean(c); c.tick_params(axis="x", length=0)
+    # (d) delta AUC distribution per dataset
+    d = ax[3]
+    for j, ds in enumerate(DS_C):
+        D = [C[k]["delta_auc"][x] for k in keys if C[k]["dataset"] == ds for x in C[k]["delta_auc"]]
+        d.scatter(rng.uniform(-0.18, 0.18, len(D)) + j, D, s=5, color=DS_C[ds], alpha=0.7, linewidth=0)
+        d.plot([j - 0.28, j + 0.28], [np.median(D)] * 2, color=INK, lw=1.2)
+    d.axhline(0, color=MUTED, lw=0.6, ls="--")
+    d.set_xticks(range(3), list(DS_C)); d.set_ylabel("$\\Delta$AUC (natural $-$ LOACO)")
+    d.set_title(f"(d) $\\Delta$AUC: median {G['cells_median_delta_auc']:+.3f}", fontsize=7)
+    clean(d); d.tick_params(axis="x", length=0)
+    for a_ in (ax[0], ax[1]):
+        clean(a_, None)
+    from matplotlib.patches import Patch
+    h = [Line2D([], [], marker="o", ls="", ms=4, color=DS_C[x], label=x) for x in DS_C]
+    h += [Patch(facecolor="white", edgecolor=MUTED, label="fixed split"),
+          Patch(facecolor="white", edgecolor=MUTED, hatch="////", label="rolling cuts (in c)")]
+    fig.legend(handles=h, ncol=5, loc="lower center", bbox_to_anchor=(0.5, 0.98), frameon=False, fontsize=6.5)
+    fig.tight_layout(pad=0.2, w_pad=1.0)
     save(fig, "fig_agree")
 
 

@@ -13,6 +13,14 @@ mean AUC (over classes and the 5 seeds, best checkpoint) and TPR at 1% FPR betwe
   chance_side_flips    detectors on opposite sides of AUC 0.5 under the two protocols
   family_leader        leading novelty family (report_a7 definition), and whether it changes
 
+  loaco_pick          the LOACO winner's rank, AUC and TPR at 1% FPR under natural novelty, and the AUC/TPR it
+                      gives up against the natural-novelty winner (regret)
+  bootstrap           2,000 resamples of classes (per protocol) and seeds (paired across protocols): CIs for the
+                      mean delta AUC and Spearman rho, and P(LOACO winner = natural-novelty winner)
+
+Protocol validity is read off these numbers: a conclusion drawn under LOACO is valid if it also holds under natural
+novelty on the same detectors, data, backbone and seeds. Each conclusion type is counted separately.
+
 Class-matched check: D3 classes evaluated under both protocols (exact class names).
 
 Writes results/final_v2/agreement.json and prints a summary.
@@ -52,6 +60,26 @@ def load():
     return runs, commits.pop()
 
 
+N_BOOT, BOOT_SEED = 2000, 0
+
+
+def boot(A, lo_units, nn_units, dets):
+    """Paired class x seed bootstrap of mean delta AUC, Spearman rho and winner agreement."""
+    L = np.array([[[A[e]["best"][d][c][s] for s in SEEDS] for e, c in lo_units] for d in dets])  # (D, Cl, S)
+    N = np.array([[[A[e]["best"][d][c][s] for s in SEEDS] for e, c in nn_units] for d in dets])  # (D, Cn, S)
+    rng = np.random.default_rng(BOOT_SEED)
+    dm, rho, same = [], [], []
+    for _ in range(N_BOOT):
+        s = rng.integers(0, len(SEEDS), len(SEEDS))
+        lo = L[:, rng.integers(0, L.shape[1], L.shape[1])][:, :, s].mean(axis=(1, 2))
+        nn = N[:, rng.integers(0, N.shape[1], N.shape[1])][:, :, s].mean(axis=(1, 2))
+        dm.append((nn - lo).mean())
+        rho.append(spearmanr(lo, nn).statistic)
+        same.append(lo.argmax() == nn.argmax())
+    ci = lambda v: [float(np.nanpercentile(v, 2.5)), float(np.nanpercentile(v, 97.5))]  # noqa: E731
+    return {"mean_delta_auc_ci95": ci(dm), "spearman_ci95": ci(rho), "p_same_winner": float(np.mean(same))}
+
+
 def det_means(A, O, units, dets):
     """Per-detector mean over (eval, class) units and seeds: AUC and TPR at 1% FPR."""
     auc = {d: float(np.mean([A[e]["best"][d][c][s] for e, c in units for s in SEEDS])) for d in dets}
@@ -85,6 +113,10 @@ def compare(lo_auc, nn_auc, lo_tpr, nn_tpr, fams):
         "max_abs_rank_shift": int(max(abs(rl[d] - rn[d]) for d in dets)),
         "winner_loaco": win_l, "winner_natural": win_n, "winner_flip": win_l != win_n,
         "chance_side_flips": [d for d in dets if (lo_auc[d] - 0.5) * (nn_auc[d] - 0.5) < 0],
+        "median_delta_auc": float(np.median(y - x)),
+        "loaco_pick_rank_natural": rn[win_l], "loaco_pick_auc_natural": nn_auc[win_l],
+        "loaco_pick_tpr1_natural": nn_tpr[win_l], "natural_winner_tpr1": nn_tpr[win_n],
+        "auc_regret": nn_auc[win_n] - nn_auc[win_l], "tpr1_regret": nn_tpr[win_n] - nn_tpr[win_l],
         "family_auc_loaco": fl, "family_auc_natural": fn,
         "family_leader_loaco": lead_l, "family_leader_natural": lead_n, "family_leader_flip": lead_l != lead_n,
     }
@@ -105,6 +137,7 @@ def main():
             for v, units in views.items():
                 na, nt = det_means(A, O, units, dets)
                 r = compare(la, na, lt, nt, FAMILIES[bb])
+                r.update(boot(A, lo_units, units, dets))
                 r.update(dataset=ds, backbone=bb, view=v, loaco_eval=LOACO[ds],
                          n_loaco_units=len(lo_units), n_natural_units=len(units))
                 configs[f"{ds}|{bb}|{v}"] = r
@@ -117,7 +150,26 @@ def main():
                 matched[f"{ds}|{bb}|{c}"] = compare(la, na, lt, nt, FAMILIES[bb])
     C = list(configs.values())
     allpairs = [(r["auc_loaco"][d], r["auc_natural"][d]) for r in C for d in r["auc_loaco"]]
+    D = np.array([r["delta_auc"][d] for r in C for d in r["delta_auc"]])
     agg = {
+        "cells_median_delta_auc": float(np.median(D)), "cells_mean_abs_delta_auc": float(np.abs(D).mean()),
+        "cells_frac_lower_natural": float((D < 0).mean()), "n_cells": int(D.size),
+        "loaco_winner_retained": sum(not r["winner_flip"] for r in C),
+        "loaco_pick_rank_natural": [r["loaco_pick_rank_natural"] for r in C],
+        "loaco_pick_rank_natural_median": float(np.median([r["loaco_pick_rank_natural"] for r in C])),
+        "auc_regret_median": float(np.median([r["auc_regret"] for r in C])),
+        "auc_regret_max": float(max(r["auc_regret"] for r in C)),
+        "tpr1_regret_median": float(np.median([r["tpr1_regret"] for r in C])),
+        "tpr1_regret_max": float(max(r["tpr1_regret"] for r in C)),
+        "p_same_winner_range": [min(r["p_same_winner"] for r in C), max(r["p_same_winner"] for r in C)],
+        "p_same_winner_mean": float(np.mean([r["p_same_winner"] for r in C])),
+        "configs_delta_ci_below_zero": sum(r["mean_delta_auc_ci95"][1] < 0 for r in C),
+        "configs_rho_ci_includes_zero": sum(r["spearman_ci95"][0] <= 0 for r in C),
+        "conclusions_changed": {
+            "best_detector": [sum(r["winner_flip"] for r in C), len(C)],
+            "leading_family": [sum(r["family_leader_flip"] for r in C), len(C)],
+            "pairwise_order": [sum(r["discordant_pairs"] for r in C), sum(r["n_pairs"] for r in C)],
+            "above_chance": [sum(len(r["chance_side_flips"]) for r in C), int(D.size)]},
         "n_configurations": len(C),
         "configs_natural_lower_mean_auc": sum(r["mean_delta_auc"] < 0 for r in C),
         "winner_flips": sum(r["winner_flip"] for r in C),
