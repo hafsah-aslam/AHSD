@@ -28,8 +28,7 @@
 \author{\IEEEauthorblockN{Anonymous Author(s)}\IEEEauthorblockA{Submission under double-blind review}}
 \else
 \author{\IEEEauthorblockN{Gracious Mwamughunda, Guohao Sun, Hafsa Aslam, Oussama Rizkou}
-\IEEEauthorblockA{Donghua University, Shanghai, China\\
-Email: 324078@mail.dhu.edu.cn, ghsun@dhu.edu.cn, 324091@mail.dhu.edu.cn, 324047@mail.dhu.edu.cn}}
+\IEEEauthorblockA{Donghua University, Shanghai, China}}
 \fi
 
 \maketitle
@@ -206,9 +205,10 @@ The first question is whether the standard protocol can even be run once leakage
 
 \obs{Temporal LOACO cannot be run on any day-scheduled capture, whereas natural novelty provides 45 class--cut units.}
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{3pt}
-\caption{Feasible zero-day evaluations per dataset (LOACO folds; natural-novelty classes; rolling class--cut units with feasible cuts out of 4).}
+\par\medskip\noindent\begin{minipage}{\columnwidth}
+\centering
+\footnotesize\setlength{\tabcolsep}{3pt}
+\captionof{table}{Feasible zero-day evaluations per dataset (LOACO folds; natural-novelty classes; rolling class--cut units with feasible cuts out of 4).}
 \label{tab:feas}
 \begin{tabular}{lcccc}
 \toprule
@@ -222,11 +222,21 @@ D5 Lycos2017 & 0$^{a}$ & 0 & 2 & 15 (3)\\
 \multicolumn{5}{l}{$^{a}$One fold under the purged-block split.}\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{minipage}\par\medskip
 
 \subsection{RQ2: Does conventional zero-day evidence agree with natural novelty?}
 \label{sec:c2}
 Where both protocols run (D1, D3, D5), we pair each detector's mean AUC under LOACO with its mean AUC under natural novelty, per dataset, backbone (AHSD: 12 detectors; GRU: its five scores plus the six backbone-free detectors) and natural-novelty view (fixed split; rolling cuts pooled), giving 12 paired comparisons (Fig.~\ref{fig:agree}).
+
+\begin{strip}
+\centering
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{fig_agree.pdf}
+\captionof{figure}{Does LOACO predict natural novelty? 12 paired comparisons (D1, D3, D5 $\times$ AHSD, GRU backbone $\times$ fixed split, rolling cuts) on the same detectors, data and seeds. (a)~Each detector's AUC under both protocols. (b)~Its rank under both protocols (1 = best). (c)~Bootstrap probability that both protocols select the same best detector (bars per dataset: AHSD fixed, AHSD rolling, GRU fixed, GRU rolling; ``same'': observed agreement). (d)~$\Delta$AUC per detector cell; bar: median.}
+\label{fig:agree}
+\end{minipage}
+\end{strip}
 
 Fig.~\ref{fig:agree} summarizes the answer. \emph{Best detector:} LOACO's pick remains the natural-novelty winner in only 1 of 12 comparisons (D1: PCA under LOACO, Mahalanobis under natural novelty; D5: XGBoost, then a representation distance); its median natural-novelty rank is 4, and under resampling the two protocols select the same detector with probability 0.17 on average and at most 0.44. \emph{Ranking:} $\rho$ ranges from 0.26 to 0.92 (median 0.55), its interval includes zero in 4 of 12 comparisons, and 27\% of detector pairs reverse order. \emph{Level:} 75\% of the 138 detector--comparison cells score lower under natural novelty (median $\Delta$AUC $-0.057$, mean $|\Delta\text{AUC}|$ 0.128, up to 0.451), the mean $\Delta$AUC interval lies wholly below zero in 5 comparisons, and 9 cells cross from one side of chance to the other. \emph{Cost:} following LOACO gives up a median 0.023 AUC under natural novelty (at most 0.085) but up to 0.353 in TPR@1\%. The three D3 classes evaluated under both protocols show the same pattern class by class ($\rho$ 0.55--0.85; the best detector changes in 3 of 6 class--backbone pairs; mean AUC lower in all six). What LOACO does preserve is the leading family within a dataset (no change in 12 comparisons): its signal is coarse, not detector-level.
 
@@ -234,26 +244,20 @@ Margins between families are not preserved either (Fig.~\ref{fig:family}). On D3
 
 \obs{LOACO predicts natural novelty sometimes, but not reliably. Its leading family survives in 12 of 12 comparisons, but its best detector in only 1 of 12, its pairwise orderings in 73\%, and its AUC holds or rises in only 25\% of cells; picking by LOACO can cost up to 0.353 in TPR@1\%.}
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{fig_agree.pdf}
-\caption{Does LOACO predict natural novelty? 12 paired comparisons (D1, D3, D5 $\times$ AHSD, GRU backbone $\times$ fixed split, rolling cuts) on the same detectors, data and seeds. (a)~Each detector's AUC under both protocols. (b)~Its rank under both protocols (1 = best). (c)~Bootstrap probability that both protocols select the same best detector (bars per dataset: AHSD fixed, AHSD rolling, GRU fixed, GRU rolling; ``same'': observed agreement). (d)~$\Delta$AUC per detector cell; bar: median.}
-\label{fig:agree}
-\end{figure*}
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_winners.pdf}
-\caption{Mean AUC per detector family pooled over all classes of each protocol (rolling: all 45 class--cut units). The winner (solid bar) differs in each protocol; XGBoost is included as a supervised reference.}
+\captionof{figure}{Mean AUC per detector family pooled over all classes of each protocol (rolling: all 45 class--cut units). The winner (solid bar) differs in each protocol; XGBoost is included as a supervised reference.}
 \label{fig:winners}
-\end{figure}
+\end{minipage}\par\medskip
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_family.pdf}
-\caption{Family mean AUC per evaluation (five seeds; classes in parentheses). Boxed: leading novelty family. XGB: supervised reference.}
+\captionof{figure}{Family mean AUC per evaluation (five seeds; classes in parentheses). Boxed: leading novelty family. XGB: supervised reference.}
 \label{fig:family}
-\end{figure}
+\end{minipage}\par\medskip
 
 \subsection{RQ3: Does natural novelty expose instability that hold-out evidence hides?}
 \label{sec:c3}
@@ -261,19 +265,19 @@ A change of best detector could still be a matter of noise, so the third questio
 
 \obs{Natural novelty raises the seed variability of every stochastic supervised score, by up to 17$\times$ on AHSD and 2.6$\times$ for the GRU's representation scores.}
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_seedsd.pdf}
-\caption{Mean seed standard deviation of AUC under LOACO (pooled D1--D3) and natural novelty (pooled D1, D3, D5); right: ratio. Every stochastic supervised score spreads more under natural novelty.}
+\captionof{figure}{Mean seed standard deviation of AUC under LOACO (pooled D1--D3) and natural novelty (pooled D1, D3, D5); right: ratio. Every stochastic supervised score spreads more under natural novelty.}
 \label{fig:sd}
-\end{figure}
+\end{minipage}\par\medskip
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_d3.pdf}
-\caption{D3 (ToN-IoT) classes evaluated under both protocols: mean AUC $\pm$ seed standard deviation over five seeds. Supervised-backbone scores are tight under LOACO and spread widely under natural novelty; benign-only detectors stay tight. Dashed line: chance.}
+\captionof{figure}{D3 (ToN-IoT) classes evaluated under both protocols: mean AUC $\pm$ seed standard deviation over five seeds. Supervised-backbone scores are tight under LOACO and spread widely under natural novelty; benign-only detectors stay tight. Dashed line: chance.}
 \label{fig:d3}
-\end{figure}
+\end{minipage}\par\medskip
 
 \subsection{RQ4: Are confidence-based novelty scores valid in binary detectors?}
 \label{sec:c4}
@@ -281,12 +285,12 @@ The confidence family scored worst in Fig.~\ref{fig:family}, and Sec.~\ref{sec:m
 
 \obs{In binary detectors, MSP and energy invert on both backbones; $P(\text{attack})$ and representation distance are valid on average.}
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_conf.pdf}
-\caption{Mean AUC of confidence scores against $P(\text{attack})$ and the representation family. MSP and energy fall below chance where the classifier detects the unseen attacks.}
+\captionof{figure}{Mean AUC of confidence scores against $P(\text{attack})$ and the representation family. MSP and energy fall below chance where the classifier detects the unseen attacks.}
 \label{fig:conf}
-\end{figure}
+\end{minipage}\par\medskip
 
 \subsection{RQ5: Does temporal shift alone explain the disagreement?}
 \label{sec:c5}
@@ -294,12 +298,12 @@ Natural novelty mixes a new attack class with temporal shift, so this question i
 
 \obs{Temporal shift alone does not explain the disagreement: its effect depends on dataset and backbone, and on D5 in-distribution AUC rises under the time split while natural-novelty AUC falls. Zero-shot transfer is near chance.}
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_temporal.pdf}
-\caption{In-distribution AUC on the grouped (random) and temporal splits. The effect of time ordering depends on the dataset.}
+\captionof{figure}{In-distribution AUC on the grouped (random) and temporal splits. The effect of time ordering depends on the dataset.}
 \label{fig:temp}
-\end{figure}
+\end{minipage}\par\medskip
 
 \subsection{RQ6: Does AUC overstate operational detection?}
 \label{sec:c6}
@@ -307,12 +311,12 @@ An operator does not experience AUC but the share of attacks caught at a false-a
 
 \obs{Over the rolling cuts, family AUCs up to 0.75 catch at most 18\% of new attacks at a 1\% false-positive rate.}
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_operating.pdf}
-\caption{Rolling cut-points (45 class--cut units): each family's AUC (light bar) against the share of novel attack windows it catches at 1\% false-positive rate (dark bar).}
+\captionof{figure}{Rolling cut-points (45 class--cut units): each family's AUC (light bar) against the share of novel attack windows it catches at 1\% false-positive rate (dark bar).}
 \label{fig:operating}
-\end{figure}
+\end{minipage}\par\medskip
 
 \subsection{Pre-registered negative results}
 \label{sec:neg}
@@ -327,9 +331,10 @@ Four confirmatory hypotheses were tested against frozen gates, and all four fail
 \label{sec:protocol}
 \textbf{What works: the HoNE acceptance protocol.} Each check is derived from an observed failure (Table~\ref{tab:accept}): the failure says what current evidence can get wrong, and the check names the evidence that rules it out. An operator should request any missing item before trusting a zero-day claim.
 
-\begin{table}[!t]
-\centering\footnotesize\setlength{\tabcolsep}{2.5pt}
-\caption{The HoNE acceptance protocol, derived from observed failures.}
+\par\medskip\noindent\begin{minipage}{\columnwidth}
+\centering
+\footnotesize\setlength{\tabcolsep}{2.5pt}
+\captionof{table}{The HoNE acceptance protocol, derived from observed failures.}
 \label{tab:accept}
 \begin{tabular}{@{}p{0.47\columnwidth}p{0.49\columnwidth}@{}}
 \toprule
@@ -345,7 +350,7 @@ Checkpoint moves scores by up to 0.205 & 7. Checkpoint sensitivity for small val
 Findings can be selected after the fact & 8. Pre-registration or a full amendment log\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{minipage}\par\medskip
 
 
 \textbf{Remaining limitations.} Both backbones are recurrent, and effect sizes already differ between them, so the findings describe the evaluated detectors under these protocols, not learned NIDS in general; what they establish is that evaluation conclusions depend on the protocol. D1 and D5 contribute two natural-novelty classes each in the primary split; the rolling cuts add 45 class--cut units, but units of one class at several cuts share test windows and are not independent. Grouping, labelling and threshold choices were fixed in advance but are not the only reasonable ones; $P(\text{attack})$ was added post hoc; and CLAD was reimplemented from its paper (0.972 on purged D5 against the 0.997 its authors report on a random split~\cite{wilkie2026}). Natural novelty is novel \emph{behaviour}; many real zero-days exploit new vulnerabilities with familiar behaviour~\cite{jibunoh2026}, which no flow benchmark captures. Finally, all datasets come from testbeds: natural novelty follows the capture schedule, closer to deployment than LOACO but not live traffic.
