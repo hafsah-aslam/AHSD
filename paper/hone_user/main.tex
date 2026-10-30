@@ -203,8 +203,6 @@ Both backbones are trained with AdamW (learning rate $10^{-3}$, weight decay $10
 \label{sec:c1}
 The first question is whether the standard protocol can even be run once leakage is controlled. Temporal LOACO yields no feasible folds on any of the three day-scheduled captures (D1, D3, D5); only D2, which interleaves attacks in time, supports it (Table~\ref{tab:feas}). In D1 and D3 each attack class occupies its own days, so a time-ordered split places a class wholly in training or wholly in test. On D5 the purged split kept 125 of 219 blocks, and only one class (dos\_hulk) met both thresholds. Natural novelty, by contrast, offers two to five evaluable classes on every day-scheduled capture, and moving the cut-point multiplies this evidence to 45 class--cut units over 19 unique classes, 15 per dataset (D2 has no test-only class at any cut, and D3 no benign validation windows at a 30\% cut).
 
-\obs{Temporal LOACO cannot be run on any day-scheduled capture, whereas natural novelty provides 45 class--cut units.}
-
 \par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \footnotesize\setlength{\tabcolsep}{3pt}
@@ -223,6 +221,8 @@ D5 Lycos2017 & 0$^{a}$ & 0 & 2 & 15 (3)\\
 \bottomrule
 \end{tabular}
 \end{minipage}\par\medskip
+
+\obs{Temporal LOACO cannot be run on any day-scheduled capture, whereas natural novelty provides 45 class--cut units.}
 
 \subsection{RQ2: Does conventional zero-day evidence agree with natural novelty?}
 \label{sec:c2}
