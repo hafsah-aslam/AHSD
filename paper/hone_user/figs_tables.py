@@ -66,7 +66,8 @@ DS_C = {"D1": BLUE, "D3": ORANGE, "D5": AQUA}
 def fig_agree():
     C, G = AG["configurations"], AG["aggregate"]
     keys = [f"{ds}|{bb}|{v}" for ds in DS_C for bb in ("AHSD", "GRU") for v in ("fixed", "rolling")]
-    fig, ax = plt.subplots(1, 4, figsize=(7.1, 1.95), gridspec_kw={"width_ratios": [1, 1, 1.25, 1.05]})
+    fig, ax = plt.subplots(2, 2, figsize=(3.45, 3.35))
+    ax = ax.ravel()
     rng = np.random.default_rng(0)
     # (a) AUC vs AUC
     a = ax[0]
@@ -127,8 +128,9 @@ def fig_agree():
     h = [Line2D([], [], marker="o", ls="", ms=4, color=DS_C[x], label=x) for x in DS_C]
     h += [Patch(facecolor="white", edgecolor=MUTED, label="fixed split"),
           Patch(facecolor="white", edgecolor=MUTED, hatch="////", label="rolling cuts (in c)")]
-    fig.legend(handles=h, ncol=5, loc="lower center", bbox_to_anchor=(0.5, 0.98), frameon=False, fontsize=6.5)
-    fig.tight_layout(pad=0.2, w_pad=1.0)
+    fig.legend(handles=h, ncol=3, loc="lower center", bbox_to_anchor=(0.5, 0.985), frameon=False, fontsize=6.3,
+               columnspacing=0.8, handletextpad=0.3)
+    fig.tight_layout(pad=0.2, w_pad=0.8, h_pad=0.9)
     save(fig, "fig_agree")
 
 

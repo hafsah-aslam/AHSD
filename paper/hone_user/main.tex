@@ -69,19 +69,39 @@ Our contributions are as follows:
 
 \section{Related Work}
 \label{sec:related}
-Prior work on learned NIDS evaluation falls into five lines, each leaving a different piece of what an operator needs missing.
-
-\textbf{Evaluation pitfalls and datasets.} Arp et~al.\ catalogued ten pitfalls in security ML, including data snooping and inappropriate baselines~\cite{arp2022}; Apruzzese et~al.\ showed that ML-NIDS evaluations rarely reflect operational assumptions~\cite{apruzzese2023sok}; and dataset audits found flow-construction and labelling errors in CIC-IDS2017~\cite{engelen2021,rosay2021} and Pinto et~al.\ reviewed the tools and processes used to build NIDS datasets and their drawbacks~\cite{pinto2025}. The NetFlow standardization of Sarhan et~al.\ made datasets comparable~\cite{sarhan2021netflow,sarhan2022standard}, and its third version adds per-flow timestamps~\cite{luay2025}. These works diagnose \emph{how} evaluations go wrong, but they do not compare zero-day protocols or measure what the pitfalls do to detector rankings.
+\textbf{Evaluation pitfalls and datasets.} Arp et~al.\ catalogued ten pitfalls in security ML, including data snooping and inappropriate baselines~\cite{arp2022}; Apruzzese et~al.\ showed that ML-NIDS evaluations rarely reflect operational assumptions~\cite{apruzzese2023sok}; dataset audits found flow-construction and labelling errors in CIC-IDS2017~\cite{engelen2021,rosay2021}; and Pinto et~al.\ reviewed how NIDS datasets are built~\cite{pinto2025}. The NetFlow standardization of Sarhan et~al.\ made datasets comparable~\cite{sarhan2021netflow,sarhan2022standard}, and its third version adds per-flow timestamps~\cite{luay2025}. These works diagnose \emph{how} evaluations go wrong, but they do not compare zero-day protocols or measure what the pitfalls do to detector rankings.
 
 \textbf{Zero-day and open-set detection.} Zoppi et~al.\ found that unsupervised meta-learning ensembles detect simulated unknown attacks better than other algorithm families~\cite{zoppi2023}, and Sarhan et~al.\ linked low zero-day detection rates to distribution distance~\cite{sarhan2023zeroshot}. Recent detectors train with known attacks, via a contrastive loss (CLAD~\cite{wilkie2026}) or a transformer with energy scoring~\cite{jodayree2026}. These studies measure zero-day ability, but all of them use class hold-out, usually without reporting seed variability, so their conclusions inherit LOACO's assumptions.
 
-\textbf{Temporal and protocol-aware evaluation.} Time-aware evaluation changed conclusions in malware detection~\cite{pendlebury2019} and intrusion detection under drift~\cite{andresini2021}, and multi-period benchmarks such as AnoShift~\cite{dragoi2022} and MAWIFlow~\cite{schraven2026} test detectors on traffic from later years. For zero-day detection, ThreatFormer-IDS splits ToN-IoT in time and then removes chosen attack families from training, reporting five seeds and recall at 1\% FPR for a single model~\cite{nayak2026}; Alhalangy and Eltayeb combine chronological splits with leave-one-attack-family-out for one proposed detector~\cite{alhalangy2026}; Mesca et~al.\ compare random, attack-held-out and leave-one-out protocols on industrial traffic~\cite{mesca2026}; and Raj et~al.\ report future-time and leave-one-attack-type-out tests on RPL-IoT~\cite{raj2026}. Chronological splits on day-scheduled CIC-IDS2017 degenerate~\cite{moczkodan2026}, capture-day assembly~\cite{youssef2026} and temporal splits~\cite{abdessamad2026} change detector rankings, and timestamps leak the attack schedule~\cite{sakr2026}. These studies vary the protocol to test a detector; HoNE holds the detectors fixed and varies the protocol, including seed variability and a moving training origin.
+\textbf{Temporal and protocol-aware evaluation.} Time-aware evaluation changed conclusions in malware detection~\cite{pendlebury2019} and intrusion detection under drift~\cite{andresini2021}, and multi-period benchmarks such as AnoShift~\cite{dragoi2022} and MAWIFlow~\cite{schraven2026} test detectors on traffic from later years. For zero-day detection, ThreatFormer-IDS~\cite{nayak2026} and Alhalangy and Eltayeb~\cite{alhalangy2026} combine time-ordered splits with held-out attack families for one proposed detector, Mesca et~al.\ compare random and attack-held-out protocols on industrial traffic~\cite{mesca2026}, and Raj et~al.\ report future-time and leave-one-attack-type-out tests~\cite{raj2026}. Chronological splits on day-scheduled CIC-IDS2017 degenerate~\cite{moczkodan2026}, capture-day assembly~\cite{youssef2026} and temporal splits~\cite{abdessamad2026} change detector rankings, and timestamps leak the attack schedule~\cite{sakr2026}. These studies vary the protocol to test a detector; HoNE holds the detectors fixed and varies the protocol.
 
 \textbf{Confidence scores for unknown attacks.} Confidence-based out-of-distribution scores are weaker on binary than on multi-class NIDS models~\cite{corsini2023}, softmax baselines scored below chance on held-out attacks in multi-class NIDS~\cite{zhang2021}, softmax entropy and energy trailed uncertainty-aware models~\cite{talpini2024}, and deep open-set recognition has been benchmarked for NIDS at NOMS~\cite{baye2023}. In contrast to Mesca et~al., who sign-flip ensemble members whose attack probability falls below chance~\cite{mesca2026}, we find the attack probability valid and MSP and energy inverted, and give a short derivation of why.
 
 \textbf{Cross-domain generalization.} Layeghy and Portmann~\cite{layeghy2023xdomain}, DI-NIDS~\cite{layeghy2023dinids}, Cantone et~al.~\cite{cantone2024} and recent work on flow-based IoT detection~\cite{martinez2026} show that detectors degrade sharply on networks other than the one they were trained on. This line addresses shift \emph{between} networks, whereas an operator's first concern is shift \emph{over time within} the network being protected.
 
-\textbf{Research gap and positioning.} Taken together, these lines leave the protocol validity of zero-day evidence untested; HoNE tests it by scoring the same detectors, data and seeds under both protocols.\ifappendix\ Appendix~\ref{app:related} extends this review to sequence, neuromorphic and drift-aware NIDS and positions HoNE against prior work in Table~\ref{tab:pos}.\fi
+\textbf{Research gap and positioning.} Taken together, these lines leave the protocol validity of zero-day evidence untested; HoNE tests it by scoring the same detectors, data and seeds under both protocols. Table~\ref{tab:prior} summarizes the difference.
+
+\par\medskip\noindent\begin{minipage}{\columnwidth}
+\centering
+\footnotesize\setlength{\tabcolsep}{2.2pt}
+\captionof{table}{Zero-day NIDS evaluation in prior work and HoNE. HO: class hold-out; Time: time-ordered split; NN: natural novelty; Pair: both compared on the same detectors, data and seeds; Pan.: detector-family panel; Seeds: seed variability; Op.: detection at fixed FPR; Pre.: pre-registration. $\checkmark$ yes; $\circ$ partly; -- not reported.}
+\label{tab:prior}
+\begin{tabular}{@{}lcccccccc@{}}
+\toprule
+Study & HO & Time & NN & Pair & Pan. & Seeds & Op. & Pre.\\
+\midrule
+Zoppi et~al.~\cite{zoppi2023} & $\checkmark$ & -- & -- & -- & $\checkmark$ & -- & -- & --\\
+Sarhan et~al.~\cite{sarhan2023zeroshot} & $\checkmark$ & -- & -- & -- & -- & -- & -- & --\\
+CLAD~\cite{wilkie2026} & $\checkmark$ & -- & -- & -- & -- & -- & -- & --\\
+ThreatFormer~\cite{nayak2026} & $\checkmark$ & $\checkmark$ & -- & $\circ$ & -- & $\checkmark$ & $\checkmark$ & --\\
+Alhalangy~\cite{alhalangy2026} & $\checkmark$ & $\checkmark$ & -- & $\circ$ & -- & -- & -- & --\\
+Mesca et~al.~\cite{mesca2026} & $\checkmark$ & -- & -- & $\circ$ & -- & -- & $\checkmark$ & --\\
+Raj et~al.~\cite{raj2026} & $\checkmark$ & $\checkmark$ & -- & $\circ$ & -- & -- & -- & --\\
+\midrule
+\textbf{HoNE (ours)} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\bottomrule
+\end{tabular}
+\end{minipage}\par\medskip\ifappendix\ Appendix~\ref{app:related} extends this review to sequence, neuromorphic and drift-aware NIDS and positions HoNE against prior work in Table~\ref{tab:pos}.\fi
 
 \section{Methodology}
 \label{sec:method}
@@ -229,15 +249,12 @@ D5 Lycos2017 & 0$^{a}$ & 0 & 2 & 15 (3)\\
 \label{sec:c2}
 Where both protocols run (D1, D3, D5), we pair each detector's mean AUC under LOACO with its mean AUC under natural novelty, per dataset, backbone (AHSD: 12 detectors; GRU: its five scores plus the six backbone-free detectors) and natural-novelty view (fixed split; rolling cuts pooled), giving 12 paired comparisons (Fig.~\ref{fig:agree}).
 
-\begin{strip}
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
-\begin{minipage}{\textwidth}
-\centering
-\includegraphics[width=\textwidth]{fig_agree.pdf}
-\captionof{figure}{Does LOACO predict natural novelty? 12 paired comparisons (D1, D3, D5 $\times$ AHSD, GRU backbone $\times$ fixed split, rolling cuts) on the same detectors, data and seeds. (a)~Each detector's AUC under both protocols. (b)~Its rank under both protocols (1 = best). (c)~Bootstrap probability that both protocols select the same best detector (bars per dataset: AHSD fixed, AHSD rolling, GRU fixed, GRU rolling; ``same'': observed agreement). (d)~$\Delta$AUC per detector cell; bar: median.}
+\includegraphics[width=\columnwidth]{fig_agree.pdf}
+\captionof{figure}{Does LOACO predict natural novelty? 12 paired comparisons (D1, D3, D5 $\times$ AHSD, GRU backbone $\times$ fixed split, rolling cuts) on the same detectors, data and seeds. (a)~Each detector's AUC under both protocols. (b)~Its rank under both protocols (1 = best). (c)~Bootstrap probability that both select the same best detector (per dataset: AHSD fixed, AHSD rolling, GRU fixed, GRU rolling). (d)~$\Delta$AUC per detector; bar: median.}
 \label{fig:agree}
-\end{minipage}
-\end{strip}
+\end{minipage}\par\medskip
 
 Fig.~\ref{fig:agree} summarizes the answer. \emph{Best detector:} LOACO's pick remains the natural-novelty winner in only 1 of 12 comparisons (D1: PCA under LOACO, Mahalanobis under natural novelty; D5: XGBoost, then a representation distance); its median natural-novelty rank is 4, and under resampling the two protocols select the same detector with probability 0.17 on average and at most 0.44. \emph{Ranking:} $\rho$ ranges from 0.26 to 0.92 (median 0.55), its interval includes zero in 4 of 12 comparisons, and 27\% of detector pairs reverse order. \emph{Level:} 75\% of the 138 detector--comparison cells score lower under natural novelty (median $\Delta$AUC $-0.057$, mean $|\Delta\text{AUC}|$ 0.128, up to 0.451), the mean $\Delta$AUC interval lies wholly below zero in 5 comparisons, and 9 cells cross from one side of chance to the other. \emph{Cost:} following LOACO gives up a median 0.023 AUC under natural novelty (at most 0.085) but up to 0.353 in TPR@1\%. The three D3 classes evaluated under both protocols show the same pattern class by class ($\rho$ 0.55--0.85; the best detector changes in 3 of 6 class--backbone pairs; mean AUC lower in all six). What LOACO does preserve is the leading family within a dataset (no change in 12 comparisons): its signal is coarse, not detector-level.
 
@@ -358,7 +375,7 @@ Findings can be selected after the fact & 8. Pre-registration or a full amendmen
 
 \section{Conclusion}
 \label{sec:concl}
-HoNE asked whether hold-out evidence predicts the new attacks an operator will face. The answer is sometimes, but not reliably: LOACO could not be run on day-scheduled captures, its best detector survived in 1 of 12 paired comparisons, seed variability rose up to 17$\times$, and AUCs up to 0.75 caught at most 18\% of new attacks at 1\% FPR. Each failure yields one of eight acceptance checks, so that any zero-day claim can be tested under both protocols before it is trusted.
+HoNE asked whether hold-out evidence predicts the new attacks an operator will face. The answer is sometimes, but not reliably: LOACO could not be run on day-scheduled captures, its best detector survived in 1 of 12 paired comparisons, seed variability rose up to 17$\times$, and AUCs up to 0.75 caught at most 18\% of new attacks at 1\% FPR. Each failure yields one of eight acceptance checks for trusting a zero-day claim.
 
 
 \clearpage
