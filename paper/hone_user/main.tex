@@ -375,8 +375,8 @@ Findings can be selected after the fact & 8. Pre-registration or a full amendmen
 
 \section{Conclusion}
 \label{sec:concl}
-HoNE asked whether hold-out evidence predicts the new attacks an operator will face. The answer is sometimes, but not reliably: LOACO could not be run on day-scheduled captures, its best detector survived in 1 of 12 paired comparisons, seed variability rose up to 17$\times$, and AUCs up to 0.75 caught at most 18\% of new attacks at 1\% FPR. Each failure yields one of eight acceptance checks for trusting a zero-day claim.
 
+This paper asked whether hold-out zero-day evidence predicts the new attacks an operator will face. We evaluated the same detectors, data and seeds under LOACO and natural novelty. The answer is: only partly. LOACO is infeasible on day-scheduled captures, and where feasible, the best detector is preserved under natural novelty in only 1 of 12 paired comparisons. Natural novelty also increases seed variability by up to 17$\times$, while AUCs of up to 0.75 correspond to at most 18\% of new attacks detected at a 1\% false-positive rate. Zero-day claims should therefore not rest on hold-out evidence alone. HoNE's eight acceptance checks specify the evidence operators should require before trusting such claims.
 
 \clearpage
 \bibliographystyle{IEEEtran}
