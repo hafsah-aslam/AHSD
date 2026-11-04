@@ -97,6 +97,7 @@ def main():
     c.text(xs[-1] + 0.5, 0.30, f"mean {G['p_same_winner_mean']:.2f}", ha="right", va="bottom", fontsize=5.8)
     c.annotate("", xy=(xs[-1] + 0.3, G["p_same_winner_mean"]), xytext=(xs[-1] + 0.3, 0.30),
                arrowprops=dict(arrowstyle="-", color=INK, lw=0.5))
+    c.set_xlabel("Dataset")
     c.set_title(f"(c) Best detector kept in {G['loaco_winner_retained']} of {G['n_configurations']}", fontsize=7)
     clean(c); c.tick_params(axis="x", length=0)
 
@@ -108,6 +109,7 @@ def main():
         d.plot([j - 0.28, j + 0.28], [np.median(D)] * 2, color=INK, lw=1.2)
     d.axhline(0, color=MUTED, lw=0.6, ls="--")
     d.set_xticks(range(3), list(DS_C)); d.set_ylabel("$\\Delta$AUC", labelpad=1)
+    d.set_xlabel("Dataset")
     d.set_title(f"(d) $\\Delta$AUC: median {G['cells_median_delta_auc']:+.3f}", fontsize=7)
     clean(d); d.tick_params(axis="x", length=0)
 
