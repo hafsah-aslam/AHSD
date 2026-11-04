@@ -108,8 +108,9 @@ def fig_agree():
     c.set_xticks([np.mean(xs[j:j + 4]) for j in (0, 4, 8)], list(DS_C))
     c.set_ylim(0, 1); c.set_ylabel("P(same best detector)")
     c.axhline(G["p_same_winner_mean"], color=INK, lw=0.6, ls=":")
-    c.text(xs[-1] + 0.5, G["p_same_winner_mean"] + 0.02, f"mean {G['p_same_winner_mean']:.2f}", ha="right",
-           fontsize=5.8)
+    c.text(xs[-1] + 0.5, 0.30, f"mean {G['p_same_winner_mean']:.2f}", ha="right", va="bottom", fontsize=5.8)
+    c.annotate("", xy=(xs[-1] + 0.3, G["p_same_winner_mean"]), xytext=(xs[-1] + 0.3, 0.30),
+               arrowprops=dict(arrowstyle="-", color=INK, lw=0.5))
     c.set_title(f"(c) Best detector kept in {G['loaco_winner_retained']} of {G['n_configurations']}", fontsize=7)
     clean(c); c.tick_params(axis="x", length=0)
     # (d) delta AUC distribution per dataset
