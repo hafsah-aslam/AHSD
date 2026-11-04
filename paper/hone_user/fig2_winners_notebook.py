@@ -56,25 +56,28 @@ stats = {p: {f: mean_ci(UNITS[p][f], rng) for f, _, _ in FAMILIES} for p, _ in P
 winner = {p: max(stats[p], key=lambda f: stats[p][f][0]) for p, _ in PROTOCOLS}
 
 fig, ax = plt.subplots(figsize=(3.45, 2.55))
-ax.axhline(0.5, color=MUTED, lw=0.6, ls="--", zorder=0)
-ax.text(2.42, 0.505, "chance", fontsize=5.8, color=MUTED, ha="right", va="bottom")
+ax.axhspan(0, 0.5, color="#fbeeea", zorder=0, lw=0)          # below chance
+ax.axhline(0.5, color=MUTED, lw=0.6, ls="--", zorder=0.5)
+ax.text(2.47, 0.49, "below chance", fontsize=5.8, color="#a14a3b", ha="right", va="top", style="italic")
 dodge = np.linspace(-0.08, 0.08, len(FAMILIES))  # small offsets so intervals do not overlap
 for (f, name, col), dx in zip(FAMILIES, dodge):
     xs = np.arange(len(PROTOCOLS)) + dx
     m = [stats[p][f][0] for p, _ in PROTOCOLS]
     lo = [stats[p][f][1] for p, _ in PROTOCOLS]
     hi = [stats[p][f][2] for p, _ in PROTOCOLS]
-    ax.plot(xs, m, color=col, lw=1.2, zorder=2)
-    ax.vlines(xs, lo, hi, color=col, lw=0.8, alpha=0.6, zorder=2)
-    ax.scatter(xs, m, s=16, color=col, zorder=3, edgecolor="white", linewidth=0.5)
+    ax.plot(xs, m, color=col, lw=1.3, zorder=2)
+    ax.errorbar(xs, m, yerr=[np.subtract(m, lo), np.subtract(hi, m)], fmt="none", ecolor=col, elinewidth=0.9,
+                capsize=1.6, capthick=0.8, zorder=2)
+    ax.scatter(xs, m, s=18, color=col, zorder=3, edgecolor="white", linewidth=0.6)
     for i, (p, _) in enumerate(PROTOCOLS):
         if winner[p] == f:   # ring and label the winner of each protocol
             ax.scatter(xs[i], m[i], s=95, facecolor="none", edgecolor=INK, linewidth=0.9, zorder=4)
-            ax.text(xs[i] + 0.11, m[i], f"{m[i]:.2f}", fontsize=6.3, color=INK, va="center", weight="bold")
+            ax.text(xs[i], hi[i] + 0.02, f"{m[i]:.2f}", fontsize=6.3, color=INK, ha="center", va="bottom",
+                    weight="bold", bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none"), zorder=5)
 ax.set_xticks(range(len(PROTOCOLS)),
               [f"{lab}\n{len(UNITS[p]['confidence'])} {UNIT_NAME[p]}" for p, lab in PROTOCOLS])
 ax.set_xlim(-0.35, 2.5)
-ax.set_ylim(0.25, 1.0)
+ax.set_ylim(0.25, 1.06)
 ax.set_ylabel("Mean AUC (95% bootstrap CI)")
 for s in ("top", "right"):
     ax.spines[s].set_visible(False)
