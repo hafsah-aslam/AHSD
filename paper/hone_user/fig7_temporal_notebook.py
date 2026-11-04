@@ -26,9 +26,9 @@ fig, axes = plt.subplots(1, 2, figsize=(3.4, 1.45), sharey=True)
 for ax, (name, vals) in zip(axes, DATA.items()):
     for i, ds in enumerate(DATASETS):
         g, t = vals[ds]
-        ax.annotate("", xy=(i, t), xytext=(i, g),            # arrow: grouped -> temporal
-                    arrowprops=dict(arrowstyle="-|>", color=GRID if abs(t - g) < 0.02 else MUTED, lw=0.9,
-                                    mutation_scale=7, shrinkA=3, shrinkB=3))
+        if abs(t - g) >= 0.02:                               # arrow: grouped -> temporal (skip if no change)
+            ax.annotate("", xy=(i, t), xytext=(i, g),
+                        arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9, mutation_scale=7, shrinkA=3, shrinkB=3))
         ax.scatter([i], [g], s=18, color=G_C, zorder=3, edgecolor="white", linewidth=0.5)
         ax.scatter([i], [t], s=18, color=T_C, zorder=3, edgecolor="white", linewidth=0.5)
     ax.set_xticks(range(len(DATASETS)), DATASETS)
