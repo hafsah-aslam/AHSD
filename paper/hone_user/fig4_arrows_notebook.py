@@ -25,38 +25,43 @@ plt.rcParams.update({"font.family": "serif", "font.size": 7, "axes.linewidth": 0
                      "xtick.color": MUTED, "ytick.color": INK, "axes.labelcolor": INK, "text.color": INK,
                      "xtick.major.width": 0.5, "xtick.major.size": 2})
 
-fig, ax = plt.subplots(figsize=(3.45, 3.0))
+fig, ax = plt.subplots(figsize=(3.45, 2.05))
 y, ticks, labels, row = 0.0, [], [], 0
 for g, (group, rows) in enumerate(GROUPS):
-    ax.text(0.00125, y, group, fontsize=6.6, weight="bold", va="center", color=MUTED)
-    y += 1
+    top = y
     for lab, lo, nn in rows:
         if row % 2 == 0:
             ax.axhspan(y - 0.5, y + 0.5, color=STRIPE, zorder=0, lw=0)
         r = nn / lo
         col = CMAP(NORM(max(r, 1)))
         ax.annotate("", xy=(nn, y), xytext=(lo, y),
-                    arrowprops=dict(arrowstyle="-|>,head_length=0.45,head_width=0.22", color=col, lw=1.6,
-                                    shrinkA=2.5, shrinkB=0), zorder=2)
-        ax.scatter(lo, y, s=20, facecolor="white", edgecolor=LO_C, linewidth=1.0, zorder=3)
-        ax.text(nn * 1.12, y, f"{r:.1f}×", va="center", fontsize=6.2, color=INK,
+                    arrowprops=dict(arrowstyle="-|>,head_length=0.4,head_width=0.2", color=col, lw=1.5,
+                                    shrinkA=2.2, shrinkB=0), zorder=2)
+        ax.scatter(lo, y, s=15, facecolor="white", edgecolor=LO_C, linewidth=0.9, zorder=3)
+        ax.text(nn * 1.12, y, f"{r:.1f}\u00d7", va="center", fontsize=5.9, color=INK,
                 weight="bold" if r >= 5 else "normal")
         ticks.append(y); labels.append(lab)
         y += 1; row += 1
-    y += 0.4
-ax.set_yticks(ticks, labels)
-ax.set_ylim(y - 0.9, -0.7)
+    # rotated group label in the left margin, with a thin bracket
+    ax.annotate("", xy=(-0.43, top - 0.35), xytext=(-0.43, y - 0.65), xycoords=("axes fraction", "data"),
+                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6), annotation_clip=False)
+    ax.text(-0.47, (top + y - 1) / 2, group.replace(" backbone", ""), transform=ax.get_yaxis_transform(),
+            rotation=90, ha="center", va="center", fontsize=6.0, weight="bold", color=MUTED)
+    y += 0.35
+ax.set_yticks(ticks, labels, fontsize=6.2)
+ax.set_ylim(y - 0.8, -0.6)
 ax.set_xscale("log")
 ax.set_xlim(0.0012, 0.5)
 ax.set_xticks([0.002, 0.01, 0.05, 0.2], ["0.002", "0.01", "0.05", "0.2"])
 ax.minorticks_off()
-ax.set_xlabel("Mean seed s.d. of AUC (log)  → less stable")
+ax.set_xlabel("Mean seed s.d. of AUC (log)  \u2192 less stable", fontsize=6.4, labelpad=2)
 for s in ("top", "right", "left"):
     ax.spines[s].set_visible(False)
-ax.tick_params(axis="y", length=0)
-ax.scatter([], [], s=20, facecolor="white", edgecolor=LO_C, linewidth=1.0, label="LOACO")
-ax.plot([], [], color="#eb6834", lw=1.6, marker=">", ms=4, label="→ natural novelty")
-ax.legend(ncol=2, loc="lower right", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=6.4, handlelength=1.6)
+ax.tick_params(axis="y", length=0, pad=1)
+ax.tick_params(axis="x", labelsize=6.2)
+ax.scatter([], [], s=15, facecolor="white", edgecolor=LO_C, linewidth=0.9, label="LOACO")
+ax.plot([], [], color="#eb6834", lw=1.5, marker=">", ms=3.5, label="natural novelty")
+ax.legend(loc="upper left", frameon=False, fontsize=6.0, handlelength=1.5, borderaxespad=0.1)
 fig.tight_layout(pad=0.2)
 fig.savefig(OUT / "fig_seedsd.pdf", bbox_inches="tight", pad_inches=0.02)
 fig.savefig(OUT / "fig_seedsd.png", dpi=200, bbox_inches="tight", pad_inches=0.02)
