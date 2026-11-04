@@ -107,7 +107,7 @@ def main():
         d.scatter(rng.uniform(-0.18, 0.18, len(D)) + j, D, s=5, color=DS_C[ds], alpha=0.7, linewidth=0)
         d.plot([j - 0.28, j + 0.28], [np.median(D)] * 2, color=INK, lw=1.2)
     d.axhline(0, color=MUTED, lw=0.6, ls="--")
-    d.set_xticks(range(3), list(DS_C)); d.set_ylabel("$\\Delta$AUC (natural $-$ LOACO)")
+    d.set_xticks(range(3), list(DS_C)); d.set_ylabel("$\\Delta$AUC", labelpad=1)
     d.set_title(f"(d) $\\Delta$AUC: median {G['cells_median_delta_auc']:+.3f}", fontsize=7)
     clean(d); d.tick_params(axis="x", length=0)
 
@@ -119,6 +119,7 @@ def main():
     fig.legend(handles=h, ncol=3, loc="lower center", bbox_to_anchor=(0.5, 0.985), frameon=False, fontsize=6.3,
                columnspacing=0.8, handletextpad=0.3)
     fig.tight_layout(pad=0.2, w_pad=0.8, h_pad=0.9)
+    fig.subplots_adjust(wspace=0.62)
     fig.savefig(HERE / "fig_agree.pdf", bbox_inches="tight", pad_inches=0.02)
     fig.savefig(HERE / "fig_agree.png", dpi=200, bbox_inches="tight", pad_inches=0.02)
     print("wrote", HERE / "fig_agree.pdf")
