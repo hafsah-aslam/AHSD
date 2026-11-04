@@ -39,9 +39,6 @@ for k, (header, rows) in enumerate(GROUPS):
         ax.scatter(nn, y, s=24, color=NN_C, edgecolor="white", linewidth=0.6, zorder=3)
         ax.text(0.62, y, f"{r:.1f}×", va="center", ha="right", fontsize=6.4, weight="bold" if r >= 5 else "normal")
         ticks.append(y); labels.append(lab)
-        if lab == "$k$NN":     # callout for the strongest effect
-            ax.annotate("17× more variable:\nretraining moves AUC a lot", xy=(nn, y), xytext=(0.0065, y + 1.55),
-                        fontsize=5.6, color=NN_C, arrowprops=dict(arrowstyle="->", color=NN_C, lw=0.6))
         y += 1
     if k % 2 == 0:
         ax.axhspan(top - 0.5, y - 0.5, color=BAND, zorder=0, lw=0)
@@ -59,9 +56,8 @@ ax.grid(axis="x", color=GRID, lw=0.4)
 ax.set_axisbelow(True)
 ax.tick_params(axis="y", length=0)
 h = [Line2D([], [], marker="o", ls="", ms=4, color=LO_C, label="LOACO"),
-     Line2D([], [], marker="o", ls="", ms=4, color=NN_C, label="Natural novelty"),
-     Line2D([], [], ls="", label="ratio →")]
-ax.legend(handles=h[:2], ncol=2, loc="lower center", bbox_to_anchor=(0.4, 1.0), frameon=False, fontsize=6.5)
+     Line2D([], [], marker="o", ls="", ms=4, color=NN_C, label="Natural novelty")]
+ax.legend(handles=h, ncol=2, loc="lower center", bbox_to_anchor=(0.4, 1.0), frameon=False, fontsize=6.5)
 fig.tight_layout(pad=0.2)
 fig.savefig(OUT / "fig_seedsd.pdf", bbox_inches="tight", pad_inches=0.02)
 fig.savefig(OUT / "fig_seedsd.png", dpi=200, bbox_inches="tight", pad_inches=0.02)
