@@ -70,7 +70,7 @@ for i, (lab, lo, nn) in enumerate(ROWS):
 ax.text(1.35, n - 0.3, "mean\nratio", ha="right", va="bottom", fontsize=5.6, color=MUTED, linespacing=0.9)
 ax.set_xscale("log")
 ax.set_xlim(FLOOR * 0.7, 1.4)
-ax.set_xticks([FLOOR, 1e-3, 1e-2, 1e-1], ["\u22640.0003", "0.001", "0.01", "0.1"])
+ax.set_xticks([FLOOR, 1e-2, 1e-1], ["\u22640.0003", "0.01", "0.1"])
 ax.minorticks_off()
 ax.set_yticks(range(n), [lab for lab, _, _ in ROWS][::-1])
 ax.set_ylim(-0.6, n - 0.4)
