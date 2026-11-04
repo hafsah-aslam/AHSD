@@ -207,7 +207,7 @@ def fig_seedsd():
     ax.set_xticks([0.002, 0.01, 0.05, 0.2], ["0.002", "0.01", "0.05", "0.2"])
     ax.set_xlabel("Mean seed s.d. of AUC (log scale)")
     ax.text(0.62, n - 0.35, "ratio", ha="right", fontsize=6, color=MUTED)
-    for yy in (3.5, 9.5):
+    for yy in (3.5, 7.5):  # AHSD scores | GRU scores | other detectors
         ax.axhline(yy, color=GRID, lw=0.5, ls=":")
     clean(ax, "x")
     ax.tick_params(axis="y", length=0)
