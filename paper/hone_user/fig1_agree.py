@@ -17,8 +17,14 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
-HERE = Path(__file__).resolve().parent
-AGREEMENT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parents[1] / "results/final_v2/agreement.json"
+try:  # run as a script: paths relative to this file
+    HERE = Path(__file__).resolve().parent
+    _DEFAULT = HERE.parents[1] / "results/final_v2/agreement.json"
+except NameError:  # Jupyter notebook: no __file__, use the notebook's folder
+    HERE = Path.cwd()
+    _DEFAULT = HERE / "agreement.json"
+_ARGS = [a for a in sys.argv[1:] if a.endswith("agreement.json")]  # ignore Jupyter's own arguments
+AGREEMENT = Path(_ARGS[0]) if _ARGS else _DEFAULT
 
 # colours: validated categorical palette (one colour per dataset) and neutral inks
 DS_C = {"D1": "#2a78d6", "D3": "#eb6834", "D5": "#1baf7a"}
