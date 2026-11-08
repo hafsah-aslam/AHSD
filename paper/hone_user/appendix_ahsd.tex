@@ -6,12 +6,12 @@
 
 AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that produces the confidence and representation scores. It was designed for this study and is used only in its \emph{fixed} variant, in which the benign reference $E$ does not change within a window (Fig.~\ref{fig:ahsd}). Its core idea is homeostasis: the state $h_t$ starts at the benign reference, is pulled toward each new embedding by the gate $\alpha_t$ and relaxed back toward the reference by $\beta_t$, so traffic that keeps the state away from $E$ produces a large \emph{stress}.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=\textwidth]{fig_ahsd_arch.pdf}
+\includegraphics[width=\columnwidth]{fig_ahsd_arch_col.pdf}
 \caption{AHSD architecture (fixed variant). The recurrence inside the dashed frame runs once per flow of a 32-flow window, starting from $h_0=E$. The head reads the last state, the mean state and the stress $s$; its output gives $P(\text{attack})$, MSP and energy, and its 128-d hidden layer feeds Mahalanobis and $k$NN.}
 \label{fig:ahsd}
-\end{figure*}
+\end{figure}
 
 \noindent\fbox{\begin{minipage}{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}
 \small
