@@ -15,14 +15,14 @@ plt.rcParams.update({"font.family": "serif", "font.serif": ["STIXGeneral"], "mat
 K, LW = "black", 0.8
 F_T, F_S, F_I = 7.4, 6.6, 6.4            # title, subtitle, italic sub-row font sizes
 
-XI, WI = 0.3, 21.5                         # panel 1: inputs
+XI, WI = 0.3, 24.5                         # panel 1: inputs
 XM, WM = 28, 50                          # panel 2: AHSD stages
 XO, WO = 87, 10                          # panel 3: scores
 HB, HS = 12, 6.5                         # main box / sub-row heights
 YE, YR, YH = 70, 40, 5                   # rows: embedding, recurrence, head (bottom of main boxes)
 
 fig, ax = plt.subplots(figsize=(3.45, 2.75))
-ax.set_xlim(0, 100); ax.set_ylim(-9, 83); ax.axis("off")
+ax.set_xlim(0, 100); ax.set_ylim(-9, 86); ax.axis("off")
 
 
 def rbox(x, y, w, h, lines):
@@ -47,8 +47,14 @@ def arrow(p, q):
 
 
 # panel 1: inputs
-rbox(XI, YE + 1, WI, HB - 2, "Flow window\n$T{=}32$ flows")
-rbox(XI, YR + 1, WI, HB - 2, "Benign\nreference $E$")
+# flow windows drawn as three stacked panels (successive sliding windows); front panel carries the label
+for k in (2, 1):
+    ax.add_patch(FancyBboxPatch((XI + 1.6 * k, YE + 1 + 1.6 * k), WI - 3.2, HB - 2, boxstyle="round,pad=0,rounding_size=2.4",
+                                fc="white", ec=K, lw=LW))
+ax.add_patch(FancyBboxPatch((XI, YE + 1), WI - 3.2, HB - 2, boxstyle="round,pad=0,rounding_size=2.4", fc="white", ec=K, lw=LW))
+ax.text(XI + (WI - 3.2) / 2, YE + 1 + (HB - 2) / 2, "Flow windows\n$T{=}32$ flows", ha="center", va="center",
+        fontsize=F_S - 0.6, linespacing=1.15)
+rbox(XI, YR + 1, WI - 3.2, HB - 2, "Benign\nreference $E$")
 
 # panel 2: AHSD stages
 sbox(YE, "Embedding", "Linear + LayerNorm, $z_t\\in\\mathbb{R}^{128}$")
@@ -65,8 +71,8 @@ ax.add_patch(Rectangle((XO, y0), WO, y1 - y0, fc="white", ec=K, lw=LW))
 ax.text(XO + WO / 2, (y0 + y1) / 2, "Anomaly scores", rotation=90, ha="center", va="center", fontsize=F_T + 0.4)
 
 # arrows
-arrow((XI + WI, YE + HB / 2), (XM, YE + HB / 2))
-arrow((XI + WI, YR + HB / 2), (XM, YR + HB / 2))
+arrow((XI + WI, YE + HB / 2 + 1.6), (XM, YE + HB / 2 + 1.6))
+arrow((XI + WI - 3.2, YR + HB / 2), (XM, YR + HB / 2))
 arrow((XM + WM / 2, YE), (XM + WM / 2, YR + HB))
 ax.text(XM + WM / 2, (YE + YR + HB) / 2, "$z_t$, for each flow $t=1,\\dots,T$", ha="center", va="center",
         fontsize=F_I, style="italic", bbox=dict(fc="white", ec="none", pad=0.6))
