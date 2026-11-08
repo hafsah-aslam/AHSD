@@ -1,6 +1,6 @@
-"""AHSD architecture, single-column version (3.45 in wide) for the appendix.
+"""AHSD architecture, single-column (3.45 in), monochrome three-panel block diagram for the appendix.
+Panels: inputs (rounded) | AHSD stages (square, italic sub-rows) | anomaly scores (tall, rotated).
 Drawn from src/nids/models/ahsd.py, variant 'fixed'.  Usage: python fig_ahsd_arch_col.py
-Main data path runs down the right column; inputs/outputs that branch off sit in the left column.
 """
 from pathlib import Path
 
@@ -8,60 +8,73 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle  # noqa: E402
 
-plt.rcParams.update({"font.family": "serif", "mathtext.fontset": "dejavuserif", "font.size": 7,
-                     "pdf.fonttype": 42, "ps.fonttype": 42})
-INK, MUTED = "#2b2b2a", "#6b6b67"
-C_IN, C_REC, C_REF, C_SC, C_OUT = "#e8f1fc", "#fde9df", "#e3f5ec", "#fdf3d6", "#f1f0ec"
+plt.rcParams.update({"font.family": "serif", "font.serif": ["STIXGeneral"], "mathtext.fontset": "stix",
+                     "font.size": 7, "pdf.fonttype": 42, "ps.fonttype": 42})
+K, LW = "black", 0.8
+F_T, F_S, F_I = 7.4, 6.6, 6.4            # title, subtitle, italic sub-row font sizes
 
-W, H = 38, 13                       # box size (canvas units; canvas is 100 wide)
-XL, XR = 2, 49                      # left / right column x
-Y = [70, 47, 26, 3]                 # rows top -> bottom: input, gates, update, head
+XI, WI = 0.3, 21.5                         # panel 1: inputs
+XM, WM = 28, 50                          # panel 2: AHSD stages
+XO, WO = 87, 10                          # panel 3: scores
+HB, HS = 12, 6.5                         # main box / sub-row heights
+YE, YR, YH = 70, 40, 5                   # rows: embedding, recurrence, head (bottom of main boxes)
 
-fig, ax = plt.subplots(figsize=(3.45, 3.0))
-ax.set_xlim(0, 100); ax.set_ylim(-1, 90); ax.axis("off")
-
-
-def box(x, y, title, sub, fc):
-    ax.add_patch(FancyBboxPatch((x, y), W, H, boxstyle="round,pad=0.3,rounding_size=1.5", fc=fc, ec=INK, lw=0.6))
-    ax.text(x + W / 2, y + H - 3.2, title, ha="center", va="center", fontsize=7, weight="bold")
-    ax.text(x + W / 2, y + 4.3, sub, ha="center", va="center", fontsize=5.8, linespacing=1.2)
+fig, ax = plt.subplots(figsize=(3.45, 2.75))
+ax.set_xlim(0, 100); ax.set_ylim(-9, 83); ax.axis("off")
 
 
-def arrow(p, q, rad=0.0):
-    ax.add_patch(FancyArrowPatch(p, q, arrowstyle="-|>", mutation_scale=6, lw=0.65, color=INK,
-                                 connectionstyle=f"arc3,rad={rad}", shrinkA=1, shrinkB=1))
+def rbox(x, y, w, h, lines):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=2.4", fc="white", ec=K, lw=LW))
+    ax.text(x + w / 2, y + h / 2, lines, ha="center", va="center", fontsize=F_S - 0.3, linespacing=1.15)
 
 
-box(XL, Y[0], "Flow window", "$T{=}32$ flows,\n41 features each", C_IN)
-box(XR, Y[0], "Embedding", "Linear, LayerNorm\n$z_t\\in\\mathbb{R}^{128}$", C_IN)
-box(XL, Y[1], "Reference $E$", "mean benign\nembedding (fixed)", C_REF)
-box(XR, Y[1], "Gates", "$\\alpha_t,\\beta_t=$\n$\\sigma(W_g[z_t,h_{t-1}])$", C_REC)
-box(XL, Y[2], "Stress $s$", "mean $|h_t-E|$\n(also a score)", C_SC)
-box(XR, Y[2], "State update", "pull $h_t$ toward $z_t$,\nrelax back to $E$", C_REC)
-box(XL, Y[3], "Hidden layer", "128-d features\nMahalanobis, $k$NN", C_OUT)
-box(XR, Y[3], "Head", "MLP on $[h_T,\\bar h,s]$\n$P$(attack), MSP, Energy", C_OUT)
+def sbox(y, title, sub):
+    ax.add_patch(Rectangle((XM, y), WM, HB, fc="white", ec=K, lw=LW))
+    ax.text(XM + WM / 2, y + HB * 0.69, title, ha="center", va="center", fontsize=F_T, weight="bold")
+    ax.text(XM + WM / 2, y + HB * 0.27, sub, ha="center", va="center", fontsize=F_S)
 
-# dashed frame around the recurrence (rows 2-3)
-ax.add_patch(FancyBboxPatch((XL - 1.5, Y[2] - 2.6), 99.3 - XL, Y[1] + H - Y[2] + 5.4,
-                            boxstyle="round,pad=0,rounding_size=1.5", fc="none", ec=MUTED, lw=0.6, ls="--"))
-ax.text(XL - 1, Y[1] + H + 6.2, "recurrence, for each flow $t=1,\\dots,T$; $h_0=E$", ha="left", va="center",
-        fontsize=5.8, color=MUTED, style="italic")
 
-arrow((XL + W, Y[0] + H / 2), (XR, Y[0] + H / 2))                         # window -> embedding
-arrow((XR + W / 2, Y[0]), (XR + W / 2, Y[1] + H))                         # z_t -> gates
-ax.text(XR + W / 2 + 1.5, Y[0] - 5, "$z_t$", fontsize=6, va="center")
-arrow((XL + W, Y[1] + H / 2), (XR, Y[1] + H / 2))                         # E -> gates
-arrow((XR + W / 2, Y[1]), (XR + W / 2, Y[2] + H))                         # gates -> update
-ax.text(XR + W / 2 - 1.5, Y[1] - 4, "$\\alpha_t,\\beta_t$", fontsize=6, ha="right", va="center")
-arrow((XR + W, Y[2] + H / 2), (XR + W, Y[1] + H / 2), rad=0.75)           # feedback h_{t-1}
-ax.text(XR + W - 1, (Y[1] + Y[2] + H) / 2, "$h_{t-1}$", fontsize=6, ha="right", va="center")
-arrow((XR, Y[2] + H / 2), (XL + W, Y[2] + H / 2))                         # h -> stress
-arrow((XR + W / 2, Y[2]), (XR + W / 2, Y[3] + H))                         # h_T, mean h -> head
-ax.text(XR + W / 2 + 1.5, Y[2] - 5.3, "$h_T,\\ \\bar h$", fontsize=6, va="center")
-arrow((XL + W - 4, Y[2]), (XR + 3, Y[3] + H))                             # stress -> head
-arrow((XR, Y[3] + H / 2), (XL + W, Y[3] + H / 2))                         # head -> hidden layer
+def subrow(y, text, inset=2.0):
+    ax.add_patch(Rectangle((XM + inset, y), WM - 2 * inset, HS, fc="white", ec=K, lw=LW))
+    ax.text(XM + WM / 2, y + HS / 2, text, ha="center", va="center", fontsize=F_I, style="italic")
+    return y + HS / 2
+
+
+def arrow(p, q):
+    ax.add_patch(FancyArrowPatch(p, q, arrowstyle="-|>", mutation_scale=6, lw=LW, color=K, shrinkA=0, shrinkB=0))
+
+
+# panel 1: inputs
+rbox(XI, YE + 1, WI, HB - 2, "Flow window\n$T{=}32$ flows")
+rbox(XI, YR + 1, WI, HB - 2, "Benign\nreference $E$")
+
+# panel 2: AHSD stages
+sbox(YE, "Embedding", "Linear + LayerNorm, $z_t\\in\\mathbb{R}^{128}$")
+sbox(YR, "Gated recurrence", "$h_t$ starts at $h_0=E$")
+subrow(YR - HS, "Gates $\\alpha_t,\\beta_t=\\sigma(W_g[z_t,h_{t-1}])$")
+y_stress = subrow(YR - 2 * HS, "Stress $s=\\mathrm{mean}\\,|h_t-E|$")
+sbox(YH, "Head", "two-layer MLP on $[h_T,\\bar h,s]$")
+y_out = subrow(YH - HS, "Output: $P$(attack), MSP, energy")
+y_hid = subrow(YH - 2 * HS, "Hidden layer: Mahalanobis, $k$NN")
+
+# panel 3: scores (tall box, rotated text)
+y0, y1 = YH - 2 * HS, YR + HB
+ax.add_patch(Rectangle((XO, y0), WO, y1 - y0, fc="white", ec=K, lw=LW))
+ax.text(XO + WO / 2, (y0 + y1) / 2, "Anomaly scores", rotation=90, ha="center", va="center", fontsize=F_T + 0.4)
+
+# arrows
+arrow((XI + WI, YE + HB / 2), (XM, YE + HB / 2))
+arrow((XI + WI, YR + HB / 2), (XM, YR + HB / 2))
+arrow((XM + WM / 2, YE), (XM + WM / 2, YR + HB))
+ax.text(XM + WM / 2, (YE + YR + HB) / 2, "$z_t$, for each flow $t=1,\\dots,T$", ha="center", va="center",
+        fontsize=F_I, style="italic", bbox=dict(fc="white", ec="none", pad=0.6))
+arrow((XM + WM / 2, YR - 2 * HS), (XM + WM / 2, YH + HB))
+ax.text(XM + WM / 2 + 1.5, (YR - 2 * HS + YH + HB) / 2, "$h_T,\\ \\bar h,\\ s$", ha="left", va="center",
+        fontsize=F_I)
+for y in (y_stress, y_out, y_hid):
+    arrow((XM + WM - 2.0, y), (XO, y))
 
 out = Path(__file__).resolve().parent
 fig.savefig(out / "fig_ahsd_arch_col.pdf", bbox_inches="tight", pad_inches=0.02)
