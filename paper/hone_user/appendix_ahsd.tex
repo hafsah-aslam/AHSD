@@ -34,7 +34,7 @@ AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that pro
 
 \textbf{Reference $E$.} During training, $E$ is an exponential moving average (momentum 0.01) of the embeddings $z_t$ of benign windows in each batch. After training it is set exactly to the mean embedding of the benign training windows and then kept fixed. It is not a learned parameter.
 
-\textbf{Training.} Windows of $T=32$ consecutive flows (stride 16) are labelled attack if any flow is an attack. Training sets are balanced 1:1, and the loss is cross-entropy on the two classes; the optimiser, schedule and checkpoint rule are given in Appendix~\ref{app:setup}. No hyperparameter is tuned per dataset or detector.
+\textbf{Training.} Windows of $T=32$ consecutive flows (stride 16) are labeled attack if any flow is an attack. Training sets are balanced 1:1, and the loss is cross-entropy on the two classes; the optimizer, schedule and checkpoint rule are given in Appendix~\ref{app:setup}. No hyperparameter is tuned per dataset or detector.
 
 \textbf{Size.} With the $F=41$ features of D1--D3, AHSD has 104,706 parameters: 5,632 in the embedding (linear and LayerNorm), 65,792 in the gates ($2D\!\to\!2D$) and 33,282 in the head ($2D{+}1\!\to\!D\!\to\!2$). The GRU control (Sec.~\ref{sec:s3}) replaces the gated recurrence with a one-layer GRU of hidden size 128, keeps the same embedding and head without stress, and is trained identically.
 
