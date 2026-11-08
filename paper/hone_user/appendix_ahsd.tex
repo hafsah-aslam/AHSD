@@ -38,3 +38,29 @@ AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that pro
 \textbf{Size.} With the $F=41$ features of D1--D3, AHSD has 104,706 parameters: 5,632 in the embedding (linear and LayerNorm), 65,792 in the gates ($2D\!\to\!2D$) and 33,282 in the head ($2D{+}1\!\to\!D\!\to\!2$). The GRU control (Sec.~\ref{sec:s3}) replaces the gated recurrence with a one-layer GRU of hidden size 128, keeps the same embedding and head without stress, and is trained identically.
 
 \textbf{Scores.} $P(\text{attack})$, MSP and energy are computed from the head output; stress is the value $s$; Mahalanobis and $k$NN distances are computed on the hidden vector $u$, with benign training windows as the reference set.
+
+\section{Setup and integrity checks}
+\label{app:setup}
+
+\textbf{Integrity checks.} Because a silent leakage bug would invalidate every later result, each build ends with fail-closed integrity checks covering hash- and block-level disjointness of splits, class ratios, the absence of held-out flows from LOACO training sets, and finite values. All passed, including 538 checks on the D1--D4 archives after Amendment~1 and 32 on the D5 purged-block build.
+
+\textbf{Training and reproducibility.} Both backbones are trained with AdamW (learning rate $10^{-3}$, weight decay $10^{-4}$), cosine annealing, gradient clipping at 1.0, batch size 256 and 15 epochs; the best validation macro-F1 checkpoint is kept (CLAD: best validation AUROC). Seeds are 17, 23, 42, 101 and 202, and a seeding regression test runs before every experiment. All 210 final runs (Amendment~7) used one code commit and include the 160 runs of Amendment~6, whose results they reproduce exactly; reports are regenerated from stored result files only.
+
+\textbf{Compute.} A CPU-only cloud container (4 vCPUs, Intel Xeon at 2.10\,GHz, no GPU); the 210 runs took 10.8\,h (185\,s per run, both backbones and all detectors).
+
+\section{In-distribution temporal shift}
+\label{app:temp}
+
+Fig.~\ref{fig:temp} gives the in-distribution AUC behind Sec.~\ref{sec:c5}: the same supervised models trained and tested without novelty on the grouped (random) and temporal splits.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.9\columnwidth]{fig_temporal.pdf}
+\caption{In-distribution AUC on random and time-ordered splits.}
+\label{fig:temp}
+\end{figure}
+
+\section{Pre-registered negative results}
+\label{app:neg}
+
+Four confirmatory hypotheses were tested against frozen gates, and all four failed: a spectral model of per-class detectability (pooled $\rho{=}0.326$, below 0.6); attack absorption by an adaptive equilibrium under supervised training (not reproduced; detectability peaks at a small adaptation rate); benign-drift re-anchoring (0 of 9 detectors met the improvement criterion); and benign-only superiority confined to natural novelty. The last gate's supervised family included MSP and energy, which Sec.~\ref{sec:c4} shows are invalid; the verdict stands as recorded. The descriptive findings were recorded after these failures, under hashed amendments, not selected to fit a narrative. Because every gate was fixed before its runs, none of these failures could be tuned away. The absorption and re-anchoring failures show that AHSD's adaptive anchoring offered no advantage, which is why HoNE uses it only as a fixed backbone and why the study became descriptive (Amendment~6).

@@ -141,7 +141,7 @@ D5 & Lycos2017 & 1.84\,M & 114,783 & 0 & 13\\
 \label{sec:s1}
 Stage~1 turns raw flows into windows that cannot leak information between training and test sets. Addresses, ports and DNS query IDs are dropped, and TTL fields are dropped as a known UNSW-NB15 label-leakage artifact; flow timestamps are kept only for ordering and splitting. Infinite values are imputed with the training median, heavy-tailed counts are $\log(1{+}x)$-transformed, and features are standardized with training statistics, leaving 41 common features over D1--D3. Flows are then sorted by start time and grouped into 1-hour blocks (10-minute blocks for D5's purged split) \emph{before} windowing into $T{=}32$ flows with stride 16, so that no window crosses a block. A window is an attack if any flow is, and its class is the majority attack class. Windows are hashed and exact duplicates removed globally, which removed 9.7\% of D3's windows.
 
-Because a silent leakage bug would invalidate every later result, each build ends with fail-closed integrity checks covering hash- and block-level disjointness of splits, class ratios, the absence of held-out flows from LOACO training sets, and finite values. All passed, including 538 checks on the D1--D4 archives after Amendment~1 and 32 on the D5 purged-block build. The output of Stage~1 is a set of leakage-controlled windows per dataset.
+Each build ends with fail-closed integrity checks on split disjointness, class ratios and held-out flows, all of which passed (Appendix~\ref{app:setup}). The output of Stage~1 is a set of leakage-controlled windows per dataset.
 
 \subsection{Stage 2: Paired zero-day protocols}
 \label{sec:s2}
@@ -217,8 +217,7 @@ We use HoNE to answer six research questions, each of which tests one part of th
 \end{itemize}
 RQ1 and RQ2 test protocol validity directly; RQ3 and RQ6 test what hold-out evidence hides; RQ4 and RQ5 rule out alternative explanations.
 
-\subsection{Evaluation setup}
-Both backbones are trained with AdamW (learning rate $10^{-3}$, weight decay $10^{-4}$), cosine annealing, gradient clipping at 1.0, batch size 256 and 15 epochs; the best validation macro-F1 checkpoint is kept (CLAD: best validation AUROC). Seeds are 17, 23, 42, 101 and 202, and a seeding regression test runs before every experiment. All 210 final runs (Amendment~7) used one code commit and include the 160 runs of Amendment~6, whose results they reproduce exactly; reports are regenerated from stored result files only. Compute: a CPU-only cloud container (4 vCPUs, Intel Xeon at 2.10\,GHz, no GPU); the 210 runs took 10.8\,h (185\,s per run, both backbones and all detectors).
+All 210 final runs used one code commit and took 10.8\,h on a CPU-only container; training settings, seeds and compute are given in Appendix~\ref{app:setup}.
 
 \subsection{RQ1: Can conventional zero-day evidence be produced on time-ordered captures?}
 \label{sec:c1}
@@ -312,16 +311,9 @@ The confidence family scored worst in Fig.~\ref{fig:family}, and Sec.~\ref{sec:m
 
 \subsection{RQ5: Does temporal shift alone explain the disagreement?}
 \label{sec:c5}
-Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself by comparing in-distribution AUC on the grouped and temporal splits. Its effects are dataset-specific (Fig.~\ref{fig:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
+Natural novelty mixes a new attack class with temporal shift, so this question isolates the shift itself by comparing in-distribution AUC on the grouped and temporal splits. Its effects are dataset-specific (Fig.~\ref{fig:temp}, Appendix~\ref{app:temp}). On D1 both models lose 0.27--0.29 AUC under the temporal split; on D2 neither changes by more than 0.014; and on D5 both improve. Only on D3 does the AHSD backbone degrade (0.664, seed s.d.\ 0.202) while XGBoost holds 0.978; the GRU degrades less (0.981$\rightarrow$0.857), so the size of this drop depends on the backbone. Across 108 zero-shot transfer cells (12 detectors $\times$ 9 source--target pairs among D1--D4), the median AUC is 0.500 and 67\% fall in [0.3, 0.6]. Checkpoint choice moves representation and CLAD family means by at most 0.073 and confidence scores by up to 0.205 (D5, 26 validation attack windows).
 
 \obs{Temporal shift alone does not explain the disagreement: its effect depends on dataset and backbone, and on D5 in-distribution AUC rises under the time split while natural-novelty AUC falls. Zero-shot transfer is near chance.}
-
-\par\medskip\noindent\begin{minipage}{\columnwidth}
-\centering
-\includegraphics[width=\columnwidth]{fig_temporal.pdf}
-\captionof{figure}{In-distribution AUC on the grouped (random) and temporal splits. The effect of time ordering depends on the dataset.}
-\label{fig:temp}
-\end{minipage}\par\medskip
 
 \subsection{RQ6: Does AUC overstate operational detection?}
 \label{sec:c6}
@@ -338,7 +330,7 @@ An operator does not experience AUC but the share of attacks caught at a false-a
 
 \subsection{Pre-registered negative results}
 \label{sec:neg}
-Four confirmatory hypotheses were tested against frozen gates, and all four failed: a spectral model of per-class detectability (pooled $\rho{=}0.326$, below 0.6); attack absorption by an adaptive equilibrium under supervised training (not reproduced; detectability peaks at a small adaptation rate); benign-drift re-anchoring (0 of 9 detectors met the improvement criterion); and benign-only superiority confined to natural novelty. The last gate's supervised family included MSP and energy, which Sec.~\ref{sec:c4} shows are invalid; the verdict stands as recorded. The descriptive findings were recorded after these failures, under hashed amendments, not selected to fit a narrative.
+Four confirmatory hypotheses were tested against frozen gates, and all four failed (Appendix~\ref{app:neg}); because every gate was fixed before its runs, none of these failures could be tuned away. AHSD's adaptive anchoring offered no advantage, which is why HoNE uses it only as a fixed backbone and why the study became descriptive (Amendment~6).
 
 \section{Discussion}
 \label{sec:disc}
