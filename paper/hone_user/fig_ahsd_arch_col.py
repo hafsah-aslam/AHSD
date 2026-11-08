@@ -16,13 +16,24 @@ K, LW = "black", 0.8
 F_T, F_S, F_I = 7.4, 6.6, 6.4            # title, subtitle, italic sub-row font sizes
 
 XI, WI = 0.3, 24.5                         # panel 1: inputs
-XM, WM = 28, 50                          # panel 2: AHSD stages
-XO, WO = 87, 10                          # panel 3: scores
+XM, WM = 30, 48                          # panel 2: AHSD stages
+XO, WO = 87.5, 9.5                          # panel 3: scores
 HB, HS = 12, 6.5                         # main box / sub-row heights
 YE, YR, YH = 70, 40, 5                   # rows: embedding, recurrence, head (bottom of main boxes)
 
-fig, ax = plt.subplots(figsize=(3.45, 2.75))
-ax.set_xlim(0, 100); ax.set_ylim(-9, 86); ax.axis("off")
+fig, ax = plt.subplots(figsize=(3.45, 3.05))
+ax.set_xlim(-0.6, 100); ax.set_ylim(-12, 95); ax.axis("off")
+
+# three coloured background panels: (1) input, (2) AHSD backbone, (3) scores
+PANELS = [((-0.4, 26.3), "#e8f1fc", "#2a78d6", "(1) Input"),
+          ((28.2, 79.8), "#fdf0e6", "#eb6834", "(2) AHSD backbone"),
+          ((84.6, 99.6), "#e6f4ec", "#1baf7a", "(3)\nScores")]
+PY0, PY1 = -11, 94
+for (x0, x1), fill, edge, title in PANELS:
+    ax.add_patch(FancyBboxPatch((x0, PY0), x1 - x0, PY1 - PY0, boxstyle="round,pad=0,rounding_size=2.5",
+                                fc=fill, ec=edge, lw=0.8, zorder=0))
+    ax.text((x0 + x1) / 2, PY1 - 2.0, title, ha="center", va="top", fontsize=7, weight="bold", color=edge, linespacing=1.0)
+PANEL_BG = "#fdf0e6"
 
 
 def rbox(x, y, w, h, lines):
@@ -63,7 +74,7 @@ subrow(YR - HS, "Gates $\\alpha_t,\\beta_t=\\sigma(W_g[z_t,h_{t-1}])$")
 y_stress = subrow(YR - 2 * HS, "Stress $s=\\mathrm{mean}\\,|h_t-E|$")
 sbox(YH, "Head", "two-layer MLP on $[h_T,\\bar h,s]$")
 y_out = subrow(YH - HS, "Output: $P$(attack), MSP, energy")
-y_hid = subrow(YH - 2 * HS, "Hidden layer: Mahalanobis, $k$NN")
+y_hid = subrow(YH - 2 * HS, "Hidden: Mahalanobis, $k$NN")
 
 # panel 3: scores (tall box, rotated text)
 y0, y1 = YH - 2 * HS, YR + HB
@@ -75,7 +86,7 @@ arrow((XI + WI, YE + HB / 2 + 1.6), (XM, YE + HB / 2 + 1.6))
 arrow((XI + WI - 3.2, YR + HB / 2), (XM, YR + HB / 2))
 arrow((XM + WM / 2, YE), (XM + WM / 2, YR + HB))
 ax.text(XM + WM / 2, (YE + YR + HB) / 2, "$z_t$, for each flow $t=1,\\dots,T$", ha="center", va="center",
-        fontsize=F_I, style="italic", bbox=dict(fc="white", ec="none", pad=0.6))
+        fontsize=F_I, style="italic", bbox=dict(fc=PANEL_BG, ec="none", pad=0.6))
 arrow((XM + WM / 2, YR - 2 * HS), (XM + WM / 2, YH + HB))
 ax.text(XM + WM / 2 + 1.5, (YR - 2 * HS + YH + HB) / 2, "$h_T,\\ \\bar h,\\ s$", ha="left", va="center",
         fontsize=F_I)
