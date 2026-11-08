@@ -10,7 +10,7 @@ AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that pro
 \par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_ahsd_arch_col.pdf}
-\captionof{figure}{AHSD architecture (fixed variant). The main path runs down the right column; the left column holds what feeds in or branches off. The dashed frame repeats once per flow of a 32-flow window, starting from $h_0=E$. The head gives $P(\text{attack})$, MSP and energy, and its hidden layer feeds Mahalanobis and $k$NN.}
+\captionof{figure}{AHSD architecture: a gated recurrence over the flows of a window (dashed) and the scores it produces.}
 \label{fig:ahsd}
 \end{minipage}\par\medskip
 
