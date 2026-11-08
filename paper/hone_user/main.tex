@@ -293,7 +293,7 @@ Margins between families are not preserved either (Fig.~\ref{fig:family}). On D3
 
 \subsection{RQ3: Does natural novelty expose instability that hold-out evidence hides?}
 \label{sec:c3}
-A change of best detector could still be a matter of noise, so the third question is how much results vary across seeds, and whether LOACO reveals that variation. On the first backbone, every stochastic supervised score (the six backbone scores and CLAD) is less stable under natural novelty than under LOACO (Fig.~\ref{fig:sd}). The effect is smaller on the GRU: its representation scores become 2.6$\times$ less stable, its confidence scores 1.0--1.3$\times$. Seeding XGBoost (XGBoost-s) raises its seed standard deviation only to 0.014, so the instability belongs to learned representations under shift rather than to seeding as such, and its size depends on the backbone. The seeded benign-only detectors (Isolation Forest, autoencoder) stay below 0.018 seed standard deviation under natural novelty, below every supervised score's minimum of 0.074. On D3 natural novelty, $k$NN has a seed standard deviation of 0.33--0.40 AUC on four of five classes, so the same detector can rank first or last depending on the seed. Fig.~\ref{fig:d3} shows this on the three D3 classes evaluated under both protocols.
+A change of best detector could still be a matter of noise, so the third question is how much results vary across seeds, and whether LOACO reveals that variation. On the first backbone, every stochastic supervised score (the six backbone scores and CLAD) is less stable under natural novelty than under LOACO (Fig.~\ref{fig:sd}). The effect is smaller on the GRU: its representation scores become 2.6$\times$ less stable, its confidence scores 1.0--1.3$\times$. Seeding XGBoost (XGBoost-s) raises its seed standard deviation only to 0.014, so the instability belongs to learned representations under shift rather than to seeding as such, and its size depends on the backbone. The seeded benign-only detectors (Isolation Forest, autoencoder) stay below 0.018 seed standard deviation under natural novelty, below every supervised score's minimum of 0.074. On D3 natural novelty, $k$NN has a seed standard deviation of 0.33--0.40 AUC on four of five classes, so the same detector can rank first or last depending on the seed. Fig.~\ref{fig:d3} (Appendix~\ref{app:d3}) shows this on the three D3 classes evaluated under both protocols.
 
 \obs{Natural novelty raises the seed variability of every stochastic supervised score, by up to 17$\times$ on AHSD and 2.6$\times$ for the GRU's representation scores.}
 
@@ -302,13 +302,6 @@ A change of best detector could still be a matter of noise, so the third questio
 \includegraphics[width=0.93\columnwidth]{fig_seedsd.pdf}
 \captionof{figure}{Change in seed variability of AUC from LOACO to natural novelty.}
 \label{fig:sd}
-\end{minipage}\par\medskip
-
-\par\medskip\noindent\begin{minipage}{\columnwidth}
-\centering
-\includegraphics[width=0.97\columnwidth]{fig_d3.pdf}
-\captionof{figure}{AUC per seed on D3 classes under LOACO and natural novelty.}
-\label{fig:d3}
 \end{minipage}\par\medskip
 
 \subsection{RQ4: Are confidence-based novelty scores valid in binary detectors?}
@@ -412,6 +405,9 @@ Findings can be selected after the fact
 \label{sec:concl}
 
 This paper asked whether hold-out zero-day evidence predicts the new attacks an operator will face. We evaluated the same detectors, data and seeds under LOACO and natural novelty. The answer is: only partly. LOACO is infeasible on day-scheduled captures, and where feasible, the best detector is preserved under natural novelty in only 1 of 12 paired comparisons. Natural novelty also increases seed variability by up to 17$\times$, while AUCs of up to 0.75 correspond to at most 18\% of new attacks …detected at a 1\% false-positive rate, even with an oracle threshold. Zero-day claims should therefore not rest on hold-out evidence alone. HoNE's eight acceptance checks specify the evidence operators should require before trusting such claims.
+
+\section*{Use of AI Disclosure}
+We used Claude (Anthropic), through the Claude Code agent, in three ways. \emph{Code:} it wrote the experiment pipeline (preprocessing, splits, detectors, training and evaluation), the analysis scripts (agreement, bootstrap and cluster-bootstrap, split statistics) and the plotting scripts for all figures, including the AHSD diagram; the authors defined the research questions, protocols and pre-registered gates and reviewed the code. \emph{Results:} all numbers come from running this code on the public datasets and are read from stored result files, not entered by hand; the authors checked them against those files. \emph{Text:} it drafted and revised text in all sections, captions and appendices, which the authors edited. The authors take full responsibility for the content, its accuracy and its citations.
 
 \bibliographystyle{IEEEtran}
 \input{refs.tex}
