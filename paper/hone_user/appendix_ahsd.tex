@@ -4,7 +4,7 @@
 \section{AHSD backbone}
 \label{app:ahsd}
 
-AHSD (adaptive homeostatic sequence detector) is the recurrent backbone that produces the confidence and representation scores. It was designed for this study and is used only in its \emph{fixed} variant, in which the benign reference $E$ does not change within a window (Fig.~\ref{fig:ahsd}). Its core idea is homeostasis: the state $h_t$ starts at the benign reference, is pulled toward each new embedding by the gate $\alpha_t$ and relaxed back toward the reference by $\beta_t$, so traffic that keeps the state away from $E$ produces a large \emph{stress}.
+AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that produces the confidence and representation scores. It was designed for this study and is used only in its \emph{fixed} variant, in which the benign reference $E$ does not change within a window (Fig.~\ref{fig:ahsd}). Its core idea is homeostasis: the state $h_t$ starts at the benign reference, is pulled toward each new embedding by the gate $\alpha_t$ and relaxed back toward the reference by $\beta_t$, so traffic that keeps the state away from $E$ produces a large \emph{stress}.
 
 \begin{figure*}[!t]
 \centering
