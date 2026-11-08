@@ -1,17 +1,18 @@
 % Appendix A: AHSD backbone (reviewer request). Values from src/nids/models/ahsd.py (variant "fixed"),
 % src/nids/train.py and configs/data.yaml.
+% Figures are fixed in place with minipage + \captionof (capt-of), as in the main text; no float package needed.
 \appendices
 \section{AHSD backbone}
 \label{app:ahsd}
 
 AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that produces the confidence and representation scores. It was designed for this study and is used only in its \emph{fixed} variant, in which the benign reference $E$ does not change within a window (Fig.~\ref{fig:ahsd}). Its core idea is homeostasis: the state $h_t$ starts at the benign reference, is pulled toward each new embedding by the gate $\alpha_t$ and relaxed back toward the reference by $\beta_t$, so traffic that keeps the state away from $E$ produces a large \emph{stress}.
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=\columnwidth]{fig_ahsd_arch_col.pdf}
-\caption{AHSD architecture (fixed variant). The main path runs down the right column; the left column holds what feeds in or branches off. The dashed frame repeats once per flow of a 32-flow window, starting from $h_0=E$. The head gives $P(\text{attack})$, MSP and energy, and its hidden layer feeds Mahalanobis and $k$NN.}
+\captionof{figure}{AHSD architecture (fixed variant). The main path runs down the right column; the left column holds what feeds in or branches off. The dashed frame repeats once per flow of a 32-flow window, starting from $h_0=E$. The head gives $P(\text{attack})$, MSP and energy, and its hidden layer feeds Mahalanobis and $k$NN.}
 \label{fig:ahsd}
-\end{figure}
+\end{minipage}\par\medskip
 
 \noindent\fbox{\begin{minipage}{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}
 \small
@@ -53,12 +54,12 @@ AHSD (Adaptive Homeostatic Sequence Detector) is the recurrent backbone that pro
 
 Fig.~\ref{fig:temp} gives the in-distribution AUC behind Sec.~\ref{sec:c5}: the same supervised models trained and tested without novelty on the grouped (random) and temporal splits.
 
-\begin{figure}[!t]
+\par\medskip\noindent\begin{minipage}{\columnwidth}
 \centering
 \includegraphics[width=0.9\columnwidth]{fig_temporal.pdf}
-\caption{In-distribution AUC on random and time-ordered splits.}
+\captionof{figure}{In-distribution AUC on random and time-ordered splits.}
 \label{fig:temp}
-\end{figure}
+\end{minipage}\par\medskip
 
 \section{Pre-registered negative results}
 \label{app:neg}
