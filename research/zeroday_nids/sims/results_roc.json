@@ -1,0 +1,60 @@
+{
+ "A": 1000.0,
+ "rows": [
+  {
+   "delta": 0.25,
+   "AUC": 0.5701581024006669,
+   "E_H0_g": 0.99618197048066,
+   "Psi_hat": 0.035319577256248236,
+   "Psi_theory": 0.03125,
+   "Psi_from_AUC": 0.031249999999999934,
+   "pred_delay_logA_over_Psi": 221.04816892742838,
+   "median_delay_roc_calibrator": 176.0,
+   "D_mix": -0.18258436152665095,
+   "median_delay_mixture": 2106.5
+  },
+  {
+   "delta": 0.5,
+   "AUC": 0.6381631950841185,
+   "E_H0_g": 1.0027915219295822,
+   "Psi_hat": 0.12116212945809603,
+   "Psi_theory": 0.125,
+   "Psi_from_AUC": 0.1249999999999999,
+   "pred_delay_logA_over_Psi": 55.262042231857095,
+   "median_delay_roc_calibrator": 45.0,
+   "D_mix": -0.051990020067316206,
+   "median_delay_mixture": 239.5
+  },
+  {
+   "delta": 1.0,
+   "AUC": 0.7602499389065233,
+   "E_H0_g": 1.0301753133312586,
+   "Psi_hat": 0.5136975125806861,
+   "Psi_theory": 0.5,
+   "Psi_from_AUC": 0.4999999999999999,
+   "pred_delay_logA_over_Psi": 13.815510557964274,
+   "median_delay_roc_calibrator": 13.0,
+   "D_mix": 0.29631482201766274,
+   "median_delay_mixture": 22.0
+  },
+  {
+   "delta": 1.5,
+   "AUC": 0.8555778168267576,
+   "E_H0_g": 1.0502364696105893,
+   "Psi_hat": 1.0998951085150899,
+   "Psi_theory": 1.125,
+   "Psi_from_AUC": 1.1249999999999993,
+   "pred_delay_logA_over_Psi": 6.140226914650788,
+   "median_delay_roc_calibrator": 6.0,
+   "D_mix": 0.7482696079716284,
+   "median_delay_mixture": 10.0
+  }
+ ],
+ "hone_predicted_delay_windows_A1000": {
+  "D1 Infiltration (best 0.60)": 107.6,
+  "D1 Bot (best 0.69)": 28.1,
+  "D3 scanning (best 0.63)": 62.7,
+  "rolling family AUC 0.75": 15.2,
+  "D3 Backdoor natural (best 0.98)": 1.6
+ }
+}
