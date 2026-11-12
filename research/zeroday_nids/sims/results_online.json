@@ -1,0 +1,33 @@
+{
+ "null": [
+  {
+   "rho": 0.6,
+   "stride": 10,
+   "n_eval": 1200,
+   "FA_per_1000_evals": 0.1875
+  },
+  {
+   "rho": 0.9,
+   "stride": 44,
+   "n_eval": 273,
+   "FA_per_1000_evals": 0.27472527472527475
+  }
+ ],
+ "step_attack_0.8sd_5hosts_t0=6000": {
+  "rho": 0.6,
+  "stride": 10,
+  "n_eval": 1200,
+  "FA_per_1000_evals": 0.08333333333333333,
+  "detect_frac": 0.8,
+  "median_delay_windows": 37.5
+ },
+ "step_attack_0.5sd_5hosts_t0=6000": {
+  "rho": 0.6,
+  "stride": 10,
+  "n_eval": 1200,
+  "FA_per_1000_evals": 0.125,
+  "detect_frac": 0.6,
+  "median_delay_windows": 48.0
+ },
+ "cramer_root_periodic_f0.3_delta1": 0.32823860081807876
+}
